@@ -4,9 +4,11 @@ import React, {  useEffect, useState } from 'react';
 import { Button, Modal, Table, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { settings } from '../../utils/tools';
-import { EditForms } from './EditForm';
 import { CreateServices } from './CreateServices';
 import { fetcher } from '../../utils/helper';
+import { EditServices } from './EditServices';
+import { LeftOutlined } from "@ant-design/icons"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +23,7 @@ export const Services = () => {
     const [dataSource , setDataSource] = useState([]);
     const [editData , setEditData] = useState({});
     const [deleteFormData , setDeleteFormData] = useState({});
-
+   const navigate = useNavigate();
   
     const columns = [
       {
@@ -31,8 +33,8 @@ export const Services = () => {
       },
       {
          title: 'Title',
-         dataIndex: 'name',
-         key: 'name',
+         dataIndex: 'title',
+         key: 'title',
       },
    
       {
@@ -40,6 +42,22 @@ export const Services = () => {
           dataIndex: 'description',
           key: 'description',
       },
+      {
+        title: 'Linked Form',
+        dataIndex: 'form',
+        key: 'form',
+        render:(item) =>{
+          return item.name
+        }
+    },
+    {
+        title: 'Linked Category',
+        dataIndex: 'service_categorie',
+        key: 'service_categorie',
+        render:(item) =>{
+          return item.title
+        }
+    },
       {
          title: <div style={{display:'flex' , justifyContent:'center'}}>Action</div>,
          key: 'action',
@@ -72,7 +90,7 @@ export const Services = () => {
     const deleteCategory = async() =>{
       setLoading(true);
       let method = "DELETE";
-      let url = `http://127.0.0.1:8000/governify/admin/serviceRequestForms/${deleteFormData.id}`;
+      let url = `http://127.0.0.1:8000/governify/admin/serviceRequests/${deleteFormData.id}`;
       
         try{
           const response = await fetcher(url, method);
@@ -100,9 +118,10 @@ export const Services = () => {
  
 
    const getForms  = async() =>{
+    
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests';
     let method = 'GET';
-        const response = fetcher(url , method);
+        const response = await fetcher(url , method);
         try{
             if(response.status){
               setDataSource(response.response);
@@ -113,6 +132,12 @@ export const Services = () => {
         }finally{
         }
    }
+
+   const handleBackNavigation = () =>{
+    navigate(-1);
+    }
+    
+ 
    
 
 
@@ -127,7 +152,7 @@ export const Services = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'end' , marginBottom:'10px'}}><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 
@@ -162,7 +187,7 @@ export const Services = () => {
             )}
             onCancel={() => setEditModalOpen(false)}
             >          
-               <EditForms  data ={editData} key={editData.id} setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setEditModalOpen={setEditModalOpen}/>
+               <EditServices  data ={editData} key={editData.id} setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setEditModalOpen={setEditModalOpen}/>
 
             </Modal>
 
@@ -181,7 +206,7 @@ export const Services = () => {
             >  
   
             <Typography>
-              Are you sure you want to delete this Form?
+              Are you sure you want to delete this Service?
               </Typography>        
 
             </Modal>

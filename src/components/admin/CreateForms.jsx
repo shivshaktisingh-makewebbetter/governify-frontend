@@ -71,21 +71,20 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
     return (
         <>
-        <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>
-            
+        <div title="status visibility manage" style={{  width: '100%' , marginTop:'25px'}}>    
             <div>
             <div class="text-white" style={{ backgroundColor: link_headtitle }}>
                 <p class="p-2 m-0 fs-5" style={{display:"flex" , justifyContent:"space-between"}}><strong>Create Form</strong><Button onClick={addField}>+ Add Field</Button></p>
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
-                <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)}/>
-                <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)}/>
+                <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} addonBefore="Form Name"/>
+                <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} addonBefore="Form Description"/>
                 <div className="mt-10">
                     {field.map((item , index) =>{
                         return (
                             <Card className="mt-10">
                                 <textarea disabled style={{width:'100%'}}></textarea>
-                                <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)}/>
+                                <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
                                 <Button className="mt-10" onClick={()=>handleDeleteField(item)}>Delete</Button>
                             </Card>
                         )

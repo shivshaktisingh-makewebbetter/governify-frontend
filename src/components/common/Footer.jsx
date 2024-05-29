@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
 	return (
-		<footer className="mt-auto text-white-50 d-flex justify-content-center">
+		<footer className="mt-100 text-white-50 d-flex justify-content-center">
 			<div className="mt-5 mb-5 align-center text-secondary fs-6">
 				<small>Powered by TASC Outsourcing®</small>
 			</div>

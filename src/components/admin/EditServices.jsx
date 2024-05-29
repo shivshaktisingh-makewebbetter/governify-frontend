@@ -5,18 +5,17 @@ import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
 import ColumnGroup from "antd/es/table/ColumnGroup";
 
-export const CreateServices = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
+export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
     const [formListing , setFormListing] = useState([]);    
     const [categoryListig , setCategoryListing] = useState([]);    
     const [serviceData , setServiceData] = useState({
-        title:'' ,
-        description:'' ,
+        title:data.title ,
+        description:data.description ,
         image:{} ,
-        form:'' ,
-        service_category_id:'' ,
+        form:data.form.id ,
+        service_category_id:data.service_categorie.id ,
     })
-
 
 
     const handleCategoryChange = (e) =>{
@@ -36,10 +35,9 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/create';
 
   
-    let payload = JSON.stringify({title: serviceData.title , description:serviceData.description , form:serviceData.form , service_categorie_id:serviceData.service_category_id });
+    let payload = JSON.stringify({title: serviceData.title , description:serviceData.description , form:serviceData.form , service_categorie_id:serviceData.service_category_id , image: serviceData.image});
     
 
-    console.log(payload , 'payload')
 
     try{
         const response = await fetcher(url , method , payload);
@@ -112,7 +110,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     getAllCategories();
   } ,[])
 
-  console.log(serviceData, 'chf')
 
 
 
@@ -129,28 +126,30 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
                     
                 <ImageUpload onFileSelect={handleFileSelect} image={null} />
                 </div>
-                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} addonBefore="Title"/>
-                <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} addonBefore="Description"/>
+                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} value={serviceData.title} addonBefore="Title"/>
+                <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} value={serviceData.description} addonBefore="Description"/>
                 <div className="mt-10">
               <Select
-              showSearch
+                showSearch
                 placeholder='Select Forms'
                 style={{width:"100%"}}
                 popupMatchSelectWidth={false}
                 placement='bottomLeft'
                 onChange={handleFormChange}
                 options={formListing}
+                value={serviceData.form}
               />
               </div>
               <div className="mt-10">
               <Select
-                showSearch
+              showSearch
                 placeholder='Select Category'
                 style={{width:"100%"}}
                 popupMatchSelectWidth={false}
                 placement='bottomLeft'
                 onChange={handleCategoryChange}
                 options={categoryListig}
+                value={serviceData.service_category_id}
               />
               </div>
 

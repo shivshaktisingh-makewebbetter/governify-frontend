@@ -7,6 +7,8 @@ import { settings } from '../../utils/tools';
 import { CreateForms } from './CreateForms';
 import { EditForms } from './EditForm';
 import { fetcher } from '../../utils/helper';
+import { LeftOutlined } from "@ant-design/icons"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +23,7 @@ export const Forms = () => {
     const [dataSource , setDataSource] = useState([]);
     const [editData , setEditData] = useState({});
     const [deleteFormData , setDeleteFormData] = useState({});
-
+    const navigate = useNavigate();
   
     const columns = [
       {
@@ -103,7 +105,7 @@ export const Forms = () => {
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequestForms';
     let method = 'GET';
         try{
-          const response = await fetch(url , method);
+          const response = await fetcher(url , method);
             if(response.status){
               setDataSource(response.response);
               setShowSkeleton(false);
@@ -113,6 +115,10 @@ export const Forms = () => {
           throw new Error('Network response was not ok '  , err);
         }finally{
         }
+   }
+
+   const handleBackNavigation = () =>{
+   navigate(-1);
    }
    
 
@@ -128,7 +134,7 @@ export const Forms = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'end' , marginBottom:'10px'}}><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Forms</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Forms</Button></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 

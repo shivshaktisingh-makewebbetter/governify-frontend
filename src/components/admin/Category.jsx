@@ -7,6 +7,9 @@ import { settings } from '../../utils/tools';
 import { CreateCategory } from './CreateCategory';
 import EditCategory from './EditCategory';
 import { fetcher } from '../../utils/helper';
+import { LeftOutlined } from "@ant-design/icons"
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -21,6 +24,7 @@ export const Category = () => {
     const [dataSource , setDataSource] = useState([]);
     const [editData , setEditData] = useState({});
     const [deleteCategoryData , setDeleteCategoryData] = useState({});
+    const navigate = useNavigate();
 
   
     const columns = [
@@ -127,6 +131,12 @@ export const Category = () => {
           throw new Error('Network response was not ok '  , err);
         }
    }
+
+   const handleBackNavigation = () =>{
+    navigate(-1);
+    }
+    
+ 
    
 
 
@@ -142,7 +152,7 @@ export const Category = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'end' , marginBottom:'10px'}}><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 
@@ -158,11 +168,11 @@ export const Category = () => {
             />
             <Modal 
             open={modalOpen}
-            title='Create category'
             centered
             footer={ (_) => (
               <></>
             )}
+            className='w-40'
             onCancel={() => setModalOpen(false)}
           
             >
@@ -171,7 +181,6 @@ export const Category = () => {
             </Modal>
             <Modal 
             open={editModalOpen}
-            title='Edit category'
             centered
             footer={ (_) => (
               <></>
