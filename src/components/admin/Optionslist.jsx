@@ -1,4 +1,3 @@
-import { FormOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import { settings } from "../../utils/tools";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { settings } from "../../utils/tools";
-import { Button, Col, Flex, Image, Row, Typography } from "antd";
+import { Button,  Flex, Image,  Typography } from "antd";
 import { HomeOutlined, LogoutOutlined, SearchOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 
@@ -11,10 +11,7 @@ const Header = () => {
 		'"Hire an attitude, not just experience and qualification." Greg Savage🚀'
 	);
 
-	const style = {
-		background: '#0092ff',
-		padding: '8px 0',
-	  };
+	
 	return (
 		<>
 			{notification && (

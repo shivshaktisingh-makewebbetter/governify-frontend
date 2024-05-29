@@ -534,6 +534,10 @@ button * {
 	font-size: 28px;
 }
 
+.mt-10{
+	margin-top:10px;
+}
+
 .mt-16{
 	margin-top:16px;
 }
@@ -814,6 +818,10 @@ button * {
 	font-size: 17px !important;
     color:#928F8F !important;
 }
+/* 
+.width-80{
+	width:80% !important;
+} */
 
 
 .breadcrumb-major-component{

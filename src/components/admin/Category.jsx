@@ -1,32 +1,33 @@
-// export const Category = () =>{
 
 
-//     return (
-//         <>
-//         <p>Category</p>
-//         </>
-//     )
-
-// }
-
-
-import React, { useState } from 'react';
-import { Button, Modal, Table } from 'antd';
+import React, {  useEffect, useState } from 'react';
+import { Button, Modal, Table, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { settings } from '../../utils/tools';
 import { CreateCategory } from './CreateCategory';
+import EditCategory from './EditCategory';
+import { fetcher } from '../../utils/helper';
+
+
 
 
 export const Category = () => {
-    const {link_btn_bg , link_btn_color} = settings;
+    const {link_btn_bg , link_btn_color } = settings;
     const [modalOpen , setModalOpen] = useState(false);
+    const [editModalOpen , setEditModalOpen] = useState(false);
+    const [deleteModalOpen , setDeleteModalOpen] = useState(false);
+    const [showSkeleton , setShowSkeleton] = useState(true);
+    const [loading , setLoading] = useState(false);
+    const [dataSource , setDataSource] = useState([]);
+    const [editData , setEditData] = useState({});
+    const [deleteCategoryData , setDeleteCategoryData] = useState({});
 
-
+  
     const columns = [
       {
          title: 'Index', 
-         dataIndex: 'index',
-         key: 'index',
+         dataIndex: 'id',
+         key: 'id',
       },
       {
          title: 'Title',
@@ -34,7 +35,7 @@ export const Category = () => {
          key: 'title',
       },
       {
-         title: 'Icon',
+         title: 'Icon Class',
          dataIndex: 'icon',
          key: 'icon',
       },
@@ -59,148 +60,92 @@ export const Category = () => {
          ),
       },
   ];
-  const data = [
-    {
-      key: '1',
-      index:1 ,
-      title:'MISA License Management' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '2',
-      index:2 ,
-      title:'SBC COMPLIANCE' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '3',
-      index:3 ,
-      title:'CR Administration' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '4',
-      index:4 ,
-      title:'MHRDS Delegate & Oversight' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '5',
-      index:5 ,
-      title:'QIWA Platform Operations' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '6',
-      index:6 ,
-      title:'Hadaf HRDF Employment' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '7',
-      index:7 ,
-      title:'GOSI Management' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-    {
-      key: '8',
-      index:8 ,
-      title:'Mudad Financial Compliance' ,
-      icon: <i class="bi bi-app-indicator"></i> ,
-      subtitle: 'This is category subtitle' ,
-      description: 'This is category description'
-    },
-  ];
-
+  
 
 
     const handleCreateCategory = () =>{
        setModalOpen(true);
+       setShowSkeleton(true);
     }
 
     const handleDeleteCategory = async(item) =>{
+      setDeleteCategoryData(item);
+      setDeleteModalOpen(true);
+    }
 
-      let myHeaders = new Headers();
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append(
-      "Authorization",
-       "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTY3ODI3MTksImV4cCI6MTcxNjc4NjMxOSwibmJmIjoxNzE2NzgyNzE5LCJqdGkiOiJFUW1ETG1Ra1U1YjU1S25TIiwic3ViIjoiMTMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.ofnxvElZmpFyitC5P4gft34PkA2CQJ2uokVnEg-u7dU"
-      );
-  let requestOptions = {
-    method: "DELETE",
-    headers: myHeaders,
-  };
+    const handleCancelDelete = () =>{
+      setDeleteCategoryData({});
+      setDeleteModalOpen(false);
+    }
 
+    const deleteCategory = async() =>{
+      let url = `http://127.0.0.1:8000/governify/serviceCategories/${deleteCategoryData.id}`;
+      let method = 'DELETE';
+      setLoading(true);
         try{
-          const response = await fetch('http://127.0.0.1:8000/governify/serviceCategories/2', 
-            requestOptions,
-            );
-
-            console.log(response)
-            if (!response.ok) {
-              throw new Error('Network response was not ok ' + response.statusText);
+          const response = await fetcher(url , method);
+            if(response.status){
+              setShowSkeleton(true);
+              setDeleteModalOpen(false);
+              setDeleteCategoryData({});
             }
-            const data = await response.json(); // Parse the JSON from the response
-            console.log(data); // 
-        }catch(e){
+        }catch(err){
+          console.log(err , 'error')
 
         }
-      setModalOpen(true);
-
+        finally{
+          setLoading(false);
+        }
     }
 
     const handleEditCategory = async (item) =>{
-      console.log(item);
-
-      let myHeaders = new Headers();
-      myHeaders.append("Accept", "application/json");
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append(
-      "Authorization",
-       "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTY3ODI3MTksImV4cCI6MTcxNjc4NjMxOSwibmJmIjoxNzE2NzgyNzE5LCJqdGkiOiJFUW1ETG1Ra1U1YjU1S25TIiwic3ViIjoiMTMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.ofnxvElZmpFyitC5P4gft34PkA2CQJ2uokVnEg-u7dU"
-      );
-  let requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-  };
-
-        try{
-          const response = await fetch('http://127.0.0.1:8000/governify/serviceCategories/2', 
-            requestOptions,
-            );
-
-            console.log(response)
-            if (!response.ok) {
-              throw new Error('Network response was not ok ' + response.statusText);
-            }
-            const data = await response.json(); // Parse the JSON from the response
-            console.log(data); // 
-        }catch(e){
-
-        }
-      setModalOpen(true);
+      const data = {...item};
+      setEditData(data);
+      setEditModalOpen(true);
    }
+
+  //  const getIcon = (icon) =>{
+  //   const iconElement = document.createElement('i');
+  //   iconElement.classList.add(icon);
+  //   return iconElement;
+  //  }
+
+
+ 
+
+   const getCategories  = async() =>{
+    let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories';
+    let method = 'GET';
+        try{
+          const response = await fetcher(url, method);
+            if(response.status){
+              setDataSource(response.response);
+              setShowSkeleton(false);
+            }      
+            
+        }catch(err){
+          throw new Error('Network response was not ok '  , err);
+        }
+   }
+   
+
+
+
+    useEffect(()=>{
+      if(showSkeleton){
+        getCategories();
+        setShowSkeleton(false);
+      }
+   } , [showSkeleton])
+
+   
+
     return (
         <div className='mt-100'>
             <div style={{display:'flex' , justifyContent:'end' , marginBottom:'10px'}}><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
             <Table
             columns={columns} 
-            dataSource={data} 
+            dataSource={dataSource} 
             pagination={{
                 showTotal:(total) => `Total ${total} items`,
                 defaultPageSize:5,
@@ -221,9 +166,42 @@ export const Category = () => {
             onCancel={() => setModalOpen(false)}
           
             >
-                <CreateCategory/>
+               <CreateCategory  setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setModalOpen={setModalOpen}/>
 
             </Modal>
+            <Modal 
+            open={editModalOpen}
+            title='Edit category'
+            centered
+            footer={ (_) => (
+              <></>
+            )}
+            onCancel={() => setEditModalOpen(false)}
+            >          
+               <EditCategory  data ={editData} key={editData.id} setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setEditModalOpen={setEditModalOpen}/>
+
+            </Modal>
+
+            <Modal 
+            open={deleteModalOpen}
+            title='Delete category'
+            centered
+            footer={ (_ , record) => (
+              <>
+              <Button style={{background:link_btn_bg  , color:link_btn_color , border:'none'}} onClick={deleteCategory}>Delete</Button>
+              <Button style={{border:'none'}} onClick={handleCancelDelete}>Cancel</Button>
+
+              </>
+            )}
+            onCancel={() => setDeleteModalOpen(false)}
+            >  
+  
+            <Typography>
+              Are you sure you want to delete this Category?
+              </Typography>        
+
+            </Modal>
+
         </div>
     )
 }
