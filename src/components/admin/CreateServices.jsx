@@ -39,7 +39,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     let payload = JSON.stringify({title: serviceData.title , description:serviceData.description , form:serviceData.form , service_categorie_id:serviceData.service_category_id });
     
 
-    console.log(payload , 'payload')
 
     try{
         const response = await fetcher(url , method , payload);

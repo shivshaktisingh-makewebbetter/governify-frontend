@@ -156,7 +156,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
              
                
                  <div style={{display:'flex' , justifyContent:'center'}} className="mt-60">
-                 <Button className="mt-10" style={{background:link_btn_bg , color:link_btn_color , border:'none'}} onClick={handleCreateServices}>Create</Button>
+                 <Button className="mt-10" style={{background:link_btn_bg , color:link_btn_color , border:'none'}} onClick={handleCreateServices}>Update</Button>
 
                  </div>
             </div>

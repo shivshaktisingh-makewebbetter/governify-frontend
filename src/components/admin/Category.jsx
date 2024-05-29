@@ -83,7 +83,7 @@ export const Category = () => {
     }
 
     const deleteCategory = async() =>{
-      let url = `http://127.0.0.1:8000/governify/serviceCategories/${deleteCategoryData.id}`;
+      let url = `http://127.0.0.1:8000/governify/admin/serviceCategories/${deleteCategoryData.id}`;
       let method = 'DELETE';
       setLoading(true);
         try{

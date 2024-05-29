@@ -37,7 +37,7 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
     const publishForm = async() =>{
         let method = 'POST';
-        let url = 'http://127.0.0.1:8000/governify/serviceRequestForms';
+        let url = 'http://127.0.0.1:8000/governify/admin/serviceRequestForms';
         let categoryData = {
             name: formDetail.formName ,
             description: formDetail.formDescription ,
