@@ -12,7 +12,8 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
     const [serviceData , setServiceData] = useState({
         title:data.title ,
         description:data.description ,
-        image:{} ,
+        image: data.image ,
+        image_name:data.image_name,
         form:data.form.id ,
         service_category_id:data.service_categorie.id ,
     })
@@ -33,11 +34,8 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
     // console.log(serviceData.image ,'serviceData')
     let method = "POST";
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/create';
-
+    let payload = JSON.stringify(serviceData);
   
-    let payload = JSON.stringify({title: serviceData.title , description:serviceData.description , form:serviceData.form , service_categorie_id:serviceData.service_category_id , image: serviceData.image});
-    
-
 
     try{
         const response = await fetcher(url , method , payload);
@@ -100,8 +98,8 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
     setServiceData({...serviceData , description:e.target.value});
   }
 
-  const handleFileSelect = (data) =>{
-    setServiceData({...serviceData , image:data});
+  const handleFileSelect = (data , imageName) =>{
+    setServiceData({...serviceData , image:data , image_name:imageName});
   }
 
 

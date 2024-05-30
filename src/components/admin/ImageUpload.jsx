@@ -1,14 +1,10 @@
-import { Button, Upload } from 'antd';
 import { useState } from 'react';
-import { settings } from '../../utils/tools';
 
 
 
 export const ImageUpload = ({ onFileSelect , image}) => {
   const [selectedFile, setSelectedFile] = useState(image);
-  const {link_btn_bg , link_btn_color } = settings;
 
-  const [fileList, setFileList] = useState([]);
 
 
   
@@ -16,7 +12,6 @@ export const ImageUpload = ({ onFileSelect , image}) => {
       var file = event.target.files[0];
       var reader = new FileReader();
 
-      console.log(reader , 'reader')
   
       reader.onload = (function(theFile) {
         return function(e) {
@@ -26,7 +21,7 @@ export const ImageUpload = ({ onFileSelect , image}) => {
         console.log(e.target.result)
      
           setSelectedFile(e.target.result);
-          onFileSelect(e.target.result);
+          onFileSelect(e.target.result , file.name);
   
         };
       })(file);

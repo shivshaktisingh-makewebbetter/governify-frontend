@@ -3,7 +3,6 @@ import { settings } from "../../utils/tools";
 import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
-import ColumnGroup from "antd/es/table/ColumnGroup";
 
 export const CreateServices = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
@@ -12,7 +11,8 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     const [serviceData , setServiceData] = useState({
         title:'' ,
         description:'' ,
-        image:{} ,
+        image:'' ,
+        image_name:'' ,
         form:'' ,
         service_category_id:'' ,
     })
@@ -31,15 +31,10 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
 
 
    const handleCreateServices = async() =>{
-    // console.log(serviceData.image ,'serviceData')
     let method = "POST";
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/create';
-
-  
-    let payload = JSON.stringify({title: serviceData.title , description:serviceData.description , form:serviceData.form , service_categorie_id:serviceData.service_category_id });
+    let payload = JSON.stringify(serviceData);
     
-
-
     try{
         const response = await fetcher(url , method , payload);
         if(response.status){
@@ -101,8 +96,8 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     setServiceData({...serviceData , description:e.target.value});
   }
 
-  const handleFileSelect = (data) =>{
-    setServiceData({...serviceData , image:data});
+  const handleFileSelect = (data , imageName) =>{
+    setServiceData({...serviceData , image:data , image_name: imageName});
   }
 
 
@@ -110,9 +105,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
     getAllForms();
     getAllCategories();
   } ,[])
-
-  console.log(serviceData, 'chf')
-
 
 
     return (

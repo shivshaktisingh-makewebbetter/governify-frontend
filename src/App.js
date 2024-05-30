@@ -12,9 +12,11 @@ import { Forms } from "./components/admin/Forms";
 import AdminPanelWrapper from "./components/admin/AdminPanelWrapper";
 import { ConfigProvider } from "antd";
 import { settings } from "./utils/tools";
+import RoleWrapper from "./components/wrapper/RoleWrapper";
+import { AdminSettings } from "./components/admin/AdminSettings";
 
 function App() {
-	const {	link_btn_bg , 	link_btn_color,link_headtitle,header_bg, notification_bg} = settings;
+	const {	link_btn_color,link_headtitle,} = settings;
 	const router = createBrowserRouter([
 		{
 			path: "/*",
@@ -27,8 +29,8 @@ function App() {
 					children: [
 						{
 							path: "",
-							element: <Home />,
-							// element: <Rolewrapper role={['user']}><Home /></Rolewrapper> , 
+							// element: <Home />,
+							element: <RoleWrapper> <Home /> </RoleWrapper> , 
 
 						},
 						{
@@ -54,6 +56,10 @@ function App() {
 								{
 									path: "forms",
 									element: <Forms />,
+								},
+								{
+									path: "settings",
+									element: <AdminSettings />,
 								},
 								,]
 						},
