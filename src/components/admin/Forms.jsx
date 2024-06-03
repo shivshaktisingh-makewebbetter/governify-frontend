@@ -26,11 +26,7 @@ export const Forms = () => {
     const navigate = useNavigate();
   
     const columns = [
-      {
-         title: 'Index', 
-         dataIndex: 'id',
-         key: 'id',
-      },
+     
       {
          title: 'Title',
          dataIndex: 'name',

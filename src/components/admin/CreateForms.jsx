@@ -1,4 +1,4 @@
-import { Button, Card,  Input } from "antd";
+import { Button, Card,  Input, Switch } from "antd";
 import { settings } from "../../utils/tools";
 import { useState } from "react";
 import { fetcher } from "../../utils/helper";
@@ -6,7 +6,8 @@ import { fetcher } from "../../utils/helper";
 export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
     const [field , setField] = useState([]);
-    const [formDetail , setFormDetail] = useState({formName:'' , formDescription:''})
+    const [formDetail , setFormDetail] = useState({formName:'' , formDescription:''});
+    const [imageSettings , setImageSettings] = useState({image_enabled:false , image_required: false});
 
     const handleDeleteField = (subItem) =>{
      let tempField = field.filter((item) => item.key !== subItem.key);
@@ -41,8 +42,17 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
         let categoryData = {
             name: formDetail.formName ,
             description: formDetail.formDescription ,
-            form_data: field
+            form_data: field ,
+           
         };
+
+        categoryData.form_data.push({ key: field.length,
+            label: '',
+            type: "image",
+            required: imageSettings.image_required , 
+            enabled: imageSettings.image_enabled ,
+            defaultValue:''})
+            
         let payload = JSON.stringify(categoryData);
         
 
@@ -64,7 +74,14 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
     const handleChangeFormDescription = (event) =>{
         setFormDetail({...formDetail , formDescription:event.target.value});
+    }
 
+    const onChangeImageSettingsRequired = () =>{
+       setImageSettings({...imageSettings , image_required: !imageSettings.image_required});
+    }
+
+    const onChangeImageSettingsEnabled = () =>{
+        setImageSettings({...imageSettings , image_enabled: !imageSettings.image_enabled});
     }
 
 
@@ -79,6 +96,17 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} addonBefore="Form Name"/>
                 <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} addonBefore="Form Description"/>
+                <div className="mt-10" style={{display:"flex" , gap:"10px"}}>
+                    <div>
+                    <span>Enable Image</span>
+                    <Switch className="ml-10" onChange={onChangeImageSettingsEnabled} value={imageSettings.image_enabled} />
+                    </div>
+                   {imageSettings.image_enabled && <div>
+                    <span>Image Required</span>
+                    <Switch className="ml-10" onChange={onChangeImageSettingsRequired} value={imageSettings.image_required} />
+                    </div>} 
+                </div>
+           
                 <div className="mt-10">
                     {field.map((item , index) =>{
                         return (

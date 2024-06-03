@@ -4,58 +4,35 @@ import { useState } from 'react';
 
 export const ImageUpload = ({ onFileSelect , image}) => {
   const [selectedFile, setSelectedFile] = useState(image);
+  const [logoData  , setLogoData] = useState({logo_name:"" , logo_image:""});
 
 
+  const handleFileChange = async(e) =>{
 
-  
-    const handleFileChange = (event) => {
-      var file = event.target.files[0];
-      var reader = new FileReader();
-
-  
-      reader.onload = (function(theFile) {
-        return function(e) {
-          var img = document.createElement('img');
-          img.src = e.target.result;
-         
-        console.log(e.target.result)
-     
-          setSelectedFile(e.target.result);
-          onFileSelect(e.target.result , file.name);
-  
-        };
-      })(file);
-      reader.readAsDataURL(file);
-      
-    
-    };
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    if (file) {
+        reader.onload = (function(theFile) {
+            return function(e) {
+              setLogoData({logo_image:e.target.result , logo_name:file.name})
+              onFileSelect(e.target.result , file.name)
+            };
+          })(file);
+          reader.readAsDataURL(file);
+    }
+  }
   
 
   return (
-    <div>
-
-
-
-      
-        <div style={{display:'flex', justifyContent:'center' , borderRadius:'50%'}}>
-    {selectedFile ? (        
-          <img id="previewImage" src={selectedFile} alt="Preview" style={{borderRadius:'50%' , width:'100px' , height:'100px' , border:'2px solid gray'}}/>
-      ): <img src='https://simplyilm.com/wp-content/uploads/2017/08/temporary-profile-placeholder-1.jpg' alt='preview' style={{borderRadius:'50%' , width:'100px'}}/>}
-      <input
-        accept="image/*"
-        style={{display:'none'}}
-        id="contained-button-file"
-        type="file"
-        onChange={handleFileChange}
-      />
-      </div>
-      <div style={{display:'flex', justifyContent:'center' , marginTop:'5px'}}>
-      <label htmlFor="contained-button-file">
-        <span >
-          Upload
-        </span>
-      </label>
-      </div>
+    <div className="">
+                            
+                            <input class="form-control" name="logo_image" type="file" id="logo_image"
+                               onChange={handleFileChange}/>
+                                <small class="text-danger text-start ms-2"></small>
+                            <div id="imageContainer" class="card  mt-2"
+                                style={{maxWidth:"200px" , maxHeight:"200px" , width:"150px" , minHeight:"90px"}}>
+                                    {logoData.logo_image === "" ? <></> : <img src={logoData.logo_image} />}
+                            </div>
     </div>
   );
 };

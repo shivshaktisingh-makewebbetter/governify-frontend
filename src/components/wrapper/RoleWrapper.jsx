@@ -17,7 +17,7 @@ const navigateToAdmin = () =>{
 
 }
 useEffect(()=>{
-    if(role === 'user'){
+    if(role === 'customer'){
      navigateToHome();
     }else{
         navigateToAdmin();

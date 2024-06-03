@@ -9,6 +9,7 @@ import { fetcher } from '../../utils/helper';
 import { EditServices } from './EditServices';
 import { LeftOutlined } from "@ant-design/icons"
 import { useNavigate } from 'react-router-dom';
+import { SwitchServices } from './SwitchServices';
 
 
 
@@ -23,6 +24,8 @@ export const Services = () => {
     const [dataSource , setDataSource] = useState([]);
     const [editData , setEditData] = useState({});
     const [deleteFormData , setDeleteFormData] = useState({});
+    const [swapModal , setSwapModal] = useState(false);
+
    const navigate = useNavigate();
   
     const columns = [
@@ -136,6 +139,14 @@ export const Services = () => {
    const handleBackNavigation = () =>{
     navigate(-1);
     }
+
+    const handleSwitchCategory = () =>{
+      setSwapModal(!swapModal);
+    }
+
+    const updateDataSource = tempData => {
+      setDataSource(tempData)
+    }
     
  
    
@@ -152,7 +163,7 @@ export const Services = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><div><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button></div><div><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleSwitchCategory} className="mr-10">Switch Services</Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 
@@ -189,6 +200,18 @@ export const Services = () => {
             >          
                <EditServices  data ={editData} key={editData.id} setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setEditModalOpen={setEditModalOpen}/>
 
+            </Modal>
+
+            <Modal 
+            open={swapModal}
+            centered
+            footer={ (_) => (
+              <></>
+            )}
+            onCancel={() => setSwapModal(false)}
+            >   
+               <SwitchServices data={dataSource} setShowSkeleton={setShowSkeleton} setLoading={setLoading} loading={loading} setSwapModal={setSwapModal} updateDataSource={updateDataSource}/>
+    
             </Modal>
 
             <Modal 

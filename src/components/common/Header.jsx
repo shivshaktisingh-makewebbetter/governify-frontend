@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState }  from "react";
 import { settings } from "../../utils/tools";
 import { Button,  Flex, Image,  Typography } from "antd";
 import { HomeOutlined, LogoutOutlined, SearchOutlined ,SettingOutlined } from "@ant-design/icons";
@@ -7,12 +7,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getRole } from "../../utils/helper";
 
 const Header = () => {
-	const { link_btn_color, link_btn_bg, header_bg, notification_bg } = settings;
+	const { link_btn_color, link_btn_bg, header_bg, banner_bg , banner_content } = settings;
     const location = useLocation();
-	const [notification, setNotification] = useState(
-		'"Hire an attitude, not just experience and qualification." Greg Savage🚀'
-	);
 	const navigate = useNavigate();
+	const [notification , setNotification] = useState(sessionStorage.getItem('notification_bar') || true);
 
 	const role = getRole();
 
@@ -26,16 +24,14 @@ const Header = () => {
 			{notification && (
 				<div
 					id="notification-banner"
-					style={{ background: `${notification_bg}` }}
-					className={`position-relative custom-banner banner ${
-						!notification_bg && "bg-success"
-					}  text-center p-2`}
+					style={{ background: banner_bg }}
+					className={`position-relative custom-banner banner text-center p-2`}
 				>
 					<div
 						className="fs-7 banner-content text-light"
 						style={{ paddingRight: "50px", paddingLeft: "50px" }}
 					>
-						{notification}
+						{banner_content}
 					</div>
 					<button
 						onClick={() => setNotification("")}

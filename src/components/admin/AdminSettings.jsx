@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { fetcher } from "../../utils/helper";
 import { Button } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
@@ -8,7 +8,7 @@ import { settings } from "../../utils/tools";
 export const AdminSettings = () =>{
     const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:""});
     const [logoData  , setLogoData] = useState({logo_name:"" , logo_image:""});
-    const {link_btn_bg  } = settings;
+   
     const navigate = useNavigate();
 
   const handleChangeBg = (e) =>{
@@ -22,17 +22,15 @@ export const AdminSettings = () =>{
   const handleChangeLogo = async(e) =>{
 
     let file = e.target.files[0];
+    let reader = new FileReader();
     if (file) {
-        let reader = new FileReader();
-        reader.onload = function(event) {
-            let blobUrl = URL.createObjectURL(file);
-            setLogoData({...logoData , logo_image:blobUrl});
-            setLogoData({...logoData , logo_name:e.target.files[0].name});
-
-        };
-        reader.readAsDataURL(file);
+        reader.onload = (function(theFile) {
+            return function(e) {
+              setLogoData({logo_image:e.target.result , logo_name:file.name})
+            };
+          })(file);
+          reader.readAsDataURL(file);
     }
-
   }
 
   const handleChangeBgBanner = (e) =>{
@@ -46,7 +44,12 @@ export const AdminSettings = () =>{
 
 
   const handleChangeHeadTitleColor = (e) =>{
+    console.log(e , e.target.value)
     setUiData({...uiData ,  head_title_color:e.target.value })
+  }
+
+  function startsWithHttp(url) {
+    return url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://");
   }
 
 
@@ -55,12 +58,13 @@ export const AdminSettings = () =>{
   }
 
   const handleSubmit = async() =>{
-   let url = '';
+   let url = 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
    let method = 'POST';
+
    let payload =  JSON.stringify({
     ui_settings:uiData ,
-    logo_name: logoData.logo_name ,
-    logo_image:logoData.logo_image
+    logo_name: startsWithHttp(logoData.logo_image) ? '':logoData.logo_name ,
+    logo_image: startsWithHttp(logoData.logo_image) ? '':logoData.logo_image
    });
 
     try{
@@ -75,11 +79,27 @@ export const AdminSettings = () =>{
   const handleBackNavigation = () =>{
     navigate(-1);
   }
+
+  const fetchData = async() =>{
+    let method = 'GET';
+    let url = 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
+    let response = await fetcher(url , method);
+    if(response.status){
+        let uiSettings = JSON.parse(response.response.ui_settings);
+        setLogoData({logo_image: response.response.logo_location , logo_name: response.response.logo_name});
+        setUiData({site_bg:uiSettings.site_bg , button_bg:uiSettings.button_bg , banner_bg:uiSettings.banner_bg , banner_content:uiSettings.banner_content , header_bg:uiSettings.header_bg , head_title_color:uiSettings.head_title_color})
+    }
+  }
+
+  useEffect(()=>{
+    fetchData()
+  } ,[])
+
     return (
         <>
          <div class="w-100 d-flex flex-column align-items-center p-2">
         <div class="col-md-7 col-lg-8 text-start">
-            <h4 class="mb-3"><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><span class="mt-1 ms-2">General Settings</span></h4>
+            <h4 class="mb-3"><Button icon={<LeftOutlined  style={{color:uiData.button_bg , borderColor:uiData.button_bg}}/> } onClick={handleBackNavigation}></Button><span class="mt-1 ms-2">General Settings</span></h4>
             <hr/>
                 <div class="row g-3">
                     <div class="col-sm-6">

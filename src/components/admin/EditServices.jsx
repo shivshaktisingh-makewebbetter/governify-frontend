@@ -3,7 +3,6 @@ import { settings } from "../../utils/tools";
 import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
-import ColumnGroup from "antd/es/table/ColumnGroup";
 
 export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
@@ -31,7 +30,6 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
 
    const handleCreateServices = async() =>{
-    // console.log(serviceData.image ,'serviceData')
     let method = "POST";
     let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/create';
     let payload = JSON.stringify(serviceData);

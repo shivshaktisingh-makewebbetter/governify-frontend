@@ -14,13 +14,13 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
         image:'' ,
         image_name:'' ,
         form:'' ,
-        service_category_id:'' ,
+        service_categorie_id:'' ,
     })
 
 
 
     const handleCategoryChange = (e) =>{
-       setServiceData({...serviceData , service_category_id:e})
+       setServiceData({...serviceData , service_categorie_id:e})
     }
 
 

@@ -203,8 +203,7 @@ body,
 .ff-mont {
 	font-family: "Montserrat";
 }
-button * {
-}
+
 .btn-to-link * {
 	font-size: 12px;
 	font-family: "Montserrat" !important;
@@ -532,6 +531,15 @@ button * {
 
 .fs-28{
 	font-size: 28px;
+}
+
+
+.mr-10{
+	margin-right: 10px;
+}
+
+.ml-10{
+	margin-left:10px;
 }
 
 .mt-10{
@@ -912,6 +920,46 @@ padding-left:8px;
 .governify-option-list-repetitive{
 	padding:20px;
 }
+
+
+table tr:hover {
+	background-color: #5AC063;
+  }
+  
+  @media screen and (max-width: 600px) {
+	table {
+	  width: 100%;
+	  border-collapse: collapse;
+	}
+  
+	th, td {
+	  padding: 8px;
+	  display: block;
+	}
+  
+	th {
+	  text-align: right;
+	}
+  
+	th, td::before {
+	  content: attr(data-label);
+	  float: left;
+	  text-transform: uppercase;
+	  font-weight: bold;
+	}
+  
+	td {
+	  text-align: right;
+	}
+  
+	tr {
+	  display: block;
+	  margin-bottom: 10px;
+	  padding-top:10px;
+	  padding-bottom: 10px;
+	}
+  }
+  
 
 
 

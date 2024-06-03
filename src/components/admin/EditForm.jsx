@@ -1,4 +1,4 @@
-import { Button, Card,  Input } from "antd";
+import { Button, Card,  Input, Switch } from "antd";
 import { settings } from "../../utils/tools";
 import { useState } from "react";
 import { fetcher } from "../../utils/helper";
@@ -7,14 +7,37 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
     const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
     const [field , setField] = useState(data.form_data);
     const [formDetail , setFormDetail] = useState({formName:data.name , formDescription:data.description});
+    const getImageEnabledValue = () =>{
+        let flag = false;
+        data.form_data.forEach((item)=>{
+            if(item.type === 'image'){
+               flag = item.enabled;  
+            }
+            })
+        
+        return flag;
+    }
+
+    const getImageRequiredValue = () =>{
+        let flag = false;
+        data.form_data.forEach((item)=>{
+            if(item.type === 'image'){
+               flag = item.required;  
+            }
+            })
+        
+        return flag;
+    }
+    const [imageSettings , setImageSettings] = useState({image_enabled:getImageEnabledValue() , image_required: getImageRequiredValue()});
 
 
     const handleDeleteField = (subItem) =>{
      let tempField = field.filter((item) => item.key !== subItem.key);
      setField(tempField)
-     
     }
 
+
+    
     const addField = () =>{
        let newField = {
          key: field.length,
@@ -44,8 +67,15 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             description: formDetail.formDescription ,
             form_data: field
         };
-        let payload = JSON.stringify(categoryData);
-        
+
+        categoryData.form_data.push({ key: field.length,
+            label: '',
+            type: "image",
+            required: imageSettings.image_required , 
+            enabled: imageSettings.image_enabled ,
+            defaultValue:''})
+
+        let payload = JSON.stringify(categoryData);   
 
     try{
         const response = await fetcher(url, method , payload); 
@@ -69,6 +99,14 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     }
 
+    const onChangeImageSettingsRequired = () =>{
+        setImageSettings({...imageSettings , image_required: !imageSettings.image_required});
+     }
+ 
+     const onChangeImageSettingsEnabled = () =>{
+         setImageSettings({...imageSettings , image_enabled: !imageSettings.image_enabled});
+     }
+
     return (
         <>
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>
@@ -80,15 +118,32 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} value={formDetail.formName} addonBefore="Form Name"/>
                 <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} value={formDetail.formDescription} addonBefore="Form Description"/>
+             
+                <div className="mt-10" style={{display:"flex" , gap:"10px"}}>
+                    <div>
+                    <span>Enable Image</span>
+                    <Switch className="ml-10" onChange={onChangeImageSettingsEnabled} value={imageSettings.image_enabled} />
+                    </div>
+                   {imageSettings.image_enabled && <div>
+                    <span>Image Required</span>
+                    <Switch className="ml-10" onChange={onChangeImageSettingsRequired} value={imageSettings.image_required} />
+                    </div>} 
+                </div>
+                            
+
+
                 <div className="mt-10">
                     {field.map((item , index) =>{
-                        return (
-                            <Card className="mt-10">
-                                <textarea disabled style={{width:'100%'}}></textarea>
-                                <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
-                                <Button className="mt-10" onClick={()=>handleDeleteField(item)}>Delete</Button>
-                            </Card>
-                        )
+                        if(item.type !== 'image'){
+                            return (
+                                <Card className="mt-10">
+                                    <textarea disabled style={{width:'100%'}}></textarea>
+                                    <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
+                                    <Button className="mt-10" onClick={()=>handleDeleteField(item)}>Delete</Button>
+                                </Card>
+                            )
+                        }
+                        
                     })}
                     
                  </div>

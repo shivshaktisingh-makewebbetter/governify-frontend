@@ -31,5 +31,5 @@ export const getRole = () =>{
 
 const getToken = () =>{
     let token = sessionStorage.getItem('token');
-    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTY5ODY0MzEsImV4cCI6MTcxNjk5MDAzMSwibmJmIjoxNzE2OTg2NDMxLCJqdGkiOiJsSkRzbzZiYUxvVlJVWFZSIiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.Q9By0y3RAl5zzQP2lygjJ8WgyYgu_g7auXVgPDe5_aw';
+    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTc0MTIyOTgsImV4cCI6MTcxNzQxNTg5OCwibmJmIjoxNzE3NDEyMjk4LCJqdGkiOiJFWmNJVXNLcnFqMXlQeTM5Iiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7kOjNdsqbtiyX8wuzv_u5OzZ8nMtAMOQ13HhFg1cpL0';
 }

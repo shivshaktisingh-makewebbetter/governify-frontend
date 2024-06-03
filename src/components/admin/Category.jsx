@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
+
 export const Category = () => {
     const {link_btn_bg , link_btn_color } = settings;
     const [modalOpen , setModalOpen] = useState(false);
@@ -27,43 +28,7 @@ export const Category = () => {
     const navigate = useNavigate();
 
   
-    const columns = [
-      {
-         title: 'Index', 
-         dataIndex: 'id',
-         key: 'id',
-      },
-      {
-         title: 'Title',
-         dataIndex: 'title',
-         key: 'title',
-      },
-      {
-         title: 'Icon Class',
-         dataIndex: 'icon',
-         key: 'icon',
-      },
-      {
-          title: 'Subtitle',
-          dataIndex: 'subtitle',
-          key: 'subtitle',
-      },
-      {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
-      },
-      {
-         title: 'Action',
-         key: 'action',
-         render: (_, record) => (
-           <div style={{display:'flex' , gap:'10px' }} >
-          <Button className='governify-edit-icon' type='plain' icon={<EditOutlined />} onClick={()=>handleEditCategory(record)}></Button>
-          <Button className='governify-delete-icon' type='plain' icon={<DeleteOutlined />} onClick={()=>handleDeleteCategory(record)}></Button>
-         </div>
-         ),
-      },
-  ];
+   
   
 
 
@@ -108,14 +73,6 @@ export const Category = () => {
       setEditModalOpen(true);
    }
 
-  //  const getIcon = (icon) =>{
-  //   const iconElement = document.createElement('i');
-  //   iconElement.classList.add(icon);
-  //   return iconElement;
-  //  }
-
-
- 
 
    const getCategories  = async() =>{
     let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories';
@@ -135,10 +92,97 @@ export const Category = () => {
    const handleBackNavigation = () =>{
     navigate(-1);
     }
-    
- 
-   
 
+    const styles = {
+      headerParent:{
+        backgroundColor: "#5AC063" ,  
+      } ,
+      header: {
+        padding: '10px',
+        textAlign: 'left',
+        borderBottom: '2px solid #ddd' ,
+        color:"white" ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+      },
+      headerFirst: {
+        padding: '10px',
+        textAlign: 'left',
+        borderBottom: '2px solid #ddd' ,
+        color:"white" ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        borderTopLeftRadius:"5px"
+      } ,
+      headerLast: {
+        padding: '10px',
+        textAlign: 'left',
+        borderBottom: '2px solid #ddd' ,
+        color:"white" ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        borderTopRightRadius:"5px"
+      } ,
+      row: {
+        backgroundColor: '#ffffff',
+        transition: 'background-color 0.3s ease'
+      },
+      cell: {
+        padding: '8px',
+        borderBottom: '1px solid #ddd' ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        textAlign:"left"
+      } ,
+      spanPadding :{
+        paddingRight:"10px"
+      }
+    };
+
+    const [draggedItem, setDraggedItem] = useState(null);
+
+    const handleDragStart = (e, item) => {
+      setDraggedItem(item);
+      e.dataTransfer.effectAllowed = 'move';
+    };
+  
+    const handleDragOver = (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    };
+  
+    const handleDrop = async(e, targetItem) => {
+      e.preventDefault();
+      let payloadData = [];
+      let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories/swap';
+      let method = 'POST';
+  
+      const updatedData = [...dataSource];
+      const fromIndex = updatedData.findIndex(i => i.id === draggedItem.id);
+      const toIndex = updatedData.findIndex(i => i.id === targetItem.id);
+  
+      if (fromIndex !== toIndex) {
+        const [removed] = updatedData.splice(fromIndex, 1);
+        updatedData.splice(toIndex, 0, removed);
+        dataSource.forEach((item , index)=>{
+          payloadData.push({from : updatedData[index].id , to: index + 1})
+       })
+
+        setDataSource(updatedData);
+      }
+
+      let payload = {
+        service_categorie: payloadData
+      }
+
+      const response = await fetcher(url ,method , JSON.stringify(payload));
+      if(response.status){
+
+      }
+  
+      setDraggedItem(null);
+    };
+  
 
 
     useEffect(()=>{
@@ -146,26 +190,49 @@ export const Category = () => {
         getCategories();
         setShowSkeleton(false);
       }
+
    } , [showSkeleton])
+
 
    
 
     return (
         <div className='mt-100'>
             <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
-            <Table
-            columns={columns} 
-            dataSource={dataSource} 
-            pagination={{
-                showTotal:(total) => `Total ${total} items`,
-                defaultPageSize:5,
-                showQuickJumper:true,
-                showSizeChanger:true,
-                pageSizeOptions:[5 , 10 , 15, 20],
-                defaultCurrent:1
-      
-              }}
-            />
+           
+         <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead>
+        <tr style={styles.headerParent}>
+          <th style={styles.headerFirst}>Title</th>
+          <th style={styles.header}><span style={styles.spanPadding}>|</span>Icon Class</th>
+          <th style={styles.header}><span style={styles.spanPadding}>|</span>Subtitle</th>
+          <th style={styles.header}><span style={styles.spanPadding}>|</span>Description</th>
+          <th style={styles.headerLast}><span style={styles.spanPadding}>|</span>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          {dataSource.map((item)=>{
+            return (
+               <tr style={styles.row} key={item.id}  onDragStart={(e) => handleDragStart(e, item)}
+               onDragOver={handleDragOver}
+               onDrop={(e) => handleDrop(e, item)}
+               draggable>
+                  <td style={styles.cell}>{item.title}</td>
+                  <td style={styles.cell}>{item.icon}</td>
+                  <td style={styles.cell}>{item.subtitle}</td>
+                  <td style={styles.cell}>{item.description}</td>
+                  <td style={styles.cell}> 
+                    <div style={{display:'flex' , gap:'10px' }} >
+                      <Button className='governify-edit-icon' type='plain' icon={<EditOutlined />} onClick={()=>handleEditCategory(item)}></Button>
+                      <Button className='governify-delete-icon' type='plain' icon={<DeleteOutlined />} onClick={()=>handleDeleteCategory(item)}></Button>
+                    </div>
+                  </td>
+                </tr>
+            )
+          })}
+       
+      </tbody>
+    </table>
             <Modal 
             open={modalOpen}
             centered
