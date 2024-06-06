@@ -751,6 +751,7 @@ body,
 	flex: 1 1 calc(33.333% - 10px); 
 		margin: 5px; 
 		box-sizing: border-box;
+		max-width:30%;
 }
 
 .service-image-wrapper{

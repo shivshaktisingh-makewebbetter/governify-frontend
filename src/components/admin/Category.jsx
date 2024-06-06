@@ -96,6 +96,7 @@ export const Category = () => {
       headerParent:{
         backgroundColor: "#5AC063" ,  
       } ,
+
       header: {
         padding: '10px',
         textAlign: 'left',
@@ -104,15 +105,35 @@ export const Category = () => {
         paddingTop:"15px" , 
         paddingBottom:"15px" ,
       },
-      headerFirst: {
+      title: {
         padding: '10px',
         textAlign: 'left',
         borderBottom: '2px solid #ddd' ,
         color:"white" ,
         paddingTop:"15px" , 
         paddingBottom:"15px" ,
-        borderTopLeftRadius:"5px"
-      } ,
+        borderTopLeftRadius:"5px" ,
+        width:'20%'
+      },
+      subtitle: {
+        padding: '10px',
+        textAlign: 'left',
+        borderBottom: '2px solid #ddd' ,
+        color:"white" ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        width:'25%'
+      },
+      description: {
+        padding: '10px',
+        textAlign: 'left',
+        borderBottom: '2px solid #ddd' ,
+        color:"white" ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        width:'35%'
+      },
+     
       headerLast: {
         padding: '10px',
         textAlign: 'left',
@@ -128,6 +149,14 @@ export const Category = () => {
       },
       cell: {
         padding: '8px',
+        borderBottom: '1px solid #ddd' ,
+        paddingTop:"15px" , 
+        paddingBottom:"15px" ,
+        textAlign:"left"
+      } ,
+      iconcell: {
+        padding: '8px',
+        paddingLeft:'16px' ,
         borderBottom: '1px solid #ddd' ,
         paddingTop:"15px" , 
         paddingBottom:"15px" ,
@@ -202,10 +231,10 @@ export const Category = () => {
          <table style={{ width: "100%", borderCollapse: "collapse" }}>
       <thead>
         <tr style={styles.headerParent}>
-          <th style={styles.headerFirst}>Title</th>
+          <th style={styles.title}>Title</th>
           <th style={styles.header}><span style={styles.spanPadding}>|</span>Icon Class</th>
-          <th style={styles.header}><span style={styles.spanPadding}>|</span>Subtitle</th>
-          <th style={styles.header}><span style={styles.spanPadding}>|</span>Description</th>
+          <th style={styles.subtitle}><span style={styles.spanPadding}>|</span>Subtitle</th>
+          <th style={styles.description}><span style={styles.spanPadding}>|</span>Description</th>
           <th style={styles.headerLast}><span style={styles.spanPadding}>|</span>Action</th>
         </tr>
       </thead>
@@ -217,7 +246,7 @@ export const Category = () => {
                onDrop={(e) => handleDrop(e, item)}
                draggable>
                   <td style={styles.cell}>{item.title}</td>
-                  <td style={styles.cell}>{item.icon}</td>
+                  <td style={styles.iconcell}><i className={item.icon}></i></td>
                   <td style={styles.cell}>{item.subtitle}</td>
                   <td style={styles.cell}>{item.description}</td>
                   <td style={styles.cell}> 

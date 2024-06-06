@@ -8,31 +8,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
     const [formDetail , setFormDetail] = useState({formName:data.name , formDescription:data.description});
 
    
-    const getDocumentEnabledValue = () =>{
-        let flag = false;
-        data.form_data.forEach((item)=>{
-            if(item.type === 'image'){
-               flag = item.enabled;  
-            }
-            })
-        
-        return flag;
-    }
-
-    const getDocumentEnabledLabel = () =>{
-        let temp = '';
-        data.form_data.forEach((item)=>{
-            if(item.type === 'image'){
-                temp = item.label;  
-            }
-            })
-        
-        return temp;
-    }
-
-    const [documentSettings , setDocumentSettings] = useState(getDocumentEnabledValue());
-    const [documentLabel , setDocumentLabel] = useState(getDocumentEnabledLabel());
-
+ 
 
     const handleDeleteField = (subItem) =>{
      let tempField = field.filter((item) => item.key !== subItem.key);
@@ -42,13 +18,14 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     
     const addField = () =>{
-       let newField = {
-         key: field.length,
-         label: '',
-         type: "textArea",
-         required: false , 
-         defaultValue:''
-        }
+        let newField = {
+            key: field.length,
+            label: '',
+            subLabel:'',
+            type: "textArea",
+            defaultValue:'' ,
+            enabled: false
+           }
 
         let fields = [...field];
         fields.push(newField);
@@ -71,11 +48,6 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             form_data: field
         };
 
-        categoryData.form_data.push({ key: field.length,
-            label: documentLabel,
-            type: "image",
-            enabled: documentSettings ,
-            })
 
         let payload = JSON.stringify(categoryData);   
 
@@ -101,12 +73,27 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     }
 
-    const onChangeUploadSettingsEnabled = () =>{
-        setDocumentSettings(!documentSettings);
+    const onChangeUploadSettingsEnabled = (index) =>{
+        const updatedFields = field.map((item, idx) => {
+            if (idx === index) {
+                if(item.enabled){
+                    return { ...item, type: 'textArea', enabled: false };
+
+                }else{
+                    return { ...item, type: 'image', enabled: true };
+
+                }
+            } else {
+              return { ...item, type: 'textArea', enabled: false };
+            }
+          });
+          setField(updatedFields)
     }
 
-    const handleChangeLabelOfDocuments = (e) =>{
-      setDocumentLabel(e.target.value)
+    const handleChangeLabelOfDocuments = (event , index) =>{
+        let tempField = [...field];
+        tempField[index].subLabel = event.target.value;
+        setField(tempField);
     }
 
     return (
@@ -120,39 +107,30 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} value={formDetail.formName} addonBefore="Form Name"/>
                 <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} value={formDetail.formDescription} addonBefore="Form Description"/>
-             
-                <div className="mt-10">
-                    <div>
-                    <span>Enable Documents Upload</span>
-                    <Switch className="ml-10" onChange={onChangeUploadSettingsEnabled} value={documentSettings} />
-                    </div>
-                </div>
-                <div className='mt-10'>
-                    {documentSettings &&         
-                        <textarea
-                            style={{width:"100%"}}
-                            value={documentLabel}
-                            onChange={handleChangeLabelOfDocuments}
-                            placeholder="Enter points (one per line)"
-                            rows={5}
-                            cols={50}
-                        />
-                        }
-                </div>
-                            
-
 
                 <div className="mt-10">
                     {field.map((item , index) =>{
-                        if(item.type !== 'image'){
                             return (
                                 <Card className="mt-10">
-                                    <textarea disabled style={{width:'100%'}}></textarea>
-                                    <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
-                                    <Button className="mt-10" onClick={()=>handleDeleteField(item)}>Delete</Button>
-                                </Card>
+                                <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
+                                <div className="mt-10">
+                                <span>Enable Documents Upload</span>
+                                <Switch className="ml-10" onChange={()=>onChangeUploadSettingsEnabled(index)} value={item.enabled} />
+                                </div>
+                                <div className="mt-10">
+                                    {item.enabled && <textarea
+                                    style={{width:"100%"}}
+                                    value={item.subLabel}
+                                    onChange={(event)=>handleChangeLabelOfDocuments(event , index)}
+                                    placeholder="Enter points (one per line)"
+                                    rows={5}
+                                    cols={50}
+                                    />
+                                    }
+                                    </div>
+                                <Button className="mt-10" onClick={()=>handleDeleteField(item)}>Delete</Button>
+                            </Card>
                             )
-                        }
                         
                     })}
                     

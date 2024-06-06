@@ -1,14 +1,12 @@
 import { Button, Card,  Input, Switch } from "antd";
 import { useState } from "react";
 import { fetcher } from "../../utils/helper";
-import { InternalBreadcrumbItem } from "antd/es/breadcrumb/BreadcrumbItem";
 
 export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const data = JSON.parse(sessionStorage.getItem('settings'));
     const [field , setField] = useState([]);
     const [formDetail , setFormDetail] = useState({formName:'' , formDescription:''});
-    const [documentSettings , setDocumentSettings] = useState(false);
-    const [documentLabel , setDocumentLabel] = useState('');
+ 
 
     const handleDeleteField = (subItem) =>{
      let tempField = field.filter((item) => item.key !== subItem.key);

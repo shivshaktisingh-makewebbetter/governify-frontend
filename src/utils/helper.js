@@ -23,13 +23,13 @@ export const fetcher = async (url , method , payload = null) =>{
 
 
 export const getRole = () =>{
-    let role = sessionStorage.getItem('role') || 'superAdmin';
+    let role = sessionStorage.getItem('role') || 'customer';
     return role;
 }
 
 
 
 const getToken = () =>{
-    let token = sessionStorage.getItem('token') || "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTc2NDk0MzUsImV4cCI6MTcxNzY1MzAzNSwibmJmIjoxNzE3NjQ5NDM1LCJqdGkiOiJ6amhDczNoaU9wcWdVSkNGIiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uM-s9wi0C264t25axVM8Z2t3gK_8j1aYwSVppvQiZJs";
+    let token = sessionStorage.getItem('token') || "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTc2NzgwMTksImV4cCI6MTcxNzY4MTYxOSwibmJmIjoxNzE3Njc4MDE5LCJqdGkiOiJ4MFR4cWo3RHZtMmo0SW9yIiwic3ViIjoiMTMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.jdSIstPZHgVjcr34gYqDXsy378pWz4uPQTkruUvfax0";
     return token;
 }

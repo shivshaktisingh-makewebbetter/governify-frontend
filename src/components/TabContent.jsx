@@ -6,6 +6,7 @@ import { CustomerForm } from "./user/CustomerForm";
 export const TabContent = ({details}) =>{
     const [open , setOpen] = useState(false);
     const [ formData , setFormData] = useState();
+    const [serciceName , setServiceName] = useState();
 
     const handleModalForm = (formData) =>{
         setFormData(formData)
@@ -41,7 +42,7 @@ export const TabContent = ({details}) =>{
             onCancel={() => setOpen(false)}
             >  
   
-           <CustomerForm formData={formData}/>      
+           <CustomerForm formData={formData} serviceTitle={'asd'}/>      
 
             </Modal>
             
