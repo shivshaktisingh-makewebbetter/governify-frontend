@@ -3,7 +3,6 @@ import { fetcher } from "../../utils/helper";
 import { Button } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { settings } from "../../utils/tools";
 
 export const AdminSettings = () =>{
     const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:""});
@@ -134,7 +133,7 @@ export const AdminSettings = () =>{
                           
                             <div id="imageContainer" class="card  mt-2"
                                 style={{maxWidth:"200px" , maxHeight:"200px" , width:"150px" , minHeight:"90px"}}>
-                                    {logoData.logo_image === "" ? <></> : <img src={logoData.logo_image} />}
+                                    {logoData.logo_image === "" ? <></> : <img src={logoData.logo_image} alt="No preview"/>}
                             </div>
                         </div>
                     </div>

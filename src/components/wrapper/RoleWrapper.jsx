@@ -1,38 +1,18 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getRole } from '../../utils/helper';
 
-const RoleWrapper = ({children}) => {
-const navigate = useNavigate()
-const role = getRole();
+const RoleWrapper = ({ children }) => {
+  const navigate = useNavigate();
+  const role = getRole();
 
-const navigateToHome = () =>{
-   
-}
-
-
-
-const navigateToAdmin = () =>{
-    navigate('admin')
-
-}
-useEffect(()=>{
-    if(role === 'customer'){
-     navigateToHome();
-    }else{
-        navigateToAdmin();
-
+  useEffect(() => {
+    if (role !== 'customer') {
+      navigate('admin');
     }
+  }, [role, navigate]);
 
-} , [role])
-
-
-return (
-    <>
-    {children}
-    </>
-)
-
-}
+  return <>{children}</>;
+};
 
 export default RoleWrapper;

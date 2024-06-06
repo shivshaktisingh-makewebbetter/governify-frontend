@@ -1,25 +1,53 @@
-import { Button,  Image, Typography } from "antd"
-// import getSymbolFromCurrency from "currency-symbol-map"
+import { Button,  Image, Modal, Typography } from "antd"
+import { useState } from "react";
+import { CustomerForm } from "./user/CustomerForm";
+
 
 export const TabContent = ({details}) =>{
+    const [open , setOpen] = useState(false);
+    const [ formData , setFormData] = useState();
 
-    return (
-        <>
-        <Typography className='service-title font-family-hind'>{details.title}</Typography>
-        <Typography className='service-subtitle font-family-hind'>{details.subtitle}</Typography>
-        <div className="service-parent-div">
-        {details.service_data.map((item , index) =>{
-            return (<div className="service-repetitive-div" key={index}>
-                <div className='service-image-wrapper'> 
-                <Image className="service-image" src={item.img} />
-        </div>
-        <Typography className='service-child-title font-family-hind'>{item.description}</Typography>
-        <Typography className='service-child-subtitle font-family-hind'>{item.subdescription}</Typography>    
-            </div>)
-        })}
-        </div>
-        
-        <Button className='tabcontent-create-request-btn'><span  className='tabcontent-create-request-btn-text'>Create a Request</span><span className='tabcontent-create-request-btn-icon'><i class="bi bi-plus-lg"></i></span></Button>
-        </>
-    )
+    const handleModalForm = (formData) =>{
+        setFormData(formData)
+        setOpen(true)
+    }   
+
+        return (
+            <div>
+            <Typography className='service-title font-family-hind'>{details.subtitle}</Typography>
+            <Typography className='service-subtitle font-family-hind'>{details.description}</Typography>
+            <div className="service-parent-div">
+            {details.service_category_request.map((item)=>{
+              return (
+                <div className="service-repetitive-div" key={item.id}>
+                    <div className='service-image-wrapper'> 
+                    <Image className="service-image" src={item.file_location} />
+                </div>
+                <Typography className='service-child-title font-family-hind'>{item.title}</Typography>
+                <Typography className='service-child-subtitle font-family-hind'>{item.description}</Typography>  
+                <Button className='tabcontent-create-request-btn' onClick={()=>handleModalForm(item.form)}><span  className='tabcontent-create-request-btn-text'>Create a Request</span><span className='tabcontent-create-request-btn-icon'><i className="bi bi-plus-lg"></i></span></Button>
+  
+                </div>
+              )
+            })}
+            </div>
+
+            <Modal 
+            open={open}
+            centered
+            footer={ (_ , record) => (
+              <></>
+            )}
+            onCancel={() => setOpen(false)}
+            >  
+  
+           <CustomerForm formData={formData}/>      
+
+            </Modal>
+            
+            </div>
+        )
+   
+
+  
 }

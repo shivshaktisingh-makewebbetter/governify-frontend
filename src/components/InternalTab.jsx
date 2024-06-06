@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  Tabs } from 'antd';
-import { dummyData } from '../utils/data';
 import { TabContent } from './TabContent';
-import { AppstoreAddOutlined } from '@ant-design/icons';
-export const InternalTab = () => {
+export const InternalTab = ({data}) => {
 
   const [tabPosition, setTabPosition] = useState('left');
 
@@ -23,22 +21,23 @@ export const InternalTab = () => {
     window.addEventListener('resize', checkScreenWidth);
   } , [])
 
-
   
 return (
     <div className='mt-50'>   
-   
-      <Tabs
+   {data.length > 0 &&  <Tabs
    tabPosition={tabPosition}
   
-        items={dummyData.map((item)=>{
+        items={data.map((item)=>{
+    
             return {
-                label:  <div style={{padding: '2px 6px' , display:'flex' , justifyContent:'left' , gap:'20px' }} className='governify-tab-headers'><span><AppstoreAddOutlined /></span><span className='fs-15'>{item.dept_title}</span></div>,
-                key: item.dept_title , 
-                children: <TabContent details={item.dept_details} />
-            }
+              label:  <div style={{padding: '2px 6px' , display:'flex' , justifyContent:'left' , gap:'20px' }} className='governify-tab-headers'><span><i className={item.icon} ></i></span><span className='fs-15'>{item.title}</span></div>,
+              key: item.title , 
+              children: <TabContent details={item} />
+          }
+      
         })}
-      />
+      /> }
+      
     </div>
   );
 };

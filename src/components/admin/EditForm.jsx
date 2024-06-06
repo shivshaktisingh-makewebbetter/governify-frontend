@@ -1,13 +1,14 @@
 import { Button, Card,  Input, Switch } from "antd";
-import { settings } from "../../utils/tools";
 import { useState } from "react";
 import { fetcher } from "../../utils/helper";
 
 export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModalOpen , data}) =>{
-    const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
+    const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [field , setField] = useState(data.form_data);
     const [formDetail , setFormDetail] = useState({formName:data.name , formDescription:data.description});
-    const getImageEnabledValue = () =>{
+
+   
+    const getDocumentEnabledValue = () =>{
         let flag = false;
         data.form_data.forEach((item)=>{
             if(item.type === 'image'){
@@ -18,17 +19,19 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         return flag;
     }
 
-    const getImageRequiredValue = () =>{
-        let flag = false;
+    const getDocumentEnabledLabel = () =>{
+        let temp = '';
         data.form_data.forEach((item)=>{
             if(item.type === 'image'){
-               flag = item.required;  
+                temp = item.label;  
             }
             })
         
-        return flag;
+        return temp;
     }
-    const [imageSettings , setImageSettings] = useState({image_enabled:getImageEnabledValue() , image_required: getImageRequiredValue()});
+
+    const [documentSettings , setDocumentSettings] = useState(getDocumentEnabledValue());
+    const [documentLabel , setDocumentLabel] = useState(getDocumentEnabledLabel());
 
 
     const handleDeleteField = (subItem) =>{
@@ -69,11 +72,10 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         };
 
         categoryData.form_data.push({ key: field.length,
-            label: '',
+            label: documentLabel,
             type: "image",
-            required: imageSettings.image_required , 
-            enabled: imageSettings.image_enabled ,
-            defaultValue:''})
+            enabled: documentSettings ,
+            })
 
         let payload = JSON.stringify(categoryData);   
 
@@ -99,35 +101,43 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     }
 
-    const onChangeImageSettingsRequired = () =>{
-        setImageSettings({...imageSettings , image_required: !imageSettings.image_required});
-     }
- 
-     const onChangeImageSettingsEnabled = () =>{
-         setImageSettings({...imageSettings , image_enabled: !imageSettings.image_enabled});
-     }
+    const onChangeUploadSettingsEnabled = () =>{
+        setDocumentSettings(!documentSettings);
+    }
+
+    const handleChangeLabelOfDocuments = (e) =>{
+      setDocumentLabel(e.target.value)
+    }
 
     return (
         <>
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>
             
             <div>
-            <div class="text-white" style={{ backgroundColor: link_headtitle }}>
+            <div class="text-white" style={{ backgroundColor: settingsData.button_bg }}>
                 <p class="p-2 m-0 fs-5" style={{display:"flex" , justifyContent:"space-between"}}><strong>Edit Form</strong><Button onClick={addField}>+ Add Field</Button></p>
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} value={formDetail.formName} addonBefore="Form Name"/>
                 <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} value={formDetail.formDescription} addonBefore="Form Description"/>
              
-                <div className="mt-10" style={{display:"flex" , gap:"10px"}}>
+                <div className="mt-10">
                     <div>
-                    <span>Enable Image</span>
-                    <Switch className="ml-10" onChange={onChangeImageSettingsEnabled} value={imageSettings.image_enabled} />
+                    <span>Enable Documents Upload</span>
+                    <Switch className="ml-10" onChange={onChangeUploadSettingsEnabled} value={documentSettings} />
                     </div>
-                   {imageSettings.image_enabled && <div>
-                    <span>Image Required</span>
-                    <Switch className="ml-10" onChange={onChangeImageSettingsRequired} value={imageSettings.image_required} />
-                    </div>} 
+                </div>
+                <div className='mt-10'>
+                    {documentSettings &&         
+                        <textarea
+                            style={{width:"100%"}}
+                            value={documentLabel}
+                            onChange={handleChangeLabelOfDocuments}
+                            placeholder="Enter points (one per line)"
+                            rows={5}
+                            cols={50}
+                        />
+                        }
                 </div>
                             
 
@@ -148,7 +158,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
                     
                  </div>
                  <div style={{display:'flex' , justifyContent:'end'}}>
-                 {field.length > 0 &&  <Button className="mt-10" style={{background:link_btn_bg , color:link_btn_color , border:'none'}} onClick={publishForm}>Update</Button>}
+                 {field.length > 0 &&  <Button className="mt-10" style={{background:settingsData.button_bg , color:'#fff' , border:'none'}} onClick={publishForm}>Update</Button>}
 
                  </div>
             </div>

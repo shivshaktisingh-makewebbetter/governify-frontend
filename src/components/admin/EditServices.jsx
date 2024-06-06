@@ -1,11 +1,10 @@
 import { Button, Input, Select } from "antd";
-import { settings } from "../../utils/tools";
 import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
 
 export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
-    const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
+  const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [formListing , setFormListing] = useState([]);    
     const [categoryListig , setCategoryListing] = useState([]);    
     const [serviceData , setServiceData] = useState({
@@ -114,7 +113,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>    
             <div>
-            <div class="text-white" style={{ backgroundColor: link_headtitle }}>
+            <div class="text-white" style={{ backgroundColor: settingsData.button_bg }}>
                 <p class="p-2 m-0 fs-5"><strong>Create Services</strong></p>
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
@@ -152,7 +151,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
              
                
                  <div style={{display:'flex' , justifyContent:'center'}} className="mt-60">
-                 <Button className="mt-10" style={{background:link_btn_bg , color:link_btn_color , border:'none'}} onClick={handleCreateServices}>Update</Button>
+                 <Button className="mt-10" style={{background:settingsData.button_bg , color:'#fff' , border:'none'}} onClick={handleCreateServices}>Update</Button>
 
                  </div>
             </div>

@@ -1,9 +1,16 @@
-export const settings = {
-	link_btn_bg: "#5AC063",
-	link_btn_color: "#FFFF",
-	link_headtitle: "#5AC063",
-	header_bg: "#F7F7F7",
-	banner_bg: "#5AC063",
-	banner_content:"Hire an attitude, not just experience and qualification. Greg Savage" 
+import { fetcher, getRole } from "./helper";
 
-};
+
+
+export const userSettingData = async() =>{
+	const role = getRole();
+	let url = role==='customer' ? 'http://127.0.0.1:8000/governify/customer/governifySiteSetting' : 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
+	let method = 'GET';
+	const response = await fetcher(url , method); 
+	if(response.status){
+		let uiData = JSON.parse(response.response.ui_settings);
+		let data = {image: response.response.logo_location ,...uiData };
+	    sessionStorage.setItem('settings' , JSON.stringify(data));
+	}
+}
+

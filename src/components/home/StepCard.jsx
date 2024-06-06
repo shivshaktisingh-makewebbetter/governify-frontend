@@ -1,8 +1,8 @@
 import React from "react";
-import { settings } from "../../utils/tools";
+import { userSettingData } from "../../utils/tools";
 
 const StepCard = ({step}) => {
-  const {link_btn_color,link_btn_bg}=settings
+  const {link_btn_color,link_btn_bg}= userSettingData();
 	return (
 		<div
 			className="w-100 border-bottom d-flex align-item-center justify-content-between text-start p-3"
@@ -35,7 +35,7 @@ const StepCard = ({step}) => {
 						className="icon-btn_track d-flex align-items-center"
 						style={{ height: "fit-content", width: "22px", paddingLeft: "5px" }}
 					>
-						<i class="bi bi-arrow-right-circle-fill"></i>
+						<i className="bi bi-arrow-right-circle-fill"></i>
 					</span>
 				</button>
 			</div>

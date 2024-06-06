@@ -30,6 +30,6 @@ export const getRole = () =>{
 
 
 const getToken = () =>{
-    let token = sessionStorage.getItem('token');
-    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTc0MTIyOTgsImV4cCI6MTcxNzQxNTg5OCwibmJmIjoxNzE3NDEyMjk4LCJqdGkiOiJFWmNJVXNLcnFqMXlQeTM5Iiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7kOjNdsqbtiyX8wuzv_u5OzZ8nMtAMOQ13HhFg1cpL0';
+    let token = sessionStorage.getItem('token') || "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiLCJpYXQiOjE3MTc2NDk0MzUsImV4cCI6MTcxNzY1MzAzNSwibmJmIjoxNzE3NjQ5NDM1LCJqdGkiOiJ6amhDczNoaU9wcWdVSkNGIiwic3ViIjoiMTEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.uM-s9wi0C264t25axVM8Z2t3gK_8j1aYwSVppvQiZJs";
+    return token;
 }

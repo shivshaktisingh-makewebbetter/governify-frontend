@@ -1,12 +1,10 @@
-import { Button, Input, Select, Table } from "antd";
-import { settings } from "../../utils/tools";
+import { Select } from "antd";
 import { useEffect, useState } from "react";
-import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
 
 export const SwitchServices = ({data ,setShowSkeleton , setLoading , loading  , setSwapModal , updateDataSource}) =>{
-    const {link_btn_bg , link_btn_color ,link_headtitle } = settings;
-    const [categoryListig , setCategoryListing] = useState([]);    
+  const settingsData = JSON.parse(sessionStorage.getItem('settings'));
+  const [categoryListig , setCategoryListing] = useState([]);    
     const [serviceData , setServiceData] = useState({
         title:'' ,
         description:'' ,
@@ -166,7 +164,7 @@ const styles = {
 
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>    
             <div>
-            <div class="text-white" style={{ backgroundColor: link_headtitle }}>
+            <div class="text-white" style={{ backgroundColor: settingsData.button_bg }}>
                 <p class="p-2 m-0 fs-5"><strong>Switch Services</strong></p>
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{overflowY:'auto'}}>
@@ -190,8 +188,8 @@ const styles = {
 <table style={{ width: "100%", borderCollapse: "collapse" }}>
       <thead>
         <tr style={styles.headerParent}>
-          <th style={styles.headerFirst}>Index</th>
-          <th style={styles.header}><span style={styles.spanPadding}>|</span>Title</th>
+          {/* <th style={styles.headerFirst}>Index</th> */}
+          <th style={styles.headerFirst}>Title</th>
           <th style={styles.header}><span style={styles.spanPadding}>|</span>Description</th>
           <th style={styles.header}><span style={styles.spanPadding}>|</span>Linked Category</th>
 
@@ -205,7 +203,7 @@ const styles = {
                     onDragOver={handleDragOver}
                     onDrop={(e) => handleDrop(e, item)}
                     draggable>
-                       <td style={styles.cell}>{item.id}</td>
+                       {/* <td style={styles.cell}>{item.id}</td> */}
                        <td style={styles.cell}>{item.title}</td>
                        <td style={styles.cell}>{item.description}</td>
                        <td style={styles.cell}>{item.service_categorie.title}</td>

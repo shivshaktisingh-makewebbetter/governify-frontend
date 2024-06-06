@@ -3,7 +3,6 @@
 import React, {  useEffect, useState } from 'react';
 import { Button, Modal, Table, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { settings } from '../../utils/tools';
 import { CreateServices } from './CreateServices';
 import { fetcher } from '../../utils/helper';
 import { EditServices } from './EditServices';
@@ -15,7 +14,7 @@ import { SwitchServices } from './SwitchServices';
 
 
 export const Services = () => {
-    const {link_btn_bg , link_btn_color } = settings;
+  const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [modalOpen , setModalOpen] = useState(false);
     const [editModalOpen , setEditModalOpen] = useState(false);
     const [deleteModalOpen , setDeleteModalOpen] = useState(false);
@@ -29,11 +28,7 @@ export const Services = () => {
    const navigate = useNavigate();
   
     const columns = [
-      {
-         title: 'Index', 
-         dataIndex: 'id',
-         key: 'id',
-      },
+     
       {
          title: 'Title',
          dataIndex: 'title',
@@ -163,7 +158,7 @@ export const Services = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><div><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button></div><div><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleSwitchCategory} className="mr-10">Switch Services</Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><div><Button icon={<LeftOutlined  style={{color:settingsData.button_bg , borderColor:settingsData.button_bg}}/> } onClick={handleBackNavigation}></Button></div><div><Button style={{borderColor:settingsData.button_bg , color:settingsData.button_bg}} onClick={handleSwitchCategory} className="mr-10">Switch Services</Button><Button style={{borderColor:settingsData.button_bg , color:settingsData.button_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 
@@ -220,7 +215,7 @@ export const Services = () => {
             centered
             footer={ (_ , record) => (
               <>
-              <Button style={{background:link_btn_bg  , color:link_btn_color , border:'none'}} onClick={deleteCategory}>Delete</Button>
+              <Button style={{background:settingsData.button_bg  , color:'#fff' , border:'none'}} onClick={deleteCategory}>Delete</Button>
               <Button style={{border:'none'}} onClick={handleCancelDelete}>Cancel</Button>
 
               </>

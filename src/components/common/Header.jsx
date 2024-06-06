@@ -1,5 +1,4 @@
 import React, { useState }  from "react";
-import { settings } from "../../utils/tools";
 import { Button,  Flex, Image,  Typography } from "antd";
 import { HomeOutlined, LogoutOutlined, SearchOutlined ,SettingOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getRole } from "../../utils/helper";
 
 const Header = () => {
-	const { link_btn_color, link_btn_bg, header_bg, banner_bg , banner_content } = settings;
+	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"http://127.0.0.1:8000/uploads/governify/1717570622_Products Logo (1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
     const location = useLocation();
 	const navigate = useNavigate();
 	const [notification , setNotification] = useState(sessionStorage.getItem('notification_bar') || true);
@@ -18,20 +17,28 @@ const Header = () => {
         navigate('admin/settings');
 	}
 
+	const navigateToTrackRequest = () =>{
+		navigate('track-request')
+	}
+
+	const navigateToHome = () =>{
+		navigate('/');
+	}
+
 	
 	return (
 		<>
 			{notification && (
 				<div
 					id="notification-banner"
-					style={{ background: banner_bg }}
+					style={{ background: data.banner_bg }}
 					className={`position-relative custom-banner banner text-center p-2`}
 				>
 					<div
 						className="fs-7 banner-content text-light"
 						style={{ paddingRight: "50px", paddingLeft: "50px" }}
 					>
-						{banner_content}
+						{data.banner_content}
 					</div>
 					<button
 						onClick={() => setNotification("")}
@@ -50,21 +57,21 @@ const Header = () => {
 			)}
 			<header
 				className="header-bar mb-auto mb-3"
-				style={{ background: header_bg }}
+				style={{ background: data.header_bg }}
 			>
 				 <div className="container h-100 p-3 py-2 mx-auto">
 				<Flex className="governify-header-major-div"> 
 					<div className="governify-header-major-div-logo">
-					<Image width={215} height={80} src="/ProductsLogo.png"/>
+					<Image width={215} height={80} src={data.image}/>
 					</div>
 					<div className="governify-header-major-div-buttons">
 					<Typography><span className='onboardify-welcome'>Welcome</span>{" "} <span className='onboardify-welcome-text-hani'>Hani</span></Typography>
 					<div className="governify-header-buttons">
 
-						{role === 'user' ? location.pathname === '/track-request' ? <Button className="governify-secondary-btn border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' }}><span className='font-family-montse fs-12 fw-700'>Home</span><HomeOutlined className="fs_20 fw-700"/></Button>
-:<Button  className="governify-secondary-btn fs_12 fw-700 border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' }}><span className='font-family-montse fs-12 fw-700'>Track a Request</span><SearchOutlined  className="fs_20 fw-700"/></Button>:<Button  className="governify-secondary-btn fs_12 fw-700 border-radius-10"  style={{display:'flex' , gap:'5px' , alignItems:'center' }} onClick={navigateToSettings}><span className='font-family-montse fs-12 fw-700' >Settings</span><SettingOutlined  className="fs_20 fw-700"/></Button>}						
+						{role === 'customer' ? location.pathname === '/track-request' ? <Button className="governify-secondary-btn border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' }} onClick={navigateToHome}><span className='font-family-montse fs-12 fw-700'>Home</span><HomeOutlined className="fs_20 fw-700"/></Button>
+:<Button  className="governify-secondary-btn fs_12 fw-700 border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' }} onClick={navigateToTrackRequest}><span className='font-family-montse fs-12 fw-700'>Track a Request</span><SearchOutlined  className="fs_20 fw-700"/></Button>:<Button  className="governify-secondary-btn fs_12 fw-700 border-radius-10"  style={{display:'flex' , gap:'5px' , alignItems:'center' }} onClick={navigateToSettings}><span className='font-family-montse fs-12 fw-700' >Settings</span><SettingOutlined  className="fs_20 fw-700"/></Button>}						
 
-					<Button type="primaary" className="governify-primary-btn border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' , background:link_btn_bg , color:link_btn_color}}><span className='font-family-montse fs-12 fw-700'>Log out</span><LogoutOutlined  className='fs_20'/></Button>	
+					<Button type="primaary" className="governify-primary-btn border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' , background:data.button_bg , color:'#fff'}}><span className='font-family-montse fs-12 fw-700'>Log out</span><LogoutOutlined  className='fs_20'/></Button>	
 					</div>
 					</div>
 				</Flex>

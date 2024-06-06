@@ -12,19 +12,17 @@ export const TrackRequest = () =>{
 
 
     return (
-        <>
-        
+        <div style={{paddingLeft:"16px" , paddingRight:"16px"}}>
             <Hero
 				heading={"Request Tracking"}
 				subheading="Track your onboarding progress effortlessly by using our request-tracking center."
 				forHome={false}
 			/>
-
             <BreadcrumbComponent data={breadCrumbData} />
             <SearchBox />
             <SortingAndFilterComponent />
             <RequestComponent />
             
-        </>
+        </div>
     )
 }

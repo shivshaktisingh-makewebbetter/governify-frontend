@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { settings } from "../../utils/tools";
 
 const Hero = ({ heading, subheading, ...props }) => {
-	const { link_btn_color, link_btn_bg , link_headtitle } = settings;
+	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"http://127.0.0.1:8000/uploads/governify/1717570622_Products Logo (1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
 	const [animation, setAnimation] = useState(true);
 	useEffect(() => {
 		setTimeout(() => {
@@ -24,20 +23,18 @@ const Hero = ({ heading, subheading, ...props }) => {
 					className={`header-heading1 ${
 						props?.forHome ? "mt-0" : "mt-2"
 					} fw-bold ff-ws onboarding-font-size-30`}
-					style={{ color: link_headtitle }}
+					style={{ color: data.head_title_color }}
 				>
 					{heading}
 				</h1>
 				<div className="d-flex flex-column justify-content-center align-items-center secondaryHeading">
-					{/* @if ($subheading ?? false) */}
 					<p
 						className="secondry-heading header-heading3 mb-0  fs-19"
 					    style={{color:'#928f8f'}}
 					>
 						{subheading}
 					</p>
-					{/* @endif
-            @if ($secondaryHeading ?? false) */}
+					
 					{props?.secondaryHeading && (
 						<p
 							className="header-heading3 mt-0 fs-6 text-secondary fs-19"
@@ -46,7 +43,6 @@ const Hero = ({ heading, subheading, ...props }) => {
 							{props.secondaryHeading}
 						</p>
 					)}
-					{/* @endif */}
 				</div>
 			</div>
 		</div>

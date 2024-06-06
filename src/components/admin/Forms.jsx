@@ -3,7 +3,6 @@
 import React, {  useEffect, useState } from 'react';
 import { Button, Modal, Table, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { settings } from '../../utils/tools';
 import { CreateForms } from './CreateForms';
 import { EditForms } from './EditForm';
 import { fetcher } from '../../utils/helper';
@@ -14,8 +13,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const Forms = () => {
-    const {link_btn_bg , link_btn_color } = settings;
-    const [modalOpen , setModalOpen] = useState(false);
+  const data = JSON.parse(sessionStorage.getItem('settings'));
+  const [modalOpen , setModalOpen] = useState(false);
     const [editModalOpen , setEditModalOpen] = useState(false);
     const [deleteModalOpen , setDeleteModalOpen] = useState(false);
     const [showSkeleton , setShowSkeleton] = useState(true);
@@ -130,7 +129,7 @@ export const Forms = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Forms</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:data.button_bg , borderColor:data.button_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:data.button_bg , color:data.button_bg}} onClick={handleCreateCategory}>+ Create Forms</Button></div>
             <Table
             columns={columns} 
             dataSource={dataSource} 
@@ -175,7 +174,7 @@ export const Forms = () => {
             centered
             footer={ (_ , record) => (
               <>
-              <Button style={{background:link_btn_bg  , color:link_btn_color , border:'none'}} onClick={deleteCategory}>Delete</Button>
+              <Button style={{background:data.button_bg  , color:'#fff' , border:'none'}} onClick={deleteCategory}>Delete</Button>
               <Button style={{border:'none'}} onClick={handleCancelDelete}>Cancel</Button>
 
               </>

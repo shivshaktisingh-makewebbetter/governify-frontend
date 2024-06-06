@@ -1,9 +1,8 @@
 
 
 import React, {  useEffect, useState } from 'react';
-import { Button, Modal, Table, Typography } from 'antd';
+import { Button, Modal , Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { settings } from '../../utils/tools';
 import { CreateCategory } from './CreateCategory';
 import EditCategory from './EditCategory';
 import { fetcher } from '../../utils/helper';
@@ -16,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const Category = () => {
-    const {link_btn_bg , link_btn_color } = settings;
+    const data = JSON.parse(sessionStorage.getItem('settings'));
     const [modalOpen , setModalOpen] = useState(false);
     const [editModalOpen , setEditModalOpen] = useState(false);
     const [deleteModalOpen , setDeleteModalOpen] = useState(false);
@@ -29,7 +28,7 @@ export const Category = () => {
 
   
    
-  
+  console.log(data , 'data')
 
 
     const handleCreateCategory = () =>{
@@ -198,7 +197,7 @@ export const Category = () => {
 
     return (
         <div className='mt-100'>
-            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:link_btn_bg , borderColor:link_btn_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:link_btn_bg , color:link_btn_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
+            <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:data.button_bg , borderColor:data.button_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:data.button_bg , color:data.button_bg}} onClick={handleCreateCategory}>+ Create Category</Button></div>
            
          <table style={{ width: "100%", borderCollapse: "collapse" }}>
       <thead>
@@ -264,7 +263,7 @@ export const Category = () => {
             centered
             footer={ (_ , record) => (
               <>
-              <Button style={{background:link_btn_bg  , color:link_btn_color , border:'none'}} onClick={deleteCategory}>Delete</Button>
+              <Button style={{background:data.button_bg , color:'#fff' , border:'none'}} onClick={deleteCategory}>Delete</Button>
               <Button style={{border:'none'}} onClick={handleCancelDelete}>Cancel</Button>
 
               </>
