@@ -38,14 +38,15 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
     return <div >{data}</div>;
   }
 
-  const handleSubmit = () =>{
+  const handleSubmit = async() =>{
     let tempFormData = []; 
     formDetails.forEach((item , index)=>{
       if(item.type !== 'image'){
         tempFormData.push({[item.label] : item.value})
       }
     });
-    let payload = {form_data:tempFormData , file_data:imageData , service_request:'asd'};
+    let payload = {form_data:tempFormData , file_data:imageData , service_request:serviceTitle};
+    // const response = await fetcher()
 
 
 
