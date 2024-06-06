@@ -10,7 +10,7 @@ const Home = () => {
   const getDashboardData = async () => {
     try {
       const response = await fetcher(
-        "http://127.0.0.1:8000/governify/customer/dashboard",
+        "governify/customer/dashboard",
         "GET"
       );
       setDashboardData(response.response); // Assuming response structure is { response: [...] }

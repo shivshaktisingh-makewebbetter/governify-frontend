@@ -37,7 +37,7 @@ export const SwitchServices = ({data ,setShowSkeleton , setLoading , loading  , 
 
    const getAllCategories  = async() =>{
     let method = 'GET';
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories';
+    let url = 'governify/admin/serviceCategories';
     
 
     try{
@@ -115,7 +115,7 @@ const styles = {
   const handleDrop = async(e, targetItem) => {
     e.preventDefault();
     let payloadData = [];
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/swap';
+    let url = 'governify/admin/serviceRequests/swap';
     let method ='POST';
 
 

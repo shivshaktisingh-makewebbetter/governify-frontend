@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Hero = ({ heading, subheading, ...props }) => {
-	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"http://127.0.0.1:8000/uploads/governify/1717570622_Products Logo (1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
+	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
 	const [animation, setAnimation] = useState(true);
 	useEffect(() => {
 		setTimeout(() => {

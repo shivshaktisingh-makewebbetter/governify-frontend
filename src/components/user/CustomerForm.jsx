@@ -46,9 +46,8 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
       }
     });
     let payload = {form_data:tempFormData , file_data:imageData , service_request:serviceTitle};
-    // const response = await fetcher()
-
-
+    // const response = await fetcher();
+    console.log(JSON.stringify(payload))
 
   }
 

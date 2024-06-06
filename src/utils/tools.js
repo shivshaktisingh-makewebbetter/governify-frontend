@@ -4,7 +4,7 @@ import { fetcher, getRole } from "./helper";
 
 export const userSettingData = async() =>{
 	const role = getRole();
-	let url = role==='customer' ? 'http://127.0.0.1:8000/governify/customer/governifySiteSetting' : 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
+	let url = role==='customer' ? `https://onboardify.tasc360.com//governify/customer/governifySiteSetting` : `https://onboardify.tasc360.com//governify/admin/governifySiteSetting`;
 	let method = 'GET';
 	const response = await fetcher(url , method); 
 	if(response.status){

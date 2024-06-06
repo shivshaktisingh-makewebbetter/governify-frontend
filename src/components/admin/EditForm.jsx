@@ -40,7 +40,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
     }
 
     const publishForm = async() =>{
-        let url = `http://127.0.0.1:8000/governify/admin/serviceRequestForms/${data.id}`;
+        let url = `governify/admin/serviceRequestForms/${data.id}`;
         let method = 'PUT';
         let categoryData = {
             name: formDetail.formName ,

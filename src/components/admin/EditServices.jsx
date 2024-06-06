@@ -30,7 +30,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
    const handleCreateServices = async() =>{
     let method = "POST";
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceRequests/create';
+    let url = 'governify/admin/serviceRequests/create';
     let payload = JSON.stringify(serviceData);
   
 
@@ -50,7 +50,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
     const getAllForms  = async() =>{
       let method = "GET";
-      let url = 'http://127.0.0.1:8000/governify/admin/serviceRequestForms';
+      let url = 'governify/admin/serviceRequestForms';
        
         try{
           const response = await fetcher(url , method);
@@ -69,7 +69,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
    const getAllCategories  = async() =>{
     let method = 'GET';
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories';
+    let url = 'governify/admin/serviceCategories';
     
 
     try{

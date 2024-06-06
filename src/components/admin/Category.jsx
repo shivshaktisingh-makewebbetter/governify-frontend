@@ -47,7 +47,7 @@ export const Category = () => {
     }
 
     const deleteCategory = async() =>{
-      let url = `http://127.0.0.1:8000/governify/admin/serviceCategories/${deleteCategoryData.id}`;
+      let url = `governify/admin/serviceCategories/${deleteCategoryData.id}`;
       let method = 'DELETE';
       setLoading(true);
         try{
@@ -74,7 +74,7 @@ export const Category = () => {
 
 
    const getCategories  = async() =>{
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories';
+    let url = 'governify/admin/serviceCategories';
     let method = 'GET';
         try{
           const response = await fetcher(url, method);
@@ -182,7 +182,7 @@ export const Category = () => {
     const handleDrop = async(e, targetItem) => {
       e.preventDefault();
       let payloadData = [];
-      let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories/swap';
+      let url = 'governify/admin/serviceCategories/swap';
       let method = 'POST';
   
       const updatedData = [...dataSource];

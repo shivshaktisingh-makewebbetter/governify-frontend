@@ -67,7 +67,7 @@ export const Forms = () => {
     }
 
     const deleteCategory = async() =>{
-      let url = `http://127.0.0.1:8000/governify/admin/serviceRequestForms/${deleteFormData.id}`;
+      let url = `governify/admin/serviceRequestForms/${deleteFormData.id}`;
       let method = "DELETE";
       setLoading(true);
       
@@ -97,7 +97,7 @@ export const Forms = () => {
  
 
    const getForms  = async() =>{
-    let url = 'http://127.0.0.1:8000/governify/admin/serviceRequestForms';
+    let url = 'governify/admin/serviceRequestForms';
     let method = 'GET';
         try{
           const response = await fetcher(url , method);

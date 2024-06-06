@@ -21,7 +21,7 @@ function App() {
     JSON.parse(sessionStorage.getItem("settings")) ||
     {
       image:
-        "http://127.0.0.1:8000/uploads/governify/1717570622_Products Logo (1).png",
+        "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
       site_bg: "#ffffff",
       button_bg: "#5ac063",
       banner_bg: "#5ac063",

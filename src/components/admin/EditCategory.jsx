@@ -15,7 +15,7 @@ import { fetcher } from "../../utils/helper";
     const handleEditCategory = async() =>{
         setLoading(true)
         let method = "PUT";
-        let url =  `http://127.0.0.1:8000/governify/admin/serviceCategories/${data.id}`;
+        let url =  `governify/admin/serviceCategories/${data.id}`;
         let payload =  JSON.stringify(categoryData);
       try{
         const response = await fetcher( url , method , payload);     

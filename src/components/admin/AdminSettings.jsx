@@ -57,7 +57,7 @@ export const AdminSettings = () =>{
   }
 
   const handleSubmit = async() =>{
-   let url = 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
+   let url = 'governify/admin/governifySiteSetting';
    let method = 'POST';
 
    let payload =  JSON.stringify({
@@ -81,7 +81,7 @@ export const AdminSettings = () =>{
 
   const fetchData = async() =>{
     let method = 'GET';
-    let url = 'http://127.0.0.1:8000/governify/admin/governifySiteSetting';
+    let url = 'governify/admin/governifySiteSetting';
     let response = await fetcher(url , method);
     if(response.status){
         let uiSettings = JSON.parse(response.response.ui_settings);

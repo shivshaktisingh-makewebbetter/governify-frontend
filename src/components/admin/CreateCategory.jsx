@@ -19,7 +19,7 @@ export const CreateCategory = ({setShowSkeleton , setLoading , loading , setModa
     const handleCreateCategory = async() =>{
       setLoading(true);
       let method = 'POST';
-      let url = 'http://127.0.0.1:8000/governify/admin/serviceCategories/create';
+      let url = 'governify/admin/serviceCategories/create';
       let payload =  JSON.stringify(categoryData);
           try{
             const response = await fetcher(url , method , payload);

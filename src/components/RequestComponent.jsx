@@ -22,10 +22,9 @@ export const RequestComponent = () =>{
     }
 
     const fetchData = async() =>{
-    let url = 'http://127.0.0.1:8000/governify/customer/requestTracking';
+    let url = 'governify/customer/requestTracking';
     let method = 'GET';
      const response = await fetcher(url , method);
-     console.log(response , 'response');
     }
 
     useEffect(()=>{
