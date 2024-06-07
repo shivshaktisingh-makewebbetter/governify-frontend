@@ -6,6 +6,7 @@ import { fetcher } from "../utils/helper";
 
 const Home = () => {
   const [dashboardData, setDashboardData] = useState([]);
+  const [searchData , setSearchData] = useState([])
 
   const getDashboardData = async () => {
     try {
@@ -20,6 +21,10 @@ const Home = () => {
     }
   };
 
+  const getSearchedServices= () =>{
+    
+  }
+
   useEffect(() => {
     getDashboardData();
 
@@ -29,10 +34,21 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(()=>{
+    if(searchData.length > 0){
+      getSearchedServices();
+
+    }else{
+      getDashboardData();
+      console.log('no')
+
+    }
+  } ,[searchData])
+
   return (
     <>
       <HeadTitle />
-      <SearchBox />
+      <SearchBox setSearchData={setSearchData} searchData={searchData}/>
       <InternalTab data={dashboardData} />
     </>
   );

@@ -372,10 +372,7 @@ body,
 		text-align: end;
 	}
 }
-@media (min-width: 768px) and (max-width: 991px) {
-}
-@media (min-width: 992px) {
-}
+
 
 @media (min-width: 500px) and (max-width: 769px) {
 	.onboarding-text-center {
@@ -439,9 +436,9 @@ body,
 	}
 }
 @media (min-width: 1400px) {
-	.container {
+	/* .container {
 		max-width: 1320px !important;
-	}
+	} */
 }
 
 
@@ -690,6 +687,8 @@ body,
 
 
 
+
+
 .governify-header-buttons{
 	display:flex;
 	align-items: center;
@@ -884,6 +883,11 @@ body,
 	font-size:20px;
 }
 
+.governify-category-icon-parent i::before{
+	vertical-align:middle !important;
+
+}
+
 
 .governify-search-box{
 	padding:10px 15px;
@@ -936,13 +940,28 @@ table tr:hover {
 
 
   .customer-form-container {
-	border: 1px solid #ccc;
+	/* border: 1px solid #ccc; */
 	border-radius: 5px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	/* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   }
   
   .form-header {
-	color: #fff;
+	font-family: "Hind", sans-serif;
+	color:#6F7490 ;
+	font-size:36px;
+	padding: 10px;
+	text-align: center;
+	font-weight:700;
+
+  }
+
+  .form-header-description{
+	font-family: "Hind", sans-serif;
+	color:#928f8f ;
+	font-size:19px;
+	padding: 10px;
+	text-align: center;
+	font-weight:400;
   }
   
   .form-body {
@@ -961,7 +980,7 @@ table tr:hover {
   
   .user-textarea {
 	width: 100%;
-	height: 100px;
+	/* height: 100px; */
 	padding: 10px;
 	font-size: 16px;
 	border: 1px solid #ccc;
@@ -1007,15 +1026,30 @@ table tr:hover {
 
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
    
-	
+/* 	
 	.governify-header-major-div-logo{
 		width:35%;
 	}
 	
 	.governify-header-major-div-buttons{
 		width:65%;
+	} */
+
+	.service-parent-div{
+		display:flex;
+		flex-direction: column;
+		align-items: start;
+		flex-wrap:wrap;
+	}
+
+
+	.service-repetitive-div{
+		/* flex: 1 1 calc(33.333% - 10px);  */
+			margin: 5px; 
+			box-sizing: border-box;
+			max-width:100%;
 	}
 }
 

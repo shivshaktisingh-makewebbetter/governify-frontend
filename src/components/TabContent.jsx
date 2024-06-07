@@ -1,4 +1,4 @@
-import { Button,  Image, Modal, Typography } from "antd"
+import { Button,   Modal, Typography } from "antd"
 import { useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
 
@@ -23,7 +23,7 @@ export const TabContent = ({details}) =>{
               return (
                 <div className="service-repetitive-div" key={item.id}>
                     <div className='service-image-wrapper'> 
-                    <Image className="service-image" src={item.file_location} />
+                    <img className="service-image" src={item.file_location} alt="No Preview"/>
                 </div>
                 <Typography className='service-child-title font-family-hind'>{item.title}</Typography>
                 <Typography className='service-child-subtitle font-family-hind'>{item.description}</Typography>  
