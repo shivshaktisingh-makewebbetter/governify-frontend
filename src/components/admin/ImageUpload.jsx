@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 
 
-export const ImageUpload = ({ onFileSelect , image}) => {
-  const [selectedFile, setSelectedFile] = useState(image);
-  const [logoData  , setLogoData] = useState({logo_name:"" , logo_image:""});
+export const ImageUpload = ({ onFileSelect , imageName , imageUrl}) => {
+  const [logoData  , setLogoData] = useState({logo_name:imageName , logo_image:imageUrl});
 
 
   const handleFileChange = async(e) =>{

@@ -10,7 +10,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
     const [serviceData , setServiceData] = useState({
         title:data.title ,
         description:data.description ,
-        image: data.image ,
+        image: data.file_location ,
         image_name:data.image_name,
         form:data.form.id ,
         service_category_id:data.service_categorie.id ,
@@ -119,7 +119,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <div>
                     
-                <ImageUpload onFileSelect={handleFileSelect} image={null} />
+                <ImageUpload onFileSelect={handleFileSelect} imageName={serviceData.image_name} imageUrl={serviceData.image}/>
                 </div>
                 <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} value={serviceData.title} addonBefore="Title"/>
                 <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} value={serviceData.description} addonBefore="Description"/>

@@ -117,7 +117,7 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <div>
                     
-                <ImageUpload onFileSelect={handleFileSelect} image={null} />
+                <ImageUpload onFileSelect={handleFileSelect} imageName={""} imageUrl={""} />
                 </div>
                 <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} addonBefore="Title"/>
                 <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} addonBefore="Description"/>
