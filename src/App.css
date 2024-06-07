@@ -723,7 +723,6 @@ body,
 	font-size: 21px !important;
 	color:#434343 !important;
 	font-weight:700 !important;
-	margin-top: 24px !important;
 	
 }
 
@@ -757,7 +756,7 @@ body,
 	display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 254px;
+    min-height: 220px;
 }
 
 
@@ -1049,7 +1048,7 @@ table tr:hover {
 		/* flex: 1 1 calc(33.333% - 10px);  */
 			margin: 5px; 
 			box-sizing: border-box;
-			max-width:100%;
+			max-width:90%;
 	}
 }
 

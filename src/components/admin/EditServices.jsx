@@ -29,8 +29,8 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
 
    const handleCreateServices = async() =>{
-    let method = "POST";
-    let url = 'governify/admin/serviceRequests/create';
+    let method = "PUT";
+    let url = `/governify/serviceCategories/${data.id}`;
     let payload = JSON.stringify(serviceData);
   
 

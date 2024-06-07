@@ -12,7 +12,6 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
 
   const handleFileChange = (e) => {
     let files = e.target.files;
-    console.log(files, 'files');
     const updatedImageData = [...imageData];
     
     if (files.length > 0) {
