@@ -36,9 +36,9 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
   const getUploadLabel = (item) =>{
     let newItem = item.split('\n')
     const data = newItem.map((subItem , index)=>{
-        return <p key={index}>{subItem}</p>
+        return <li key={index}>{subItem}</li>
     })
-    return <div >{data}</div>;
+    return <ul >{data}</ul>;
   }
 
   const handleSubmit = async() =>{
@@ -71,10 +71,13 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
 
   }
 
+  console.log(formData , 'formData')
+
   return (
     <div className="customer-form-container" style={{ maxWidth: '550px', width: '100%', marginTop: '25px' }}>
    
-        <div className="form-header">{formData.name}</div>
+        <div className="form-header">{serviceTitle}</div>
+        <div className="w-divider-component-wrapper divider-component-wrapper_XE2" style={{display:"flex" , justifyContent:"center"}}><svg xmlns="http://www.w3.org/2000/svg" width="3000px" height="33" style={{width:"12%"}}><path d="M0 16.5 L3000 16.5" style={{fill:"none" ,stroke :data.button_bg ,strokeWidth:"3px"}}></path></svg></div>
         <div className="form-header-description">{formData.description}</div>
 
      
@@ -100,7 +103,7 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
         ))}
       </div>
       
-      <div style={{display:"flex" , justifyContent:"center" , marginBottom:"10px", paddingLeft:'20px' , paddingRight:'20px'}}><Button style={{background:data.button_bg  , color:"#fff" , border:"none" , width:"100%"}} onClick={handleSubmit}>Submit</Button></div>
+      <div style={{display:"flex" , justifyContent:"center" , marginBottom:"10px", paddingLeft:'20px' , paddingRight:'20px'}}><Button style={{background:data.button_bg  , color:"#fff" , border:"none" , width:"100%" , height:"40px" , fontSize:"16px" , fontWeight:"600" , borderRadius:"10px"}} onClick={handleSubmit}>Submit</Button></div>
     </div>
   );
 };
