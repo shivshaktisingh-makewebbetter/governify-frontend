@@ -1,18 +1,23 @@
 import { Button,   Modal, Typography } from "antd"
 import { useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
+import { PlusOutlined } from "@ant-design/icons";
 
 
 export const TabContent = ({details}) =>{
     const [open , setOpen] = useState(false);
     const [ formData , setFormData] = useState();
     const [serciceName , setServiceName] = useState();
+    const [loading , setLoading] = useState(false);
 
     const handleModalForm = (formData  , title) =>{
         setFormData(formData)
         setServiceName(title);
         setOpen(true)
-    }   
+    }  
+    
+    
+
 
         return (
             <div>
@@ -27,8 +32,7 @@ export const TabContent = ({details}) =>{
                 </div>
                 <Typography className='service-child-title font-family-hind'>{item.title}</Typography>
                 <Typography className='service-child-subtitle font-family-hind'>{item.description}</Typography>  
-                <Button className='tabcontent-create-request-btn' onClick={()=>handleModalForm(item.form , item.title)}><span  className='tabcontent-create-request-btn-text'>Create a Request</span><span className='tabcontent-create-request-btn-icon'><i className="bi bi-plus-lg"></i></span></Button>
-  
+                <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.form , item.title)}>Create a Request</Button>
                 </div>
               )
             })}
@@ -43,9 +47,10 @@ export const TabContent = ({details}) =>{
             onCancel={() => setOpen(false)}
             >  
   
-           <CustomerForm formData={formData} serviceTitle={serciceName}/>      
+           <CustomerForm formData={formData} serviceTitle={serciceName} loading = {loading} setLoading={setLoading}/>      
 
             </Modal>
+            
             
             </div>
         )

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Button } from "antd"
 import { fetcher } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '../common/Loader';
 
 
-export const CustomerForm = ({ formData , serviceTitle }) => {
+export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading }) => {
   const data = JSON.parse(sessionStorage.getItem('settings'));
   const [formDetails , setFormDetails] = useState(formData.form_data);
   const [imageData , setImageData] = useState([]); 
@@ -51,6 +52,7 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
     let method = 'POST';
     let url = 'governify/customer/createRequestDashboard';
     let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle});
+    setLoading(true);
     try{
       const response = await fetcher(url , method , payload);
       console.log(response)
@@ -59,6 +61,10 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
       }
     }catch(err){
       console.log(err , 'err')
+    }finally{
+      setTimeout(()=>{
+        setLoading(true);
+      } , 2000)
     }
    
 
@@ -71,10 +77,10 @@ export const CustomerForm = ({ formData , serviceTitle }) => {
 
   }
 
-  console.log(formData , 'formData')
 
   return (
     <div className="customer-form-container" style={{ maxWidth: '550px', width: '100%', marginTop: '25px' }}>
+      {loading && <Loader />}
    
         <div className="form-header">{serviceTitle}</div>
         <div className="w-divider-component-wrapper divider-component-wrapper_XE2" style={{display:"flex" , justifyContent:"center"}}><svg xmlns="http://www.w3.org/2000/svg" width="3000px" height="33" style={{width:"12%"}}><path d="M0 16.5 L3000 16.5" style={{fill:"none" ,stroke :data.button_bg ,strokeWidth:"3px"}}></path></svg></div>

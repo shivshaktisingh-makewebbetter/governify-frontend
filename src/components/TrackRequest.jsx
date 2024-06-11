@@ -3,12 +3,13 @@ import Hero from "./common/Hero"
 import { BreadcrumbComponent } from "./common/BreadcrumbComponent";
 import { SearchBox } from "./common/SearchBox";
 import { RequestComponent } from "./RequestComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useState  } from "react";
 import { fetcher } from "../utils/helper";
 import { Radio } from "antd"
 import { SortBy } from "./SortBy";
 import { FilterBy } from "./FilterBy";
 import { ExportBy } from "./ExportBy";
+import { Loader } from "./common/Loader";
 
 
 
@@ -19,6 +20,7 @@ export const TrackRequest = () =>{
     const [selectedFilter , setSelectedFilter]= useState(9);
     const [statusItems , setStatusItems] = useState([]);
     const [searchData , setSearchData]= useState('');
+    const [loading , setLoading] = useState(false);
 
     const items = [
         {
@@ -88,40 +90,41 @@ export const TrackRequest = () =>{
                 })
     });
 
-
         setStatusItems(updatedFilterColumn);
     }
 
     const onChangeSearchData = (str) =>{
       setSearchData(str);
     }
+    console.log(searchData , 'searc')
 
     const fetchData = async() =>{
+      setLoading(true);
         try{
             let url = 'governify/customer/requestTracking';
             let method = 'POST';
             let payload = JSON.stringify({
-                "query_params": {
-                    "order_by": [
-                        {
-                            "direction": selectedOrder === 1 ? 'asc': 'desc',
-                            "column_id": "__creation_log__"
-                        }
-                    ] ,
-
-                    ...((selectedFilter !== 9) && {
-                      "rules": [
-                        {
-                            "column_id": "status__1",
-                            "compare_value": [
-                                +selectedFilter
-                            ]
-                        }
-                ]
-                    }),
-                   
-                }
-            })            
+              "query_params": {
+                  "order_by": [
+                      {
+                          "direction": selectedOrder === 1 ? 'asc' : 'desc',
+                          "column_id": "__creation_log__"
+                      }
+                  ],
+                  "rules": [
+                      ...(searchData.length > 0 ? [{
+                          "column_id": "name",
+                          "compare_value": [searchData],
+                          "operator": "contains_text"
+                      }] : []),
+                      ...(selectedFilter !== 9 ? [{
+                          "column_id": "status__1",
+                          "compare_value": [selectedFilter]
+                      }] : [])
+                  ]
+              }
+          });
+                     
             const response = await fetcher(url , method , payload);
             setData(response.response.data.boards[0].items_page.items)
             setBoardId(response.response.data.boards[0].id);
@@ -129,12 +132,25 @@ export const TrackRequest = () =>{
             
         }catch(err){
             console.log(err , 'error');
+        }finally{
+          setTimeout(()=>{
+            setLoading(false);
+          } , 2000)
+
         }
     }
 
     useEffect(()=>{
+     
         fetchData();
-    } ,[selectedOrder , selectedFilter])
+    
+    } ,[selectedOrder , selectedFilter , searchData])
+
+    if(loading){
+      return (
+        <Loader/>
+      )
+    }
 
 
 
@@ -146,13 +162,12 @@ export const TrackRequest = () =>{
 				forHome={false}
 			/>
             <BreadcrumbComponent data={breadCrumbData} />
-            <SearchBox onChangeSearchData={onChangeSearchData} />
+            <SearchBox onChangeSearchData={onChangeSearchData} searchData={searchData}/>
             <div style={{display:'flex' , justifyContent:'left' , paddingTop:'8px' , marginBottom:'32px'}}>
                 <SortBy items={items}/>
                 <FilterBy items={statusItems}/>
                 <ExportBy />
             </div>
-            {/* <SortingAndFilterComponent items={items} filterItems={statusItems}/> */}
             <RequestComponent data={data} boardId={boardId}/>
             
         </div>

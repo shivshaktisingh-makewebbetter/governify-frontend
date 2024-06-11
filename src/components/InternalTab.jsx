@@ -22,7 +22,7 @@ export const InternalTab = ({data}) => {
 
   function checkScreenWidth() {
     if (window.innerWidth < 700) {
-  setTabPosition('top');
+      setTabPosition('top');
     }else{
       setTabPosition('left')
     }

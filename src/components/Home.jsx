@@ -3,14 +3,17 @@ import HeadTitle from "./home/HeadTitle";
 import { SearchBox } from "./common/SearchBox";
 import { InternalTab } from "./InternalTab";
 import { fetcher } from "../utils/helper";
+import { Loader } from "./common/Loader";
 
 const Home = () => {
   const [dashboardData, setDashboardData] = useState([]);
   const [dashboardDataFixed, setDashboardDataFixed] = useState([]);
   const [searchData, setSearchData] = useState("");
   const interval = useRef(null);
+  const [loading , setLoading] = useState(false);
 
   const getDashboardData = async () => {
+    setLoading(true);
     try {
       const response = await fetcher("governify/customer/dashboard", "GET");
       setDashboardData(response.response); // Assuming response structure is { response: [...] }
@@ -18,6 +21,11 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
       // Handle error, show message, etc.
+    }finally{
+      setTimeout(()=>{
+        setLoading(false);
+      } , 2000)
+
     }
   };
 
@@ -40,6 +48,10 @@ const Home = () => {
   
     setDashboardData(foundData);
   };
+
+  const onChangeSearchData = (str) =>{
+    setSearchData(str);
+  }
   
 
   useEffect(() => {
@@ -72,11 +84,19 @@ const Home = () => {
     };
   }, [searchData]);
 
+  if(loading){
+    return (
+      <Loader />
+    )
+  }
+
   return (
     <>
       <HeadTitle />
-      <SearchBox setSearchData={setSearchData} searchData={searchData} />
+
+      <SearchBox onChangeSearchData={onChangeSearchData} searchData={searchData} />
       <InternalTab data={dashboardData} />
+
     </>
   );
 };

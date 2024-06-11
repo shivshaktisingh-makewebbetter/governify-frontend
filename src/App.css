@@ -747,7 +747,7 @@ body,
 
 .service-repetitive-div{
 	flex: 1 1 calc(33.333% - 10px); 
-		margin: 5px; 
+		margin: 15px; 
 		box-sizing: border-box;
 		max-width:30%;
 }
@@ -791,32 +791,28 @@ body,
 	height:42px;
 }
 
-.tabcontent-create-request-btn-text{
+.tabcontent-create-request-btn{
 	font-size:12px;
 	font-weight:700;
 	font-family: "Montserrat", sans-serif !important;
 
 }
 
-.tabcontent-create-request-btn-icon{
-	font-weight:700 !important ;
-	font-size:20px;
-	color:white;
-}
-
-.bi-plus-lg::before{
-	vertical-align: middle;
-	font-weight:700 !important ;
-	font-size:20px;
-	color:white;
-}
-
 .tabcontent-create-request-btn:hover{
-	background-color: transparent !important;
 	color:#5AC063 !important;
 	border: 1px solid #5AC063 !important;
 
 }
+
+.tabcontent-create-request-btn:hover {
+	color: #5AC063;
+	background-color: transparent !important;
+	border: 1px solid #5AC063 !important;
+
+  }
+  
+
+
 
 .onboardify-welcome-text-hani{
 	color:#928f8f !important;
@@ -995,6 +991,37 @@ table tr:hover {
   }
 
 
+
+
+  #loading-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+	/* display: none;  */
+  }
+
+  .spinner {
+	/* border: 16px solid #f3f3f3;
+	border-top: 16px solid #3498db;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px; */
+	animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+  }
+
+
   
   
   @media screen and (max-width: 600px) {
@@ -1054,8 +1081,8 @@ table tr:hover {
 
 
 	.service-repetitive-div{
-		/* flex: 1 1 calc(33.333% - 10px);  */
-			margin: 5px; 
+		flex: 1 1 calc(33.333% - 10px); 
+			margin: 15px; 
 			box-sizing: border-box;
 			max-width:90%;
 	}
