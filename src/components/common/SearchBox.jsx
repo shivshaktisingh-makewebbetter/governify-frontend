@@ -1,16 +1,17 @@
 import { SearchOutlined } from "@ant-design/icons"
 import { Input } from "antd"
 
-export const SearchBox = ({searchData , setSearchData}) =>{
+export const SearchBox = ({onChangeSearchData , searchData}) =>{
 
   const handleChange = (e) =>{
-    setSearchData(e.target.value)
+    onChangeSearchData(e.target.value)
   }
     return (
         <Input
           className="governify-search-box"
           placeholder="Start typing to search for services"
           onChange={handleChange}
+          value = {searchData}
       suffix={
           <SearchOutlined
             style={{

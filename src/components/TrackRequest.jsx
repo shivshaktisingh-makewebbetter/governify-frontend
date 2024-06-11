@@ -16,8 +16,9 @@ export const TrackRequest = () =>{
     const [data , setData] = useState([])
     const [boardId , setBoardId] = useState('')
     const [selectedOrder , setSelectedOrder]= useState(1);
-    const [selectedFilter , setSelectedFilter]= useState(1);
-    // const [statusItems , setStatusItems] = useState([]);
+    const [selectedFilter , setSelectedFilter]= useState(9);
+    const [statusItems , setStatusItems] = useState([]);
+    const [searchData , setSearchData]= useState('');
 
     const items = [
         {
@@ -39,51 +40,7 @@ export const TrackRequest = () =>{
         },
         
       ];
-      const statusItems = [
-        {
-          key: '1',
-          label: (
-            <Radio.Group onChange={()=>onChangeRadioFilter('all')} value={selectedFilter}>
-             <Radio value={1}>All</Radio>
-            </Radio.Group>
-    
-          ),
-        },
-        {
-          key: '2',
-          label: (
-            <Radio.Group onChange={()=>onChangeRadioFilter('progress')} value={selectedFilter}>
-             <Radio value={2}>In Progress</Radio>
-            </Radio.Group>
-          ),
-        },
-        {
-            key: '3',
-            label: (
-              <Radio.Group onChange={()=>onChangeRadioFilter('complete')} value={selectedFilter}>
-               <Radio value={3}>Done</Radio>
-              </Radio.Group>
       
-            ),
-          },
-          {
-            key: '4',
-            label: (
-              <Radio.Group onChange={()=>onChangeRadioFilter('stuck')} value={selectedFilter}>
-               <Radio value={4}>Stuck</Radio>
-              </Radio.Group>
-            ),
-          },
-        //   {
-        //     key: '5',
-        //     label: (
-        //       <Radio.Group onChange={()=>onChangeRadioFilter('stuck')} value={selectedFilter}>
-        //        <Radio value={4}>Cancelled</Radio>
-        //       </Radio.Group>
-        //     ),
-        //   },
-        
-      ];
 
       const onChangeRadio = (item) =>{
         if(item === 'ASC'){
@@ -94,19 +51,8 @@ export const TrackRequest = () =>{
         }
       }
 
-      const onChangeRadioFilter = (item) =>{
-        if(item === 'all'){
-            setSelectedFilter(1)
-        }
-        if(item === 'progress'){
-            setSelectedFilter(2)
-        }
-        if(item === 'complete'){
-            setSelectedFilter(1)
-        }
-        if(item === 'stuck'){
-            setSelectedFilter(2)
-        }
+      const onChangeRadioFilter = (key , value) =>{
+        setSelectedFilter(key);
       }
 
     const location = useLocation();
@@ -123,29 +69,31 @@ export const TrackRequest = () =>{
       let updatedFilterColumn = [{
         key: 1,
         label: (
-          <Radio.Group onChange={()=>onChangeRadioFilter('All')} value={selectedFilter}>
-           <Radio value={1}>All</Radio>
+          <Radio.Group onChange={()=>onChangeRadioFilter(9 ,'All')} value={selectedFilter}>
+           <Radio value={9}>All</Radio>
           </Radio.Group>
   
         ),
       }]
-      console.log(listOfStatus.labels , 'updated')
 
       Object.entries(listOfStatus.labels).forEach(([key, value] , index) => {
         updatedFilterColumn.push( {
                   key: index + 2,
                   label: (
                     <Radio.Group onChange={()=>onChangeRadioFilter(key , value)} value={selectedFilter}>
-                     <Radio value={index + 2}>{value}</Radio>
+                     <Radio value={key}>{value}</Radio>
                     </Radio.Group>
             
                   ),
                 })
     });
 
-    console.log(updatedFilterColumn , 'updated')
 
-        // setStatusItems(updatedFilterColumn);
+        setStatusItems(updatedFilterColumn);
+    }
+
+    const onChangeSearchData = (str) =>{
+      setSearchData(str);
     }
 
     const fetchData = async() =>{
@@ -159,7 +107,19 @@ export const TrackRequest = () =>{
                             "direction": selectedOrder === 1 ? 'asc': 'desc',
                             "column_id": "__creation_log__"
                         }
-                    ]
+                    ] ,
+
+                    ...((selectedFilter !== 9) && {
+                      "rules": [
+                        {
+                            "column_id": "status__1",
+                            "compare_value": [
+                                +selectedFilter
+                            ]
+                        }
+                ]
+                    }),
+                   
                 }
             })            
             const response = await fetcher(url , method , payload);
@@ -186,7 +146,7 @@ export const TrackRequest = () =>{
 				forHome={false}
 			/>
             <BreadcrumbComponent data={breadCrumbData} />
-            <SearchBox />
+            <SearchBox onChangeSearchData={onChangeSearchData} />
             <div style={{display:'flex' , justifyContent:'left' , paddingTop:'8px' , marginBottom:'32px'}}>
                 <SortBy items={items}/>
                 <FilterBy items={statusItems}/>
