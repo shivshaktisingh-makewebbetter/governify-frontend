@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
 
-export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
+export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setEditModalOpen}) =>{
   const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [formListing , setFormListing] = useState([]);    
     const [categoryListig , setCategoryListing] = useState([]);    
@@ -47,7 +47,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
         const response = await fetcher(url , method , JSON.stringify(payload));
         if(response.status){
           setShowSkeleton(true);
-          setModalOpen(false);
+          setEditModalOpen(false);
         }
       }catch(err){
          console.log(err , 'error')
