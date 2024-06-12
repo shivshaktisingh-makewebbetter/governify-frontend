@@ -16,6 +16,11 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
         service_categorie_id:data.service_categorie.id ,
     })
 
+  function startsWithHttp(url) {
+    return url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://");
+  }
+
+
 
     const handleCategoryChange = (e) =>{
        setServiceData({...serviceData , service_category_id:e})
@@ -31,11 +36,15 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
    const handleCreateServices = async() =>{
     let method = "PUT";
     let url = `governify/admin/serviceRequests/${data.id}`;
-    let payload = JSON.stringify(serviceData);
+    let payload = {...serviceData};
+    payload.image_name = startsWithHttp(serviceData.image_name) ? '':serviceData.image_name ,
+    payload.image =  startsWithHttp(serviceData.image) ? '':serviceData.image
+
+    
   
 
     try{
-        const response = await fetcher(url , method , payload);
+        const response = await fetcher(url , method , JSON.stringify(payload));
         if(response.status){
           setShowSkeleton(true);
           setModalOpen(false);
@@ -137,7 +146,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
               </div>
               <div className="mt-10">
               <Select
-              showSearch
+                showSearch
                 placeholder='Select Category'
                 style={{width:"100%"}}
                 popupMatchSelectWidth={false}
