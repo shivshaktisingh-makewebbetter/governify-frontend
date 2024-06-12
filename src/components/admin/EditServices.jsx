@@ -144,7 +144,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
                 placement='bottomLeft'
                 onChange={handleCategoryChange}
                 options={categoryListig}
-                value={serviceData.service_category_id}
+                value={serviceData.service_categorie_id}
               />
               </div>
 
