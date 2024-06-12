@@ -119,7 +119,7 @@ export const TrackRequest = () =>{
                       }] : []),
                       ...(selectedFilter !== 9 ? [{
                           "column_id": "status__1",
-                          "compare_value": [selectedFilter]
+                          "compare_value": [+selectedFilter]
                       }] : [])
                   ]
               }
