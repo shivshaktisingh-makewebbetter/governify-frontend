@@ -81,8 +81,8 @@ export const AdminSettings = () =>{
 
   const fetchData = async() =>{
     let method = 'GET';
-    let url = 'governify/admin/governifySiteSetting';
-    let response = await fetcher(url , method);
+    let endpoint = 'governify/admin/governifySiteSetting';
+    let response = await fetcher(endpoint , method);
     if(response.status){
         let uiSettings = JSON.parse(response.response.ui_settings);
         setLogoData({logo_image: response.response.logo_location , logo_name: response.response.logo_name});

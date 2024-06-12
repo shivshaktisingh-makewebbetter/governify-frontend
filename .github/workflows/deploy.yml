@@ -1,0 +1,25 @@
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the project
+      run: npm run build
+
+    - name: Deploy to GoDaddy
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.GODADDY_HOST }}
+        USERNAME: ${{ secrets.GODADDY_USERNAME }}
+        PASSWORD: ${{ secrets.GODADDY_PASSWORD }}
+        PORT: ${{ secrets.GODADDY_PORT }}
+      with:
+        source: "build" # Adjust this to match your build output directory
+        target: "/public_html"
