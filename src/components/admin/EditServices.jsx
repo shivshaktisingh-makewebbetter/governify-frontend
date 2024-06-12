@@ -37,8 +37,8 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
     let method = "PUT";
     let url = `governify/admin/serviceRequests/${data.id}`;
     let payload = {...serviceData};
-    payload.image_name = startsWithHttp(serviceData.image_name) ? '':serviceData.image_name ,
-    payload.image =  startsWithHttp(serviceData.image) ? '':serviceData.image
+    payload.image_name = startsWithHttp(serviceData.image_name) ? '':serviceData.image_name ;
+    payload.image =  startsWithHttp(serviceData.image) ? '':serviceData.image ;
 
     
   
