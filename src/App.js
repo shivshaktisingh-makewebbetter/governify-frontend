@@ -1,20 +1,21 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React, { useEffect } from "react";
-import AuthWrapper from "./components/wrapper/AuthWrapper";
-import PanelWrapper from "./components/wrapper/PanelWrapper";
+import React, { useEffect, Suspense, lazy } from "react";
 import ErrorPage from "./components/fallbacks/ErrorPage";
-import { TrackRequest } from "./components/TrackRequest";
-import AdminPanelWrapper from "./components/admin/AdminPanelWrapper";
 import { ConfigProvider } from "antd";
 import { userSettingData } from "./utils/tools";
-import RoleWrapper from "./components/wrapper/RoleWrapper";
-import { AdminSettings } from "./components/admin/AdminSettings";
-import Home from "./components/Home";
-import {Adminhome} from "./components/admin/Adminhome";
-import {Category} from "./components/admin/Category";
-import {Services} from "./components/admin/Services";
-import {Forms} from "./components/admin/Forms";
+
+const AuthWrapper = lazy(() => import("./components/wrapper/AuthWrapper"));
+const PanelWrapper = lazy(() => import("./components/wrapper/PanelWrapper"));
+const TrackRequest = lazy(() => import("./components/TrackRequest"));
+const AdminPanelWrapper = lazy(() => import("./components/admin/AdminPanelWrapper"));
+const RoleWrapper = lazy(() => import("./components/wrapper/RoleWrapper"));
+const AdminSettings = lazy(() => import("./components/admin/AdminSettings"));
+const Home = lazy(() => import("./components/Home"));
+const Adminhome = lazy(() => import("./components/admin/Adminhome"));
+const Category = lazy(() => import("./components/admin/Category"));
+const Services = lazy(() => import("./components/admin/Services"));
+const Forms = lazy(() => import("./components/admin/Forms"));
 
 function App() {
   const settingsData =
@@ -39,48 +40,50 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/*",
-      element: <AuthWrapper />,
+      element: <Suspense fallback={<div>Loading...</div>}><AuthWrapper /></Suspense>,
       errorElement: <ErrorPage />,
       children: [
         {
           path: "*",
-          element: <PanelWrapper />,
+          element: <Suspense fallback={<div>Loading...</div>}><PanelWrapper /></Suspense>,
           children: [
             {
               path: "",
               element: (
-                <RoleWrapper>
-                  <Home />
-                </RoleWrapper>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <RoleWrapper>
+                    <Home />
+                  </RoleWrapper>
+                </Suspense>
               )
             },
             {
               path: "track-request",
-              element: <TrackRequest />
+              element: <Suspense fallback={<div>Loading...</div>}><TrackRequest /></Suspense>
             },
             {
               path: "admin",
-              element: <AdminPanelWrapper />,
+              element: <Suspense fallback={<div>Loading...</div>}><AdminPanelWrapper /></Suspense>,
               children: [
                 {
                   path: "",
-                  element: <Adminhome />
+                  element: <Suspense fallback={<div>Loading...</div>}><Adminhome /></Suspense>
                 },
                 {
                   path: "categories",
-                  element: <Category />
+                  element: <Suspense fallback={<div>Loading...</div>}><Category /></Suspense>
                 },
                 {
                   path: "services",
-                  element: <Services />
+                  element: <Suspense fallback={<div>Loading...</div>}><Services /></Suspense>
                 },
                 {
                   path: "forms",
-                  element: <Forms />
+                  element: <Suspense fallback={<div>Loading...</div>}><Forms /></Suspense>
                 },
                 {
                   path: "settings",
-                  element: <AdminSettings />
+                  element: <Suspense fallback={<div>Loading...</div>}><AdminSettings /></Suspense>
                 }
               ]
             }
