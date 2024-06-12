@@ -11,7 +11,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
         title:data.title ,
         description:data.description ,
         image: data.file_location ,
-        image_name:data.image_name,
+        image_name:data.image,
         form:data.form.id ,
         service_category_id:data.service_categorie.id ,
     })
