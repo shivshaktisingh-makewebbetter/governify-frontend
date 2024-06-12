@@ -30,7 +30,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
    const handleCreateServices = async() =>{
     let method = "PUT";
-    let url = `/governify/serviceCategories/${data.id}`;
+    let url = `governify/serviceCategories/${data.id}`;
     let payload = JSON.stringify(serviceData);
   
 
