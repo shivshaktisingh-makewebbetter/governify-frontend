@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader } from '../common/Loader';
 
 
-export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading }) => {
+export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading , categoryName }) => {
   const data = JSON.parse(sessionStorage.getItem('settings'));
   const [formDetails , setFormDetails] = useState(formData.form_data);
   const [imageData , setImageData] = useState([]); 
@@ -51,11 +51,10 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading }
     });
     let method = 'POST';
     let url = 'governify/customer/createRequestDashboard';
-    let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle});
+    let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle });
     setLoading(true);
     try{
       const response = await fetcher(url , method , payload);
-      console.log(response)
       if(response.status){
         navigate('track-request')
       }

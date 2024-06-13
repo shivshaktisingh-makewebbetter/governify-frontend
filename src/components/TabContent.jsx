@@ -4,7 +4,7 @@ import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
 
 
-export const TabContent = ({details}) =>{
+export const TabContent = ({details , categoryName}) =>{
     const [open , setOpen] = useState(false);
     const [ formData , setFormData] = useState();
     const [serciceName , setServiceName] = useState();
@@ -47,7 +47,7 @@ export const TabContent = ({details}) =>{
             onCancel={() => setOpen(false)}
             >  
   
-           <CustomerForm formData={formData} serviceTitle={serciceName} loading = {loading} setLoading={setLoading}/>      
+           <CustomerForm formData={formData} serviceTitle={serciceName} loading = {loading} setLoading={setLoading} categoryName={categoryName}/>      
 
             </Modal>
             

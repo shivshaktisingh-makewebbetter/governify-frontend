@@ -25,6 +25,11 @@ const Header = () => {
 		navigate('/');
 	}
 
+	const handleSetNotification = () =>{
+		setNotification(false);
+		sessionStorage.setItem('notification_bar' , false);
+	}
+
 	
 	return (
 		<>
@@ -41,7 +46,7 @@ const Header = () => {
 						{data.banner_content}
 					</div>
 					<button
-						onClick={() => setNotification("")}
+						onClick={handleSetNotification}
 						id="remove-n-btn"
 						style={{
 							position: "absolute",
