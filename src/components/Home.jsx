@@ -84,6 +84,18 @@ const Home = () => {
     };
   }, [searchData]);
 
+  useEffect(() => {
+    // Your function to call on reload
+    const handleReload = () => {
+     setLoading(true);
+     setTimeout(()=>{
+      setLoading(true)
+     } ,2000)
+    };
+
+    handleReload();
+  }, []); // 
+
   if(loading){
     return (
       <Loader />

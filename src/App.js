@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import AuthWrapper from "./components/wrapper/AuthWrapper";
 import PanelWrapper from "./components/wrapper/PanelWrapper";
 import ErrorPage from "./components/fallbacks/ErrorPage";
@@ -11,10 +11,12 @@ import { userSettingData } from "./utils/tools";
 import RoleWrapper from "./components/wrapper/RoleWrapper";
 import { AdminSettings } from "./components/admin/AdminSettings";
 import Home from "./components/Home";
-import {Adminhome} from "./components/admin/Adminhome";
-import {Category} from "./components/admin/Category";
-import {Services} from "./components/admin/Services";
-import {Forms} from "./components/admin/Forms";
+
+// Lazy loaded components
+const Adminhome = lazy(() => import("./components/admin/Adminhome"));
+const Category = lazy(() => import("./components/admin/Category"));
+const Services = lazy(() => import("./components/admin/Services"));
+const Forms = lazy(() => import("./components/admin/Forms"));
 
 function App() {
   const settingsData =
@@ -64,19 +66,35 @@ function App() {
               children: [
                 {
                   path: "",
-                  element: <Adminhome />
+                  element: (
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Adminhome />
+                    </Suspense>
+                  )
                 },
                 {
                   path: "categories",
-                  element: <Category />
+                  element: (
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Category />
+                    </Suspense>
+                  )
                 },
                 {
                   path: "services",
-                  element: <Services />
+                  element: (
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Services />
+                    </Suspense>
+                  )
                 },
                 {
                   path: "forms",
-                  element: <Forms />
+                  element: (
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Forms />
+                    </Suspense>
+                  )
                 },
                 {
                   path: "settings",
