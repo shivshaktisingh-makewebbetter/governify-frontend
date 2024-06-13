@@ -10,6 +10,7 @@ const UpdateAndReply = ({
   reply,
   handleChangeReplyValue,
   replyValue,
+  handleFileChange
 }) => {
   const [showReplyEditor, setShowReplyEditor] = useState(false);
   const settingsData =
@@ -139,6 +140,7 @@ const UpdateAndReply = ({
             handleChangeTextEditor={handleChangeTextEditor}
             updateValue={replyValue}
             update={replies}
+            handleFileChange={handleFileChange}
           />
         </div>
       )}

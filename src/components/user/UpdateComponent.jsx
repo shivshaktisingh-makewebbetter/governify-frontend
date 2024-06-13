@@ -101,6 +101,45 @@ export const UpdateComponent = ({data}) =>{
     }
   };
 
+  const handleFileChange =  async (e , name) =>{
+    let files = e.file;
+    let fileData = {};
+    let reader = new FileReader();
+    if (files) {
+      reader.onload = (function (theFile) {
+        return async function (event) {
+          fileData = {
+            item_id: data.id,
+            file_name: files.name,
+            file: event.target.result,
+          };
+          try {
+            setLoading(true);
+            const res = await fetcher(
+              "/incorpify/uploadMondayFiles",
+              "POST",
+              JSON.stringify(fileData)
+            );
+            if (res.success) {
+              if (name) {
+                setUpdateValue(files.name);
+              }
+              // getSubItemData();
+            } else {
+              // toast.error("Something went wrong!");
+              setLoading(false);
+            }
+          } catch (error) {
+            // toast.error("Something went wrong!");
+            setLoading(false);
+          }
+        };
+      })(files);
+
+      reader.readAsDataURL(files);
+    }
+  }
+
 
   console.log(data , 'data')
     return (<div             style={{overflowY:"auto" ,maxHeight:"600px" }}>
@@ -148,7 +187,7 @@ export const UpdateComponent = ({data}) =>{
             <Upload
               // {...props}
               showUploadList={false}
-              onChange={(e) => {}}
+              onChange={(e) => handleFileChange(e , false)}
               multiple={false}
             >
               <Button
@@ -211,6 +250,7 @@ export const UpdateComponent = ({data}) =>{
                     reply={reply}
                     handleChangeReplyValue={handleChangeReplyValue}
                     replyValue={replyValue}
+                    handleFileChange={handleFileChange}
                   />
                 );
               })}
