@@ -9,8 +9,9 @@ const Header = () => {
 	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"https://onboardify.tasc360.com/uploads/governify/1718195689_Products%20Logo%20(1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
     const location = useLocation();
 	const navigate = useNavigate();
-	const [notification , setNotification] = useState(sessionStorage.getItem('notification_bar') || true);
-
+	const [notification, setNotification] = useState(
+		sessionStorage.getItem('notification_bar') === 'false' ? false : true
+	);
 	const role = getRole();
 
 	const navigateToSettings = () =>{
@@ -27,7 +28,7 @@ const Header = () => {
 
 	const handleSetNotification = () =>{
 		setNotification(false);
-		sessionStorage.setItem('notification_bar' , false);
+		sessionStorage.setItem('notification_bar' , "false");
 	}
 
 	
