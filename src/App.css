@@ -991,6 +991,22 @@ table tr:hover {
     border-style:solid;
   }
 
+  .inc-reply-container img {
+	width: 100%;
+	height: auto; /* maintain aspect ratio */
+  }
+
+  .incorpify-text-editor .ql-container {
+	min-height: 80px;
+  }
+  
+  .incorpify-text-editor .ql-toolbar {
+	border-radius: 8px 8px 0 0;
+  }
+  .incorpify-text-editor .ql-container {
+	border-radius: 0 0 8px 8px;
+  }
+
 
 
 

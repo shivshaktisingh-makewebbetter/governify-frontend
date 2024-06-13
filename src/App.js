@@ -15,6 +15,7 @@ import {Adminhome} from "./components/admin/Adminhome";
 import {Category} from "./components/admin/Category";
 import {Services} from "./components/admin/Services";
 import {Forms} from "./components/admin/Forms";
+import 'react-quill/dist/quill.snow.css';
 
 function App() {
   const settingsData =
@@ -30,6 +31,8 @@ function App() {
       header_bg: "#f7f7f7",
       head_title_color: "#5ac063"
     };
+
+   
 
   useEffect(() => {
     userSettingData();

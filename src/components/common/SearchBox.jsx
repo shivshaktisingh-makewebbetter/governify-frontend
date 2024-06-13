@@ -28,7 +28,7 @@ export const SearchBox = ({onChangeSearchData , searchData}) =>{
     return (
         <Input
           className="governify-search-box"
-          placeholder="Start typing to search for services"
+          placeholder="Start typing to search by service name..."
           onChange={handleChange}
           onKeyUp={handleEnterPressed}
           value = {data}

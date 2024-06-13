@@ -140,6 +140,31 @@ export const TrackRequest = () =>{
         }
     }
 
+    const getLoginUserDetails = async () =>{
+      setLoading(true);
+      try {
+        const token = sessionStorage.getItem('token') || 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL29uYm9hcmRpZnkudGFzYzM2MC5jb20vY29tbW9tLWxvZ2luIiwiaWF0IjoxNzE4MTgzODgxLCJleHAiOjE3MTg0NDMwODEsIm5iZiI6MTcxODE4Mzg4MSwianRpIjoia1ZHSWE2anJ0dWN3eGN0VSIsInN1YiI6IjM0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.Gu9flNwjyVUtYkUvAs8FLxG2iw5thl5CMjRcShc0NxI';
+        const url = `loginUserDetails/${token}`;
+        const method = 'GET';
+        const response = await fetcher(url , method)
+        if(response.success){
+          console.log(response)
+          sessionStorage.setItem('userName' , response.data.name );
+          sessionStorage.setItem('userEmail' , response.data.email );
+        }
+      }catch(err){
+        console.log(err , 'error')
+
+      }finally{
+        setLoading(false);
+
+      }
+   }
+
+   useEffect(()=>{
+    getLoginUserDetails();
+   } , [])
+
     useEffect(()=>{
      
         fetchData();

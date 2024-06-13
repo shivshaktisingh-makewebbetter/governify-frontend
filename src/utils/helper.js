@@ -58,3 +58,56 @@ const getToken = () =>{
    }
 // return token;
 }
+
+
+
+export function getDateAndTime(time) {
+    let date = new Date(time);
+    let day = date.getDate();
+    let month = date.toLocaleString("default", { month: "long" });
+    let year = date.getFullYear();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+  
+    let newDate = `${day} ${month.slice(0, 3)} ${year} at ${hour}:${
+      minutes < 10 ? "0" + minutes : minutes
+    }`;
+    return newDate;
+  }
+
+  export function getFirstLettersOfName(value) {
+    let name = value.split(" ");
+    let firstLetters = "";
+    name.forEach((item) => {
+      firstLetters += item[0].toUpperCase();
+    });
+  
+    return firstLetters;
+  }
+
+export function extractUsernameFromMessage(value) {
+    let message = "";
+    let newValue = value.split(":");
+    if (value.includes(sessionStorage.getItem("userEmail"))) {
+      newValue.forEach((msg, i) => {
+        if (i !== 0) {
+          message += msg;
+        }
+      });
+    } else {
+      message = value;
+    }
+
+    return message;
+  }
+
+export function showUserName(value) {
+    let userName = "";
+    if (value.includes(sessionStorage.getItem("userEmail"))) {
+      userName = sessionStorage.getItem("userName");
+    } else {
+      userName = "Governify Team";
+    }
+
+    return userName;
+  }

@@ -41,6 +41,7 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
     })
     return <ul >{data}</ul>;
   }
+  console.log(categoryName , 'as')
 
   const handleSubmit = async() =>{
     let tempFormData = []; 
@@ -51,7 +52,7 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
     });
     let method = 'POST';
     let url = 'governify/customer/createRequestDashboard';
-    let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle });
+    let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle , service_category:categoryName});
     setLoading(true);
     try{
       const response = await fetcher(url , method , payload);
