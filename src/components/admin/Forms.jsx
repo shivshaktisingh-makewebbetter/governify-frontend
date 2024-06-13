@@ -131,6 +131,7 @@ export const Forms = () => {
         <div className='mt-100'>
             <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><Button icon={<LeftOutlined  style={{color:data.button_bg , borderColor:data.button_bg}}/> } onClick={handleBackNavigation}></Button><Button style={{borderColor:data.button_bg , color:data.button_bg}} onClick={handleCreateCategory}>+ Create Forms</Button></div>
             <Table
+            style={{width: "100%", borderCollapse: "collapse" ,   maxWidth: "1264px" , overflowX:'auto'}}
             columns={columns} 
             dataSource={dataSource} 
             pagination={{

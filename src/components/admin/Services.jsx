@@ -160,6 +160,7 @@ export const Services = () => {
         <div className='mt-100'>
             <div style={{display:'flex' , justifyContent:'space-between' , marginBottom:'10px'}}><div><Button icon={<LeftOutlined  style={{color:settingsData.button_bg , borderColor:settingsData.button_bg}}/> } onClick={handleBackNavigation}></Button></div><div><Button style={{borderColor:settingsData.button_bg , color:settingsData.button_bg}} onClick={handleSwitchCategory} className="mr-10">Switch Services</Button><Button style={{borderColor:settingsData.button_bg , color:settingsData.button_bg}} onClick={handleCreateCategory}>+ Create Services</Button></div></div>
             <Table
+            style={{maxWidth:'1264px' , overflowX:'auto'}}
             columns={columns} 
             dataSource={dataSource} 
             pagination={{

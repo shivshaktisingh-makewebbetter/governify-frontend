@@ -1124,6 +1124,14 @@ table tr:hover {
 
 @media (max-width: 777px) {
 
+	.governify-option-list{
+		display: flex;
+		justify-content: space-around;
+		gap:10px;
+		flex-direction: column;
+	
+	}
+
 
 	.governify-header-major-div{
 		display:flex;
