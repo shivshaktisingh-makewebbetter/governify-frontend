@@ -191,7 +191,7 @@ export const RequestComponent = ({data , boardId}) =>{
             footer={ (_) => (
               <></>
             )}
-            onCancel={() => setEditModalOpen(false)}
+            onCancel={() => setOpen(false)}
             >          
                <UpdateComponent />
 
