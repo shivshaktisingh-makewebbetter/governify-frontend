@@ -107,7 +107,7 @@ const Home = () => {
       <HeadTitle />
 
       <SearchBox onChangeSearchData={onChangeSearchData} searchData={searchData} />
-      <InternalTab data={dashboardData} />
+    <InternalTab data={dashboardData} />
 
     </>
   );

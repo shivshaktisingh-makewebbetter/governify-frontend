@@ -736,7 +736,7 @@ body,
 .service-image{
 	object-fit: contain;
 	margin-top:20px;
-	max-height:100px;
+	max-height:150px;
 }
 
 
@@ -772,7 +772,7 @@ body,
 	font-size: 17px !important;
 	color:#928F8F !important;
 	font-weight:400 !important;
-	margin-top: 20px  !important;
+	margin-top: 2px  !important;
 }
 
 .tabcontent-image{
