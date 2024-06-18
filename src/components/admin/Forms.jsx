@@ -30,12 +30,7 @@ export const Forms = () => {
          title: 'Form Category',
          dataIndex: 'name',
          key: 'name',
-      },
-   
-      {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description',
+         width:"80%"
       },
       {
          title: <div style={{display:'flex' , justifyContent:'center'}}>Action</div>,
@@ -46,6 +41,9 @@ export const Forms = () => {
           <Button className='governify-delete-icon' type='plain' icon={<DeleteOutlined />} onClick={()=>handleDeleteCategory(record)}></Button>
          </div>
          ),
+         width:"20%"
+
+         
       },
   ];
   
