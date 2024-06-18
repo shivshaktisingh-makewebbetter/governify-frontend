@@ -12,6 +12,26 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
   const [imageData , setImageData] = useState([]); 
   const navigate = useNavigate();
 
+
+  const [isFocused, setIsFocused] = useState(null);
+
+  const handleFocus = (index) => setIsFocused(index);
+  const handleBlur = () => setIsFocused(null);
+
+  const inputFocusedStyle = {
+    border: '2px solid',
+    borderColor: '#3b99fc', // Change color based on focus
+    outline: 'none',
+    transition: 'border-color 0.3s ease',
+  };
+
+  const inputUnfocusedStyle = {
+    border: '2px solid',
+    borderColor: '#fff', // Change color based on focus
+    outline: 'none',
+    transition: 'border-color 0.3s ease',
+  };
+
   const handleFileChange = (e) => {
     let files = e.target.files;
     const updatedImageData = [...imageData];
@@ -42,15 +62,23 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
     })
     return <ul >{data}</ul>;
   }
-  console.log(categoryName , 'as')
 
   const handleSubmit = async() =>{
+    let complete = false;
     let tempFormData = []; 
     formDetails.forEach((item , index)=>{
       if(item.type !== 'image'){
-        tempFormData.push({[item.label] : item.value})
+        if(item.required && (item.value === '' || item.value === undefined)){
+        complete = true;
+        }else{
+          tempFormData.push({[item.label] : item.value})
+        }
       }
     });
+
+    if(complete){
+      return;
+    }
     let method = 'POST';
     let url = 'governify/customer/createRequestDashboard';
     let payload = JSON.stringify({form_data:tempFormData , file_data:imageData , service_request:serviceTitle , service_category:categoryName});
@@ -92,8 +120,9 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
         {formData.form_data.map((item, index) => (
           <div className="form-item" key={index}>
             {item.type === 'textArea' ? (
-              <div className="form-field">
-                <input type="text" id={`textarea-${index}`} className="user-textarea" placeholder={item.label} onChange={(e)=>handleChangeValue(e , index)} />
+              <div className="form-field" style={{display:"flex"}}>
+                <input type="text" id={`textarea-${index}`} style={isFocused === index ? inputFocusedStyle: inputUnfocusedStyle} className="user-textarea" placeholder={item.label} onChange={(e)=>handleChangeValue(e , index)} onFocus={()=>handleFocus(index)} onBlur={handleBlur}/>
+                {item.required && <span style={{ color: 'red' }}>*</span>}
               </div>
             ) : (
               <div className="form-field" style={{background:'#eeeeee' , padding:"10px"}}>

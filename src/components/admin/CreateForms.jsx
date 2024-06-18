@@ -21,7 +21,8 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
          subLabel:'',
          type: "textArea",
          defaultValue:'' ,
-         enabled: false
+         enabled: false ,
+         required: false
         }
 
         let fields = [...field];
@@ -86,6 +87,12 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
           setField(updatedFields)
     }
 
+    const onChangeRequiredSettingsEnabled = (index) =>{
+      const updatedField = [...field];
+      updatedField[index].required = true;
+      setField(updatedField)
+    }
+
     const handleChangeLabelOfDocuments = (event , index) =>{
         let tempField = [...field];
         tempField[index].subLabel = event.target.value;
@@ -114,6 +121,10 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
                                 <div className="mt-10">
                                 <span>Enable Documents Upload</span>
                                 <Switch className="ml-10" onChange={()=>onChangeUploadSettingsEnabled(index)} value={item.enabled} />
+                                </div>
+                                <div className="mt-10">
+                                <span>Make Field Required</span>
+                                <Switch className="ml-10" onChange={()=>onChangeRequiredSettingsEnabled(index)} value={item.required} />
                                 </div>
                                 <div className="mt-10">
                                     {item.enabled && <textarea

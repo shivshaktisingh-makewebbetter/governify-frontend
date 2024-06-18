@@ -96,6 +96,12 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         setField(tempField);
     }
 
+    const onChangeRequiredSettingsEnabled = (index) =>{
+        const updatedField = [...field];
+        updatedField[index].required = true;
+        setField(updatedField)
+      }
+
     return (
         <>
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>
@@ -116,6 +122,10 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
                                 <div className="mt-10">
                                 <span>Enable Documents Upload</span>
                                 <Switch className="ml-10" onChange={()=>onChangeUploadSettingsEnabled(index)} value={item.enabled} />
+                                </div>
+                                <div className="mt-10">
+                                <span>Make Field Required</span>
+                                <Switch className="ml-10" onChange={()=>onChangeRequiredSettingsEnabled(index)} value={item.required} />
                                 </div>
                                 <div className="mt-10">
                                     {item.enabled && <textarea
