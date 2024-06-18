@@ -23,7 +23,7 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
 
     const handleCategoryChange = (e) =>{
-       setServiceData({...serviceData , service_category_id:e})
+       setServiceData({...serviceData , service_categorie_id:e})
     }
 
 

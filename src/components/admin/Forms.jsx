@@ -27,7 +27,7 @@ export const Forms = () => {
     const columns = [
      
       {
-         title: 'Title',
+         title: 'Form Category',
          dataIndex: 'name',
          key: 'name',
       },

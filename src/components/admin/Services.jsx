@@ -33,12 +33,16 @@ export const Services = () => {
          title: 'Title',
          dataIndex: 'title',
          key: 'title',
+         width: '10%',
       },
    
       {
           title: 'Description',
           dataIndex: 'description',
           key: 'description',
+          width: '35%',
+
+         
       },
       {
         title: 'Linked Form',
@@ -46,7 +50,9 @@ export const Services = () => {
         key: 'form',
         render:(item) =>{
           return item.name
-        }
+        } ,
+        width: '20%',
+
     },
     {
         title: 'Linked Category',
@@ -54,7 +60,8 @@ export const Services = () => {
         key: 'service_categorie',
         render:(item) =>{
           return item.title
-        }
+        }  ,
+        width: '25%',
     },
       {
          title: <div style={{display:'flex' , justifyContent:'center'}}>Action</div>,
@@ -65,6 +72,7 @@ export const Services = () => {
           <Button className='governify-delete-icon' type='plain' icon={<DeleteOutlined />} onClick={()=>handleDeleteCategory(record)}></Button>
          </div>
          ),
+         width: '10%',
       },
   ];
   

@@ -705,6 +705,12 @@ export function Govern() {
 	  </svg>
 	);
   }
+
+  export function Submit(){
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" height="24px" style={{maxwidth: "100%"}}><path d="M95.9,16.6L55.3,83.4c-0.6,1.1-2,1.4-3.1,0.7l-11.2-7.6L29.7,84c-0.9,0.6-2.1,0-2.1-1.1V67.3l51.5-38.5L18.3,61L4.9,51.8  c-1.5-1-1.2-3.2,0.5-3.8l89.7-32.4C95.7,15.3,96.3,16,95.9,16.6z" fill="currentColor"></path></svg>
+	)
+  }
   
   
   

@@ -19,7 +19,7 @@ export const ImageUpload = ({ onFileSelect, imageName, imageUrl }) => {
   return (
     <div>
       <input
-        className="form-control"
+        className="form-control form-control-font"
         name="logo_image"
         type="file"
         id="logo_image"

@@ -3,6 +3,7 @@ import { Button } from "antd"
 import { fetcher } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../common/Loader';
+import { Submit } from '../../assets/image';
 
 
 export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading , categoryName }) => {
@@ -84,7 +85,7 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
    
         <div className="form-header">{serviceTitle}</div>
         <div className="w-divider-component-wrapper divider-component-wrapper_XE2" style={{display:"flex" , justifyContent:"center"}}><svg xmlns="http://www.w3.org/2000/svg" width="3000px" height="33" style={{width:"12%"}}><path d="M0 16.5 L3000 16.5" style={{fill:"none" ,stroke :data.button_bg ,strokeWidth:"3px"}}></path></svg></div>
-        <div className="form-header-description">{formData.description}</div>
+        <div className="form-header-description">Please fill out the form to proceed with the needed action to provide you with this service</div>
 
      
       <div className="form-body">
@@ -109,7 +110,7 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
         ))}
       </div>
       
-      <div style={{display:"flex" , justifyContent:"center" , marginBottom:"10px", paddingLeft:'20px' , paddingRight:'20px'}}><Button style={{background:data.button_bg  , color:"#fff" , border:"none" , width:"100%" , height:"40px" , fontSize:"16px" , fontWeight:"600" , borderRadius:"10px"}} onClick={handleSubmit}>Submit</Button></div>
+      <div style={{display:"flex" , justifyContent:"center" , marginBottom:"10px", paddingLeft:'20px' , paddingRight:'20px'}}><Button style={{background:data.button_bg  , color:"#fff" , border:"none" , width:"100%" , height:"40px" , fontSize:"16px" , fontWeight:"600" , borderRadius:"10px"}} icon={<Submit/>} iconPosition='start' onClick={handleSubmit}>Submit</Button></div>
     </div>
   );
 };

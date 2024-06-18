@@ -119,13 +119,13 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
                     
                 <ImageUpload onFileSelect={handleFileSelect} imageName={""} imageUrl={""} />
                 </div>
-                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} addonBefore="Title"/>
-                <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} addonBefore="Description"/>
+                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} addonBefore="Title" style={{borderRadius:"10px"}}/>
+                <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} addonBefore="Description" style={{borderRadius:"10px"}}/>
                 <div className="mt-10">
               <Select
               showSearch
                 placeholder='Select Forms'
-                style={{width:"100%"}}
+                style={{width:"100%" , borderRadius:"10px"}}
                 popupMatchSelectWidth={false}
                 placement='bottomLeft'
                 onChange={handleFormChange}
@@ -136,7 +136,7 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
               <Select
                 showSearch
                 placeholder='Select Category'
-                style={{width:"100%"}}
+                style={{width:"100%" , borderRadius:"10px"}}
                 popupMatchSelectWidth={false}
                 placement='bottomLeft'
                 onChange={handleCategoryChange}

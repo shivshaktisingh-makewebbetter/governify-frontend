@@ -769,7 +769,7 @@ body,
 }
 
 .service-child-subtitle{
-	font-size: 17px !important;
+	font-size: 15px !important;
 	color:#928F8F !important;
 	font-weight:400 !important;
 	margin-top: 2px  !important;
@@ -794,7 +794,7 @@ body,
 
 .tabcontent-create-request-btn{
 	font-size:12px;
-	font-weight:700;
+	font-weight:600;
 	font-family: "Montserrat", sans-serif !important;
 
 }
@@ -948,7 +948,14 @@ table tr:hover {
 	padding: 10px;
 	text-align: center;
 	font-weight:700;
+	line-height: 0.8;
 
+  }
+
+  .form-control-font{
+	font-size: 14px;
+	padding:4px 5px;
+	border-radius:6px;
   }
 
   .form-header-description{
