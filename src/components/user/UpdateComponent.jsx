@@ -141,8 +141,7 @@ export const UpdateComponent = ({data}) =>{
   }
 
 
-  console.log(data , 'data')
-    return (<div             style={{overflowY:"auto" ,maxHeight:"600px" }}>
+    return (<div style={{overflowY:"auto" ,maxHeight:"600px" }}>
 
       <div
         className="text-start inc-detail-container"
@@ -215,7 +214,7 @@ export const UpdateComponent = ({data}) =>{
           >
             Latest Updates
           </span>
-          <div className="mt-4 incorpify-comment-section">
+          <div className="mt-4 incorpify-comment-section p-10">
             {showTextEditor ? (
               <div>
                 <TextEditor

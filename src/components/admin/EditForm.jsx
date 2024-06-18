@@ -5,7 +5,7 @@ import { fetcher } from "../../utils/helper";
 export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModalOpen , data}) =>{
     const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [field , setField] = useState(data.form_data);
-    const [formDetail , setFormDetail] = useState({formName:data.name , formDescription:data.description});
+    const [formDetail , setFormDetail] = useState({formName:data.name});
 
    
  
@@ -44,7 +44,6 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         let method = 'PUT';
         let categoryData = {
             name: formDetail.formName ,
-            description: formDetail.formDescription ,
             form_data: field
         };
 
@@ -65,13 +64,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     const handleChangeFormName = (event) =>{
         setFormDetail({...formDetail , formName:event.target.value});
-    }
-
-
-    const handleChangeFormDescription = (event) =>{
-        setFormDetail({...formDetail , formDescription:event.target.value});
-
-    }
+    }  
 
     const onChangeUploadSettingsEnabled = (index) =>{
         const updatedFields = field.map((item, idx) => {
@@ -112,7 +105,6 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} value={formDetail.formName} addonBefore="Form Name"/>
-                <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} value={formDetail.formDescription} addonBefore="Form Description"/>
 
                 <div className="mt-10">
                     {field.map((item , index) =>{
