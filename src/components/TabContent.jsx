@@ -21,8 +21,6 @@ export const TabContent = ({details , categoryName}) =>{
 
         return (
             <div>
-            <Typography className='service-title font-family-hind'>{details.subtitle}</Typography>
-            {/* <Typography className='service-subtitle font-family-hind'>{details.description}</Typography> */}
             <div className="service-parent-div">
             {details.service_category_request.map((item)=>{
               return (

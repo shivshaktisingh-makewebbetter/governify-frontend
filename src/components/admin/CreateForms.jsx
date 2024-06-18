@@ -5,7 +5,7 @@ import { fetcher } from "../../utils/helper";
 export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
     const data = JSON.parse(sessionStorage.getItem('settings'));
     const [field , setField] = useState([]);
-    const [formDetail , setFormDetail] = useState({formName:'' , formDescription:''});
+    const [formDetail , setFormDetail] = useState({formName:''});
  
 
     const handleDeleteField = (subItem) =>{
@@ -42,7 +42,6 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
         let url = 'governify/admin/serviceRequestForms';
         let categoryData = {
             name: formDetail.formName ,
-            description: formDetail.formDescription ,
             form_data: field ,          
         };
 
@@ -65,10 +64,6 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
         setFormDetail({...formDetail , formName:event.target.value});
     }
 
-
-    const handleChangeFormDescription = (event) =>{
-        setFormDetail({...formDetail , formDescription:event.target.value});
-    }
 
     const onChangeUploadSettingsEnabled = (index) =>{
         const updatedFields = field.map((item, idx) => {
@@ -110,7 +105,6 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} addonBefore="Form Name"/>
-                <Input placeholder="Form description" className="mt-10" onChange={(e)=>handleChangeFormDescription(e)} addonBefore="Form Description"/>
 
            
                 <div className="mt-10">

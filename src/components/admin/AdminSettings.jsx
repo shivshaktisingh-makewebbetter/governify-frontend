@@ -5,7 +5,7 @@ import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 export const AdminSettings = () =>{
-    const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:""});
+    const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:"" , form_description:""});
     const [logoData  , setLogoData] = useState({logo_name:"" , logo_image:""});
    
     const navigate = useNavigate();
@@ -43,7 +43,6 @@ export const AdminSettings = () =>{
 
 
   const handleChangeHeadTitleColor = (e) =>{
-    console.log(e , e.target.value)
     setUiData({...uiData ,  head_title_color:e.target.value })
   }
 
@@ -75,6 +74,11 @@ export const AdminSettings = () =>{
     }
   }
 
+  const handleChangeFormDescription = (e) =>{
+    setUiData({...uiData ,  form_description:e.target.value })
+
+  }
+
   const handleBackNavigation = () =>{
     navigate(-1);
   }
@@ -86,7 +90,7 @@ export const AdminSettings = () =>{
     if(response.status){
         let uiSettings = JSON.parse(response.response.ui_settings);
         setLogoData({logo_image: response.response.logo_location , logo_name: response.response.logo_name});
-        setUiData({site_bg:uiSettings.site_bg , button_bg:uiSettings.button_bg , banner_bg:uiSettings.banner_bg , banner_content:uiSettings.banner_content , header_bg:uiSettings.header_bg , head_title_color:uiSettings.head_title_color})
+        setUiData({form_description:uiSettings.form_description , site_bg:uiSettings.site_bg , button_bg:uiSettings.button_bg , banner_bg:uiSettings.banner_bg , banner_content:uiSettings.banner_content , header_bg:uiSettings.header_bg , head_title_color:uiSettings.head_title_color})
     }
   }
 
@@ -173,6 +177,15 @@ export const AdminSettings = () =>{
                                 class="text-muted"></span></label>
                         <textarea type="text" class="form-control" name="banner_content" id="banner_content"
                             placeholder="Enter the banner text content ." onChange={handleChangeBannerText} value={uiData.banner_content}></textarea>
+                    
+                            <small class="text-danger text-start ms-2"></small>
+                        
+                    </div>
+                    <div class="col-12">
+                        <label for="form_description" class="form-label">Form Description <span
+                                class="text-muted"></span></label>
+                        <textarea type="text" class="form-control" name="form_description" id="form_description"
+                            placeholder="Enter the Form Description ." onChange={handleChangeFormDescription} value={uiData.form_description}></textarea>
                     
                             <small class="text-danger text-start ms-2"></small>
                         
