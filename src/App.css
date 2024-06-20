@@ -735,8 +735,7 @@ body,
 }
 
 .service-image{
-	object-fit: contain;
-	max-height:150px;
+   height:150px;
 }
 
 

@@ -4,7 +4,7 @@ import { fetcher } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../common/Loader';
 import { Submit } from '../../assets/image';
-import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 
 
 export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading , categoryName }) => {
@@ -59,9 +59,9 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
   const getUploadLabel = (item) =>{
     let newItem = item.split('\n')
     const data = newItem.map((subItem , index)=>{
-        return <li key={index}>{subItem}</li>
+        return <li style={{color:"#2c2e38" , fontSize:"18px"}} key={index}>{subItem}</li>
     })
-    return <ul >{data}</ul>;
+    return <ul>{data}</ul>;
   }
 
  
@@ -132,19 +132,19 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
                 {item.required && <span style={{ color: 'red' }}>*</span>}
               </div>
             ) : (
-              <div className="form-field" style={{background:'#f3f4f8cc' , padding:"10px" , borderRadius:"10px"}}>
-              <label htmlFor={`upload-${index}`} className="form-label">{item.label || 'Text Area'}</label>
+              <div className="form-field" style={{background:'#f3f4f8cc' , padding:"10px" , borderRadius:"10px" , color:"#2c2e38"}}>
+              <label htmlFor={`upload-${index}`} style={{color:"#2c2e38" , fontSize:"18px"}}>{item.label || 'Upload the following documents'}</label>
               <div>{getUploadLabel(item.subLabel)}</div>
               <input
-        id="hiddenFileInput"
-        type="file"
-        multiple
-        onChange={handleFileChange}
-        className="hidden-file-input"
-      />
+                id="hiddenFileInput"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                className="hidden-file-input"
+              />
     
       <Button className="custom-button" style={{height:"40px" , background:"#f3f4f8cc"}} icon={<UploadOutlined  />} onClick={triggerFileInputClick}>Choose File</Button>
-      {imageData.length > 0 && <span>{imageData.length} document uploaded.</span>}
+      {imageData.length > 0 && <span key={imageData.length}>{imageData.length} document uploaded.</span>}
 
             </div>
             )}
