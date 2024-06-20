@@ -148,9 +148,9 @@ export const UpdateComponent = ({data}) =>{
         style={{ background: "#6f74900f", borderRadius: "10px"  }}
       >
         <div style={{color:"#6F7490" ,fontWeight: "bold" ,display: "flex" ,
-          justifyContent: "center" , fontSize: "23px"}}>{data.name}</div>
+          justifyContent: "center" , fontSize: "23px" , paddingTop:"10px"}}>{data.name}</div>
         <div
-          className="d-flex flex-column border-bottom py-3"
+          className="d-flex flex-column border-bottom py-3 p-10"
           style={{ gap: "20px" }}
         >
           <span
@@ -181,7 +181,6 @@ export const UpdateComponent = ({data}) =>{
     ))}
   </Flex>
 )}
-
           <span>
             <Upload
               // {...props}

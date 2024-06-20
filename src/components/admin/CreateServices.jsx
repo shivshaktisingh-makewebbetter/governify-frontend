@@ -4,29 +4,13 @@ import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
 
 export const CreateServices = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
-  const settingsData = JSON.parse(sessionStorage.getItem('settings'));
-    const [formListing , setFormListing] = useState([]);    
-    const [categoryListig , setCategoryListing] = useState([]);    
+    const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [serviceData , setServiceData] = useState({
         title:'' ,
         description:'' ,
         image:'' ,
         image_name:'' ,
-        form:'' ,
-        service_categorie_id:'' ,
     })
-
-
-
-    const handleCategoryChange = (e) =>{
-       setServiceData({...serviceData , service_categorie_id:e})
-    }
-
-
-
-    const handleFormChange = (e) =>{
-        setServiceData({...serviceData , form:e})
-    }
 
 
    const handleCreateServices = async() =>{
@@ -46,46 +30,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
    }
 
 
-
-
-    const getAllForms  = async() =>{
-      let method = "GET";
-      let url = 'governify/admin/serviceRequestForms';
-       
-        try{
-          const response = await fetcher(url , method);
-            if(response.status){
-                setFormListing(response.response.map((item)=>{
-                return {label: item.name , value: item.id}
-              }));
-              setShowSkeleton(false);
-            }      
-            
-        }catch(err){
-          throw new Error('Network response was not ok '  , err);
-        }finally{
-        }
-   }
-
-   const getAllCategories  = async() =>{
-    let method = 'GET';
-    let url = 'governify/admin/serviceCategories';
-    
-
-    try{
-      const response = await fetcher(url , method);
-        if(response.status){
-          setCategoryListing(response.response.map((item)=>{
-            return {label: item.title , value: item.id}
-          }));
-          setShowSkeleton(false);
-        }      
-        
-    }catch(err){
-      throw new Error('Network response was not ok '  , err);
-    }
-}
-
   const handleTitleChange = (e) =>{
     setServiceData({...serviceData , title:e.target.value});
   }
@@ -98,12 +42,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
   const handleFileSelect = (data , imageName) =>{
     setServiceData({...serviceData , image:data , image_name: imageName});
   }
-
-
-   useEffect(()=>{
-    getAllForms();
-    getAllCategories();
-  } ,[])
 
 
     return (
@@ -121,31 +59,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
                 </div>
                 <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} addonBefore="Title" style={{borderRadius:"10px"}}/>
                 <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} addonBefore="Description" style={{borderRadius:"10px"}}/>
-                <div className="mt-10">
-              <Select
-              showSearch
-                placeholder='Select Forms'
-                style={{width:"100%" , borderRadius:"10px"}}
-                popupMatchSelectWidth={false}
-                placement='bottomLeft'
-                onChange={handleFormChange}
-                options={formListing}
-              />
-              </div>
-              <div className="mt-10">
-              <Select
-                showSearch
-                placeholder='Select Category'
-                style={{width:"100%" , borderRadius:"10px"}}
-                popupMatchSelectWidth={false}
-                placement='bottomLeft'
-                onChange={handleCategoryChange}
-                options={categoryListig}
-              />
-              </div>
-
-             
-               
                  <div style={{display:'flex' , justifyContent:'center'}} className="mt-60">
                  <Button className="mt-10" style={{background:settingsData.button_bg , color:'#fff' , border:'none'}} onClick={handleCreateServices}>Create</Button>
 
