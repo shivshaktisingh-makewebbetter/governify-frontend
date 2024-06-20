@@ -15,7 +15,6 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         services_id: ''
     }])
 
-   console.log(data , 'data')
  
 
     const handleDeleteField = (subItem) =>{
@@ -210,6 +209,19 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
   useEffect(()=>{
     getAllCategories();
     getAllServices();
+
+  } ,[])
+
+  useEffect(()=>{
+    if(data.category_service_form_mappings.length > 0){
+        const tempData = data.category_service_form_mappings.map((item)=>{
+            return {
+                category_id: item.categorie_id , 
+                services_id: item.service_id
+            }
+        })
+        setCategoryServicesMapping(tempData)
+    }
 
   } ,[])
 
