@@ -144,19 +144,53 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
   const handleCategoryChange = (e , index) =>{
     const tempData = [...categoryServicesMapping];
+    const previousCategory = tempData[index].category_id;
+    const tempCategoryListing = [...categoryListing];
+    tempCategoryListing.forEach((item , index)=>{
+        if(item.value === previousCategory){
+           item.disabled = false;
+        }
+    })
+
+
     tempData[index].category_id = e;  
-    setCategoryServicesMapping(tempData)
+
+    tempCategoryListing.forEach((item) => {
+        if (item.value === e) {
+            item.disabled = true;
+        }
+    });
+
+    setCategoryServicesMapping(tempData);
+    setCategoryListing(tempCategoryListing);
  }
 
 
 
  const handleServiceChange = (e  , index) =>{
     const tempData = [...categoryServicesMapping];
+    const previousServices =  tempData[index].services_id;
+    const tempServiceListing = [...servicesListing];
+
+    tempServiceListing.forEach((item , index)=>{
+        if(item.value === previousServices){
+            item.disabled = false;
+        }
+    })
+
     tempData[index].services_id = e;  
-    setCategoryServicesMapping(tempData)
+
+    tempServiceListing.forEach((item , index)=>{
+        if(item.value === e){
+            item.disabled = true;
+        }
+    })
+
+    setCategoryServicesMapping(tempData);
+    setServicesListing(tempServiceListing);
  }
 
- const handleAddCatAndServe = () =>{
+    const handleAddCatAndServe = () =>{
     const tempData = [...categoryServicesMapping];
     tempData.push({
         category_id: '',
@@ -164,13 +198,13 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
     })
 
     setCategoryServicesMapping(tempData)
- }
+    }
 
- const removeCatAndServe = (index) =>{
-    console.log(index)
-    const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
-    setCategoryServicesMapping(updatedMapping);
- }
+    const removeCatAndServe = (index) =>{
+        console.log(index)
+        const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
+        setCategoryServicesMapping(updatedMapping);
+    }
 
 
 
@@ -181,7 +215,7 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
   } ,[])
 
-
+   
 
     return (
         <>
@@ -209,7 +243,8 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
                                 onChange={(e )=>handleCategoryChange(e , index)}
                                 options={categoryListing}
                                 value={categoryServicesMapping[index].category_id === "" ? "Select Category" : categoryServicesMapping[index].category_id} 
-                              />
+                                
+                            />
                             </div>
                             <div className="mt-10">
                                 <Select
@@ -239,7 +274,7 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
                 <div className="mt-10">
                     {field.map((item , index) =>{
                         return (
-                            <Card className="mt-10">
+                            <Card className="mt-10" key={index}>
                                 <Input className="mt-10" placeholder="Label" value={item.label} onChange={(event)=>handleChangeLabel(event ,index)} addonBefore="Label"/>
                                 <div className="mt-10">
                                 <span>Enable Documents Upload</span>

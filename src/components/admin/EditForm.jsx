@@ -1,13 +1,21 @@
-import { Button, Card,  Input, Switch } from "antd";
-import { useState } from "react";
+import { Button, Card,  Input, Select, Switch } from "antd";
+import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
+import { DeleteOutlined } from "@ant-design/icons";
+
 
 export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModalOpen , data}) =>{
     const settingsData = JSON.parse(sessionStorage.getItem('settings'));
     const [field , setField] = useState(data.form_data);
     const [formDetail , setFormDetail] = useState({formName:data.name});
+    const [categoryListing , setCategoryListing] = useState([]);
+    const [servicesListing , setServicesListing] = useState([]);
+    const [categoryServicesMapping , setCategoryServicesMapping] = useState([ {
+        category_id: '',
+        services_id: ''
+    }])
 
-   
+   console.log(data , 'data')
  
 
     const handleDeleteField = (subItem) =>{
@@ -95,6 +103,116 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         setField(updatedField)
       }
 
+      const getAllCategories  = async() =>{
+        let method = "GET";
+        let url = 'governify/admin/serviceCategories';
+         
+          try{
+            const response = await fetcher(url , method);
+              if(response.status){
+                  setCategoryListing(response.response.map((item)=>{
+                  return {label: item.title , value: item.id}
+                }));
+                setShowSkeleton(false);
+              }      
+              
+          }catch(err){
+            throw new Error('Network response was not ok '  , err);
+          }finally{
+          }
+     }
+  
+     const getAllServices  = async() =>{
+      let method = 'GET';
+      let url = 'governify/admin/serviceRequests';
+      
+  
+      try{
+        const response = await fetcher(url , method);
+          if(response.status){
+            setServicesListing(response.response.map((item)=>{
+              return {label: item.title , value: item.id}
+            }));
+            setShowSkeleton(false);
+          }      
+          
+      }catch(err){
+        throw new Error('Network response was not ok '  , err);
+      }
+  }
+
+
+  const handleCategoryChange = (e , index) =>{
+    const tempData = [...categoryServicesMapping];
+    const previousCategory = tempData[index].category_id;
+    const tempCategoryListing = [...categoryListing];
+    tempCategoryListing.forEach((item , index)=>{
+        if(item.value === previousCategory){
+           item.disabled = false;
+        }
+    })
+
+
+    tempData[index].category_id = e;  
+
+    tempCategoryListing.forEach((item) => {
+        if (item.value === e) {
+            item.disabled = true;
+        }
+    });
+
+    setCategoryServicesMapping(tempData);
+    setCategoryListing(tempCategoryListing);
+ }
+
+
+
+ const handleServiceChange = (e  , index) =>{
+    const tempData = [...categoryServicesMapping];
+    const previousServices =  tempData[index].services_id;
+    const tempServiceListing = [...servicesListing];
+
+    tempServiceListing.forEach((item , index)=>{
+        if(item.value === previousServices){
+            item.disabled = false;
+        }
+    })
+
+    tempData[index].services_id = e;  
+
+    tempServiceListing.forEach((item , index)=>{
+        if(item.value === e){
+            item.disabled = true;
+        }
+    })
+
+    setCategoryServicesMapping(tempData);
+    setServicesListing(tempServiceListing);
+ }
+
+  const handleAddCatAndServe = () =>{
+    const tempData = [...categoryServicesMapping];
+    tempData.push({
+        category_id: '',
+        services_id: ''
+    })
+
+    setCategoryServicesMapping(tempData)
+    }
+
+    const removeCatAndServe = (index) =>{
+        console.log(index)
+        const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
+        setCategoryServicesMapping(updatedMapping);
+    }
+
+   
+  useEffect(()=>{
+    getAllCategories();
+    getAllServices();
+
+  } ,[])
+
     return (
         <>
         <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>
@@ -105,6 +223,48 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             </div>
             <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <Input placeholder="Form name" className="mt-10" onChange={(e)=>handleChangeFormName(e)} value={formDetail.formName} addonBefore="Form Name"/>
+                <div style={{display:"flex" , justifyContent:"end"}} className="mt-10"><Button onClick={handleAddCatAndServe}>Add Category/Services</Button></div>
+
+                    <div className="mt-10">
+                        {
+                            categoryServicesMapping.map((item , index) =>{
+                            return (
+                                <div key={index}>
+                                <div className="mt-10">
+                                    <Select
+                                    showSearch
+                                    placeholder={'Select Category'}
+                                    style={{width:"100%" , borderRadius:"10px"}}
+                                    popupMatchSelectWidth={false}
+                                    placement='bottomLeft'
+                                    onChange={(e )=>handleCategoryChange(e , index)}
+                                    options={categoryListing}
+                                    value={categoryServicesMapping[index].category_id === "" ? "Select Category" : categoryServicesMapping[index].category_id} 
+                                    
+                                />
+                                </div>
+                                <div className="mt-10">
+                                    <Select
+                                    showSearch
+                                    placeholder='Select Services'
+                                    style={{width:"100%" , borderRadius:"10px"}}
+                                    popupMatchSelectWidth={false}
+                                    placement='bottomLeft'
+                                    onChange={(e)=>handleServiceChange(e , index)}
+                                    options={servicesListing}
+                                    value={categoryServicesMapping[index].services_id === "" ? "Select Service" : categoryServicesMapping[index].services_id} 
+
+                                />
+                                </div>
+                                <div className="mt-10" style={{display:"flex" , justifyContent:"end"}}>
+                                <Button type="text" icon={<DeleteOutlined />}  onClick={()=>removeCatAndServe(index)} />
+                                </div>
+                                </div>
+                            )       
+                            })
+                        }
+
+                    </div>
 
                 <div className="mt-10">
                     {field.map((item , index) =>{
