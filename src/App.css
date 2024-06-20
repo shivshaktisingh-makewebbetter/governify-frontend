@@ -1045,6 +1045,23 @@ table tr:hover {
 	100% { transform: rotate(360deg); }
   }
 
+  .hidden-file-input {
+	display: none;
+  }
+  
+  .custom-button {
+	display: inline-block;
+	padding: 10px 20px;
+	color: black;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 16px;
+  }
+  
+ 
+  
+
 
   
   

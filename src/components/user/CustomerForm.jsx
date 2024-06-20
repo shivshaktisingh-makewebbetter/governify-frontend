@@ -4,6 +4,7 @@ import { fetcher } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../common/Loader';
 import { Submit } from '../../assets/image';
+import { DownloadOutlined, UploadOutlined } from '@ant-design/icons';
 
 
 export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading , categoryName }) => {
@@ -63,6 +64,12 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
     return <ul >{data}</ul>;
   }
 
+ 
+
+  const triggerFileInputClick = () => {
+    document.getElementById('hiddenFileInput').click();
+  };
+
   const handleSubmit = async() =>{
     let complete = false;
     let tempFormData = []; 
@@ -100,7 +107,7 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
   }
 
   const handleChangeValue = (e , index) =>{
-    const updatedData = [...formDetails];
+    let updatedData = [...formDetails];
     updatedData[index].value = e.target.value;
     setFormDetails(updatedData)
 
@@ -125,14 +132,20 @@ export const CustomerForm = ({ formData , serviceTitle , loading ,  setLoading ,
                 {item.required && <span style={{ color: 'red' }}>*</span>}
               </div>
             ) : (
-              <div className="form-field" style={{background:'#eeeeee' , padding:"10px"}}>
+              <div className="form-field" style={{background:'#f3f4f8cc' , padding:"10px" , borderRadius:"10px"}}>
               <label htmlFor={`upload-${index}`} className="form-label">{item.label || 'Text Area'}</label>
               <div>{getUploadLabel(item.subLabel)}</div>
               <input
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-              />
+        id="hiddenFileInput"
+        type="file"
+        multiple
+        onChange={handleFileChange}
+        className="hidden-file-input"
+      />
+    
+      <Button className="custom-button" style={{height:"40px" , background:"#f3f4f8cc"}} icon={<UploadOutlined  />} onClick={triggerFileInputClick}>Choose File</Button>
+      {imageData.length > 0 && <span>{imageData.length} document uploaded.</span>}
+
             </div>
             )}
           </div>

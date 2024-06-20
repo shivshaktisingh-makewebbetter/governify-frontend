@@ -44,25 +44,7 @@ export const Services = () => {
 
          
       },
-      {
-        title: 'Linked Form',
-        dataIndex: 'form',
-        key: 'form',
-        render:(item) =>{
-          return item.name
-        } ,
-        width: '20%',
-
-    },
-    {
-        title: 'Linked Category',
-        dataIndex: 'service_categorie',
-        key: 'service_categorie',
-        render:(item) =>{
-          return item.title
-        }  ,
-        width: '25%',
-    },
+     
       {
          title: <div style={{display:'flex' , justifyContent:'center'}}>Action</div>,
          key: 'action',
