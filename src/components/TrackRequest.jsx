@@ -22,6 +22,7 @@ export const TrackRequest = () =>{
     const [searchData , setSearchData]= useState('');
     const [loading , setLoading] = useState(false);
 
+
     const items = [
         {
           key: '1',
@@ -147,16 +148,11 @@ export const TrackRequest = () =>{
     
     } ,[selectedOrder , selectedFilter , searchData])
 
-    if(loading){
-      return (
-        <Loader/>
-      )
-    }
-
 
 
     return (
         <div style={{paddingLeft:"16px" , paddingRight:"16px"}}>
+          {loading && <Loader/>}
             <Hero
 				heading={"Request Tracking"}
 				subheading="Track your onboarding progress effortlessly by using our request-tracking center."
@@ -169,7 +165,7 @@ export const TrackRequest = () =>{
                 <FilterBy items={statusItems}/>
                 <ExportBy />
             </div>
-            <RequestComponent data={data} boardId={boardId} fetchData={fetchData}/>
+      <RequestComponent data={data} boardId={boardId} fetchData={fetchData}  />
             
         </div>
     )

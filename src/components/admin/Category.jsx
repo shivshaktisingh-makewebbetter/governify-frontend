@@ -28,7 +28,6 @@ export const Category = () => {
 
   
    
-  console.log(data , 'data')
 
 
     const handleCreateCategory = () =>{

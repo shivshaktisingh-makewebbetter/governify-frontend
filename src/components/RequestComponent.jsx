@@ -3,14 +3,16 @@ import { fetcher } from '../utils/helper';
 import { useState } from 'react';
 import { Loader } from './common/Loader';
 import { UpdateComponent } from './user/UpdateComponent';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
-export const RequestComponent = ({data , boardId  , fetchData}) =>{
+
+export const RequestComponent = ({data , boardId  , fetchData }) =>{
+    const [open , setOpen] = useState(false);
 
     const [loading , setLoading] = useState(false);
-    const [open , setOpen] = useState(false);
-    const [requestDetails , setRequestDetails] = useState()
+    const [requestId , setRequestId] = useState();
     
 
     const getBgColor = (item) =>{
@@ -136,7 +138,7 @@ export const RequestComponent = ({data , boardId  , fetchData}) =>{
     }
 
     const handleUpdate=(details)=>{
-     setRequestDetails(details);
+     setRequestId(details.id);
      setOpen(!open);
     }
 
@@ -176,6 +178,7 @@ export const RequestComponent = ({data , boardId  , fetchData}) =>{
         return <Loader/>
     }
 
+
     return (
         <div >
         {data.map((item , index)=>{
@@ -210,7 +213,7 @@ export const RequestComponent = ({data , boardId  , fetchData}) =>{
             onCancel={() => setOpen(false)}
            width={800}
             >          
-               <UpdateComponent data={requestDetails} fetchData={fetchData}/>
+               <UpdateComponent key={uuidv4()} id={requestId} fetchData={fetchData} setOpen={setOpen}/>
 
             </Modal>
         </div>

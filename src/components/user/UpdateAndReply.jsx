@@ -13,19 +13,7 @@ const UpdateAndReply = ({
   handleFileChange
 }) => {
   const [showReplyEditor, setShowReplyEditor] = useState(false);
-  const settingsData =
-  JSON.parse(sessionStorage.getItem("settings")) ||
-  {
-    image:
-      "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
-    site_bg: "#ffffff",
-    button_bg: "#5ac063",
-    banner_bg: "#5ac063",
-    banner_content:
-      "Hire an attitude, not just experience and qualification. Greg Savage.",
-    header_bg: "#f7f7f7",
-    head_title_color: "#5ac063"
-  };
+  
   let userName = showUserName(item.body);
   const cancelReply = () => {
     setShowReplyEditor(false);
@@ -48,7 +36,7 @@ const UpdateAndReply = ({
         <div className="d-flex align-items-center">
           <span
             className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-            style={{ width: "40px", height: "40px" }}
+            style={{ width: "40px", height: "40px" , background:"#5AC063"}}
           >
             {userName === "Governify Team" ? <Govern /> : getFirstLettersOfName(userName)}
           </span>

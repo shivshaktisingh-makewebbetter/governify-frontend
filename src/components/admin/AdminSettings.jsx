@@ -67,7 +67,6 @@ export const AdminSettings = () =>{
 
     try{
         let response = await fetcher(url , method , payload);
-        console.log(response , 'response')
 
     }catch(err){
 

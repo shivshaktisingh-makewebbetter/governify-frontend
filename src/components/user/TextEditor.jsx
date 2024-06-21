@@ -12,7 +12,6 @@ const TextEditor = ({
 
   props,
 }) => {
-  console.log('updateValue', updateValue);
   const [showEmoji, setShowEmoji] = useState(false);
   var modules = {
     toolbar: [

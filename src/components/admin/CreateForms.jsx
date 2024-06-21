@@ -201,7 +201,6 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
     }
 
     const removeCatAndServe = (index) =>{
-        console.log(index)
         const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
         setCategoryServicesMapping(updatedMapping);
     }
