@@ -118,7 +118,7 @@ export const RequestComponent = ({data , boardId}) =>{
             "request_id": item.id,
             "board_id": boardId,
             "column_id": "status__1",
-            "value": "Stuck"
+            "value": "Canceled"
         })
         setLoading(true);
 
