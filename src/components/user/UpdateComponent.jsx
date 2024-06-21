@@ -84,10 +84,10 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
         "POST",
         JSON.stringify(payload)
       );
-      if (reply.status) {
+      if (reply.success) {
         // getSubItemData();
         setReplyValue("");
-        fetchData();
+        newFetchData();
       } else {
         // toast.error("Something went wrong!");
         setLoading(false);
