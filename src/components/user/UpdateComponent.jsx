@@ -51,13 +51,14 @@ export const UpdateComponent = ({data}) =>{
     setLoading(true);
     let payload = {
       mode: mode,
-      update_id: data.id,
-      item_id: id,
+      update_id: id,
+      item_id: data.id,
+      item_type:"update",
       text_body: `From ${sessionStorage.getItem("userEmail")}: ${replyValue}`,
     };
     try {
       const reply = await fetcher(
-        "governify/customer/addGovernifyLike",
+        "incorpify/updateReplyOrLike",
         "POST",
         JSON.stringify(payload)
       );
@@ -80,11 +81,11 @@ export const UpdateComponent = ({data}) =>{
     let payload = {
       parent_id: "",
       item_id: data.id,
-      text_body: `From ${localStorage.getItem("userEmail")}: ${updateValue}`,
+      text_body: `From ${sessionStorage.getItem("userEmail")}: ${updateValue}`,
     };
     try {
       const response = await fetcher(
-        "governify/customer/addGovernifyLike",
+        "incorpify/update",
         "POST",
         JSON.stringify(payload)
       );
@@ -166,7 +167,7 @@ export const UpdateComponent = ({data}) =>{
         {item.assets.map((asset, j) => ( 
           <div key={j}>
             <div >
-              <a href={asset.url} target="_blank" rel="noreferrer">
+              <a href={asset.public_url} target="_blank" rel="noreferrer">
                 <AdobeAcrobat />
               </a>
               <div className="mt-1">

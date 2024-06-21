@@ -6,7 +6,7 @@ import { UpdateComponent } from './user/UpdateComponent';
 
 
 
-export const RequestComponent = ({data , boardId}) =>{
+export const RequestComponent = ({data , boardId  , fetchData}) =>{
 
     const [loading , setLoading] = useState(false);
     const [open , setOpen] = useState(false);
@@ -35,7 +35,7 @@ export const RequestComponent = ({data , boardId}) =>{
         if(status === 'Pending'){
            return '#e118184a';
         }
-        if(status === "Cancelled"){
+        if(status === "Canceled"){
            return "#b6b6ba";
         }
     }
@@ -124,6 +124,9 @@ export const RequestComponent = ({data , boardId}) =>{
 
       try{
         const response = await fetcher(endpoint , method , payload);
+        if(response.status){
+            fetchData();
+        }
 
         }catch(err){
 
@@ -150,8 +153,9 @@ export const RequestComponent = ({data , boardId}) =>{
 
         try{
             const response = await fetcher(endpoint , method , payload);
-            console.log(response , 'response')
-
+            if(response.status){
+                fetchData();
+            }
         }catch(err){
 
         }
@@ -190,7 +194,7 @@ export const RequestComponent = ({data , boardId}) =>{
                    {statusText === 'COMPLETED' &&  <div><Button style={{ background:statusColor , color:'#fff' , display:'flex' , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' , border:'none'}} className='border-radius-10' onClick={()=>handleUpdate(item)}><span className='fs-12 fw-700 font-family-montse'>Updates</span> <span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button></div>} 
                    {statusText === 'IN PROGRESS' &&  <div style={{display:"flex" , gap:"20px"}}><Button style={{ background:statusColor , color:'#fff' , display:'flex' , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' , border:'none'}} className='border-radius-10' onClick={()=>handleUpdate(item)}><span className='fs-12 fw-700 font-family-montse'>Updates</span> <span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button><Button style={{color:statusColor , display:'flex', background:"transparent", borderColor:statusColor , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px'}} className='border-radius-10'><span className='fs-12 fw-700 font-family-montse' onClick={()=>cancelRequest(item)}>Cancel Request</span> </Button></div>} 
                    {statusText === 'PENDING' &&  <div style={{display:"flex" , gap:"20px"}}><Button style={{ background:statusColor , color:'#fff' , display:'flex' , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' , border:'none'}} className='border-radius-10' onClick={()=>handleUpdate(item)}><span className='fs-12 fw-700 font-family-montse' >Updates</span> <span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button><Button style={{  color:statusColor , display:'flex' , background:"transparent", borderColor:statusColor , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' }} className='border-radius-10'><span className='fs-12 fw-700 font-family-montse' onClick={()=>cancelRequest(item)}>Cancel Request</span> </Button></div>} 
-                   {statusText === 'CANCELED' &&  <div><Button style={{ background:statusColor , color:'#fff' , display:'flex' , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' , border:'none'}} className='border-radius-10' onClick={()=>revokeCancelRequest(item)}><span className='fs-12 fw-700 font-family-montse'>Revoke</span> <span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button></div>} 
+                   {statusText === 'CANCELLED' &&  <div><Button style={{ background:statusColor , color:'#fff' , display:'flex' , alignItems:'center' , justifyContent:'center' , gap:'10px' , height:'40px' , borderRadius:'10px' , border:'none'}} className='border-radius-10' onClick={()=>revokeCancelRequest(item)}><span className='fs-12 fw-700 font-family-montse'>Revoke</span> <span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button></div>} 
 
                     </div>
                 </Card>
