@@ -84,6 +84,8 @@ const Home = () => {
     };
   }, [searchData]);
 
+
+
   useEffect(() => {
     // Your function to call on reload
     const handleReload = () => {

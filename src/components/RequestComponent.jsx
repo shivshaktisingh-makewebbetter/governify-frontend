@@ -210,7 +210,7 @@ export const RequestComponent = ({data , boardId  , fetchData}) =>{
             onCancel={() => setOpen(false)}
            width={800}
             >          
-               <UpdateComponent data={requestDetails}/>
+               <UpdateComponent data={requestDetails} fetchData={fetchData}/>
 
             </Modal>
         </div>

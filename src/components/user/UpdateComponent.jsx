@@ -5,7 +5,7 @@ import TextEditor from "./TextEditor";
 import { fetcher } from "../../utils/helper";
 import UpdateAndReply from "./UpdateAndReply";
 
-export const UpdateComponent = ({data}) =>{
+export const UpdateComponent = ({data , fetchData}) =>{
 
   const [showTextEditor, setShowTextEditor] = useState(false);
   const [updateValue, setUpdateValue] = useState("");
@@ -65,6 +65,7 @@ export const UpdateComponent = ({data}) =>{
       if (reply.status) {
         // getSubItemData();
         setReplyValue("");
+        fetchData();
       } else {
         // toast.error("Something went wrong!");
         setLoading(false);
@@ -92,6 +93,7 @@ export const UpdateComponent = ({data}) =>{
       if (response.success) {
         // getSubItemData();
         setUpdateValue("");
+        // fetchData();
       } else {
         // toast.error("Something went wrong!");
         setLoading(false);

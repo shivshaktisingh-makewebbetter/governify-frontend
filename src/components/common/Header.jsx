@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { getRole } from "../../utils/helper";
 
-const Header = () => {
+const Header = ({user}) => {
 	const data = JSON.parse(sessionStorage.getItem('settings')) || {"image":"https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png","site_bg":"#ffffff","button_bg":"#5ac063","banner_bg":"#5ac063","banner_content":"Hire an attitude, not just experience and qualification. Greg Savage.","header_bg":"#f7f7f7","head_title_color":"#5ac063"};
     const location = useLocation();
 	const navigate = useNavigate();
@@ -71,7 +71,7 @@ const Header = () => {
 					<Image width={215} height={80} src={data.image}/>
 					</div>
 					<div className="governify-header-major-div-buttons">
-					<Typography><span className='onboardify-welcome'>Welcome</span>{" "} <span className='onboardify-welcome-text-hani'>Hani</span></Typography>
+					<Typography><span className='onboardify-welcome'>Welcome</span>{" "} <span className='onboardify-welcome-text-hani'>{user}</span></Typography>
 					<div className="governify-header-buttons">
 
 						{role === 'customer' ? location.pathname === '/track-request' ? <Button className="governify-secondary-btn border-radius-10" style={{display:'flex' , gap:'5px' , alignItems:'center' , color:data.button_bg , borderColor:data.button_bg }} onClick={navigateToHome}><span className='font-family-montse fs-12 fw-700'>Home</span><HomeOutlined className="fs_20 fw-700"/></Button>
