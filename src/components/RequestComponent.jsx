@@ -1,6 +1,6 @@
 import { Button, Card, Modal, Typography } from 'antd';
 import { fetcher } from '../utils/helper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from './common/Loader';
 import { UpdateComponent } from './user/UpdateComponent';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const RequestComponent = ({data , boardId  , fetchData }) =>{
     const [open , setOpen] = useState(false);
-
+    const [likeIds, setLikeIds] = useState([]);
     const [loading , setLoading] = useState(false);
     const [requestId , setRequestId] = useState();
     
@@ -68,6 +68,20 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
            return "#757575";
         }
     }
+
+    const getAllLikes = async () => {
+        let ids = [];
+        let likes = await fetcher("incorpify/listAllLikes", "GET");
+        if (likes.success) {
+          likes.data.map((item) => {
+            ids.push(item.item_type_id);
+          });
+        } else {
+          ids = [];
+        }
+    
+        setLikeIds(ids);
+      };
 
     const getStatusText = (item) =>{
         let status = null;
@@ -174,6 +188,12 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
      return tempCategoryName;
     }
 
+    useEffect(()=>{
+        getAllLikes();
+    } , [])
+
+
+
     if(loading){
         return <Loader/>
     }
@@ -213,7 +233,7 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
             onCancel={() => setOpen(false)}
            width={800}
             >          
-               <UpdateComponent key={uuidv4()} id={requestId} fetchData={fetchData} setOpen={setOpen}/>
+               <UpdateComponent key={uuidv4()} id={requestId} fetchData={fetchData} setOpen={setOpen} likeIds={likeIds} getAllLikes={getAllLikes}/>
 
             </Modal>
         </div>

@@ -5,8 +5,9 @@ import TextEditor from "./TextEditor";
 import { fetcher } from "../../utils/helper";
 import UpdateAndReply from "./UpdateAndReply";
 import { Loader } from "../common/Loader";
+import axios from "axios";
 
-export const UpdateComponent = ({ id, fetchData, setOpen }) => {
+export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes }) => {
   const [data, setData] = useState("");
   const [showTextEditor, setShowTextEditor] = useState(false);
   const [updateValue, setUpdateValue] = useState("");
@@ -24,6 +25,26 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
     head_title_color: "#5ac063",
   };
 
+  const unlikeComment = async(commentId) => {
+    setLoading(true);
+    try {
+      const res = await fetcher(
+        `/incorpify/dislikeUpdateOrReply/${commentId}`,
+        "DELETE"
+      );
+      if (res.success) {
+        await getAllLikes();
+        setLoading(false);
+      } else {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log("error", error);
+    }
+  }
   const props = {
     onRemove: (file) => {
       //   const index = fileList.indexOf(file);
@@ -35,6 +56,8 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
       return false;
     },
   };
+
+
 
   const cancelUpdate = (value) => {
     setShowTextEditor(false);
@@ -120,34 +143,41 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
 
   const handleFileChange = async (e, name) => {
     let files = e.file;
-    let fileData = {};
     let reader = new FileReader();
     if (files) {
       reader.onload = (function (theFile) {
         return async function (event) {
-          fileData = {
-            item_id: id,
-            file_name: files.name,
-            file: event.target.result,
-          };
+          let formData = new FormData();
+          formData.append("item_id", id);
+          formData.append("file_name", files.name);
+          formData.append("file", files);
+          let token =
+            sessionStorage.getItem("token") ||
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL29uYm9hcmRpZnkudGFzYzM2MC5jb20vY29tbW9tLWxvZ2luIiwiaWF0IjoxNzE4ODcyMTcyLCJleHAiOjE3MTkxMzEzNzIsIm5iZiI6MTcxODg3MjE3MiwianRpIjoicUxzdnRwWnZwSHpwdEhycyIsInN1YiI6IjM0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.id8UF9U-8UtsG_eirc1u_SBH7bQwYJp5czn_qMKzZ2M";
           try {
             setLoading(true);
-            const res = await fetcher(
-              "/incorpify/uploadMondayFiles",
-              "POST",
-              JSON.stringify(fileData)
-            );
-            if (res.success) {
-              if (name) {
-                setUpdateValue(files.name);
+            const response = await axios.post(
+              "https://onboardify.tasc360.com/incorpify/uploadMondayFiles",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `Bearer ${token}`,
+                },
               }
-              // getSubItemData();
-            } else {
-              // toast.error("Something went wrong!");
-              setLoading(false);
-            }
+            );
+            setTimeout(() => {
+              if (response.success) {
+                if (name) {
+                  let value = `<a href="${response.data.data.add_file_to_column.url}">${response.data.data.add_file_to_column.name}</a>`;
+                  setUpdateValue(value);
+                }
+                newFetchData();
+              } else {
+                setLoading(false);
+              }
+            }, 2000);
           } catch (error) {
-            // toast.error("Something went wrong!");
             setLoading(false);
           }
         };
@@ -156,6 +186,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
       reader.readAsDataURL(files);
     }
   };
+
 
   useEffect(() => {
     newFetchData();
@@ -225,7 +256,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
                 )}
                 <span>
                   <Upload
-                    // {...props}
+                    {...props}
                     showUploadList={false}
                     onChange={(e) => handleFileChange(e, false)}
                     multiple={false}
@@ -293,6 +324,8 @@ export const UpdateComponent = ({ id, fetchData, setOpen }) => {
                           handleChangeReplyValue={handleChangeReplyValue}
                           replyValue={replyValue}
                           handleFileChange={handleFileChange}
+                          likeIds ={likeIds.includes(item.id)}
+                          unlikeComment={unlikeComment}
                         />
                       );
                     })}

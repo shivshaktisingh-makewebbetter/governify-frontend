@@ -1,19 +1,32 @@
 import React, { useState } from "react";
 
 import TextEditor from "./TextEditor";
-import { extractUsernameFromMessage, getDateAndTime, getFirstLettersOfName, showUserName } from "../../utils/helper";
+import {
+  extractUsernameFromMessage,
+  getDateAndTime,
+  getFirstLettersOfName,
+  showUserName,
+} from "../../utils/helper";
 import Replies from "./Replies";
-import { Clock, Govern , Reply, ThumpsUp } from "../../assets/image";
+import {
+  Clock,
+  Govern,
+  GovernifyTeam,
+  Reply,
+  ThumpsUp,
+} from "../../assets/image";
 
 const UpdateAndReply = ({
   item,
   reply,
   handleChangeReplyValue,
   replyValue,
-  handleFileChange
+  handleFileChange,
+  likeIds,
+  unlikeComment,
 }) => {
   const [showReplyEditor, setShowReplyEditor] = useState(false);
-  
+
   let userName = showUserName(item.body);
   const cancelReply = () => {
     setShowReplyEditor(false);
@@ -26,9 +39,9 @@ const UpdateAndReply = ({
     reply("reply", item.id, replyValue);
   };
 
-  const handleLike = () =>{
-    reply("like", item.id, "")
-  }
+  const handleLike = () => {
+    reply("like", item.id, "");
+  };
 
   return (
     <div className={`border pt-2 mt-5 rounded position-relative`}>
@@ -36,12 +49,19 @@ const UpdateAndReply = ({
         <div className="d-flex align-items-center">
           <span
             className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-            style={{ width: "40px", height: "40px" , background:"#5AC063"}}
+            style={{ width: "40px", height: "40px", background: "#5AC063" }}
           >
-            {userName === "Governify Team" ? <Govern /> : getFirstLettersOfName(userName)}
+            {userName === "Governify Team" ? (
+              <GovernifyTeam />
+            ) : (
+              getFirstLettersOfName(userName)
+            )}
           </span>
         </div>
-        <div className="d-flex w-100 inc-comment-header" style={{justifyContent:"space-between"}}>
+        <div
+          className="d-flex w-100 inc-comment-header"
+          style={{ justifyContent: "space-between" }}
+        >
           <span
             style={{
               fontSize: "18px",
@@ -73,16 +93,22 @@ const UpdateAndReply = ({
             borderRight: "1px solid #cbc2c2",
             color: "#6F7490",
           }}
-          onClick={handleLike}
+          onClick={likeIds ? unlikeComment(item.id) : handleLike}
         >
           <span
             className="d-flex justify-content-center align-items-center"
             style={{ gap: "5px" }}
           >
-            <span>
-              <ThumpsUp />
-            </span>
-            <span>Like</span>
+            {likeIds ? (
+              <span>👍</span>
+            ) : (
+              <>
+                <span>
+                  <ThumpsUp />
+                </span>
+                <span>Like</span>
+              </>
+            )}
           </span>
         </button>
         <button
