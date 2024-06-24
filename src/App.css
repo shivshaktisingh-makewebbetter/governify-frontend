@@ -752,6 +752,7 @@ body,
 		box-sizing: border-box;
 		max-width:30%;
 		margin-top: 0px;
+		margin-bottom: 60px;
 }
 
 .service-image-wrapper{
@@ -1128,6 +1129,7 @@ table tr:hover {
 			box-sizing: border-box;
 			max-width:90%;
 			margin-top:0px;
+			margin-bottom: 60px;
 	}
 }
 

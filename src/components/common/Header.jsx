@@ -67,8 +67,26 @@ const Header = ({user}) => {
 			>
 				 <div className="container h-100 p-3 py-2 mx-auto">
 				<Flex className="governify-header-major-div"> 
-					<div className="governify-header-major-div-logo">
-					<Image width={215} height={80} src={data.image}/>
+					<div className="governify-header-major-div-logo" >
+					<a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateToHome();
+                }}
+                className="text-decoration-none"
+              >
+                <span className="header-logo float-md-start">
+                  <img height="90" alt="TASC logo" src={data.image} />
+                </span>
+              </a>
+
+
+
+
+
+
+
 					</div>
 					<div className="governify-header-major-div-buttons">
 					<Typography><span className='onboardify-welcome'>Welcome</span>{" "} <span className='onboardify-welcome-text-hani'>{user}</span></Typography>
