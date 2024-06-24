@@ -5,20 +5,20 @@ export const Optionslist = () =>{
 
     const data = [{
         title:'Category' , 
-        description:'Streamline your employee onboarding with TASC Outsourcing. Request here for a hassle-free experience, letting us handle the rest with care and efficiency.' , 
+        description:'Create and manage service categories. Organize your services into logical groups for easy navigation and assignment.' , 
         icon:<i className="bi bi-card-list"></i> ,
         buttonText:'Manage Category'
     } ,
     {
         title:'Services' , 
-        description:'Streamline your employee onboarding with TASC Outsourcing. Request here for a hassle-free experience, letting us handle the rest with care and efficiency.' , 
+        description:'Define and update the names and descriptions of your services. Ensure each service is clearly described for better understanding and management.' , 
         icon:<i className="bi bi-window-stack"></i> ,
         buttonText:'Manage Services'
 
     } ,
     {
         title:'Forms' , 
-        description:'Streamline your employee onboarding with TASC Outsourcing. Request here for a hassle-free experience, letting us handle the rest with care and efficiency.' , 
+        description:'Create, edit, and customize forms to collect necessary information from users. Once built, assign these forms to specific services to ensure accurate data managment' , 
         icon:<i className="bi bi-file-earmark"></i>,
         buttonText:'Manage Forms'
 
