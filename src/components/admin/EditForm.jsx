@@ -51,7 +51,9 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         let method = 'PUT';
         let categoryData = {
             name: formDetail.formName ,
-            form_data: field
+            form_data: field ,
+            category_services_mapping: categoryServicesMapping
+
         };
 
 
