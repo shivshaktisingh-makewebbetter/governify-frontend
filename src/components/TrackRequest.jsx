@@ -5,7 +5,7 @@ import { SearchBox } from "./common/SearchBox";
 import { RequestComponent } from "./RequestComponent";
 import { useEffect, useState  } from "react";
 import { fetcher } from "../utils/helper";
-import { Radio } from "antd"
+import { Button, Radio } from "antd"
 import { SortBy } from "./SortBy";
 import { FilterBy } from "./FilterBy";
 import { ExportBy } from "./ExportBy";
@@ -21,7 +21,7 @@ export const TrackRequest = () =>{
     const [statusItems , setStatusItems] = useState([]);
     const [searchData , setSearchData]= useState('');
     const [loading , setLoading] = useState(false);
-
+    const [cursor , setCursor] = useState('');
 
     const items = [
         {
@@ -126,9 +126,10 @@ export const TrackRequest = () =>{
           });
                      
             const response = await fetcher(url , method , payload);
-            setData(response.response.data.boards[0].items_page.items)
+            setData(response.response.data.boards[0].items_page.items);
             setBoardId(response.response.data.boards[0].id);
-            getFilterColumns(response.response.data.boards[0].columns)
+            getFilterColumns(response.response.data.boards[0].columns);
+            setCursor(response.response.data.boards[0].items_page.cursor);
             
         }catch(err){
             console.log(err , 'error');
@@ -139,6 +140,35 @@ export const TrackRequest = () =>{
 
         }
     }
+
+    const handleLoadMore = async() =>{
+      setLoading(true);
+        try{
+            let url = 'governify/customer/requestTracking';
+            let method = 'POST';
+            let payload = JSON.stringify({
+              "cursor":cursor ,
+              
+          });
+                     
+            const response = await fetcher(url , method , payload);
+            console.log(response , 'response');
+            let tempData = [...data , ...response.response.data.boards[0].items_page.items];
+            console.log(tempData)
+            setData(tempData);
+            setBoardId(response.response.data.boards[0].id);
+            // getFilterColumns(response.response.data.boards[0].columns);
+            setCursor(response.response.data.boards[0].items_page.cursor);
+            
+        }catch(err){
+            console.log(err , 'error');
+        }finally{
+          setTimeout(()=>{
+            setLoading(false);
+          } , 2000)
+
+    }
+  }
 
     
 
@@ -166,6 +196,10 @@ export const TrackRequest = () =>{
                 <ExportBy />
             </div>
       <RequestComponent data={data} boardId={boardId} fetchData={fetchData}  />
+      <div className="mt-10">
+      {!loading && <Button onClick={handleLoadMore}>Load More</Button>}
+
+      </div>
             
         </div>
     )
