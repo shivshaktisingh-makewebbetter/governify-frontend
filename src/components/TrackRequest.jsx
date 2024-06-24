@@ -184,8 +184,8 @@ export const TrackRequest = () =>{
         <div style={{paddingLeft:"16px" , paddingRight:"16px"}}>
           {loading && <Loader/>}
             <Hero
-				heading={"Easily monitor, manage, and track the status and progress of all your service requests in real-time"}
-				subheading="Track your onboarding progress effortlessly by using our request-tracking center."
+				heading={"Request Tracking"}
+				subheading="Easily monitor, manage, and track the status and progress of all your service requests in real-time."
 				forHome={false}
 			/>
             <BreadcrumbComponent data={breadCrumbData} />
