@@ -153,7 +153,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
           formData.append("file", files);
           let token =
             sessionStorage.getItem("token") ||
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL29uYm9hcmRpZnkudGFzYzM2MC5jb20vY29tbW9tLWxvZ2luIiwiaWF0IjoxNzE4ODcyMTcyLCJleHAiOjE3MTkxMzEzNzIsIm5iZiI6MTcxODg3MjE3MiwianRpIjoicUxzdnRwWnZwSHpwdEhycyIsInN1YiI6IjM0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.id8UF9U-8UtsG_eirc1u_SBH7bQwYJp5czn_qMKzZ2M";
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL29uYm9hcmRpZnkudGFzYzM2MC5jb20vY29tbW9tLWxvZ2luIiwiaWF0IjoxNzE5MjAyMTUzLCJleHAiOjE3MTk0NjEzNTMsIm5iZiI6MTcxOTIwMjE1MywianRpIjoiZGU4ZUlMcmJvUENhd3pGUSIsInN1YiI6IjM0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.-uLaOISn6aFeWoQYV8WtE6vOv1FPN-4coACAVvoDb3c";
           try {
             setLoading(true);
             const response = await axios.post(
