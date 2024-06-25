@@ -27,6 +27,10 @@ export const ExportBy = () =>{
     }
    
     return (
-        <Button  style={{display:'flex' , alignItems:'center' , gap:'5px'}}  type='text' className="governify-sortby-button" onClick={handleExport}> <span><ExportIcon/></span><span className='fs-16 text-color-928f8f'>Export</span> </Button> 
+        <>
+        {loading && <Loader/>}
+                <Button  style={{display:'flex' , alignItems:'center' , gap:'5px'}}  type='text' className="governify-sortby-button" onClick={handleExport}> <span><ExportIcon/></span><span className='fs-16 text-color-928f8f'>Export</span> </Button> 
+
+        </>
     )
 }

@@ -35,6 +35,20 @@ export const Services = () => {
          key: 'title',
          width: '10%',
       },
+
+      {
+        title: 'Linked Category',
+        dataIndex: 'category',
+        key: 'category',
+        width: '35%',
+        render:(_ , record) =>(
+          <>
+          <span>{record.service_categorie.title}</span>
+          </>
+        )
+
+       
+    },
    
       {
           title: 'Description',
