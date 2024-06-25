@@ -46,17 +46,13 @@ export const Services = () => {
           <span>{record.service_categorie.title}</span>
           </>
         )
-
-       
     },
    
       {
           title: 'Description',
           dataIndex: 'description',
           key: 'description',
-          width: '35%',
-
-         
+          width: '35%', 
       },
      
       {
