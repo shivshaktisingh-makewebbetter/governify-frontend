@@ -144,25 +144,8 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
   const handleCategoryChange = (e , index) =>{
     const tempData = [...categoryServicesMapping];
-    const previousCategory = tempData[index].category_id;
-    const tempCategoryListing = [...categoryListing];
-    tempCategoryListing.forEach((item , index)=>{
-        if(item.value === previousCategory){
-           item.disabled = false;
-        }
-    })
-
-
     tempData[index].category_id = e;  
-
-    tempCategoryListing.forEach((item) => {
-        if (item.value === e) {
-            item.disabled = true;
-        }
-    });
-
     setCategoryServicesMapping(tempData);
-    setCategoryListing(tempCategoryListing);
  }
 
 
@@ -202,16 +185,7 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
 
     const removeCatAndServe = (index) =>{
 
-        let tempCategoryListing = [...categoryListing];
         let tempServiceListing = [...servicesListing];
-
-        tempCategoryListing.forEach((item)=>{
-
-            if(item.value === categoryServicesMapping[index].category_id){
-                item.disabled = false;
-            }
-        })
-
 
         tempServiceListing.forEach((item)=>{
             if(item.value === categoryServicesMapping[index].services_id){
@@ -220,7 +194,6 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
         })
 
 
-        setCategoryListing(tempCategoryListing);
         setServicesListing(tempServiceListing);
         const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
         setCategoryServicesMapping(updatedMapping);

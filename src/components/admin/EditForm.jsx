@@ -105,15 +105,6 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         setField(updatedField)
       }
 
-    const checkCategoryAlreadyExist = (id) =>{
-        let flag = false;
-        data.category_service_form_mappings.forEach((item) =>{
-         if(item.categorie_id === id){
-            flag = true;
-         }
-        });
-        return flag;
-    }
 
 
     const checkServiceAlreadyExist = (id) =>{
@@ -134,7 +125,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             const response = await fetcher(url , method);
               if(response.status){
                   setCategoryListing(response.response.map((item)=>{
-                  return {label: item.title , value: item.id , disabled:checkCategoryAlreadyExist(item.id)}
+                  return {label: item.title , value: item.id }
                 }));
                 setShowSkeleton(false);
               }      
@@ -167,25 +158,8 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
   const handleCategoryChange = (e , index) =>{
     const tempData = [...categoryServicesMapping];
-    const previousCategory = tempData[index].category_id;
-    const tempCategoryListing = [...categoryListing];
-    tempCategoryListing.forEach((item , index)=>{
-        if(item.value === previousCategory){
-           item.disabled = false;
-        }
-    })
-
-
     tempData[index].category_id = e;  
-
-    tempCategoryListing.forEach((item) => {
-        if (item.value === e) {
-            item.disabled = true;
-        }
-    });
-
     setCategoryServicesMapping(tempData);
-    setCategoryListing(tempCategoryListing);
  }
 
 
@@ -225,16 +199,8 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
 
     const removeCatAndServe = (index) =>{
       
-        let tempCategoryListing = [...categoryListing];
+      
         let tempServiceListing = [...servicesListing];
-
-        tempCategoryListing.forEach((item)=>{
-
-            if(item.value === categoryServicesMapping[index].category_id){
-                item.disabled = false;
-            }
-        })
-
 
         tempServiceListing.forEach((item)=>{
             if(item.value === categoryServicesMapping[index].services_id){
@@ -242,10 +208,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             }
         })
 
-
-        setCategoryListing(tempCategoryListing);
         setServicesListing(tempServiceListing);
-
         const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
         setCategoryServicesMapping(updatedMapping);
     }
