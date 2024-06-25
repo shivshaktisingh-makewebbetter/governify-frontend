@@ -201,6 +201,27 @@ export const CreateForms = ({setShowSkeleton , setLoading , loading  , setModalO
     }
 
     const removeCatAndServe = (index) =>{
+
+        let tempCategoryListing = [...categoryListing];
+        let tempServiceListing = [...servicesListing];
+
+        tempCategoryListing.forEach((item)=>{
+
+            if(item.value === categoryServicesMapping[index].category_id){
+                item.disabled = false;
+            }
+        })
+
+
+        tempServiceListing.forEach((item)=>{
+            if(item.value === categoryServicesMapping[index].services_id){
+                item.disabled = false;
+            }
+        })
+
+
+        setCategoryListing(tempCategoryListing);
+        setServicesListing(tempServiceListing);
         const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
         setCategoryServicesMapping(updatedMapping);
     }

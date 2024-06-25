@@ -9,7 +9,6 @@ export const CreateCategory = ({setShowSkeleton , setLoading , loading , setModa
 
     const [categoryData , setCategoryData] = useState({
         title: '' , 
-        subtitle: '' , 
         description: '' , 
         icon: ''
     })
@@ -41,7 +40,6 @@ export const CreateCategory = ({setShowSkeleton , setLoading , loading , setModa
       </div>
       <div class="form_wrapper border border-success p-4 primary-shadow" style={{overflowY:'auto'}}>
             <div><Input placeholder="Category Title" value={categoryData.title} onChange={(e)=> setCategoryData({...categoryData , title:e.target.value})} addonBefore="Title"/></div>
-            <div><Input placeholder="Category Subtitle" className="mt-16" value={categoryData.subtitle} onChange={(e)=> setCategoryData({...categoryData , subtitle:e.target.value})} addonBefore="Subtitle"/></div>
             <div><Input placeholder="Category Icon" className="mt-16" value={categoryData.icon} onChange={(e)=> setCategoryData({...categoryData , icon:e.target.value})} addonBefore="Icon"/></div>
             <div><Input placeholder="Category Description" className="mt-16" value={categoryData.description} onChange={(e)=> setCategoryData({...categoryData , description:e.target.value})} addonBefore="Description"/></div>
             <div className="mt-16" style={{display:'flex' , justifyContent:"center"}}><Button style={{background:data.button_bg , color:'#fff' , border:"none"}} className='fw-700' onClick={handleCreateCategory} loading={loading}>Submit</Button></div>

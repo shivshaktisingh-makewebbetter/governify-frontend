@@ -105,6 +105,27 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         setField(updatedField)
       }
 
+    const checkCategoryAlreadyExist = (id) =>{
+        let flag = false;
+        data.category_service_form_mappings.forEach((item) =>{
+         if(item.categorie_id === id){
+            flag = true;
+         }
+        });
+        return flag;
+    }
+
+
+    const checkServiceAlreadyExist = (id) =>{
+        let flag = false;
+        data.category_service_form_mappings.forEach((item) =>{
+         if(item.service_id === id){
+            flag = true;
+         }
+        });
+        return flag;
+    }
+
       const getAllCategories  = async() =>{
         let method = "GET";
         let url = 'governify/admin/serviceCategories';
@@ -113,7 +134,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
             const response = await fetcher(url , method);
               if(response.status){
                   setCategoryListing(response.response.map((item)=>{
-                  return {label: item.title , value: item.id}
+                  return {label: item.title , value: item.id , disabled:checkCategoryAlreadyExist(item.id)}
                 }));
                 setShowSkeleton(false);
               }      
@@ -133,7 +154,7 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
         const response = await fetcher(url , method);
           if(response.status){
             setServicesListing(response.response.map((item)=>{
-              return {label: item.title , value: item.id}
+              return {label: item.title , value: item.id , disabled: checkServiceAlreadyExist(item.id)}
             }));
             setShowSkeleton(false);
           }      
@@ -203,6 +224,28 @@ export const EditForms = ({setShowSkeleton , setLoading , loading  , setEditModa
     }
 
     const removeCatAndServe = (index) =>{
+      
+        let tempCategoryListing = [...categoryListing];
+        let tempServiceListing = [...servicesListing];
+
+        tempCategoryListing.forEach((item)=>{
+
+            if(item.value === categoryServicesMapping[index].category_id){
+                item.disabled = false;
+            }
+        })
+
+
+        tempServiceListing.forEach((item)=>{
+            if(item.value === categoryServicesMapping[index].services_id){
+                item.disabled = false;
+            }
+        })
+
+
+        setCategoryListing(tempCategoryListing);
+        setServicesListing(tempServiceListing);
+
         const updatedMapping = categoryServicesMapping.slice(0, index).concat(categoryServicesMapping.slice(index + 1));
         setCategoryServicesMapping(updatedMapping);
     }

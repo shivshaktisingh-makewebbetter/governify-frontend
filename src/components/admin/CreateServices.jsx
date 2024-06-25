@@ -21,9 +21,6 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
   }
 
 
-
-
-
  const handleCreateServices = async() =>{
   let method = "POST";
   let url = 'governify/admin/serviceRequests/create';
