@@ -2,6 +2,7 @@ import { Button,   Modal, Typography } from "antd"
 import { useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export const TabContent = ({details , categoryName}) =>{
@@ -18,12 +19,12 @@ export const TabContent = ({details , categoryName}) =>{
     
 
         return (
-            <div>
+            <div key={uuidv4()}>
             <div className="service-parent-div">
             {details.map((item)=>{
        
                return (
-                <div className="service-repetitive-div" key={item.id}>
+                <div className="service-repetitive-div" key={uuidv4()}>
                     <div className='service-image-wrapper'> 
                     <img className="service-image" src={item.service_request.file_location} alt="No Preview"/>
                 </div>
