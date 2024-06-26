@@ -12,6 +12,8 @@ import { ExportBy } from "./ExportBy";
 import { Loader } from "./common/Loader";
 import { Pagination } from "antd";
 
+let flag = false;
+
 export const TrackRequest = () => {
   const [clonedData, setClonedData] = useState([]);
   const [originalArray, setOriginalArray] = useState([]);
@@ -23,6 +25,7 @@ export const TrackRequest = () => {
   const [searchData, setSearchData] = useState("");
   const [loading, setLoading] = useState(false);
   const [dataLength, setDataLength] = useState(1);
+  const [currentPage , setCurrentPage] = useState(1);
   const [filterKeyValues, setFilterKeyValus] = useState({
     1: "Done",
     2: "Pending",
@@ -37,6 +40,7 @@ export const TrackRequest = () => {
     const to = dataLength < pageNumber * 10 ? dataLength : pageNumber * 10;
     const newData = tempData.slice(from, to);
     setData(newData);
+    setCurrentPage(pageNumber);
   };
 
   const items = [
@@ -74,7 +78,6 @@ export const TrackRequest = () => {
   };
 
   const onChangeRadioFilter = (key, value) => {
-    console.log(key , value);
     setSelectedFilter(key);
   };
 
@@ -105,7 +108,6 @@ export const TrackRequest = () => {
 
     
     Object.entries(listOfStatus.labels).forEach(([key, value], index) => {
-      console.log(key , value , 'efd')
       updatedFilterColumn.push({
         key: index + 2,
         label: (
@@ -131,7 +133,6 @@ export const TrackRequest = () => {
   };
 
   const handleFilter = (data, filter) => {
-    console.log(filter , selectedFilter)
     if (filter == 9) {
       return data;
     }
@@ -152,6 +153,7 @@ export const TrackRequest = () => {
     setData(data.slice(0, 10));
     setOriginalArray(data);
     setDataLength(length);
+    setCurrentPage(1);
   };
 
   const onChangeSearchData = () => {
@@ -163,6 +165,7 @@ export const TrackRequest = () => {
 
     tempData = sortData(tempData, selectedOrder);
     tempData = handleFilter(tempData, selectedFilter);
+
 
     setStateData(tempData, tempData.length);
   };
@@ -178,6 +181,7 @@ export const TrackRequest = () => {
       setDataLength(response.response.data.boards[0].items_page.items.length);
       setOriginalArray(response.response.data.boards[0].items_page.items);
       setClonedData(response.response.data.boards[0].items_page.items);
+      setData(response.response.data.boards[0].items_page.items.slice(0 , 10));
     } catch (err) {
       console.log(err, "error");
     } finally {
@@ -187,16 +191,16 @@ export const TrackRequest = () => {
     }
   };
 
-  useEffect(() => {
-    if (originalArray.length > 0) {
-      const tempData = [...originalArray];
-      const newData = tempData.slice(0, 10);
-      setData(newData);
-    }
-  }, [originalArray]);
 
   useEffect(() => {
-    onChangeSearchData();
+    if(flag){
+      onChangeSearchData();
+
+    }
+
+    setTimeout(()=>{
+      flag = true;
+    } , 2000)
   }, [selectedOrder, selectedFilter, searchData]);
 
   useEffect(()=>{
@@ -228,10 +232,10 @@ export const TrackRequest = () => {
       <RequestComponent data={data} boardId={boardId} fetchData={fetchData} />
       <Pagination
         showQuickJumper
-        defaultCurrent={1}
         total={dataLength}
         onChange={onChange}
         showTotal={(total) => `Total ${total} items`}
+        current={currentPage}
       />
 
     </div>
