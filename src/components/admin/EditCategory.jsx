@@ -1,6 +1,7 @@
 import { Button, Input } from "antd"
 import {  memo, useState } from "react";
 import { fetcher } from "../../utils/helper";
+import {  toast } from 'react-toastify';
 
  const EditCategory = ({data , setShowSkeleton , setEditModalOpen , loading , setLoading}) =>{
   const settingsData = JSON.parse(sessionStorage.getItem('settings'));
@@ -21,8 +22,12 @@ import { fetcher } from "../../utils/helper";
           if(response.status){
             setShowSkeleton(true);
             setEditModalOpen(false);
+            toast.success('Category Updated Successfully.')
+          }else{
+            toast.error(response.message)
           }
       }catch(err){
+        toast.error("Error")
         console.log(err , 'error')
 
       }finally{

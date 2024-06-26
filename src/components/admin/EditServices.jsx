@@ -2,6 +2,7 @@ import { Button, Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
+import {  toast } from 'react-toastify';
 
 export const EditServices = ({data , setShowSkeleton , setLoading , loading  , setEditModalOpen}) =>{
   const settingsData = JSON.parse(sessionStorage.getItem('settings'));
@@ -54,8 +55,12 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
         if(response.status){
           setShowSkeleton(true);
           setEditModalOpen(false);
+          toast.success('Service Updated Successfully.')
+        }else{
+          toast.error(response.message)
         }
       }catch(err){
+        toast.error("Error")
          console.log(err , 'error')
       }
    }

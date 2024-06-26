@@ -8,6 +8,7 @@ import { EditForms } from './EditForm';
 import { fetcher } from '../../utils/helper';
 import { LeftOutlined } from "@ant-design/icons"
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -186,6 +187,8 @@ export const Forms = () => {
               </Typography>        
 
             </Modal>
+            <ToastContainer position='bottom-right'/>
+
 
         </div>
     )

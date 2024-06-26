@@ -8,6 +8,7 @@ import EditCategory from './EditCategory';
 import { fetcher } from '../../utils/helper';
 import { LeftOutlined } from "@ant-design/icons"
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -295,7 +296,7 @@ export const Category = () => {
               </Typography>        
 
             </Modal>
-
+            <ToastContainer position='bottom-right'/>
         </div>
     )
 }

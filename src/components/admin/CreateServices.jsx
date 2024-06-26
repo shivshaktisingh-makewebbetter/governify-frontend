@@ -2,6 +2,8 @@ import { Button, Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { fetcher } from "../../utils/helper";
+import {  toast } from 'react-toastify';
+
 
 export const CreateServices = ({setShowSkeleton , setLoading , loading  , setModalOpen}) =>{
   const settingsData = JSON.parse(sessionStorage.getItem('settings'));
@@ -31,8 +33,12 @@ export const CreateServices = ({setShowSkeleton , setLoading , loading  , setMod
       if(response.status){
         setShowSkeleton(true);
         setModalOpen(false);
+        toast.success('Service Created Successfully.')
+      }else{
+        toast.error(response.message)
       }
     }catch(err){
+       toast.error('Error')
        console.log(err , 'error')
     }
  }

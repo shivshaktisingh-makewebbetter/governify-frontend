@@ -16,6 +16,7 @@ import {Category} from "./components/admin/Category";
 import {Services} from "./components/admin/Services";
 import {Forms} from "./components/admin/Forms";
 import 'react-quill/dist/quill.snow.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const settingsData =

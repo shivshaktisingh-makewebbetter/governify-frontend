@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
+import {  toast } from 'react-toastify';
+
 
 export const EditForms = ({
   setShowSkeleton,
@@ -72,8 +74,12 @@ export const EditForms = ({
       if (response.status) {
         setShowSkeleton(true);
         setEditModalOpen(false);
+        toast.success('Form Updated Successfully.')
+      }else{
+        toast.error(response.message)
       }
     } catch (err) {
+      toast.error('Error')
       console.log(err, "error");
     }
   };

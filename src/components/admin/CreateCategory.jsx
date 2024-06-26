@@ -1,6 +1,7 @@
 import { Button, Input } from "antd"
 import { useState } from "react";
 import { fetcher } from "../../utils/helper";
+import {  toast } from 'react-toastify';
 
 
 export const CreateCategory = ({setShowSkeleton , setLoading , loading , setModalOpen}) =>{
@@ -25,8 +26,12 @@ export const CreateCategory = ({setShowSkeleton , setLoading , loading , setModa
             if(response.status){
               setShowSkeleton(true);
               setModalOpen(false);
+              toast.success('Category Created Successfully.')
+            }else{
+              toast.error(response.message)
             }
           }catch(err){
+            toast.error("Error")
              console.log(err , 'error')
           }
           setLoading(false);

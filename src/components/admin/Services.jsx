@@ -9,6 +9,8 @@ import { EditServices } from './EditServices';
 import { LeftOutlined } from "@ant-design/icons"
 import { useNavigate } from 'react-router-dom';
 import { SwitchServices } from './SwitchServices';
+import { ToastContainer } from 'react-toastify';
+
 
 
 
@@ -229,6 +231,8 @@ export const Services = () => {
               </Typography>        
 
             </Modal>
+            <ToastContainer position='bottom-right'/>
+
 
         </div>
     )

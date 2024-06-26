@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
+import {  toast } from 'react-toastify';
 
 export const CreateForms = ({
   setShowSkeleton,
@@ -50,18 +51,12 @@ export const CreateForms = ({
       if (response.status) {
         setShowSkeleton(true);
         setModalOpen(false);
-
-        setCategoryServicesMapping({
-          category_id: "",
-          services_id: "",
-        });
-        setSelectedServices([]);
-        setCategoryListing([])
-        setField([]);
-        setSelectedServices([]);
-        setFormDetail({formName:""})
+        toast.success('Form Created Successfully.')
+      }else{
+        toast.error(response.message)
       }
     } catch (err) {
+        toast.error('Error')
       console.log(err, "error");
     }
   };
@@ -522,6 +517,7 @@ export const CreateForms = ({
             </div>
           </div>
         </div>
+        
       </div>
     </>
   );
