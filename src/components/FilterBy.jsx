@@ -1,6 +1,5 @@
 import { FilterIcon } from "../utils/Icons"
 import React from 'react';
-import { DownOutlined , UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown , Space } from 'antd';
 
 

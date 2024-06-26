@@ -1,7 +1,8 @@
-import { Button, Card, Input, Select, Switch } from "antd";
+import { Button, Card, Input, Select, Switch, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 export const CreateForms = ({
   setShowSkeleton,
@@ -14,6 +15,7 @@ export const CreateForms = ({
   const [formDetail, setFormDetail] = useState({ formName: "" });
   const [categoryListing, setCategoryListing] = useState([]);
   const [servicesListing, setServicesListing] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
   const [categoryServicesMapping, setCategoryServicesMapping] = useState([
     {
       category_id: "",
@@ -24,22 +26,6 @@ export const CreateForms = ({
   const handleDeleteField = (subItem) => {
     let tempField = field.filter((item) => item.key !== subItem.key);
     setField(tempField);
-  };
-
-  const addField = () => {
-    let newField = {
-      key: field.length,
-      label: "",
-      subLabel: "",
-      type: "textArea",
-      defaultValue: "",
-      enabled: false,
-      required: false,
-    };
-
-    let fields = [...field];
-    fields.push(newField);
-    setField(fields);
   };
 
   const handleChangeLabel = (event, index) => {
@@ -91,7 +77,7 @@ export const CreateForms = ({
 
   const onChangeRequiredSettingsEnabled = (index) => {
     const updatedField = [...field];
-    updatedField[index].required = true;
+    updatedField[index].required = ! updatedField[index].required ;
     setField(updatedField);
   };
 
@@ -117,7 +103,7 @@ export const CreateForms = ({
         let tempServiceListingData = {};
 
         response.response.forEach((item) => {
-          const categoryId= item.id;
+          const categoryId = item.id;
 
           if (!tempServiceListingData[categoryId]) {
             tempServiceListingData[categoryId] = [];
@@ -140,59 +126,44 @@ export const CreateForms = ({
     }
   };
 
-  const getEquivalentService = async () => {
-    let method = "GET";
-    let tempServiceListingData = [];
-    let url = "governify/admin/getCategoriesWithAllService";
-    try {
-      const response = await fetcher(url, method);
-
-      response.response.forEach((item) => {
-        item.service_requests.forEach((subItem) => {
-          if (!tempServiceListingData[item.id]) {
-            tempServiceListingData[item.id] = [];
-
-            tempServiceListingData[item.id].push(
-              item.service_requests.map((subItem) => {
-                return { label: subItem.title, value: subItem.id };
-              })
-            );
+  const getSelectedServiceDisable = async () => {
+    let tempServiceListing = { ...servicesListing };
+    for (let key in tempServiceListing) {
+      if (tempServiceListing.hasOwnProperty(key)) {
+        tempServiceListing[key].forEach((item) => {
+          if (selectedServices.includes(item.value)) {
+            item.disabled = true;
+          } else {
+            item.disabled = false;
           }
         });
-      });
-    } catch (err) {
-      console.log(err, "error");
-    } finally {
+      }
     }
+    setServicesListing(tempServiceListing);
   };
 
   const handleCategoryChange = (e, index) => {
     const tempData = [...categoryServicesMapping];
+    let tempSelectedServices = [];
     tempData[index].category_id = e;
+    tempData[index].services_id = "";
+    tempData.forEach((item) => {
+      tempSelectedServices.push(item.services_id);
+    });
+    setSelectedServices(tempSelectedServices);
+
     setCategoryServicesMapping(tempData);
   };
 
   const handleServiceChange = (e, index) => {
     const tempData = [...categoryServicesMapping];
-    const previousServices = tempData[index].services_id;
-    const tempServiceListing = [...servicesListing];
-
-    tempServiceListing.forEach((item, index) => {
-      if (item.value === previousServices) {
-        item.disabled = false;
-      }
-    });
-
+    let tempSelectedServices = [];
     tempData[index].services_id = e;
-
-    tempServiceListing.forEach((item, index) => {
-      if (item.value === e) {
-        item.disabled = true;
-      }
-    });
-
     setCategoryServicesMapping(tempData);
-    setServicesListing(tempServiceListing);
+    tempData.forEach((item) => {
+      tempSelectedServices.push(item.services_id);
+    });
+    setSelectedServices(tempSelectedServices);
   };
 
   const handleAddCatAndServe = () => {
@@ -206,15 +177,10 @@ export const CreateForms = ({
   };
 
   const removeCatAndServe = (index) => {
-    let tempServiceListing = [...servicesListing];
-
-    tempServiceListing.forEach((item) => {
-      if (item.value === categoryServicesMapping[index].services_id) {
-        item.disabled = false;
-      }
-    });
-
-    setServicesListing(tempServiceListing);
+    let newSelectedServices = selectedServices.filter(
+      (item) => item !== categoryServicesMapping[index].services_id
+    );
+    setSelectedServices(newSelectedServices);
     const updatedMapping = categoryServicesMapping
       .slice(0, index)
       .concat(categoryServicesMapping.slice(index + 1));
@@ -225,11 +191,57 @@ export const CreateForms = ({
     getAllCategories();
   }, []);
 
-  //   useEffect(() => {
-  //     getEquivalentService();
-  //   }, [categoryServicesMapping]);
+  useEffect(() => {
+    getSelectedServiceDisable();
+  }, [categoryServicesMapping]);
 
-  console.log(servicesListing, "servicesListing");
+
+  const handleMenuClick = (e) => {
+    let newField = {
+      key: field.length,
+      label: "",
+      subLabel: "",
+      type: "",
+      defaultValue: "",
+      enabled: false,
+      required: false,
+    };
+
+    if (e.key === "0") {
+      newField.type = "textArea";
+    }
+    if (e.key === "1") {
+      newField.type = "CheckBox";
+    }
+    if (e.key === "2") {
+      newField.type = "Document";
+    }
+
+    let fields = [...field];
+    fields.push(newField);
+    setField(fields);
+  };
+
+  const items = [
+    {
+      label: "Text Box",
+      key: "0",
+    },
+    {
+      label: "CheckBox",
+      key: "1",
+    },
+    {
+      label: "Document",
+      key: "2",
+    },
+  ];
+  const menuProps = {
+    items,
+    selectable: true,
+    defaultSelectedKeys: ["9"],
+    onClick: handleMenuClick,
+  };
 
   return (
     <>
@@ -244,9 +256,17 @@ export const CreateForms = ({
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <strong>Create Form</strong>
-              <Button onClick={addField} style={{ border: "none" }}>
-                + Add Field
-              </Button>
+
+              <Dropdown menu={menuProps}>
+                <Button
+                  type="text"
+                  style={{ border: "none", background: "white" }}
+                  icon={<PlusOutlined />}
+                  iconPosition="start"
+                >
+                  <Space>Add Field</Space>
+                </Button>
+              </Dropdown>
             </p>
           </div>
           <div
@@ -331,53 +351,151 @@ export const CreateForms = ({
 
             <div className="mt-10">
               {field.map((item, index) => {
-                return (
-                  <Card className="mt-10" key={index}>
-                    <Input
-                      className="mt-10"
-                      placeholder="Label"
-                      value={item.label}
-                      onChange={(event) => handleChangeLabel(event, index)}
-                      addonBefore="Label"
-                    />
-                    <div className="mt-10">
-                      <span>Enable Documents Upload</span>
-                      <Switch
-                        className="ml-10"
-                        onChange={() => onChangeUploadSettingsEnabled(index)}
-                        value={item.enabled}
+                console.log(item)
+                if (item.type === "textArea") {
+                  return (
+                    <Card className="mt-10" key={index}>
+                      <Input
+                        className="mt-10"
+                        placeholder="Label"
+                        value={item.label}
+                        onChange={(event) => handleChangeLabel(event, index)}
+                        addonBefore="Label"
                       />
-                    </div>
-                    <div className="mt-10">
-                      <span>Make Field Required</span>
-                      <Switch
-                        className="ml-10"
-                        onChange={() => onChangeRequiredSettingsEnabled(index)}
-                        value={item.required}
-                      />
-                    </div>
-                    <div className="mt-10">
-                      {item.enabled && (
-                        <textarea
-                          style={{ width: "100%" }}
-                          value={item.subLabel}
-                          onChange={(event) =>
-                            handleChangeLabelOfDocuments(event, index)
-                          }
-                          placeholder="Enter points (one per line)"
-                          rows={5}
-                          cols={50}
+                      <div className="mt-10">
+                        <span>Enable Documents Upload</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() => onChangeUploadSettingsEnabled(index)}
+                          value={item.enabled}
                         />
-                      )}
-                    </div>
-                    <Button
-                      className="mt-10"
-                      onClick={() => handleDeleteField(item)}
-                    >
-                      Delete
-                    </Button>
-                  </Card>
-                );
+                      </div>
+                      <div className="mt-10">
+                        <span>Make Field Required</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
+                          value={item.required}
+                        />
+                      </div>
+                      <div className="mt-10">
+                        {item.enabled && (
+                          <textarea
+                            style={{ width: "100%" }}
+                            value={item.subLabel}
+                            onChange={(event) =>
+                              handleChangeLabelOfDocuments(event, index)
+                            }
+                            placeholder="Enter points (one per line)"
+                            rows={5}
+                            cols={50}
+                          />
+                        )}
+                      </div>
+                      <Button
+                        className="mt-10"
+                        onClick={() => handleDeleteField(item)}
+                      >
+                        Delete
+                      </Button>
+                    </Card>
+                  );
+                } else if (item.type === "CheckBox") {
+                  return (
+                    <Card className="mt-10" key={index}>
+                      <Input
+                        className="mt-10"
+                        placeholder="Label"
+                        value={item.label}
+                        onChange={(event) => handleChangeLabel(event, index)}
+                        addonBefore="Label"
+                      />
+                     
+                      <div className="mt-10">
+                        <span>Make Field Required</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
+                          value={item.required}
+                        />
+                      </div>
+                      <div className="mt-10">
+                       
+                          <textarea
+                            style={{ width: "100%" }}
+                            value={item.subLabel}
+                            onChange={(event) =>
+                              handleChangeLabelOfDocuments(event, index)
+                            }
+                            placeholder="Enter options for checkbox separated by comma"
+                            rows={5}
+                            cols={50}
+                          />
+                  
+                      </div>
+                      <Button
+                        className="mt-10"
+                        onClick={() => handleDeleteField(item)}
+                      >
+                        Delete
+                      </Button>
+                    </Card>
+                  );
+                } else {
+                  return (
+                    <Card className="mt-10" key={index}>
+                      <Input
+                        className="mt-10"
+                        placeholder="Label"
+                        value={item.label}
+                        onChange={(event) => handleChangeLabel(event, index)}
+                        addonBefore="Label"
+                      />
+                      <div className="mt-10">
+                        <span>Enable Documents Upload</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() => onChangeUploadSettingsEnabled(index)}
+                          value={item.enabled}
+                        />
+                      </div>
+                      <div className="mt-10">
+                        <span>Make Field Required</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
+                          value={item.required}
+                        />
+                      </div>
+                      <div className="mt-10">
+                        {item.enabled && (
+                          <textarea
+                            style={{ width: "100%" }}
+                            value={item.subLabel}
+                            onChange={(event) =>
+                              handleChangeLabelOfDocuments(event, index)
+                            }
+                            placeholder="Enter points (one per line)"
+                            rows={5}
+                            cols={50}
+                          />
+                        )}
+                      </div>
+                      <Button
+                        className="mt-10"
+                        onClick={() => handleDeleteField(item)}
+                      >
+                        Delete
+                      </Button>
+                    </Card>
+                  );
+                }
               })}
             </div>
             <div style={{ display: "flex", justifyContent: "end" }}>
