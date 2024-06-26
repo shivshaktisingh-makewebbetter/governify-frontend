@@ -294,11 +294,11 @@ export const EditForms = ({
       >
         <div>
           <div
-            class="text-white"
+            className="text-white"
             style={{ backgroundColor: settingsData.button_bg }}
           >
             <p
-              class="p-2 m-0 fs-5"
+              className="p-2 m-0 fs-5"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <strong>Edit Form</strong>
@@ -315,7 +315,7 @@ export const EditForms = ({
             </p>
           </div>
           <div
-            class="form_wrapper border border-success p-4 primary-shadow"
+            className="form_wrapper border border-success p-4 primary-shadow"
             style={{ height: "600px", overflowY: "auto" }}
           >
             <Input

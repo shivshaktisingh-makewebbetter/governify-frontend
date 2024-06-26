@@ -29,7 +29,6 @@ export const InternalTab = ({data}) => {
   }
 
 
-
   useEffect(()=>{
 
     window.addEventListener('resize', checkScreenWidth);
@@ -44,9 +43,9 @@ return (
         items={data.map((item)=>{
     
             return {
-              label:  <div style={{padding: '2px 6px' , display:'flex' , justifyContent:'left' , gap:'20px' , alignItems:"center" }} className='governify-tab-headers'><span className="governify-category-icon-parent" ><i className={item.icon} style={{color:settingsData.button_bg , fontSize:'18px'}}></i></span><span className='fs-15'>{item.title}</span></div>,
-              key: item.title , 
-              children: <TabContent details={item} categoryName={item.title}/>
+              label:  <div style={{padding: '2px 6px' , display:'flex' , justifyContent:'left' , gap:'20px' , alignItems:"center" }} className='governify-tab-headers'><span className="governify-category-icon-parent" ><i className={item.category.icon} style={{color:settingsData.button_bg , fontSize:'18px'}}></i></span><span className='fs-15'>{item.category.title}</span></div>,
+              key: item.category.title , 
+              children: <TabContent details={item.service_requests} categoryName={item.category.title} key={item.category.id}/> 
           }
       
         })}
@@ -55,3 +54,5 @@ return (
     </div>
   );
 };
+
+{/* */}

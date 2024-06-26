@@ -107,7 +107,7 @@ export function Govern() {
 		fill="none"
 		stroke-linecap="round"
 		stroke-linejoin="round"
-		class="css-i6dzq1"
+		className="css-i6dzq1"
 	  >
 		<circle cx="12" cy="12" r="10"></circle>
 		<path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
@@ -557,7 +557,7 @@ export function Govern() {
 		fill="none"
 		stroke-linecap="round"
 		stroke-linejoin="round"
-		class="css-i6dzq1"
+		className="css-i6dzq1"
 	  >
 		<path
 		  d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
@@ -579,7 +579,7 @@ export function Govern() {
 		fill="none"
 		stroke-linecap="round"
 		stroke-linejoin="round"
-		class="css-i6dzq1"
+		className="css-i6dzq1"
 	  >
 		<circle cx="12" cy="12" r="1" stroke="#6F7490"></circle>
 		<circle cx="19" cy="12" r="1" stroke="#6F7490"></circle>
@@ -599,7 +599,7 @@ export function Govern() {
 		fill="none"
 		stroke-linecap="round"
 		stroke-linejoin="round"
-		class="css-i6dzq1"
+		className="css-i6dzq1"
 	  >
 		<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
 	  </svg>
@@ -617,7 +617,7 @@ export function Govern() {
 		fill="none"
 		stroke-linecap="round"
 		stroke-linejoin="round"
-		class="css-i6dzq1"
+		className="css-i6dzq1"
 	  >
 		<polyline points="9 14 4 9 9 4"></polyline>
 		<path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>

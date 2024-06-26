@@ -99,97 +99,97 @@ export const AdminSettings = () =>{
 
     return (
         <>
-         <div class="w-100 d-flex flex-column align-items-center p-2">
-        <div class="col-md-7 col-lg-8 text-start">
-            <h4 class="mb-3"><Button icon={<LeftOutlined  style={{color:uiData.button_bg , borderColor:uiData.button_bg}}/> } onClick={handleBackNavigation}></Button><span class="mt-1 ms-2">General Settings</span></h4>
+         <div className="w-100 d-flex flex-column align-items-center p-2">
+        <div className="col-md-7 col-lg-8 text-start">
+            <h4 className="mb-3"><Button icon={<LeftOutlined  style={{color:uiData.button_bg , borderColor:uiData.button_bg}}/> } onClick={handleBackNavigation}></Button><span className="mt-1 ms-2">General Settings</span></h4>
             <hr/>
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <div class="col-sm-12 mb-5">
-                            <label for="site_bg" class="form-label">Background-color<i
-                                    class="bi bi-pen"></i></label><br/>
-                            <input type="color" class="w-100" name="site_bg" id="site_bg"
+                <div className="row g-3">
+                    <div className="col-sm-6">
+                        <div className="col-sm-12 mb-5">
+                            <label for="site_bg" className="form-label">Background-color<i
+                                    className="bi bi-pen"></i></label><br/>
+                            <input type="color" className="w-100" name="site_bg" id="site_bg"
                                 value={uiData.site_bg} required onChange={handleChangeBg}/>
                           
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                           
                         </div>
-                        <div class="col-sm-12">
-                            <label for="button_bg" class="form-label">Button background-color&nbsp;<i
-                                    class="bi bi-pen"></i></label><br/>
-                            <input type="color" class="w-100" id="button_bg" name="button_bg"
+                        <div className="col-sm-12">
+                            <label for="button_bg" className="form-label">Button background-color&nbsp;<i
+                                    className="bi bi-pen"></i></label><br/>
+                            <input type="color" className="w-100" id="button_bg" name="button_bg"
                                 value={uiData.button_bg} required onChange={handleChangeBgBtn}/>
                             
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                          
                         </div>
                     </div>
 
-                    <div class="col-sm-6 ">
-                        <div class="">
-                            <label for="logo_image" class="form-label">Choose Logo Image&nbsp;<i
-                                    class="bi bi-pen"></i></label>
-                            <input class="form-control" name="logo_image" type="file" id="logo_image"
+                    <div className="col-sm-6 ">
+                        <div className="">
+                            <label for="logo_image" className="form-label">Choose Logo Image&nbsp;<i
+                                    className="bi bi-pen"></i></label>
+                            <input className="form-control" name="logo_image" type="file" id="logo_image"
                                onChange={handleChangeLogo}/>
                          
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                           
-                            <div id="imageContainer" class="card  mt-2"
+                            <div id="imageContainer" className="card  mt-2"
                                 style={{maxWidth:"200px" , maxHeight:"200px" , width:"150px" , minHeight:"90px"}}>
                                     {logoData.logo_image === "" ? <></> : <img src={logoData.logo_image} alt="No preview"/>}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 row mt-3">
-                        <div class="col-sm-6">
-                            <label for="banner_bg" class="form-label">Banner background color&nbsp;<i
-                                    class="bi bi-pen"></i></label><br />
-                            <input type="color" class="w-100" id="banner_bg" name="banner_bg"
+                    <div className="col-12 row mt-3">
+                        <div className="col-sm-6">
+                            <label for="banner_bg" className="form-label">Banner background color&nbsp;<i
+                                    className="bi bi-pen"></i></label><br />
+                            <input type="color" className="w-100" id="banner_bg" name="banner_bg"
                                 value={uiData.banner_bg} required onChange={handleChangeBgBanner}/>
                             
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="header_bg" class="form-label">Header Background Color&nbsp;<i
-                                    class="bi bi-pen"></i></label><br />
-                            <input type="color" class="w-100" id="header_bg" name="header_bg"
+                        <div className="col-sm-6">
+                            <label for="header_bg" className="form-label">Header Background Color&nbsp;<i
+                                    className="bi bi-pen"></i></label><br />
+                            <input type="color" className="w-100" id="header_bg" name="header_bg"
                                 value={uiData.header_bg} required onChange={handleChangeHeaderBg}/>
                 
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                 
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="col-sm-12">
-                            <label for="head_title_color" class="form-label">Heading Title Color&nbsp;<i
-                                    class="bi bi-pen"></i></label><br />
-                            <input type="color" class="w-100" id="head_title_color" name="head_title_color"
+                    <div className="col-12">
+                        <div className="col-sm-12">
+                            <label for="head_title_color" className="form-label">Heading Title Color&nbsp;<i
+                                    className="bi bi-pen"></i></label><br />
+                            <input type="color" className="w-100" id="head_title_color" name="head_title_color"
                                 value={uiData.head_title_color} required onChange={handleChangeHeadTitleColor}/>
                             
-                                <small class="text-danger text-start ms-2"></small>
+                                <small className="text-danger text-start ms-2"></small>
                 
                         </div>
                     </div>
-                    <div class="col-12">
-                        <label for="banner_content" class="form-label">Banner <span
-                                class="text-muted"></span></label>
-                        <textarea type="text" class="form-control" name="banner_content" id="banner_content"
+                    <div className="col-12">
+                        <label for="banner_content" className="form-label">Banner <span
+                                className="text-muted"></span></label>
+                        <textarea type="text" className="form-control" name="banner_content" id="banner_content"
                             placeholder="Enter the banner text content ." onChange={handleChangeBannerText} value={uiData.banner_content}></textarea>
                     
-                            <small class="text-danger text-start ms-2"></small>
+                            <small className="text-danger text-start ms-2"></small>
                         
                     </div>
-                    <div class="col-12">
-                        <label for="form_description" class="form-label">Form Description <span
-                                class="text-muted"></span></label>
-                        <textarea type="text" class="form-control" name="form_description" id="form_description"
+                    <div className="col-12">
+                        <label for="form_description" className="form-label">Form Description <span
+                                className="text-muted"></span></label>
+                        <textarea type="text" className="form-control" name="form_description" id="form_description"
                             placeholder="Enter the Form Description ." onChange={handleChangeFormDescription} value={uiData.form_description}></textarea>
                     
-                            <small class="text-danger text-start ms-2"></small>
+                            <small className="text-danger text-start ms-2"></small>
                         
                     </div>
-                    <hr class="my-4"/>
+                    <hr className="my-4"/>
 
                     <Button  style={{background:'#5AC063' , color:'white' , border:"none"}} onClick={handleSubmit}>SAVE SETTINGS</Button>
                     </div>

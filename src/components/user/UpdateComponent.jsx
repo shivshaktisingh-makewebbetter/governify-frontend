@@ -282,7 +282,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
               >
                 <span
                   className="fw-bold"
-                  style={{ color: "#6F7490", fontSize: "17px" }}
+                  style={{ color: "#6F7490", fontSize: "17px", padding: "0 10px" }}
                 >
                   Latest Updates
                 </span>

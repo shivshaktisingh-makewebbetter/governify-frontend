@@ -252,11 +252,11 @@ export const CreateForms = ({
       <div style={{ width: "100%", marginTop: "25px" }}>
         <div>
           <div
-            class="text-white"
+            className="text-white"
             style={{ backgroundColor: data.head_title_color }}
           >
             <p
-              class="p-2 m-0 fs-5"
+              className="p-2 m-0 fs-5"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
               <strong>Create Form</strong>
@@ -274,7 +274,7 @@ export const CreateForms = ({
             </p>
           </div>
           <div
-            class="form_wrapper border border-success p-4 primary-shadow"
+            className="form_wrapper border border-success p-4 primary-shadow"
             style={{ height: "600px", overflowY: "auto" }}
           >
             <Input

@@ -15,7 +15,7 @@ const Home = () => {
   const getDashboardData = async () => {
     setLoading(true);
     try {
-      const response = await fetcher("governify/customer/dashboard", "GET");
+      const response = await fetcher("governify/customer/dashboardata", "GET");
       setDashboardData(response.response); // Assuming response structure is { response: [...] }
       setDashboardDataFixed(response.response);
     } catch (error) {

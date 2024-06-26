@@ -16,23 +16,22 @@ export const TabContent = ({details , categoryName}) =>{
         setOpen(true)
     }  
     
-    
-
 
         return (
             <div>
             <div className="service-parent-div">
-            {details.service_category_request.map((item)=>{
-              return (
+            {details.map((item)=>{
+       
+               return (
                 <div className="service-repetitive-div" key={item.id}>
                     <div className='service-image-wrapper'> 
-                    <img className="service-image" src={item.file_location} alt="No Preview"/>
+                    <img className="service-image" src={item.service_request.file_location} alt="No Preview"/>
                 </div>
-                <Typography className='service-child-title font-family-hind'>{item.title}</Typography>
-                <Typography className='service-child-subtitle font-family-hind'>{item.description}</Typography>  
-                <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.form , item.title)}>Create a Request</Button>
+                <Typography className='service-child-title font-family-hind'>{item.service_request.title}</Typography>
+                <Typography className='service-child-subtitle font-family-hind'>{item.service_request.description}</Typography>  
+                <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.service_forms.form_data , item.service_forms.name )} disabled={Object.keys(item.service_forms).length === 0}>Create a Request</Button>
                 </div>
-              )
+            )
             })}
             </div>
 

@@ -93,10 +93,10 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
 
         <div style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>    
             <div>
-            <div class="text-white" style={{ backgroundColor: settingsData.button_bg }}>
-                <p class="p-2 m-0 fs-5"><strong>Create Services</strong></p>
+            <div className="text-white" style={{ backgroundColor: settingsData.button_bg }}>
+                <p className="p-2 m-0 fs-5"><strong>Create Services</strong></p>
             </div>
-            <div class="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
+            <div className="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <div>
                     
                 <ImageUpload onFileSelect={handleFileSelect} imageName={serviceData.image_name} imageUrl={serviceData.image}/>

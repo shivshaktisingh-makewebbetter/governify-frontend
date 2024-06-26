@@ -41,10 +41,10 @@ import {  toast } from 'react-toastify';
     return (
       <div title="status visibility manage" style={{ maxWidth: '550px', width: '100%' , marginTop:'25px'}}>    
       <div>
-      <div class="text-white" style={{ backgroundColor: settingsData.head_title_color }}>
-          <p class="p-2 m-0 fs-5" style={{display:"flex" , justifyContent:"space-between"}}><strong>Edit Category</strong><span style={{display:"flex" , alignItems:"center" ,}}><a className="fs_14" style={{textDecoration:"none"}} target="_blank" href="https://icons.getbootstrap.com/">Go to Icon's library </a></span></p>
+      <div className="text-white" style={{ backgroundColor: settingsData.head_title_color }}>
+          <p className="p-2 m-0 fs-5" style={{display:"flex" , justifyContent:"space-between"}}><strong>Edit Category</strong><span style={{display:"flex" , alignItems:"center" ,}}><a className="fs_14" style={{textDecoration:"none"}} target="_blank" href="https://icons.getbootstrap.com/">Go to Icon's library </a></span></p>
       </div>
-      <div class="form_wrapper border border-success p-4 primary-shadow" style={{overflowY:'auto'}}>
+      <div className="form_wrapper border border-success p-4 primary-shadow" style={{overflowY:'auto'}}>
             <div><Input    placeholder="Category Title" value={categoryData.title} onChange={(e)=> setCategoryData({...categoryData , title:e.target.value})} addonBefore="Title" /></div>
             <div><Input placeholder="Category Icon" className="mt-16" value={categoryData.icon} onChange={(e)=> setCategoryData({...categoryData , icon:e.target.value})} addonBefore="Icon"/></div>
             <div><Input placeholder="Category Description" className="mt-16" value={categoryData.description} onChange={(e)=> setCategoryData({...categoryData , description:e.target.value})} addonBefore="Description"/></div>
