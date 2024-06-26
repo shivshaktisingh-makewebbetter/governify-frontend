@@ -8,11 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 
+
 export const RequestComponent = ({data , boardId  , fetchData }) =>{
     const [open , setOpen] = useState(false);
     const [likeIds, setLikeIds] = useState([]);
     const [loading , setLoading] = useState(false);
     const [requestId , setRequestId] = useState();
+  
     
 
     const getBgColor = (item) =>{
@@ -223,6 +225,7 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
                 </Card>
             )
         })}
+
 
            <Modal
             open={open}
