@@ -50,6 +50,16 @@ export const CreateForms = ({
       if (response.status) {
         setShowSkeleton(true);
         setModalOpen(false);
+
+        setCategoryServicesMapping({
+          category_id: "",
+          services_id: "",
+        });
+        setSelectedServices([]);
+        setCategoryListing([])
+        setField([]);
+        setSelectedServices([]);
+        setFormDetail({formName:""})
       }
     } catch (err) {
       console.log(err, "error");
@@ -77,7 +87,7 @@ export const CreateForms = ({
 
   const onChangeRequiredSettingsEnabled = (index) => {
     const updatedField = [...field];
-    updatedField[index].required = ! updatedField[index].required ;
+    updatedField[index].required = !updatedField[index].required;
     setField(updatedField);
   };
 
@@ -194,7 +204,6 @@ export const CreateForms = ({
   useEffect(() => {
     getSelectedServiceDisable();
   }, [categoryServicesMapping]);
-
 
   const handleMenuClick = (e) => {
     let newField = {
@@ -351,7 +360,7 @@ export const CreateForms = ({
 
             <div className="mt-10">
               {field.map((item, index) => {
-                console.log(item)
+                console.log(item);
                 if (item.type === "textArea") {
                   return (
                     <Card className="mt-10" key={index}>
@@ -412,7 +421,7 @@ export const CreateForms = ({
                         onChange={(event) => handleChangeLabel(event, index)}
                         addonBefore="Label"
                       />
-                     
+
                       <div className="mt-10">
                         <span>Make Field Required</span>
                         <Switch
@@ -424,18 +433,16 @@ export const CreateForms = ({
                         />
                       </div>
                       <div className="mt-10">
-                       
-                          <textarea
-                            style={{ width: "100%" }}
-                            value={item.subLabel}
-                            onChange={(event) =>
-                              handleChangeLabelOfDocuments(event, index)
-                            }
-                            placeholder="Enter options for checkbox separated by comma"
-                            rows={5}
-                            cols={50}
-                          />
-                  
+                        <textarea
+                          style={{ width: "100%" }}
+                          value={item.subLabel}
+                          onChange={(event) =>
+                            handleChangeLabelOfDocuments(event, index)
+                          }
+                          placeholder="Enter options for checkbox separated by comma"
+                          rows={5}
+                          cols={50}
+                        />
                       </div>
                       <Button
                         className="mt-10"

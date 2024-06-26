@@ -227,11 +227,6 @@ export const EditForms = ({
     }
   }, []);
 
-  
-
-
-
-
 
   const handleMenuClick = (e) => {
     let newField = {
