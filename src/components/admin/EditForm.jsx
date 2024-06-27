@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
-import {  toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 export const EditForms = ({
   setShowSkeleton,
@@ -31,8 +30,7 @@ export const EditForms = ({
     setField(tempField);
   };
 
-
-  const getSelectedServiceDisable =  () => {
+  const getSelectedServiceDisable = () => {
     let tempServiceListing = { ...servicesListing };
     for (let key in tempServiceListing) {
       if (tempServiceListing.hasOwnProperty(key)) {
@@ -47,9 +45,6 @@ export const EditForms = ({
     }
     setServicesListing(tempServiceListing);
   };
-
-
-
 
   const handleChangeLabel = (event, index) => {
     const tempField = [...field];
@@ -67,16 +62,16 @@ export const EditForms = ({
       category_services_mapping: categoryServicesMapping,
     };
 
-    field.forEach((item=>{
-      if(item.label === ""){
+    field.forEach((item) => {
+      if (item.label === "") {
         flag = true;
         return;
       }
-    }))
+    });
 
-    if(flag){
-      toast.error('Please Enter all the label of Form')
-return;
+    if (flag) {
+      toast.error("Please Enter all the label of Form");
+      return;
     }
 
     let payload = JSON.stringify(categoryData);
@@ -87,13 +82,12 @@ return;
       if (response.status) {
         setShowSkeleton(true);
         setEditModalOpen(false);
-        toast.success('Form Updated Successfully.');
-        
-      }else{
-        toast.error(response.message)
+        toast.success("Form Updated Successfully.");
+      } else {
+        toast.error(response.message);
       }
     } catch (err) {
-      toast.error('Error')
+      toast.error("Error");
       console.log(err, "error");
     }
   };
@@ -125,7 +119,7 @@ return;
 
   const onChangeRequiredSettingsEnabled = (index) => {
     const updatedField = [...field];
-    updatedField[index].required = ! updatedField[index].required ;
+    updatedField[index].required = !updatedField[index].required;
     setField(updatedField);
   };
 
@@ -178,7 +172,6 @@ return;
     }
   };
 
-
   const handleCategoryChange = (e, index) => {
     const tempData = [...categoryServicesMapping];
     let tempSelectedServices = [];
@@ -192,11 +185,41 @@ return;
     setCategoryServicesMapping(tempData);
   };
 
-  const handleServiceChange = (e, index) => {
+  const checkSameCategoryServiceAlreadyExist = async (data) => {
+    let url = "governify/admin/rejectServiceCategoryMapping";
+    let method = "POST";
+    let payload = JSON.stringify(data);
+    const response = await fetcher(url, method, payload);
+    return response;
+  };
+
+  const handleServiceChange = async (e, index) => {
     const tempData = [...categoryServicesMapping];
+    // callEndpointToCheckSameCategoryAndServicePairExistOrNot
+    try {
+      setLoading(true);
+      const response = await checkSameCategoryServiceAlreadyExist({
+        category_id: categoryServicesMapping[index].category_id,
+        service_id: e,
+      });
+      console.log(response , 'res')
+
+      if (!response.status) {
+        toast.error(
+          "Form already assigned with the same service and category."
+        );
+        tempData[index].services_id = "";
+        setCategoryServicesMapping(tempData);
+        return;
+      }
+    } catch (err) {
+      console.log(err, "error");
+    } finally {
+      setLoading(false);
+    }
     let tempSelectedServices = [];
     tempData[index].services_id = e;
-    
+
     tempData.forEach((item) => {
       tempSelectedServices.push(item.services_id);
     });
@@ -214,7 +237,6 @@ return;
     setCategoryServicesMapping(tempData);
   };
 
- 
   const removeCatAndServe = (index) => {
     let newSelectedServices = selectedServices.filter(
       (item) => item !== categoryServicesMapping[index].services_id
@@ -246,7 +268,6 @@ return;
       setSelectedServices(tempSelectedServices);
     }
   }, []);
-
 
   const handleMenuClick = (e) => {
     let newField = {
@@ -298,7 +319,6 @@ return;
   useEffect(() => {
     getSelectedServiceDisable();
   }, [categoryServicesMapping]);
-
 
   return (
     <>
@@ -409,7 +429,7 @@ return;
             </div>
             <div className="mt-10">
               {field.map((item, index) => {
-                if(item.type === "textArea"){
+                if (item.type === "textArea") {
                   return (
                     <Card className="mt-10">
                       <Input
@@ -431,7 +451,9 @@ return;
                         <span>Make Field Required</span>
                         <Switch
                           className="ml-10"
-                          onChange={() => onChangeRequiredSettingsEnabled(index)}
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
                           value={item.required}
                         />
                       </div>
@@ -457,7 +479,7 @@ return;
                       </Button>
                     </Card>
                   );
-                }else if(item.type === "CheckBox"){
+                } else if (item.type === "CheckBox") {
                   return (
                     <Card className="mt-10">
                       <Input
@@ -467,28 +489,28 @@ return;
                         onChange={(event) => handleChangeLabel(event, index)}
                         addonBefore="Label"
                       />
-                    
+
                       <div className="mt-10">
                         <span>Make Field Required</span>
                         <Switch
                           className="ml-10"
-                          onChange={() => onChangeRequiredSettingsEnabled(index)}
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
                           value={item.required}
                         />
                       </div>
                       <div className="mt-10">
-                       
-                          <textarea
-                            style={{ width: "100%" }}
-                            value={item.subLabel}
-                            onChange={(event) =>
-                              handleChangeLabelOfDocuments(event, index)
-                            }
-                            placeholder="Enter points (one per line)"
-                            rows={5}
-                            cols={50}
-                          />
-                     
+                        <textarea
+                          style={{ width: "100%" }}
+                          value={item.subLabel}
+                          onChange={(event) =>
+                            handleChangeLabelOfDocuments(event, index)
+                          }
+                          placeholder="Enter points (one per line)"
+                          rows={5}
+                          cols={50}
+                        />
                       </div>
                       <Button
                         className="mt-10"
@@ -498,7 +520,7 @@ return;
                       </Button>
                     </Card>
                   );
-                }else{
+                } else {
                   return (
                     <Card className="mt-10">
                       <Input
@@ -520,7 +542,9 @@ return;
                         <span>Make Field Required</span>
                         <Switch
                           className="ml-10"
-                          onChange={() => onChangeRequiredSettingsEnabled(index)}
+                          onChange={() =>
+                            onChangeRequiredSettingsEnabled(index)
+                          }
                           value={item.required}
                         />
                       </div>
@@ -547,7 +571,6 @@ return;
                     </Card>
                   );
                 }
-               
               })}
             </div>
             <div style={{ display: "flex", justifyContent: "end" }}>

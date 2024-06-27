@@ -176,28 +176,42 @@ export const CreateForms = ({
     setCategoryServicesMapping(tempData);
   };
 
-  // const checkSameCategoryServiceAlreadyExist = async(data) =>{
-  //   let url = '';
-  //   let method = 'POST';
-  //   let payload = JSON.stringify(data);
-  //   const response = await fetcher(url , method , payload);
-  //   console.log(response);
-  // }
+  const checkSameCategoryServiceAlreadyExist = async(data) =>{
+    let url = 'governify/admin/rejectServiceCategoryMapping';
+    let method = 'POST';
+    let payload = JSON.stringify(data);
+    const response = await fetcher(url , method , payload);
+    return response;
+  }
 
   const handleServiceChange = async (e, index) => {
     const tempData = [...categoryServicesMapping];
-    //callEndpointToCheckSameCategoryAndServicePairExistOrNot
-    // const response = await checkSameCategoryServiceAlreadyExist({
-    //   category_id: categoryServicesMapping[index].category_id,
-    //   service_id: e,
-    // });
+    // callEndpointToCheckSameCategoryAndServicePairExistOrNot
+    try{
+      setLoading(true);
+      const response = await checkSameCategoryServiceAlreadyExist({
+        category_id: categoryServicesMapping[index].category_id,
+        service_id: e,
+      });
+      console.log(response , 'res')
 
-    // if(true){
-    //   toast.error('Form already assigned with the same service and category.');
-    // tempData[index].services_id = '';
-    // setCategoryServicesMapping(tempData);
-    //   return;
-    // }
+
+      if(!response.status){
+        toast.error('Form already assigned with the same service and category.');
+       tempData[index].services_id = '';
+       setCategoryServicesMapping(tempData);
+        return;
+      }
+
+    }catch(err){
+      console.log(err , 'error')
+    }finally{
+      setLoading(false);
+
+    }
+   
+
+
 
     let tempSelectedServices = [];
     tempData[index].services_id = e;
@@ -348,6 +362,7 @@ export const CreateForms = ({
                             ? "Select Category"
                             : categoryServicesMapping[index].category_id
                         }
+                        disabled ={loading}
                       />
                     </div>
                     {categoryServicesMapping[index].category_id !== "" && (
@@ -370,7 +385,7 @@ export const CreateForms = ({
                               : categoryServicesMapping[index].services_id
                           }
                           disabled={
-                            categoryServicesMapping[index].category_id === ""
+                            categoryServicesMapping[index].category_id === "" || loading
                           }
                         />
                       </div>

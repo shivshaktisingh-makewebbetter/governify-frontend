@@ -25,7 +25,7 @@ export const TrackRequest = () => {
   const [searchData, setSearchData] = useState("");
   const [loading, setLoading] = useState(false);
   const [dataLength, setDataLength] = useState(1);
-  const [currentPage , setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterKeyValues, setFilterKeyValus] = useState({
     1: "Done",
     2: "Pending",
@@ -106,7 +106,6 @@ export const TrackRequest = () => {
       },
     ];
 
-    
     Object.entries(listOfStatus.labels).forEach(([key, value], index) => {
       updatedFilterColumn.push({
         key: index + 2,
@@ -149,6 +148,15 @@ export const TrackRequest = () => {
     return tempFilterArray;
   };
 
+  const handleExport = () =>{
+    alert(1)
+    let tempData = [...clonedData];
+    const dataFormatToPrepare = [["Name Of Service","Category Of Service","Created Date","Status","Form Information"]];
+    tempData.forEach((item)=>{
+      console.log(item);
+    })
+  }
+
   const setStateData = (data, length) => {
     setData(data.slice(0, 10));
     setOriginalArray(data);
@@ -158,15 +166,11 @@ export const TrackRequest = () => {
 
   const onChangeSearchData = () => {
     let tempData = [...clonedData];
-
     if (searchData.length > 0) {
       tempData = filterDataBySearchString(tempData, searchData);
     }
-
     tempData = sortData(tempData, selectedOrder);
     tempData = handleFilter(tempData, selectedFilter);
-
-
     setStateData(tempData, tempData.length);
   };
 
@@ -181,7 +185,7 @@ export const TrackRequest = () => {
       setDataLength(response.response.data.boards[0].items_page.items.length);
       setOriginalArray(response.response.data.boards[0].items_page.items);
       setClonedData(response.response.data.boards[0].items_page.items);
-      setData(response.response.data.boards[0].items_page.items.slice(0 , 10));
+      setData(response.response.data.boards[0].items_page.items.slice(0, 10));
     } catch (err) {
       console.log(err, "error");
     } finally {
@@ -191,21 +195,19 @@ export const TrackRequest = () => {
     }
   };
 
-
   useEffect(() => {
-    if(flag){
+    if (flag) {
       onChangeSearchData();
-
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
       flag = true;
-    } , 2000)
+    }, 2000);
   }, [selectedOrder, selectedFilter, searchData]);
 
-  useEffect(()=>{
-   fetchData();
-  } ,[])
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div style={{ paddingLeft: "16px", paddingRight: "16px" }}>
@@ -226,8 +228,8 @@ export const TrackRequest = () => {
         }}
       >
         <SortBy items={items} />
-        <FilterBy items={statusItems} setSelectedFilter={setSelectedFilter}/>
-        <ExportBy />
+        <FilterBy items={statusItems} setSelectedFilter={setSelectedFilter} />
+        <ExportBy handleExort={handleExport} />
       </div>
       <RequestComponent data={data} boardId={boardId} fetchData={fetchData} />
       <Pagination
@@ -237,7 +239,6 @@ export const TrackRequest = () => {
         showTotal={(total) => `Total ${total} items`}
         current={currentPage}
       />
-
     </div>
   );
 };
