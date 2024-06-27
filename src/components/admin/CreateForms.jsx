@@ -193,7 +193,6 @@ export const CreateForms = ({
         category_id: categoryServicesMapping[index].category_id,
         service_id: e,
       });
-      console.log(response , 'res')
 
 
       if(!response.status){
