@@ -7,13 +7,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const TabContent = ({details , categoryName}) =>{
     const [open , setOpen] = useState(false);
-    const [ formData , setFormData] = useState();
-    const [serciceName , setServiceName] = useState();
+    const [formData , setFormData] = useState();
     const [loading , setLoading] = useState(false);
+    const [serviceTitle , setServiceTitle] = useState('');
 
-    const handleModalForm = (formData  , title) =>{
-        setFormData(formData)
-        setServiceName(title);
+    const handleModalForm = (formData , title) =>{
+        const formDetails = Object.entries(formData)[0][1]; 
+        setFormData(formDetails);
+        setServiceTitle(title);
         setOpen(true)
     }  
     
@@ -22,15 +23,18 @@ export const TabContent = ({details , categoryName}) =>{
             <div key={uuidv4()}>
             <div className="service-parent-div">
             {details.map((item)=>{
-       
+               
+                const description = item.service_request.description.length > 85 ? item.service_request.description.substring(0, 85) + '...' : item.service_request.description;
+                const imageLink = item.service_request.file_location;
+                const title = item.service_request.title;
                return (
                 <div className="service-repetitive-div" key={uuidv4()}>
                     <div className='service-image-wrapper'> 
-                    <img className="service-image" src={item.service_request.file_location} alt="No Preview"/>
+                    <img className="service-image" src={imageLink} alt="No Preview"/>
                 </div>
-                <Typography className='service-child-title font-family-hind'>{item.service_request.title}</Typography>
-                <Typography className='service-child-subtitle font-family-hind'>{item.service_request.description}</Typography>  
-                <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.service_forms.form_data , item.service_forms.name )} disabled={Object.keys(item.service_forms).length === 0}>Create a Request</Button>
+                <Typography className='service-child-title font-family-hind'>{title}</Typography>
+                <Typography className='service-child-subtitle font-family-hind'>{description}</Typography>  
+                <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.service_forms , item.service_request.title)} disabled={Object.keys(item.service_forms).length === 0}>Create a Request</Button>
                 </div>
             )
             })}
@@ -45,7 +49,7 @@ export const TabContent = ({details , categoryName}) =>{
             onCancel={() => setOpen(false)}
             >  
   
-           <CustomerForm formData={formData} serviceTitle={serciceName} loading = {loading} setLoading={setLoading} categoryName={categoryName}/>      
+           <CustomerForm formData={formData}  loading = {loading} setLoading={setLoading} serviceTitle={serviceTitle} categoryName={categoryName}/>      
 
             </Modal>
             

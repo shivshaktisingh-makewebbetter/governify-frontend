@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { DeleteOutlined } from "@ant-design/icons";
 import { PlusOutlined } from "@ant-design/icons";
-import {  toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export const CreateForms = ({
   setShowSkeleton,
@@ -45,16 +45,16 @@ export const CreateForms = ({
       category_services_mapping: categoryServicesMapping,
     };
 
-    field.forEach((item=>{
-      if(item.label === ""){
+    field.forEach((item) => {
+      if (item.label === "") {
         flag = true;
         return;
       }
-    }))
+    });
 
-    if(flag){
-      toast.error('Please Enter all the label of Form')
-return;
+    if (flag) {
+      toast.error("Please Enter all the label of Form");
+      return;
     }
 
     let payload = JSON.stringify(categoryData);
@@ -64,15 +64,15 @@ return;
       if (response.status) {
         setShowSkeleton(true);
         setModalOpen(false);
-        toast.success('Form Created Successfully.')
-        setField([])
-        setCategoryServicesMapping([{category_id:"" , services_id:""}]);
-        setFormDetail({formName:""})
-      }else{
-        toast.error(response.message)
+        toast.success("Form Created Successfully.");
+        setField([]);
+        setCategoryServicesMapping([{ category_id: "", services_id: "" }]);
+        setFormDetail({ formName: "" });
+      } else {
+        toast.error(response.message);
       }
     } catch (err) {
-        toast.error('Error')
+      toast.error("Error");
       console.log(err, "error");
     }
   };
@@ -176,8 +176,29 @@ return;
     setCategoryServicesMapping(tempData);
   };
 
-  const handleServiceChange = (e, index) => {
+  // const checkSameCategoryServiceAlreadyExist = async(data) =>{
+  //   let url = '';
+  //   let method = 'POST';
+  //   let payload = JSON.stringify(data);
+  //   const response = await fetcher(url , method , payload);
+  //   console.log(response);
+  // }
+
+  const handleServiceChange = async (e, index) => {
     const tempData = [...categoryServicesMapping];
+    //callEndpointToCheckSameCategoryAndServicePairExistOrNot
+    // const response = await checkSameCategoryServiceAlreadyExist({
+    //   category_id: categoryServicesMapping[index].category_id,
+    //   service_id: e,
+    // });
+
+    // if(true){
+    //   toast.error('Form already assigned with the same service and category.');
+    // tempData[index].services_id = '';
+    // setCategoryServicesMapping(tempData);
+    //   return;
+    // }
+
     let tempSelectedServices = [];
     tempData[index].services_id = e;
     setCategoryServicesMapping(tempData);
@@ -534,7 +555,6 @@ return;
             </div>
           </div>
         </div>
-        
       </div>
     </>
   );
