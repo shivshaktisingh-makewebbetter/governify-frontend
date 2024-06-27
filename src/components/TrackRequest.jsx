@@ -41,6 +41,10 @@ export const TrackRequest = () => {
     const newData = tempData.slice(from, to);
     setData(newData);
     setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const items = [
