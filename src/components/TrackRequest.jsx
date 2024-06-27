@@ -148,14 +148,86 @@ export const TrackRequest = () => {
     return tempFilterArray;
   };
 
-  const handleExport = () =>{
-    alert(1)
+  const getStatusValue = (tempData) => {
+    let tempValue = "";
+    tempData.forEach((item) => {
+      if (item.id === "status__1") {
+        tempValue = item.text;
+      }
+    });
+    return tempValue;
+  };
+
+  const getFormInformation = (tempData) => {
+    let tempValue = "";
+    tempData.forEach((item) => {
+      if (item.id === "form_infomation__1") {
+        tempValue = item.text;
+      }
+    });
+
+    return tempValue;
+  };
+
+  const getCategory = (tempData) => {
+    let tempValue = "";
+    tempData.forEach((item) => {
+      if (item.id === 'service_category__1') {
+        tempValue = item.text;
+      }
+    });
+
+    return tempValue;
+  };
+
+  const handleExport = () => {
     let tempData = [...clonedData];
-    const dataFormatToPrepare = [["Name Of Service","Category Of Service","Created Date","Status","Form Information"]];
-    tempData.forEach((item)=>{
-      console.log(item);
-    })
-  }
+    const dataFormatToPrepare = [
+      [
+        "Name Of Service",
+        "Category Of Service",
+        "Created Date",
+        "Status",
+        "Form Information",
+      ],
+    ];
+    tempData.forEach((item) => {
+      let createdAt = item.created_at;
+      let serviceName = item.name;
+      let statusValue = getStatusValue(item.column_values);
+      let formInformTion = getFormInformation(item.column_values);
+      let categoryName = getCategory(item.column_values);
+      dataFormatToPrepare.push([
+        serviceName,
+        categoryName,
+        createdAt,
+        statusValue,
+        formInformTion,
+      ]);
+    });
+
+    // Convert data array to CSV string
+    const csvContent = dataFormatToPrepare
+      .map((row) => row.join(","))
+      .join("\n");
+
+    // Create a Blob from the CSV string
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+     const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "data.csv");
+
+    // Append the link to the body (necessary for Firefox)
+    document.body.appendChild(link);
+
+    // Trigger the download by simulating a click on the link
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+
+  };
 
   const setStateData = (data, length) => {
     setData(data.slice(0, 10));
@@ -229,7 +301,7 @@ export const TrackRequest = () => {
       >
         <SortBy items={items} />
         <FilterBy items={statusItems} setSelectedFilter={setSelectedFilter} />
-        <ExportBy handleExort={handleExport} />
+        <ExportBy handleExport={handleExport} />
       </div>
       <RequestComponent data={data} boardId={boardId} fetchData={fetchData} />
       <Pagination

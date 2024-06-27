@@ -8,7 +8,7 @@ export const ExportBy = ({ handleExport }) => {
         style={{ display: "flex", alignItems: "center", gap: "5px" }}
         type="text"
         className="governify-sortby-button"
-        onClick={()=>handleExport()}
+        onClick={handleExport}
       >
         {" "}
         <span>
