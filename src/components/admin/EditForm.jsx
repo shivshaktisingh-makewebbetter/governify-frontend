@@ -58,6 +58,7 @@ export const EditForms = ({
   };
 
   const publishForm = async () => {
+    let flag = false;
     let url = `governify/admin/serviceRequestForms/${data.id}`;
     let method = "PUT";
     let categoryData = {
@@ -65,6 +66,18 @@ export const EditForms = ({
       form_data: field,
       category_services_mapping: categoryServicesMapping,
     };
+
+    field.forEach((item=>{
+      if(item.label === ""){
+        flag = true;
+        return;
+      }
+    }))
+
+    if(flag){
+      toast.error('Please Enter all the label of Form')
+return;
+    }
 
     let payload = JSON.stringify(categoryData);
 
@@ -74,7 +87,8 @@ export const EditForms = ({
       if (response.status) {
         setShowSkeleton(true);
         setEditModalOpen(false);
-        toast.success('Form Updated Successfully.')
+        toast.success('Form Updated Successfully.');
+        
       }else{
         toast.error(response.message)
       }
