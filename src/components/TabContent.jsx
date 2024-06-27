@@ -49,7 +49,7 @@ export const TabContent = ({details , categoryName}) =>{
             onCancel={() => setOpen(false)}
             >  
   
-           <CustomerForm formData={formData}  loading = {loading} setLoading={setLoading} serviceTitle={serviceTitle} categoryName={categoryName}/>      
+           <CustomerForm formData={formData}  loading = {loading} setLoading={setLoading} serviceTitle={serviceTitle} categoryName={categoryName} key={uuidv4()}/>      
 
             </Modal>
             

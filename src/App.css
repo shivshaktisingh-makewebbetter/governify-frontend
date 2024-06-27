@@ -1070,6 +1070,12 @@ table tr:hover {
   .form-check-input:checked ~ .form-check-label {
 	color: #007bff;
   }
+
+
+  .ant-upload-drag{
+	background: transparent !important;
+	border: none !important;
+  }
   
   
  
