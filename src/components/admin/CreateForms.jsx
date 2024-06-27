@@ -393,7 +393,6 @@ export const CreateForms = ({
 
             <div className="mt-10">
               {field.map((item, index) => {
-                console.log(item);
                 if (item.type === "textArea") {
                   return (
                     <Card className="mt-10" key={index}>

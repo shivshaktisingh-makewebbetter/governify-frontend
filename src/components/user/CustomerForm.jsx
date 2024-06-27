@@ -151,7 +151,6 @@ export const CustomerForm = ({
   };
 
   const getCheckBoxOptions = (options) => {
-    console.log(options);
     const tempData = options.map((item) => {
       return {
         label: item,
