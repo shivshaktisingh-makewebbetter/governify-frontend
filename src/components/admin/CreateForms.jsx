@@ -36,6 +36,7 @@ export const CreateForms = ({
   };
 
   const publishForm = async () => {
+    let flag = false;
     let method = "POST";
     let url = "governify/admin/serviceRequestForms";
     let categoryData = {
@@ -43,6 +44,18 @@ export const CreateForms = ({
       form_data: field,
       category_services_mapping: categoryServicesMapping,
     };
+
+    field.forEach((item=>{
+      if(item.label === ""){
+        flag = true;
+        return;
+      }
+    }))
+
+    if(flag){
+      toast.error('Please Enter all the label of Form')
+return;
+    }
 
     let payload = JSON.stringify(categoryData);
 
@@ -52,6 +65,9 @@ export const CreateForms = ({
         setShowSkeleton(true);
         setModalOpen(false);
         toast.success('Form Created Successfully.')
+        setField([])
+        setCategoryServicesMapping([{category_id:"" , services_id:""}]);
+        setFormDetail({formName:""})
       }else{
         toast.error(response.message)
       }
@@ -282,6 +298,7 @@ export const CreateForms = ({
               className="mt-10"
               onChange={(e) => handleChangeFormName(e)}
               addonBefore="Form Name"
+              value={formDetail.formName}
             />
             <div
               style={{ display: "flex", justifyContent: "end" }}
