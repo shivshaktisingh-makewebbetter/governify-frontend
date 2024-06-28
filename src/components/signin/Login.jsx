@@ -10,8 +10,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [animation, setAnimation] = useState(true);
   const [userDetails, setUserDetails] = useState({ email: "", password: "" });
-  const [loading , setLoading] = useState(false);
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     let url = "commom-login";
@@ -23,19 +23,18 @@ const Login = () => {
     });
 
     try {
-        setLoading(true);
+      setLoading(true);
       const response = await fetcher(url, method, payload);
       if (response.status) {
         toast.success("Logged In Successfull.");
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("role", response.role);
-        if(response.role=== 'customer'){
-            setTimeout(()=>{
-                navigate('/')
-
-            } ,1000)
-        }else{
-            navigate('/admin');
+        if (response.role === "customer") {
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        } else {
+          navigate("/admin");
         }
       } else {
         toast.error("Login Failed.");
@@ -43,8 +42,8 @@ const Login = () => {
     } catch (err) {
       console.log(err, "error");
       toast.error("Login Failed.");
-    }finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,9 +73,19 @@ const Login = () => {
       setAnimation(false);
     }, 300);
   }, []);
+  useEffect(() => {
+    let role = sessionStorage.getItem("role");
+    if(role === 'customer'){
+       navigate('/')
+    }
+
+    if(role === 'superAdmin'){
+      navigate('/admin')
+    }
+  }, []);
   return (
     <div className="container auth-container text-center">
-        {loading && <Loader/>}
+      {loading && <Loader />}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div class="">
           <div className="animation-container" style={{ minHeight: "120px" }}>
