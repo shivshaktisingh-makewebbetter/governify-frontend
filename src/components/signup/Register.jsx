@@ -4,6 +4,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { fetcher } from "../../utils/helper";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
+import { Loader } from "../common/Loader";
 
 const Register = () => {
     const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
@@ -12,6 +13,7 @@ const Register = () => {
   const [animation, setAnimation] = useState(true);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [recaptchaExpired, setRecaptchaExpired] = useState(false);
+  const [loading , setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -55,6 +57,7 @@ const Register = () => {
     let method = 'POST';
     let payload = JSON.stringify(formData)
     try{ 
+        setLoading(true);
         const response = await fetcher(url , method , payload);
         if(response.status){
             toast.success(response.message)
@@ -65,6 +68,8 @@ const Register = () => {
         console.log(response);
     }catch(err){
         console.log(err , 'error');
+    }finally{
+        setLoading(false);
     }
   }
 
@@ -84,6 +89,7 @@ const Register = () => {
 
   return (
     <div className="container auth-container text-center">
+        {loading && <Loader/>}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div className="animation-container" style={{ minHeight: "120px" }}>
           <div

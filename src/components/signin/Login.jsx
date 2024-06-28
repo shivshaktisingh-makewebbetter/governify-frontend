@@ -4,11 +4,13 @@ import { fetcher } from "../../utils/helper";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../common/Loader";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [animation, setAnimation] = useState(true);
   const [userDetails, setUserDetails] = useState({ email: "", password: "" });
+  const [loading , setLoading] = useState(false);
   const navigate = useNavigate()
 
   const handleSubmit = async () => {
@@ -21,13 +23,17 @@ const Login = () => {
     });
 
     try {
+        setLoading(true);
       const response = await fetcher(url, method, payload);
       if (response.status) {
         toast.success("Logged In Successfull.");
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("role", response.role);
         if(response.role=== 'customer'){
-            navigate('/')
+            setTimeout(()=>{
+                navigate('/')
+
+            } ,1000)
         }else{
             navigate('/admin');
         }
@@ -37,6 +43,8 @@ const Login = () => {
     } catch (err) {
       console.log(err, "error");
       toast.error("Login Failed.");
+    }finally{
+        setLoading(false);
     }
   };
 
@@ -68,6 +76,7 @@ const Login = () => {
   }, []);
   return (
     <div className="container auth-container text-center">
+        {loading && <Loader/>}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div class="">
           <div className="animation-container" style={{ minHeight: "120px" }}>
