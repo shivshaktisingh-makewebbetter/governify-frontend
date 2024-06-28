@@ -17,6 +17,9 @@ import {Services} from "./components/admin/Services";
 import {Forms} from "./components/admin/Forms";
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
+import Login from "./components/signin/Login";
+import Register from "./components/signup/Register";
+import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 
 function App() {
   const settingsData =
@@ -91,8 +94,16 @@ function App() {
           ]
         },
         {
-          path: "*",
-          element: <>NO PAGE FOUND</>
+          path: "signup",
+          element: <Register/>
+        } ,
+        {
+          path: "signin",
+          element: <Login/>
+        } ,
+        {
+          path: "forget-password",
+          element: <ForgotPassword/>
         }
       ]
     }

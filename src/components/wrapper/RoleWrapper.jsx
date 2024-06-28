@@ -7,7 +7,10 @@ const RoleWrapper = ({ children }) => {
   const role = getRole();
 
   useEffect(() => {
-    if (role !== 'customer') {
+    if(role === undefined  || role === null || role === ''){
+      navigate('signin')
+    }
+    if (role  === 'superAdmin') {
       navigate('admin');
     }
   }, [role, navigate]);

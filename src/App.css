@@ -42,7 +42,7 @@ body,
 	font-size: 56px;
 }
 .btn-gradiant:hover {
-	background: #016cff; /* change the direction of the change here */
+	/* background: #016cff; */
 	color: #fff;
 	text-decoration: none;
 }
@@ -122,10 +122,14 @@ body,
 	color: rgb(244, 152, 31) !important;
 }
 
+.text-gov-tundora {
+	color: #434343;
+  }
+
 .form-auth {
 	width: 100%;
-	max-width: 420px;
-	padding: 15px;
+	/* max-width: 420px; */
+	/* padding: 15px; */
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -137,10 +141,10 @@ body,
 	flex-direction: column;
 	gap: 10px;
 	justify-content: center;
-	border-radius: 10px;
-	padding: 15px;
+	border-radius: 50px;
+	padding: 10px 15px;
 	font-size: 14px;
-	background: #dbdbdb;
+	background: #ececec;
 	border: 0px;
 }
 
@@ -210,6 +214,14 @@ body,
 }
 .fs-17 {
 	font-size: 17px;
+}
+
+.fs-18 {
+	font-size: 18px;
+}
+
+.fs-36{
+	font-size:36px;
 }
 
 .fs-16 {
@@ -1075,6 +1087,21 @@ table tr:hover {
   .ant-upload-drag{
 	background: transparent !important;
 	border: none !important;
+  }
+
+
+  .auth-container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+
+  .form-container {
+	padding: 50px;
+	/* border-radius: 8px; */
+	box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+	max-width: 540px;
   }
   
   
