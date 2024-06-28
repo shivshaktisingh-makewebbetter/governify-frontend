@@ -19,6 +19,7 @@ export const CustomerForm = ({
   console.log(formData , 'data')
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
+  const [checkedValue , setCheckedvalue] = useState([]);
   const navigate = useNavigate();
 
   const props = {
@@ -128,6 +129,21 @@ export const CustomerForm = ({
   };
 
   const onChangeCheckBox = (checkedValues) => {
+    let singleSelect = false;
+    formData.form_data.forEach((item) => {
+     
+      if (item.type === "CheckBox") {
+        singleSelect= item.singleSelect;
+      }
+    });
+
+    if(singleSelect){
+      let tempCheckedValue = [];
+      tempCheckedValue.push(checkedValues);
+    }else{
+      let tempCheckedValue = [...checkedValue];
+      tempCheckedValue.push(checkedValues);
+    }
     console.log("checked = ", checkedValues);
   };
 

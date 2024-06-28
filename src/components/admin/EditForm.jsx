@@ -144,6 +144,13 @@ export const EditForms = ({
     setField(updatedField);
   };
 
+  const onChangeSingleSelectEnabled = (index) =>{
+    const updatedField = [...field];
+    updatedField[index].singleSelect = !updatedField[index].singleSelect;
+    setField(updatedField);
+  }
+
+
   const checkServiceAlreadyExist = (id) => {
     let flag = false;
     data.category_service_form_mappings.forEach((item) => {
@@ -305,6 +312,7 @@ export const EditForms = ({
     }
     if (e.key === "1") {
       newField.type = "CheckBox";
+      newField.singleSelect = false;
     }
     if (e.key === "2") {
       newField.type = "Document";
@@ -518,6 +526,16 @@ export const EditForms = ({
                             onChangeRequiredSettingsEnabled(index)
                           }
                           value={item.required}
+                        />
+                      </div>
+                      <div className="mt-10">
+                        <span>Enable Single Select</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() =>
+                            onChangeSingleSelectEnabled(index)
+                          }
+                          value={item.singleSelect}
                         />
                       </div>
                       <div className="mt-10">

@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from "./components/signin/Login";
 import Register from "./components/signup/Register";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
   const settingsData =
@@ -104,6 +105,10 @@ function App() {
         {
           path: "forget-password",
           element: <ForgotPassword/>
+        } ,
+        {
+          path: "reset-password",
+          element: <ResetPassword/>
         }
       ]
     }

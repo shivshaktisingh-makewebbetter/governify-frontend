@@ -126,6 +126,12 @@ export const CreateForms = ({
     setField(updatedField);
   };
 
+  const onChangeSingleSelectEnabled = (index) =>{
+    const updatedField = [...field];
+    updatedField[index].singleSelect = !updatedField[index].singleSelect;
+    setField(updatedField);
+  }
+
   const handleChangeLabelOfDocuments = (event, index) => {
     let tempField = [...field];
     tempField[index].subLabel = event.target.value;
@@ -290,6 +296,7 @@ export const CreateForms = ({
     }
     if (e.key === "1") {
       newField.type = "CheckBox";
+      newField.singleSelect = false;
     }
     if (e.key === "2") {
       newField.type = "Document";
@@ -500,6 +507,16 @@ export const CreateForms = ({
                             onChangeRequiredSettingsEnabled(index)
                           }
                           value={item.required}
+                        />
+                      </div>
+                      <div className="mt-10">
+                        <span>Enable Single Select</span>
+                        <Switch
+                          className="ml-10"
+                          onChange={() =>
+                            onChangeSingleSelectEnabled(index)
+                          }
+                          value={item.singleSelect}
                         />
                       </div>
                       <div className="mt-10">
