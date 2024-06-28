@@ -206,7 +206,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
           <div style={{ overflowY: "auto", maxHeight: "600px" }}>
             <div
               className="text-start inc-detail-container"
-              style={{ background: "#6f74900f", borderRadius: "10px" }}
+              style={{ borderRadius: "10px" }}
             >
               <div
                 style={{

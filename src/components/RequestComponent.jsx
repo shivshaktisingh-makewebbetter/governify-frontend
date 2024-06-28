@@ -138,7 +138,7 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
             "column_id": "status__1",
             "value": "Canceled"
         })
-        setLoading(true);
+        // setLoading(true);
 
       try{
         const response = await fetcher(endpoint , method , payload);
@@ -149,7 +149,7 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
         }catch(err){
 
         }finally{
-            setLoading(false)
+            // setLoading(false)
         }
     }
 

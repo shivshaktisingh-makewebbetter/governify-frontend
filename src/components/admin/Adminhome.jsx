@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Optionslist } from "./Optionslist"
 import { useEffect } from "react";
 import { getRole } from "../../utils/helper";
+import { userSettingData } from "../../utils/tools";
 
 export const Adminhome = () =>{
 
@@ -22,6 +23,12 @@ export const Adminhome = () =>{
         navigate('/');
       }
     }, [role, navigate]);
+
+    useEffect(() => {
+      userSettingData();
+      return () => {};
+    }, []);
+  
   
 
     return (

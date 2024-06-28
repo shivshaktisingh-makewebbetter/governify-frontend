@@ -31,7 +31,7 @@ const Register = () => {
   };
 
   const onRecaptchaChange = (token) => {
-    setRecaptchaToken(token);
+  setRecaptchaToken(token);
     setRecaptchaExpired(false);
   };
 

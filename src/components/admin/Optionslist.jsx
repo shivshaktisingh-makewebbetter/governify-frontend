@@ -64,10 +64,6 @@ const handleAdminRoute = (title) =>{
     }
 }
 
-useEffect(() => {
-    userSettingData();
-    return () => {};
-  }, []);
 
 
 

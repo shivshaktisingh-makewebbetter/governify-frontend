@@ -74,7 +74,7 @@ export const CustomerForm = ({
     let newItem = item.split("\n");
     const data = newItem.map((subItem, index) => {
       return (
-        <li style={{ color: "#2c2e38", fontSize: "18px" }} key={index}>
+        <li style={{ color: "#2c2e38", fontSize: "13px" }} key={index}>
           {subItem}
         </li>
       );
@@ -229,7 +229,7 @@ export const CustomerForm = ({
                   borderRadius: "10px",
                 }}
               >
-                <p style={{ color: "#2C2E38", fontSize: "18px" }}>
+                <p style={{ color: "#2C2E38", fontSize: "13px" }}>
                   {data.label}
                 </p>
                 <Checkbox.Group
@@ -253,7 +253,7 @@ export const CustomerForm = ({
               >
                 <label
                   htmlFor={`upload-${index}`}
-                  style={{ color: "#2c2e38", fontSize: "18px" }}
+                  style={{ color: "#2c2e38", fontSize: "13px" }}
                 >
                   {item.label || "Upload the following documents"}
                 </label>
