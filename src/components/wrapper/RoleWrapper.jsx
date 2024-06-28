@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getRole } from '../../utils/helper';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getRole, getToken, isTokenValid } from "../../utils/helper";
 
 const RoleWrapper = ({ children }) => {
   const navigate = useNavigate();
   const role = getRole();
+  const token = getToken();
 
   useEffect(() => {
-    if(role === undefined  || role === null || role === ''){
-      navigate('signin')
+    if (role === undefined || role === null || role === "") {
+      navigate("signin");
     }
-    if (role  === 'superAdmin') {
-      navigate('admin');
+    if (role === "superAdmin") {
+      if (token !== null && token !== undefined && token !== "") {
+        let status = isTokenValid(token);
+        if (status.valid) {
+          navigate("admin");
+        }else{
+          navigate("signin");
+        }
+      }else{
+        navigate("signin");
+      }
     }
   }, [role, navigate]);
 

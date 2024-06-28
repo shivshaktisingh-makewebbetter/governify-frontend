@@ -1,39 +1,40 @@
 import { useNavigate } from "react-router-dom";
-import { Optionslist } from "./Optionslist"
+import { Optionslist } from "./Optionslist";
 import { useEffect } from "react";
-import { getRole } from "../../utils/helper";
+import { getRole, getToken, isTokenValid } from "../../utils/helper";
 import { userSettingData } from "../../utils/tools";
 
-export const Adminhome = () =>{
+export const Adminhome = () => {
+  const navigate = useNavigate();
+  const role = getRole();
+  const token = getToken();
 
-    const navigate = useNavigate();
-    const role = getRole();
-  
-    useEffect(() => {
-
-        console.log(role , 'role')
-       
-      if(role === undefined  || role === null || role === ''){
-      
-        navigate('/signin')
+  useEffect(() => {
+    if (role === undefined || role === null || role === "") {
+      navigate("/signin");
+    }
+    if (role === "customer") {
+      if (token !== null && token !== undefined && token !== "") {
+        let status = isTokenValid(token);
+        if (status.valid) {
+          navigate("/");
+        } else {
+          navigate("/signin");
+        }
+      } else {
+        navigate("/signin");
       }
-      if (role  === 'customer') {
-    
-     
-        navigate('/');
-      }
-    }, [role, navigate]);
+    }
+  }, [role, navigate]);
 
-    useEffect(() => {
-      userSettingData();
-      return () => {};
-    }, []);
-  
-  
+  useEffect(() => {
+    userSettingData();
+    return () => {};
+  }, []);
 
-    return (
-            <>
-                <Optionslist/>
-            </>
-            )
-}
+  return (
+    <>
+      <Optionslist />
+    </>
+  );
+};

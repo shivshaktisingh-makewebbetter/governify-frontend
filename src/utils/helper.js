@@ -1,3 +1,25 @@
+import { jwtDecode } from "jwt-decode";
+
+export function isTokenValid(token) {
+    if (!token) return { valid: false, error: 'Token is empty' };
+
+    try {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decoded.exp < currentTime) {
+            return { valid: false, error: 'Token is expired' };
+        }
+
+        return { valid: true, decoded };
+    } catch (err) {
+        return { valid: false, error: 'Invalid token' };
+    }
+}
+
+
+
+
 export const fetcher = async (endpoint , method , payload = null) =>{
     const token = getToken();
     let myHeaders = new Headers();
@@ -33,7 +55,7 @@ export const getRole = () =>{
 
 
 
-const getToken = () =>{
+export const getToken = () =>{
     let token = sessionStorage.getItem('token') ;
 
 return token;
