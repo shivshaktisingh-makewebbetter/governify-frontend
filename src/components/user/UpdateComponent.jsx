@@ -46,6 +46,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
     }
   }
   const props = {
+    multiple:true ,
     onRemove: (file) => {
       //   const index = fileList.indexOf(file);
       //   const newFileList = fileList.slice();
@@ -258,7 +259,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                     {...props}
                     showUploadList={false}
                     onChange={(e) => handleFileChange(e, false)}
-                    multiple={false}
+                
                   >
                     <Button
                       icon={<UploadIcon />}

@@ -39,6 +39,7 @@ export const CreateForms = ({
     let flag = false;
     let method = "POST";
     let url = "governify/admin/serviceRequestForms";
+    let message = '';
     let categoryData = {
       name: formDetail.formName,
       form_data: field,
@@ -48,14 +49,37 @@ export const CreateForms = ({
     field.forEach((item) => {
       if (item.label === "") {
         flag = true;
+        message = "Please Enter all the label of Form";
         return;
       }
     });
 
+
     if (flag) {
-      toast.error("Please Enter all the label of Form");
+      toast.error(message);
       return;
     }
+
+  
+
+    field.forEach((item) => {
+      if (item.type === "CheckBox") {
+        if(item.subLabel === ''){
+          flag = true;
+          message = "Please Enter Options for Checkbox";
+          return;
+        }
+        
+        
+      }
+    });
+
+    if (flag) {
+      toast.error(message);
+      return;
+    }
+
+  
 
     let payload = JSON.stringify(categoryData);
 

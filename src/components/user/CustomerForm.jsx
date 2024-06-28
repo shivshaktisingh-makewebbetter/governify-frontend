@@ -16,6 +16,7 @@ export const CustomerForm = ({
   categoryName,
 }) => {
   const data = JSON.parse(sessionStorage.getItem("settings"));
+  console.log(formData , 'data')
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
   const navigate = useNavigate();

@@ -54,6 +54,7 @@ export const EditForms = ({
 
   const publishForm = async () => {
     let flag = false;
+    let message = '';
     let url = `governify/admin/serviceRequestForms/${data.id}`;
     let method = "PUT";
     let categoryData = {
@@ -62,15 +63,35 @@ export const EditForms = ({
       category_services_mapping: categoryServicesMapping,
     };
 
+  
     field.forEach((item) => {
       if (item.label === "") {
         flag = true;
+        message = "Please Enter all the label of Form";
         return;
       }
     });
 
+  
     if (flag) {
-      toast.error("Please Enter all the label of Form");
+      toast.error(message);
+      return;
+    }
+
+    field.forEach((item) => {
+      if (item.type === "CheckBox") {
+        if(item.subLabel === ''){
+          flag = true;
+          message = "Please Enter Options for Checkbox";
+          return;
+        }
+        
+        
+      }
+    });
+
+    if (flag) {
+      toast.error(message);
       return;
     }
 

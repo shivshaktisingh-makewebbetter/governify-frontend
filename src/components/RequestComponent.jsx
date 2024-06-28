@@ -168,7 +168,6 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
             "pulse_id": item.id,
             "column_id": "status__1",
         })
-
         try{
             const response = await fetcher(endpoint , method , payload);
             if(response.status){
