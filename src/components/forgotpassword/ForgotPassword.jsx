@@ -1,7 +1,49 @@
 import React, { useEffect, useState } from "react";
+import { Loader } from "../common/Loader";
+import { fetcher } from "../../utils/helper";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const ForgotPassword = () => {
   const [animation, setAnimation] = useState(true);
+  const [email , setEmail] = useState('');
+  const [loading , setLoading] = useState(false);
+
+  const handleEmail = (e) =>{
+   setEmail(e.target.value);
+  }
+
+  const handleSubmit = async ()=>{
+    let url = 'onboardify/forgot';
+    let method = 'POST';
+    let payload = JSON.stringify({email:email})
+    try{
+        setLoading(true);
+        const response = await fetcher(url , method , payload);
+        if(response.status){
+            toast.success('Mail Sent Successfully.')
+        }else{
+            toast.error(response.message);
+        }
+
+    }catch(err){
+    console.log(err , 'error')
+
+    }finally{
+        setLoading(false);
+
+    }
+    
+
+  }
+
+  const buttonDisable = () =>{
+    const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
+    if (email && emailRegex.test(email)) {
+        return false;
+    }
+    return true;
+  }
   useEffect(() => {
     setTimeout(() => {
       setAnimation(false);
@@ -9,6 +51,7 @@ const ForgotPassword = () => {
   }, []);
   return (
     <div className="container auth-container text-center">
+        {loading && <Loader/>}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div>
           <div className="animation-container" style={{ minHeight: "160px" }}>
@@ -42,11 +85,13 @@ const ForgotPassword = () => {
               </div>
             </div>
             <div class="form-auth">
-              <input placeholder="Email" type="email" />
+              <input placeholder="Email" type="email" value={email} onChange={handleEmail}/>
               <button
                 id="login-button"
                 class="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center bg-inc-orange"
                 type="button"
+                disabled={buttonDisable()}
+                onClick={handleSubmit}
               >
                 <span className="fw-bold">Email me a recovery link</span>
                 <span class="icon-btn_track" style={{ marginLeft: "10px" }}>
@@ -74,6 +119,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
