@@ -8,6 +8,8 @@ import { Loader } from '../common/Loader';
 const PanelWrapper = () => {
 
   const [user , setUser] = useState('');
+  const token = sessionStorage.getItem('token');
+
 
   const getLoginUserDetails = async () =>{
     try {
@@ -29,7 +31,7 @@ const PanelWrapper = () => {
 
  useEffect(()=>{
   getLoginUserDetails();
- } , [])
+ } , [token])
 
 
 

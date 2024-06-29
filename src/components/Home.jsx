@@ -4,6 +4,7 @@ import { SearchBox } from "./common/SearchBox";
 import { InternalTab } from "./InternalTab";
 import { fetcher } from "../utils/helper";
 import { Loader } from "./common/Loader";
+import { userSettingData } from "../utils/tools";
 
 const Home = () => {
   const [dashboardData, setDashboardData] = useState([]);
@@ -11,6 +12,7 @@ const Home = () => {
   const [searchData, setSearchData] = useState("");
   const interval = useRef(null);
   const [loading, setLoading] = useState(false);
+  const token = sessionStorage.getItem('token');
 
   const getDashboardData = async () => {
     setLoading(true);
@@ -61,7 +63,7 @@ const Home = () => {
         clearTimeout(interval.current);
       }
     };
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (searchData.length > 0) {
@@ -81,6 +83,11 @@ const Home = () => {
       }
     };
   }, [searchData]);
+
+  useEffect(() => {
+    userSettingData();
+    return () => {};
+  }, [token]);
 
   useEffect(() => {
     // Your function to call on reload

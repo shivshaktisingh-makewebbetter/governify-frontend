@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { Button, Flex, Input, Upload } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Flex, Input, Upload, message, Checkbox } from "antd";
 import { fetcher } from "../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../common/Loader";
 import { Submit } from "../../assets/image";
 import { UploadOutlined } from "@ant-design/icons";
-import { message } from "antd";
-import { Checkbox } from "antd";
+import axios from "axios";
 
 export const CustomerForm = ({
   formData,
@@ -15,78 +14,130 @@ export const CustomerForm = ({
   setLoading,
   categoryName,
 }) => {
-  const data = JSON.parse(sessionStorage.getItem("settings"));
-  console.log(formData , 'data')
+  const data = JSON.parse(sessionStorage.getItem("settings")) || {
+    image:
+      "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
+    site_bg: "#ffffff",
+    button_bg: "#5ac063",
+    banner_bg: "#5ac063",
+    banner_content:
+      "Hire an attitude, not just experience and qualification. Greg Savage.",
+    header_bg: "#f7f7f7",
+    head_title_color: "#5ac063",
+  };;
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
-  const [checkedValue , setCheckedvalue] = useState([]);
+  const [checkedValue, setCheckedValue] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [idForImage, setIdForImage] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setIsButtonDisabled(checkDisable());
+  }, [formDetails, imageData]);
+
   const props = {
-    name: "file",
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-    headers: {
-      authorization: "authorization-text",
-    },
     multiple: true,
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
+    onRemove: (file) => {},
+    beforeUpload: (file) => {
+      return false;
     },
   };
 
-  const handleFileChange = (e) => {
-    let files = e.target.files;
-    const updatedImageData = [...imageData];
+  const handleFileChange = async (event) => {
+    const fileList = event.fileList;
 
-    if (files.length > 0) {
-      Array.from(files).forEach((file, index) => {
-        let reader = new FileReader();
-
-        reader.onload = (function (theFile) {
-          return function (e) {
-            updatedImageData.push({
-              file_name: file.name,
-              file_image: e.target.result,
-            });
-            // Process the file content here (e.g., update state, send to server, etc.)
-          };
-        })(file);
-
-        reader.readAsDataURL(file);
+    const convertToBinary = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const arrayBuffer = e.target.result;
+          const binaryString = new Uint8Array(arrayBuffer).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          );
+          resolve(binaryString);
+        };
+        reader.onerror = (e) => {
+          reject(e);
+        };
+        reader.readAsArrayBuffer(file);
       });
-    }
-    setImageData(updatedImageData);
-  };
+    };
 
-  console.log(imageData, "sdf");
+    const processFiles = async () => {
+      const filesArray = [];
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i].originFileObj; // Access the original file object
+        const binaryFile = await convertToBinary(file);
+        filesArray.push({ file_name: file.name, file: binaryFile });
+      }
+      setImageData(filesArray);
+      // return filesArray;
+    };
+
+    processFiles();
+    // setImageData(data);
+  };
 
   const getUploadLabel = (item) => {
     let newItem = item.split("\n");
-    const data = newItem.map((subItem, index) => {
-      return (
-        <li style={{ color: "#2c2e38", fontSize: "13px" }} key={index}>
-          {subItem}
-        </li>
-      );
-    });
+    const data = newItem.map((subItem, index) => (
+      <li style={{ color: "#2c2e38", fontSize: "13px" }} key={index}>
+        {subItem}
+      </li>
+    ));
     return <ul>{data}</ul>;
+  };
+
+  const uploadImage = async (image, idForImage) => {
+    image.item_id = idForImage;
+    console.log(image , idForImage)
+
+    let token = sessionStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "https://onboardify.tasc360.com/incorpify/uploadMondayFiles",
+        image,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      return data.success; // assuming the API returns a success field
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      return false;
+    }
+  };
+
+  const uploadAllImage = async (imageData, idForImage) => {
+    const uploadPromises = imageData.map((image) =>
+      uploadImage(image, idForImage)
+    );
+    const results = await Promise.all(uploadPromises);
+
+    return results.every((result) => result === true);
+  };
+
+  const handleSubmitAll = async () => {
+    const response1 = await handleSubmit();
+
+    const response2 = await uploadAllImage(imageData, idForImage);
+
+    console.log(response1, response2);
   };
 
   const handleSubmit = async () => {
     let complete = false;
     let tempFormData = [];
-    formDetails.forEach((item, index) => {
+    formDetails.forEach((item) => {
       if (item.type !== "image") {
         if (item.required && (item.value === "" || item.value === undefined)) {
           complete = true;
@@ -103,24 +154,22 @@ export const CustomerForm = ({
     let url = "governify/customer/createRequestDashboard";
     let payload = JSON.stringify({
       form_data: tempFormData,
-      file_data: imageData,
       service_request: serviceTitle,
       service_category: categoryName,
     });
-    setLoading(true);
+
     try {
       const response = await fetcher(url, method, payload);
       if (response.status) {
-        navigate("track-request");
+        setIdForImage(response.response.response.data.create_item.id);
+        return response;
       }
     } catch (err) {
       console.log(err, "err");
-    } finally {
-      setTimeout(() => {
-        setLoading(true);
-      }, 2000);
     }
   };
+
+  // Assuming you call handleSubmitAll somewhere in your code to trigger the process
 
   const handleChangeValue = (e, index) => {
     let updatedData = [...formDetails];
@@ -131,50 +180,49 @@ export const CustomerForm = ({
   const onChangeCheckBox = (checkedValues) => {
     let singleSelect = false;
     formData.form_data.forEach((item) => {
-     
       if (item.type === "CheckBox") {
-        singleSelect= item.singleSelect;
+        singleSelect = item.singleSelect;
       }
     });
 
-    if(singleSelect){
-      let tempCheckedValue = [];
-      tempCheckedValue.push(checkedValues);
-    }else{
-      let tempCheckedValue = [...checkedValue];
-      tempCheckedValue.push(checkedValues);
+    if (singleSelect) {
+      setCheckedValue([checkedValues]);
+    } else {
+      setCheckedValue([...checkedValue, checkedValues]);
     }
     console.log("checked = ", checkedValues);
   };
 
   const checkDisable = () => {
     let flag = false;
-
     formData.form_data.forEach((item) => {
-      if (item.type === "textArea") {
-        if (item.value === "") {
-          flag = true;
-        }
-      } else if (item.type === "CheckBox") {
-        // checkBoxPresent = true;
-      } else {
-        if (imageData.length === 0) {
-          flag = true;
-        }
+      if (
+        item.type === "textArea" &&
+        (item.value === "" || item.value === undefined)
+      ) {
+        flag = true;
+      } else if (
+        item.type === "CheckBox" &&
+        checkedValue.length === 0 &&
+        item.required
+      ) {
+        flag = true;
+      } else if (
+        item.type === "image" &&
+        imageData.length === 0 &&
+        item.required
+      ) {
+        flag = true;
       }
     });
-
     return flag;
   };
 
   const getCheckBoxOptions = (options) => {
-    const tempData = options.map((item) => {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-
+    const tempData = options.map((item) => ({
+      label: item,
+      value: item,
+    }));
     return tempData;
   };
 
@@ -213,7 +261,6 @@ export const CustomerForm = ({
         className="pt-5"
         style={{ paddingBottom: "20px" }}
       >
-        {/* <div className="form-body"> */}
         {formData.form_data.map((item, index) => {
           if (item.type === "textArea") {
             return (
@@ -274,36 +321,31 @@ export const CustomerForm = ({
                   {item.label || "Upload the following documents"}
                 </label>
                 <div>{getUploadLabel(item.subLabel)}</div>
-                <input
-                  id="hiddenFileInput"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  className="hidden-file-input"
-                />
 
-                <Upload {...props}>
+                <Upload {...props} onChange={(e) => handleFileChange(e, false)}>
                   <Button icon={<UploadOutlined />}>Click to Upload</Button>
                 </Upload>
+                <span style={{ marginLeft: "5px" ,marginTop:"5px" }}>
+                  {imageData.length + " files uploaded"}
+                </span>
               </div>
             );
           }
         })}
-        {/* </div> */}
       </Flex>
 
       <div className="w-100 d-flex justify-content-center">
         <Button
-          disabled={checkDisable()}
+          disabled={isButtonDisabled}
           size="large"
           style={{
             width: "100%",
             border: "none",
-            background: "#ecedf5",
-            color: "#32333861",
+            background: isButtonDisabled ? "#ecedf5" : data.button_bg,
+            color: isButtonDisabled ? "#32333861" : "#fff",
           }}
           icon={<Submit />}
-          onClick={handleSubmit}
+          onClick={handleSubmitAll}
         >
           <span
             style={{ fontSize: "15px", fontFamily: "montserrat, sans-serif" }}

@@ -23,6 +23,7 @@ import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
+  const token = sessionStorage.getItem('token');
   const settingsData =
     JSON.parse(sessionStorage.getItem("settings")) ||
     {
@@ -42,7 +43,7 @@ function App() {
   useEffect(() => {
     userSettingData();
     return () => {};
-  }, []);
+  }, [token]);
 
   const router = createBrowserRouter([
     {

@@ -11,10 +11,12 @@ import { FilterBy } from "./FilterBy";
 import { ExportBy } from "./ExportBy";
 import { Loader } from "./common/Loader";
 import { Pagination } from "antd";
+import { userSettingData } from "../utils/tools";
 
 let flag = false;
 
 export const TrackRequest = () => {
+  const token = sessionStorage.getItem('token');
   const [clonedData, setClonedData] = useState([]);
   const [originalArray, setOriginalArray] = useState([]);
   const [data, setData] = useState([]);
@@ -284,6 +286,11 @@ export const TrackRequest = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    userSettingData();
+    return () => {};
+  }, [token]);
 
   return (
     <div style={{ paddingLeft: "16px", paddingRight: "16px" }}>
