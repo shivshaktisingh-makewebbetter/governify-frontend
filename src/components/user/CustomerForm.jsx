@@ -323,7 +323,8 @@ export const CustomerForm = ({
                 <div>{getUploadLabel(item.subLabel)}</div>
 
                 <Upload {...props} onChange={(e) => handleFileChange(e, false)}>
-                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  <Button icon={<UploadOutlined />}
+                  style={{fontSize:"13px" , color:"#2c2e38"}}>Click to Upload</Button>
                 </Upload>
                 <span style={{ marginLeft: "5px" ,marginTop:"5px" }}>
                   {imageData.length + " files uploaded"}
