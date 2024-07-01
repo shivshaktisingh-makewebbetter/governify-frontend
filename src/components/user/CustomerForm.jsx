@@ -46,7 +46,7 @@ export const CustomerForm = ({
     },
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = async (event , index) => {
     const fileList = event.fileList;
 
     const convertToBinary = (file) => {
@@ -74,7 +74,10 @@ export const CustomerForm = ({
         const binaryFile = await convertToBinary(file);
         filesArray.push({ file_name: file.name, file: binaryFile });
       }
-      setImageData(filesArray);
+      let tempFormData = [...formDetails];
+      tempFormData[index].value = filesArray;
+      setFormDetails(tempFormData);
+      // setImageData(filesArray);
       // return filesArray;
     };
 
@@ -93,13 +96,16 @@ export const CustomerForm = ({
   };
 
   const uploadImage = async (image, idForImage) => {
-    image.item_id = idForImage;
+    let formData = new FormData();
+    formData.append("item_id", idForImage);
+    formData.append("file_name", image.file_name);
+    formData.append("file", image.file);
 
     let token = sessionStorage.getItem("token");
     try {
       const response = await axios.post(
         "https://onboardify.tasc360.com/incorpify/uploadMondayFiles",
-        image,
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -129,9 +135,27 @@ export const CustomerForm = ({
 
   const handleSubmitAll = async () => {
     const response1 = await handleSubmit();
+    
 
     if (isUploadEnable.enable) {
-      const response2 = await uploadAllImage(imageData, idForImage);
+      const tempImageData = [];
+       formDetails.forEach((item)=>{
+        if(item.type === 'image' || item.type === 'Document'){
+          if(item.value.length > 0){
+            item.value.forEach((subItem)=>{
+              tempImageData.push( {
+                file:subItem.file , 
+                file_name:subItem.file_name , 
+                item_id:idForImage
+              })
+            })
+          }
+        }
+         
+        
+      })
+      console.log(tempImageData , 'temp')
+      const response2 = await uploadAllImage(tempImageData, idForImage);
     }
 
     if (!isUploadEnable.enable) {
@@ -141,6 +165,7 @@ export const CustomerForm = ({
       }
     }
   };
+
 
   const handleSubmit = async () => {
     let complete = false;
@@ -216,7 +241,7 @@ export const CustomerForm = ({
 
   const checkDisable = () => {
     let flag = false;
-    formData.form_data.forEach((item) => {
+    formDetails.forEach((item) => {
       if (
         item.type === "textArea" &&
         (item.value === undefined ||
@@ -235,7 +260,7 @@ export const CustomerForm = ({
         flag = true;
       } else if (
         (item.type === "image" || item.type === "Document") &&
-        imageData.length === 0 &&
+        item.value!==undefined  && item.value !== null && item.value.length === 0 &&
         item.required
       ) {
         flag = true;
@@ -409,7 +434,7 @@ export const CustomerForm = ({
 
                     <Upload
                       {...props}
-                      onChange={(e) => handleFileChange(e, false)}
+                      onChange={(e) => handleFileChange(e, index)}
                     >
                       <Button
                         icon={<UploadOutlined />}
