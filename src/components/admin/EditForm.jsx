@@ -313,7 +313,7 @@ export const EditForms = ({
       newField.value = "";
     }
     if (e.key === "2") {
-      newField.type = "Document";
+      newField.type = "image";
     }
 
     let fields = [...field];

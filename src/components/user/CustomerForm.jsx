@@ -234,7 +234,7 @@ export const CustomerForm = ({
       ) {
         flag = true;
       } else if (
-        item.type === "image" &&
+        (item.type === "image" || item.type === "Document") &&
         imageData.length === 0 &&
         item.required
       ) {
@@ -258,7 +258,7 @@ export const CustomerForm = ({
     let required = false;
     let singleSelect = false;
     formData.form_data.forEach((item) => {
-      if (item.type === "image") {
+      if (item.type === "image" || item.type === "Document") {
         flag = true;
         required = item.required;
       }
