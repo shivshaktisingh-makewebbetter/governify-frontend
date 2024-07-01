@@ -939,6 +939,9 @@ padding-left:8px;
 }
 
 .governify-option-list-repetitive{
+		flex: 1;
+		margin: 0 10px;
+	  
 	padding:20px;
 }
 

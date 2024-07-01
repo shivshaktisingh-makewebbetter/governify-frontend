@@ -75,7 +75,7 @@ const handleAdminRoute = (title) =>{
                 <div className='governify-option-list-repetitive'>
                    <div className='governify-option-list-icon' style={{color:settingData.button_bg}} >{item.icon}</div>
                    <div className='governify-option-list-title font-family-hind fs-28 fw-700 mt-16 mb-16'>{item.title}</div>
-                   <div className='governify-option-list-description font-family-hind fs-19 text-color-928f8f mb-16'>{item.description}</div>
+                   <div className='governify-option-list-description font-family-hind fs-19 text-color-928f8f mb-16' style={{minHeight:"114px"}}>{item.description}</div>
                    <div style={{display:'flex' , alignItems:'center' , justifyContent:'center'}}>
                     <Button type='primary' className='border-radius-10 fs-17 fw-600 h-40' style={{background:settingData.button_bg , color:'#fff' , display:'flex'  ,gap:'10px', alignItems:'center'}} onClick={()=>handleAdminRoute(item.title)}><span>{item.buttonText}</span><span className='fs-16'><i className="bi bi-arrow-right-circle-fill"></i></span></Button>
                    </div>

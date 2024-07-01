@@ -94,7 +94,7 @@ export const Category = () => {
 
     const styles = {
       headerParent:{
-        backgroundColor: "#5AC063" ,  
+        backgroundColor: "#59c080" ,  
       } ,
 
       header: {
