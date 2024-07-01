@@ -122,7 +122,12 @@ export const EditForms = ({
           return { ...item, type: "image", enabled: true };
         }
       } else {
-        return { ...item, type: "textArea", enabled: false };
+        if(item.type === "CheckBox"){
+          return item;
+        }else{
+          return { ...item, type: "textArea", enabled: false };
+
+        }
       }
     });
     setField(updatedFields);

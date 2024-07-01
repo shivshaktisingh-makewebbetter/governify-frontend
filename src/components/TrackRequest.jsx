@@ -16,7 +16,7 @@ import { userSettingData } from "../utils/tools";
 let flag = false;
 
 export const TrackRequest = () => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   const [clonedData, setClonedData] = useState([]);
   const [originalArray, setOriginalArray] = useState([]);
   const [data, setData] = useState([]);
@@ -37,6 +37,7 @@ export const TrackRequest = () => {
   });
 
   const onChange = (pageNumber) => {
+    console.log(pageNumber)
     const tempData = [...originalArray];
     const from = (pageNumber - 1) * 10;
     const to = dataLength < pageNumber * 10 ? dataLength : pageNumber * 10;
@@ -45,7 +46,7 @@ export const TrackRequest = () => {
     setCurrentPage(pageNumber);
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
@@ -133,6 +134,10 @@ export const TrackRequest = () => {
     return data.filter((item) => item.name.includes(searchString));
   };
 
+  const onShowSizeChange = (e) =>{
+    console.log(e , 'data')
+  }
+
   const sortData = (data, order) => {
     return order === 1 ? data : data.slice().reverse();
   };
@@ -178,7 +183,7 @@ export const TrackRequest = () => {
   const getCategory = (tempData) => {
     let tempValue = "";
     tempData.forEach((item) => {
-      if (item.id === 'service_category__1') {
+      if (item.id === "service_category__1") {
         tempValue = item.text;
       }
     });
@@ -220,7 +225,7 @@ export const TrackRequest = () => {
     // Create a Blob from the CSV string
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-     const link = document.createElement("a");
+    const link = document.createElement("a");
     link.setAttribute("href", url);
     link.setAttribute("download", "data.csv");
 
@@ -232,7 +237,6 @@ export const TrackRequest = () => {
 
     // Remove the link from the document
     document.body.removeChild(link);
-
   };
 
   const setStateData = (data, length) => {
@@ -321,7 +325,10 @@ export const TrackRequest = () => {
         onChange={onChange}
         showTotal={(total) => `Total ${total} items`}
         current={currentPage}
-        showSizeChanger ={false}
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
+        defaultPageSize={10}
+        pageSizeOptions={[10, 20, 50, 100]}
       />
     </div>
   );
