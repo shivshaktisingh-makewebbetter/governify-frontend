@@ -104,7 +104,7 @@ const Login = () => {
         <div class="alert alert-{{ status }}" style={{maxWidth:"400px"}}>
         </div>
       </div> */}
-          <div className="form-container mx-auto">
+          <div className="form-container mx-auto" style={{maxHeight:"440px"}}>
             <div>
               <div>
                 {/* <span className="inc-tasc-gradient-btn">TASC</span><span className="fs-48 ff-ws"> 360</span> */}

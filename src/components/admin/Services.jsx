@@ -45,7 +45,7 @@ export const Services = () => {
         width: '35%',
         render:(_ , record) =>(
           <>
-          <span>{record.service_categorie.title}</span>
+          <span>{record.service_categorie?.title}</span>
           </>
         )
     },
