@@ -10,7 +10,6 @@ export const TabContent = ({ details, categoryName }) => {
   const [loading, setLoading] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
-  
 
   const handleModalForm = (formData, title) => {
     const formDetails = Object.entries(formData)[0][1];
@@ -33,7 +32,9 @@ export const TabContent = ({ details, categoryName }) => {
           const description = item.service_request.description;
           const isExpanded = expandedDescriptions[item.service_request.id];
           const truncatedDescription =
-            description.length > 85 ? description.substring(0, 85) + "..." : description;
+            description.length > 85
+              ? description.substring(0, 85) + "..."
+              : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
           return (
@@ -45,31 +46,31 @@ export const TabContent = ({ details, categoryName }) => {
                   alt="No Preview"
                 />
               </div>
-              <Typography
-                className="service-child-title font-family-hind"
-                style={{ minHeight: "66px" }}
-              >
+              <Typography className="service-child-title font-family-hind">
                 {title}
               </Typography>
               <Typography
                 className="service-child-subtitle font-family-hind"
-                style={{ minHeight: "71px" }}
               >
                 {isExpanded ? description : truncatedDescription}
-                {description.length > 85 && !isExpanded &&(
-                <span
-                  className="read-more-btn"
-                  onClick={() => toggleDescription(item.service_request.id)}
-                  style={{cursor:"pointer" ,color:"blue"} }
-                >
-                  {!isExpanded && "  Read More"}
-                </span>
-              )}
+                {description.length > 85 && !isExpanded && (
+                  <span
+                    className="read-more-btn"
+                    onClick={() => toggleDescription(item.service_request.id)}
+                    style={{ cursor: "pointer", color: "blue" }}
+                  >
+                    {!isExpanded && "  Read More"}
+                  </span>
+                )}
               </Typography>
-          
+
               <Button
                 className="tabcontent-create-request-btn"
-                style={{ position:"absolute" , bottom:"0px" ,borderRadius: "10px" }}
+                style={{
+                  position: "absolute",
+                  bottom: "0px",
+                  borderRadius: "10px",
+                }}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   handleModalForm(
@@ -86,12 +87,7 @@ export const TabContent = ({ details, categoryName }) => {
         })}
       </div>
 
-      <Modal
-        open={open}
-        centered
-        footer={null}
-        onCancel={() => setOpen(false)}
-      >
+      <Modal open={open} centered footer={null} onCancel={() => setOpen(false)}>
         <CustomerForm
           formData={formData}
           loading={loading}
