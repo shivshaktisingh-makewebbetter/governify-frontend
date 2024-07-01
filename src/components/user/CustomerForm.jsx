@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Flex, Input, Upload,  Checkbox } from "antd";
+import { Button, Flex, Input, Upload, Checkbox } from "antd";
 import { fetcher } from "../../utils/helper";
 import { Loader } from "../common/Loader";
 import { Submit } from "../../assets/image";
@@ -26,7 +26,6 @@ export const CustomerForm = ({
   };
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
-  const [checkedValue, setCheckedValue] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [idForImage, setIdForImage] = useState("");
   const [isUploadEnable, setIsUploadEnable] = useState({
@@ -34,9 +33,7 @@ export const CustomerForm = ({
     required: false,
   });
 
-  useEffect(() => {
-    setIsButtonDisabled(checkDisable());
-  }, [formDetails, imageData]);
+
 
   const props = {
     multiple: true,
@@ -94,7 +91,6 @@ export const CustomerForm = ({
 
   const uploadImage = async (image, idForImage) => {
     image.item_id = idForImage;
-    console.log(image, idForImage);
 
     let token = sessionStorage.getItem("token");
     try {
@@ -181,7 +177,7 @@ export const CustomerForm = ({
     setFormDetails(updatedData);
   };
 
-  const onChangeCheckBox = (e , index) => {
+  const onChangeCheckBox = (e, index) => {
     let singleSelect = false;
     formData.form_data.forEach((item) => {
       if (item.type === "CheckBox") {
@@ -193,21 +189,23 @@ export const CustomerForm = ({
       formData.form_data[index].value = e;
     } else {
       formData.form_data[index].value = e;
-
     }
   };
 
   const checkDisable = () => {
     let flag = false;
     formData.form_data.forEach((item) => {
+      console.log(item.value , 'sdf')
       if (
         item.type === "textArea" &&
-        (item.value === "" || item.value === undefined) && item.requird
+        (item.value === undefined || item.value === "") &&
+        item.required
       ) {
+       
         flag = true;
       } else if (
         item.type === "CheckBox" &&
-        (item.value === "" || item.value === undefined)  &&
+        (item.value === "" || item.value === undefined) &&
         item.required
       ) {
         flag = true;
@@ -219,6 +217,7 @@ export const CustomerForm = ({
         flag = true;
       }
     });
+  
     return flag;
   };
 
@@ -242,6 +241,10 @@ export const CustomerForm = ({
     setIsUploadEnable({ enable: flag, required: required });
   }, []);
 
+  useEffect(() => {
+    setIsButtonDisabled(checkDisable());
+  }, [formDetails, imageData]);
+  
   return (
     <div
       className="customer-form-container"
@@ -315,7 +318,7 @@ export const CustomerForm = ({
                   style={{ fontSize: "13px" }}
                   options={options}
                   defaultValue={["Apple"]}
-                  onChange={(e)=>onChangeCheckBox(e , index)}
+                  onChange={(e) => onChangeCheckBox(e, index)}
                 />
               </div>
             );
