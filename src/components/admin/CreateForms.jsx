@@ -226,7 +226,7 @@ export const CreateForms = ({
 
 
       if(!response.status){
-        toast.error('Form already assigned with the same service and category.');
+        toast.error(response.message || 'Form already assigned with the same service and category.');
        tempData[index].services_id = '';
        setCategoryServicesMapping(tempData);
         return;

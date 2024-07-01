@@ -10,6 +10,7 @@ export const TabContent = ({ details, categoryName }) => {
   const [loading, setLoading] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
+  
 
   const handleModalForm = (formData, title) => {
     const formDetails = Object.entries(formData)[0][1];
@@ -56,19 +57,19 @@ export const TabContent = ({ details, categoryName }) => {
               >
                 {isExpanded ? description : truncatedDescription}
                 {description.length > 85 && !isExpanded &&(
-                <Button
+                <span
                   className="read-more-btn"
-                   type="link"
                   onClick={() => toggleDescription(item.service_request.id)}
+                  style={{cursor:"pointer" ,color:"blue"} }
                 >
-                  {!isExpanded && "Read More"}
-                </Button>
+                  {!isExpanded && "  Read More"}
+                </span>
               )}
               </Typography>
           
               <Button
                 className="tabcontent-create-request-btn"
-                style={{ borderRadius: "10px" }}
+                style={{ position:"absolute" , bottom:"0px" ,borderRadius: "10px" }}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   handleModalForm(
