@@ -93,7 +93,7 @@ export const CustomerForm = ({
     formData.append("item_id", idForImage);
     formData.append("file_name", image.file_name);
     formData.append("file", image.file);
-
+  
     let token = sessionStorage.getItem("token");
     try {
       const response = await axios.post(
@@ -106,16 +106,18 @@ export const CustomerForm = ({
           },
         }
       );
-      if (!response.ok) {
+  
+      if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      return data.success; // assuming the API returns a success field
+      
+      return response.data.success; // Assuming the API returns a success field
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       return false;
     }
   };
+  
 
   const uploadAllImage = async (imageData, idForImage) => {
     const uploadPromises = imageData.map((image) =>
@@ -127,41 +129,43 @@ export const CustomerForm = ({
   };
 
   const handleSubmitAll = async () => {
-    const response1 = await handleSubmit();
-    const id = response1.response.response.data.create_item.id;
-
-    if (isUploadEnable.enable) {
+    try {
+      const response1 = await handleSubmit();
+      const id = response1.response.response.data.create_item.id;
       const tempImageData = [];
-      formDetails.forEach((item) => {
-        if (item.type === 'image' || item.type === 'Document') {
-          if (item.value.length > 0) {
+
+      if (isUploadEnable.enable) {
+       
+        formDetails.forEach((item) => {
+          if (item.type === "image" || item.type === "Document") {
+            if (item.value.length > 0) {
               item.value.forEach((subItem) => {
-                  // Convert file_name from binary (ArrayBuffer) to string
-                  let fileName = '';
-                  if (subItem.file_name instanceof ArrayBuffer) {
-                      const decoder = new TextDecoder('utf-8');
-                      fileName = decoder.decode(new Uint8Array(subItem.file_name));
-                  } else {
-                      fileName = subItem.file_name; // If it's already a string or another type
-                  }
-
-                  tempImageData.push({
-                      file: subItem.file,
-                      file_name: subItem.file_name,
-                      item_id: id
-                  });
+                tempImageData.push({
+                  file: subItem.file,
+                  file_name: subItem.file_name, // Corrected from subItem.file_name to fileName
+                  item_id: id,
+                });
               });
+            }
           }
-      }
-      });
-      console.log(tempImageData, "temp");
-      const response2 = await uploadAllImage(tempImageData, idForImage);
-    }
+        });
 
-    if (!isUploadEnable.enable) {
-      if (response1.status) {
-        setFormSubmitted(true);
+     
       }
+      const response2 = await uploadAllImage(tempImageData, id);
+      console.log(response2, "uploadAllImage response");
+
+      if (!isUploadEnable.enable) {
+        if (response1.status) {
+          setFormSubmitted(true);
+        }
+      }else{
+        if(response2){
+          setFormSubmitted(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error in handleSubmitAll:", error);
     }
   };
 
