@@ -742,7 +742,7 @@ body,
 	background-image: url('/public/authbg.svg');
 	background-size: 100%;
   }
-  
+
 .service-repetitive-div {
   flex: 1 1 calc(33.333% - 10px);
   box-sizing: border-box;
@@ -1069,6 +1069,7 @@ table tr:hover {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
     rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
   max-width: 540px;
+  background:#ffffff;
 }
 
 @media screen and (max-width: 600px) {

@@ -35,12 +35,12 @@ export const TrackRequest = () => {
     3: "Canceled",
     5: "Awaiting Action",
   });
+const [limit , setLimit] = useState(10);
 
   const onChange = (pageNumber) => {
-    console.log(pageNumber)
     const tempData = [...originalArray];
-    const from = (pageNumber - 1) * 10;
-    const to = dataLength < pageNumber * 10 ? dataLength : pageNumber * 10;
+    const from = (pageNumber - 1) * limit;
+    const to = dataLength < pageNumber * limit ? dataLength : pageNumber * limit;
     const newData = tempData.slice(from, to);
     setData(newData);
     setCurrentPage(pageNumber);
@@ -134,8 +134,19 @@ export const TrackRequest = () => {
     return data.filter((item) => item.name.includes(searchString));
   };
 
-  const onShowSizeChange = (e) =>{
-    console.log(e , 'data')
+  const onShowSizeChange = (current , size) =>{
+    
+    // const tempData = [...originalArray];
+    // const from = (pageNumber - 1) * size;
+    // const to = dataLength < pageNumber * size ? dataLength : pageNumber * size;
+    // const newData = tempData.slice(from, to);
+    // setData(newData);
+    // setCurrentPage(current);
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
+    // setLimit(size);
   }
 
   const sortData = (data, order) => {
