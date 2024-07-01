@@ -93,7 +93,7 @@ const UpdateAndReply = ({
             borderRight: "1px solid #cbc2c2",
             color: "#6F7490",
           }}
-          onClick={likeIds ? unlikeComment(item.id) : handleLike}
+          onClick={likeIds ? ()=>unlikeComment(item.id) : handleLike}
         >
           <span
             className="d-flex justify-content-center align-items-center"

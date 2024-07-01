@@ -121,6 +121,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
       parent_id: "",
       item_id: id,
       text_body: `From ${sessionStorage.getItem("userEmail")}: ${updateValue}`,
+      email:sessionStorage.getItem("userEmail")
     };
     try {
       const response = await fetcher(
