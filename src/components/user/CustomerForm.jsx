@@ -64,7 +64,7 @@ export const CustomerForm = ({
               }
             }
           });
-          tempImageData.push({ file: files, file_name: files });
+          tempImageData.push({ file: files, file_name: files.name });
           tempFormData.forEach((item) => {
             if (item.type === "Document" || item.type === "image") {
               item.value = tempImageData;
