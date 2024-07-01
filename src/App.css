@@ -738,6 +738,11 @@ body,
   row-gap: 16px;
 }
 
+.inc-auth-container {
+	background-image: url('/public/authbg.svg');
+	background-size: 100%;
+  }
+  
 .service-repetitive-div {
   flex: 1 1 calc(33.333% - 10px);
   box-sizing: border-box;

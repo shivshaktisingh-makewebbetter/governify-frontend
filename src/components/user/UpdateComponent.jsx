@@ -100,6 +100,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
   };
 
   const newFetchData = async () => {
+
     setLoading(true);
     try {
       let url = `incorpify/getSubItemDetailsById/${id}`;
@@ -168,7 +169,8 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
               }
             );
             setTimeout(() => {
-              if (response.success) {
+              console.log(response , 'response')
+              if (response.status === 200) {
                 if (name) {
                   let value = `<a href="${response.data.data.add_file_to_column.url}">${response.data.data.add_file_to_column.name}</a>`;
                   setUpdateValue(value);
