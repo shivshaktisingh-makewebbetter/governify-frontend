@@ -202,21 +202,18 @@ const [limit , setLimit] = useState(10);
         "Category Of Service",
         "Created Date",
         "Status",
-        "Form Information",
       ],
     ];
     tempData.forEach((item) => {
       let createdAt = item.created_at;
       let serviceName = item.name;
       let statusValue = getStatusValue(item.column_values);
-      let formInformTion = getFormInformation(item.column_values);
       let categoryName = getCategory(item.column_values);
       dataFormatToPrepare.push([
         serviceName,
         categoryName,
         createdAt,
         statusValue,
-        formInformTion,
       ]);
     });
 
