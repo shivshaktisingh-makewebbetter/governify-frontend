@@ -95,6 +95,8 @@ const Login = () => {
               } ff-ws `}
               style={{
                 transition: "transform 1s ease, opacity 2s ease",
+                fontSize:"50px" ,
+                fontWeight:"500"
               }}
             >
               Governify
@@ -104,7 +106,7 @@ const Login = () => {
         <div class="alert alert-{{ status }}" style={{maxWidth:"400px"}}>
         </div>
       </div> */}
-          <div className="form-container mx-auto" style={{maxHeight:"440px"}}>
+          <div className="form-container mx-auto" style={{maxWidth:"440px"}}>
             <div>
               <div>
                 {/* <span className="inc-tasc-gradient-btn">TASC</span><span className="fs-48 ff-ws"> 360</span> */}
@@ -114,7 +116,7 @@ const Login = () => {
                   style={{ maxWidth: "220px" }}
                 />
               </div>
-              <div className="fs-36 ff-ws mb-3 text-inc-tundora">Sign In</div>
+              <div className="fs-24 ff-ws mb-3 text-inc-tundora fw-600">Sign In</div>
             </div>
             <div class="form-auth">
               <input
@@ -170,10 +172,10 @@ const Login = () => {
                 </span>
               </button>
               <div class="d-flex justify-content-between align-items-start w-100 mt-2">
-                <a href="/forget-password">Forgot Password?</a>
-                <a href="/signup">Create New Account?</a>
+                <a href="/forget-password" className="fs-13">Forgot Password?</a>
+                <a href="/signup" className="fs-13">Create New Account?</a>
               </div>
-              <div className="mt-3 fs-18 ff-ws text-inc-tundora">
+              <div className="mt-3 fs-16 ff-ws text-inc-tundora">
                 Powered by TASC Outsourcing®
               </div>
             </div>
