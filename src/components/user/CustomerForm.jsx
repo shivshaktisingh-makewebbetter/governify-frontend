@@ -356,7 +356,7 @@ export const CustomerForm = ({
                       }}
                     >
                       <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                        {data.label}
+                        {data.label} {item.required && ' *'}
                       </p>
                       <Checkbox.Group
                         style={{ fontSize: "13px" }}
@@ -377,7 +377,7 @@ export const CustomerForm = ({
                       }}
                     >
                       <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                        {data.label}
+                        {data.label}  {item.required && ' *'}
                       </p>
                       <Checkbox.Group
                         style={{ fontSize: "13px" }}
@@ -403,7 +403,7 @@ export const CustomerForm = ({
                       htmlFor={`upload-${index}`}
                       style={{ color: "#2c2e38", fontSize: "13px" }}
                     >
-                      {item.label || "Upload the following documents"}
+                      {item.label || "Upload the following documents"}  {item.required && ' *'}
                     </label>
                     <div>{getUploadLabel(item.subLabel)}</div>
 
