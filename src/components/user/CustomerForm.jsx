@@ -187,22 +187,30 @@ export const CustomerForm = ({
     });
 
     if (singleSelect) {
-      const newValues = e.filter(item => !isSingleSelectEnable.value.includes(item));
+      if(e.length > 0){
+        const newValues = e.filter(item => !isSingleSelectEnable.value.includes(item));
 
-      // If there are new values, update the form data and the state
-      if (newValues.length > 0) {
-        formData.form_data[index].value = e;
-        setSingleSelect({ ...isSingleSelectEnable, value: [...isSingleSelectEnable.value, ...newValues] });
+        // If there are new values, update the form data and the state
+        if (newValues.length > 0) {
+          formData.form_data[index].value = newValues[0];
+          setSingleSelect({ ...isSingleSelectEnable, value: newValues });
+        }
+      }else{
+        formData.form_data[index].value = '';
+        setSingleSelect({ ...isSingleSelectEnable, value: [] });
+      
       }
+      
     } else {
-      formData.form_data[index].value = e;
+      formData.form_data[index].value = e.join(',');
+      setSingleSelect({ ...isSingleSelectEnable, value: e });
     }
   };
+
 
   const checkDisable = () => {
     let flag = false;
     formData.form_data.forEach((item) => {
-      console.log(item.value , 'sdf')
       if (
         item.type === "textArea" &&
         (item.value === undefined || item.value === null|| item.value === "") &&
@@ -257,9 +265,8 @@ export const CustomerForm = ({
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
-  }, [formDetails, imageData]);
+  }, [formDetails, imageData , isSingleSelectEnable]);
 
-  console.log(isSingleSelectEnable)
   
   return (
     <div
