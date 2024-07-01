@@ -198,14 +198,14 @@ export const CustomerForm = ({
       console.log(item.value , 'sdf')
       if (
         item.type === "textArea" &&
-        (item.value === undefined || item.value === "") &&
+        (item.value === undefined || item.value === null|| item.value === "") &&
         item.required
       ) {
        
         flag = true;
       } else if (
         item.type === "CheckBox" &&
-        (item.value === "" || item.value === undefined) &&
+        (item.value === "" || item.value === null || item.value === undefined) &&
         item.required
       ) {
         flag = true;
