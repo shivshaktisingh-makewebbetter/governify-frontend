@@ -69,7 +69,7 @@ const handleAdminRoute = (title) =>{
 
 
     return (
-        <div className='governify-option-list mt-100'>
+        <div className='governify-option-list'>
         {data.map((item)=>{
             return (
                 <div className='governify-option-list-repetitive'>
