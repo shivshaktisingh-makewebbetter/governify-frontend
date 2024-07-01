@@ -9,6 +9,7 @@ export const TabContent = ({ details, categoryName }) => {
   const [formData, setFormData] = useState();
   const [loading, setLoading] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
+  const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
   const handleModalForm = (formData, title) => {
     const formDetails = Object.entries(formData)[0][1];
@@ -17,14 +18,21 @@ export const TabContent = ({ details, categoryName }) => {
     setOpen(true);
   };
 
+  const toggleDescription = (id) => {
+    setExpandedDescriptions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   return (
     <div key={uuidv4()}>
       <div className="service-parent-div">
         {details.map((item) => {
-          const description =
-            item.service_request.description.length > 85
-              ? item.service_request.description.substring(0, 85) + "..."
-              : item.service_request.description;
+          const description = item.service_request.description;
+          const isExpanded = expandedDescriptions[item.service_request.id];
+          const truncatedDescription =
+            description.length > 85 ? description.substring(0, 85) + "..." : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
           return (
@@ -46,13 +54,21 @@ export const TabContent = ({ details, categoryName }) => {
                 className="service-child-subtitle font-family-hind"
                 style={{ minHeight: "71px" }}
               >
-                {description}
+                {isExpanded ? description : truncatedDescription}
               </Typography>
+              {description.length > 85 && (
+                <Button
+                  className="read-more-btn"
+                   type="link"
+                  onClick={() => toggleDescription(item.service_request.id)}
+                >
+                  {isExpanded ? "Read Less" : "Read More"}
+                </Button>
+              )}
               <Button
                 className="tabcontent-create-request-btn"
                 style={{ borderRadius: "10px" }}
                 icon={<PlusOutlined />}
-                iconPosition={"end"}
                 onClick={() =>
                   handleModalForm(
                     item.service_forms,
@@ -71,7 +87,7 @@ export const TabContent = ({ details, categoryName }) => {
       <Modal
         open={open}
         centered
-        footer={(_, record) => <></>}
+        footer={null}
         onCancel={() => setOpen(false)}
       >
         <CustomerForm

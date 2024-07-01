@@ -136,6 +136,7 @@ export const CustomerForm = ({
 
     if (!isUploadEnable.enable) {
       if (response1.status) {
+      
         setFormSubmitted(true);
       }
     }
