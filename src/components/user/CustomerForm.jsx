@@ -28,6 +28,7 @@ export const CustomerForm = ({
   const [imageData, setImageData] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [idForImage, setIdForImage] = useState("");
+  const [isSingleSelectEnable , setSingleSelect] = useState({enable:false , value:''});
   const [isUploadEnable, setIsUploadEnable] = useState({
     enable: false,
     required: false,
@@ -186,7 +187,13 @@ export const CustomerForm = ({
     });
 
     if (singleSelect) {
-      formData.form_data[index].value = e;
+      const newValues = e.filter(item => !isSingleSelectEnable.value.includes(item));
+
+      // If there are new values, update the form data and the state
+      if (newValues.length > 0) {
+        formData.form_data[index].value = e;
+        setSingleSelect({ ...isSingleSelectEnable, value: [...isSingleSelectEnable.value, ...newValues] });
+      }
     } else {
       formData.form_data[index].value = e;
     }
@@ -232,18 +239,27 @@ export const CustomerForm = ({
   useEffect(() => {
     let flag = false;
     let required = false;
+    let singleSelect = false;
     formData.form_data.forEach((item) => {
       if (item.type === "image") {
         flag = true;
         required = item.required;
       }
+      if (item.type === "CheckBox") {
+        singleSelect = true;
+
+      }
+
     });
     setIsUploadEnable({ enable: flag, required: required });
+    setSingleSelect({enable:singleSelect ,value:''});
   }, []);
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
   }, [formDetails, imageData]);
+
+  console.log(isSingleSelectEnable)
   
   return (
     <div
@@ -302,26 +318,52 @@ export const CustomerForm = ({
           } else if (item.type === "CheckBox") {
             const data = item;
             const options = getCheckBoxOptions(data.subLabel.split(","));
-            return (
-              <div
-                key={data.key}
-                style={{
-                  background: "#0000000A",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-              >
-                <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                  {data.label}
-                </p>
-                <Checkbox.Group
-                  style={{ fontSize: "13px" }}
-                  options={options}
-                  defaultValue={["Apple"]}
-                  onChange={(e) => onChangeCheckBox(e, index)}
-                />
-              </div>
-            );
+            if(isSingleSelectEnable.enable){
+              return (
+                <div
+                  key={data.key}
+                  style={{
+                    background: "#0000000A",
+                    padding: "10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <p style={{ color: "#2C2E38", fontSize: "13px" }}>
+                    {data.label}
+                  </p>
+                  <Checkbox.Group
+                    style={{ fontSize: "13px" }}
+                    options={options}
+                    onChange={(e) => onChangeCheckBox(e, index)}
+                    value={isSingleSelectEnable.value}
+                     
+              
+                  />
+                </div>
+              );
+            }else{
+              return (
+                <div
+                  key={data.key}
+                  style={{
+                    background: "#0000000A",
+                    padding: "10px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <p style={{ color: "#2C2E38", fontSize: "13px" }}>
+                    {data.label}
+                  </p>
+                  <Checkbox.Group
+                    style={{ fontSize: "13px" }}
+                    options={options}
+                    onChange={(e) => onChangeCheckBox(e, index)}
+              
+                  />
+                </div>
+              );
+            }
+            
           } else {
             return (
               <div

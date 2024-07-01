@@ -321,6 +321,7 @@ export const TrackRequest = () => {
         onChange={onChange}
         showTotal={(total) => `Total ${total} items`}
         current={currentPage}
+        showSizeChanger ={false}
       />
     </div>
   );
