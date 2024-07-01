@@ -187,7 +187,7 @@ export const TrackRequest = () => {
   };
 
   const handleExport = () => {
-    let tempData = [...clonedData];
+    let tempData = [...data];
     const dataFormatToPrepare = [
       [
         "Name Of Service",
