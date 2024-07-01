@@ -55,8 +55,7 @@ export const TabContent = ({ details, categoryName }) => {
                 style={{ minHeight: "71px" }}
               >
                 {isExpanded ? description : truncatedDescription}
-              </Typography>
-              {description.length > 85 && (
+                {description.length > 85 && (
                 <Button
                   className="read-more-btn"
                    type="link"
@@ -65,6 +64,8 @@ export const TabContent = ({ details, categoryName }) => {
                   {isExpanded ? "Read Less" : "Read More"}
                 </Button>
               )}
+              </Typography>
+          
               <Button
                 className="tabcontent-create-request-btn"
                 style={{ borderRadius: "10px" }}
