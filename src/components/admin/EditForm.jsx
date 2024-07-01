@@ -547,7 +547,7 @@ export const EditForms = ({
                           onChange={(event) =>
                             handleChangeLabelOfDocuments(event, index)
                           }
-                          placeholder="Enter points (one per line)"
+                        placeholder="Enter options for checkbox separated by comma"
                           rows={5}
                           cols={50}
                         />
