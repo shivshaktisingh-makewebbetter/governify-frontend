@@ -38,16 +38,7 @@ export const TrackRequest = () => {
 const [limit , setLimit] = useState(10);
 
   const onChange = (pageNumber) => {
-    const tempData = [...originalArray];
-    const from = (pageNumber - 1) * limit;
-    const to = dataLength < pageNumber * limit ? dataLength : pageNumber * limit;
-    const newData = tempData.slice(from, to);
-    setData(newData);
-    setCurrentPage(pageNumber);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+   setCurrentPage(pageNumber);
   };
 
   const items = [
@@ -147,6 +138,7 @@ const [limit , setLimit] = useState(10);
     //   behavior: "smooth",
     // });
     // setLimit(size);
+    setLimit(size)
   }
 
   const sortData = (data, order) => {
@@ -306,6 +298,19 @@ const [limit , setLimit] = useState(10);
     userSettingData();
     return () => {};
   }, [token]);
+
+  useEffect(()=>{
+    const tempData = [...originalArray];
+    const from = (currentPage - 1) * limit;
+    const to = dataLength < currentPage * limit ? dataLength : currentPage * limit;
+    const newData = tempData.slice(from, to);
+    setData(newData);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+  } , [currentPage , limit])
 
   return (
     <div style={{ paddingLeft: "16px", paddingRight: "16px" }}>

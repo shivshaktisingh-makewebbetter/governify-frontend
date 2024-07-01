@@ -89,7 +89,7 @@ const Login = () => {
       {loading && <Loader />}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div class="">
-          <div className="animation-container" style={{ minHeight: "120px" }}>
+          <div className="animation-container" style={{ minHeight: "90px" }}>
             <div
               className={`header-heading1 ${
                 animation ? "animation-content" : ""
@@ -178,7 +178,7 @@ const Login = () => {
                 <a href="/forget-password" className="fs-13">Forgot Password?</a>
                 <a href="/signup" className="fs-13">Create New Account?</a>
               </div>
-              <div className="mt-3 fs-16 ff-ws text-inc-tundora">
+              <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®
               </div>
             </div>
