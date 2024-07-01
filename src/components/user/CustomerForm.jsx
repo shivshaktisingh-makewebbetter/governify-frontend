@@ -46,43 +46,36 @@ export const CustomerForm = ({
     },
   };
 
-  const handleFileChange = async (event , index) => {
-    const fileList = event.fileList;
+  const handleFileChange = async (event, index) => {
+    const files = event.file;
 
-    const convertToBinary = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const arrayBuffer = e.target.result;
-          const binaryString = new Uint8Array(arrayBuffer).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-            ""
-          );
-          resolve(binaryString);
+    if (files) {
+      let reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (event) {
+          const tempFormData = [...formDetails];
+          let tempImageData = [];
+          tempFormData.forEach((item) => {
+            if (item.type === "Document" || item.type === "image") {
+              if (item.value == undefined) {
+                tempImageData = [];
+              } else {
+                tempImageData = item.value;
+              }
+            }
+          });
+          tempImageData.push({ file: files, file_name: files });
+          tempFormData.forEach((item) => {
+            if (item.type === "Document" || item.type === "image") {
+              item.value = tempImageData;
+            }
+          });
+          setFormDetails(tempFormData);
         };
-        reader.onerror = (e) => {
-          reject(e);
-        };
-        reader.readAsArrayBuffer(file);
-      });
-    };
+      })(files);
 
-    const processFiles = async () => {
-      const filesArray = [];
-      for (let i = 0; i < fileList.length; i++) {
-        const file = fileList[i].originFileObj; // Access the original file object
-        const binaryFile = await convertToBinary(file);
-        filesArray.push({ file_name: file.name, file: binaryFile });
-      }
-      let tempFormData = [...formDetails];
-      tempFormData[index].value = filesArray;
-      setFormDetails(tempFormData);
-      // setImageData(filesArray);
-      // return filesArray;
-    };
-
-    processFiles();
-    // setImageData(data);
+      reader.readAsDataURL(files);
+    }
   };
 
   const getUploadLabel = (item) => {
@@ -135,37 +128,42 @@ export const CustomerForm = ({
 
   const handleSubmitAll = async () => {
     const response1 = await handleSubmit();
-    
+    const id = response1.response.response.data.create_item.id;
 
     if (isUploadEnable.enable) {
       const tempImageData = [];
-       formDetails.forEach((item)=>{
-        if(item.type === 'image' || item.type === 'Document'){
-          if(item.value.length > 0){
-            item.value.forEach((subItem)=>{
-              tempImageData.push( {
-                file:subItem.file , 
-                file_name:subItem.file_name , 
-                item_id:idForImage
-              })
-            })
+      formDetails.forEach((item) => {
+        if (item.type === 'image' || item.type === 'Document') {
+          if (item.value.length > 0) {
+              item.value.forEach((subItem) => {
+                  // Convert file_name from binary (ArrayBuffer) to string
+                  let fileName = '';
+                  if (subItem.file_name instanceof ArrayBuffer) {
+                      const decoder = new TextDecoder('utf-8');
+                      fileName = decoder.decode(new Uint8Array(subItem.file_name));
+                  } else {
+                      fileName = subItem.file_name; // If it's already a string or another type
+                  }
+
+                  tempImageData.push({
+                      file: subItem.file,
+                      file_name: subItem.file_name,
+                      item_id: id
+                  });
+              });
           }
-        }
-         
-        
-      })
-      console.log(tempImageData , 'temp')
+      }
+      });
+      console.log(tempImageData, "temp");
       const response2 = await uploadAllImage(tempImageData, idForImage);
     }
 
     if (!isUploadEnable.enable) {
       if (response1.status) {
-      
         setFormSubmitted(true);
       }
     }
   };
-
 
   const handleSubmit = async () => {
     let complete = false;
@@ -260,7 +258,9 @@ export const CustomerForm = ({
         flag = true;
       } else if (
         (item.type === "image" || item.type === "Document") &&
-        item.value!==undefined  && item.value !== null && item.value.length === 0 &&
+        item.value !== undefined &&
+        item.value !== null &&
+        item.value.length === 0 &&
         item.required
       ) {
         flag = true;
@@ -381,7 +381,7 @@ export const CustomerForm = ({
                       }}
                     >
                       <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                        {data.label} {item.required && ' *'}
+                        {data.label} {item.required && " *"}
                       </p>
                       <Checkbox.Group
                         style={{ fontSize: "13px" }}
@@ -402,7 +402,7 @@ export const CustomerForm = ({
                       }}
                     >
                       <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                        {data.label}  {item.required && ' *'}
+                        {data.label} {item.required && " *"}
                       </p>
                       <Checkbox.Group
                         style={{ fontSize: "13px" }}
@@ -428,7 +428,8 @@ export const CustomerForm = ({
                       htmlFor={`upload-${index}`}
                       style={{ color: "#2c2e38", fontSize: "13px" }}
                     >
-                      {item.label || "Upload the following documents"}  {item.required && ' *'}
+                      {item.label || "Upload the following documents"}{" "}
+                      {item.required && " *"}
                     </label>
                     <div>{getUploadLabel(item.subLabel)}</div>
 
@@ -443,7 +444,6 @@ export const CustomerForm = ({
                         Click to Upload
                       </Button>
                     </Upload>
-                   
                   </div>
                 );
               }
