@@ -418,15 +418,7 @@ export const CustomerForm = ({
                         Click to Upload
                       </Button>
                     </Upload>
-                    <span
-                      style={{
-                        marginLeft: "5px",
-                        marginTop: "5px",
-                        fontSize: "13px",
-                      }}
-                    >
-                      {imageData.length + " files uploaded"}
-                    </span>
+                   
                   </div>
                 );
               }
