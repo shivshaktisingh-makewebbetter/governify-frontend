@@ -309,10 +309,12 @@ export const EditForms = ({
 
     if (e.key === "0") {
       newField.type = "textArea";
+      newField.value = '';
     }
     if (e.key === "1") {
       newField.type = "CheckBox";
       newField.singleSelect = false;
+      newField.value = '';
     }
     if (e.key === "2") {
       newField.type = "Document";

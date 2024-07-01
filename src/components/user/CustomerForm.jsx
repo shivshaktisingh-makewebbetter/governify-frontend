@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Button, Flex, Input, Upload, message, Checkbox } from "antd";
+import { Button, Flex, Input, Upload,  Checkbox } from "antd";
 import { fetcher } from "../../utils/helper";
-import { useNavigate } from "react-router-dom";
 import { Loader } from "../common/Loader";
 import { Submit } from "../../assets/image";
 import { UploadOutlined } from "@ant-design/icons";
@@ -30,7 +29,10 @@ export const CustomerForm = ({
   const [checkedValue, setCheckedValue] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [idForImage, setIdForImage] = useState("");
-  const navigate = useNavigate();
+  const [isUploadEnable, setIsUploadEnable] = useState({
+    enable: false,
+    required: false,
+  });
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
@@ -129,9 +131,11 @@ export const CustomerForm = ({
   const handleSubmitAll = async () => {
     const response1 = await handleSubmit();
 
-    const response2 = await uploadAllImage(imageData, idForImage);
+    if (isUploadEnable.enable) {
+      const response2 = await uploadAllImage(imageData, idForImage);
+    }
 
-    console.log(response1, response2);
+    console.log(response1);
   };
 
   const handleSubmit = async () => {
@@ -177,7 +181,7 @@ export const CustomerForm = ({
     setFormDetails(updatedData);
   };
 
-  const onChangeCheckBox = (checkedValues) => {
+  const onChangeCheckBox = (e , index) => {
     let singleSelect = false;
     formData.form_data.forEach((item) => {
       if (item.type === "CheckBox") {
@@ -186,11 +190,11 @@ export const CustomerForm = ({
     });
 
     if (singleSelect) {
-      setCheckedValue([checkedValues]);
+      formData.form_data[index].value = e;
     } else {
-      setCheckedValue([...checkedValue, checkedValues]);
+      formData.form_data[index].value = e;
+
     }
-    console.log("checked = ", checkedValues);
   };
 
   const checkDisable = () => {
@@ -225,6 +229,18 @@ export const CustomerForm = ({
     }));
     return tempData;
   };
+
+  useEffect(() => {
+    let flag = false;
+    let required = false;
+    formData.form_data.forEach((item) => {
+      if (item.type === "image") {
+        flag = true;
+        required = item.required;
+      }
+    });
+    setIsUploadEnable({ enable: flag, required: required });
+  }, []);
 
   return (
     <div
@@ -299,7 +315,7 @@ export const CustomerForm = ({
                   style={{ fontSize: "13px" }}
                   options={options}
                   defaultValue={["Apple"]}
-                  onChange={onChangeCheckBox}
+                  onChange={(e)=>onChangeCheckBox(e , index)}
                 />
               </div>
             );
