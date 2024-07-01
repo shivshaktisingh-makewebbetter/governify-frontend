@@ -32,8 +32,8 @@ export const TabContent = ({details , categoryName}) =>{
                     <div className='service-image-wrapper'> 
                     <img className="service-image" src={imageLink} alt="No Preview"/>
                 </div>
-                <Typography className='service-child-title font-family-hind'>{title}</Typography>
-                <Typography className='service-child-subtitle font-family-hind'>{description}</Typography>  
+                <Typography className='service-child-title font-family-hind' style={{minHeight:"66px"}}>{title}</Typography>
+                <Typography className='service-child-subtitle font-family-hind' style={{minHeight:"71px"}}>{description}</Typography>  
                 <Button className='tabcontent-create-request-btn' style={{borderRadius:"10px"}} icon = {<PlusOutlined />} iconPosition={'end'} onClick={()=>handleModalForm(item.service_forms , item.service_request.title)} disabled={Object.keys(item.service_forms).length === 0}>Create a Request</Button>
                 </div>
             )

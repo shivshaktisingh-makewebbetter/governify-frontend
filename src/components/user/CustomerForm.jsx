@@ -202,12 +202,12 @@ export const CustomerForm = ({
     formData.form_data.forEach((item) => {
       if (
         item.type === "textArea" &&
-        (item.value === "" || item.value === undefined)
+        (item.value === "" || item.value === undefined) && item.requird
       ) {
         flag = true;
       } else if (
         item.type === "CheckBox" &&
-        checkedValue.length === 0 &&
+        (item.value === "" || item.value === undefined)  &&
         item.required
       ) {
         flag = true;
