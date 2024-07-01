@@ -54,7 +54,7 @@ export const EditForms = ({
 
   const publishForm = async () => {
     let flag = false;
-    let message = '';
+    let message = "";
     let url = `governify/admin/serviceRequestForms/${data.id}`;
     let method = "PUT";
     let categoryData = {
@@ -63,7 +63,6 @@ export const EditForms = ({
       category_services_mapping: categoryServicesMapping,
     };
 
-  
     field.forEach((item) => {
       if (item.label === "") {
         flag = true;
@@ -72,7 +71,6 @@ export const EditForms = ({
       }
     });
 
-  
     if (flag) {
       toast.error(message);
       return;
@@ -80,13 +78,11 @@ export const EditForms = ({
 
     field.forEach((item) => {
       if (item.type === "CheckBox") {
-        if(item.subLabel === ''){
+        if (item.subLabel === "") {
           flag = true;
           message = "Please Enter Options for Checkbox";
           return;
         }
-        
-        
       }
     });
 
@@ -144,12 +140,11 @@ export const EditForms = ({
     setField(updatedField);
   };
 
-  const onChangeSingleSelectEnabled = (index) =>{
+  const onChangeSingleSelectEnabled = (index) => {
     const updatedField = [...field];
     updatedField[index].singleSelect = !updatedField[index].singleSelect;
     setField(updatedField);
-  }
-
+  };
 
   const checkServiceAlreadyExist = (id) => {
     let flag = false;
@@ -233,7 +228,8 @@ export const EditForms = ({
 
       if (!response.status) {
         toast.error(
-          "Form already assigned with the same service and category."
+          response.message ||
+            "Form already assigned with the same service and category."
         );
         tempData[index].services_id = "";
         setCategoryServicesMapping(tempData);
@@ -309,12 +305,12 @@ export const EditForms = ({
 
     if (e.key === "0") {
       newField.type = "textArea";
-      newField.value = '';
+      newField.value = "";
     }
     if (e.key === "1") {
       newField.type = "CheckBox";
       newField.singleSelect = false;
-      newField.value = '';
+      newField.value = "";
     }
     if (e.key === "2") {
       newField.type = "Document";
@@ -534,9 +530,7 @@ export const EditForms = ({
                         <span>Enable Single Select</span>
                         <Switch
                           className="ml-10"
-                          onChange={() =>
-                            onChangeSingleSelectEnabled(index)
-                          }
+                          onChange={() => onChangeSingleSelectEnabled(index)}
                           value={item.singleSelect}
                         />
                       </div>
@@ -547,7 +541,7 @@ export const EditForms = ({
                           onChange={(event) =>
                             handleChangeLabelOfDocuments(event, index)
                           }
-                        placeholder="Enter options for checkbox separated by comma"
+                          placeholder="Enter options for checkbox separated by comma"
                           rows={5}
                           cols={50}
                         />
