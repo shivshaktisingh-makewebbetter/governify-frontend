@@ -28,13 +28,15 @@ export const CustomerForm = ({
   const [imageData, setImageData] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [idForImage, setIdForImage] = useState("");
-  const [isSingleSelectEnable , setSingleSelect] = useState({enable:false , value:''});
+  const [isSingleSelectEnable, setSingleSelect] = useState({
+    enable: false,
+    value: "",
+  });
   const [isUploadEnable, setIsUploadEnable] = useState({
     enable: false,
     required: false,
   });
-
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const props = {
     multiple: true,
@@ -132,7 +134,11 @@ export const CustomerForm = ({
       const response2 = await uploadAllImage(imageData, idForImage);
     }
 
-    console.log(response1);
+    if (!isUploadEnable.enable) {
+      if (response1.status) {
+        setFormSubmitted(true);
+      }
+    }
   };
 
   const handleSubmit = async () => {
@@ -187,40 +193,42 @@ export const CustomerForm = ({
     });
 
     if (singleSelect) {
-      if(e.length > 0){
-        const newValues = e.filter(item => !isSingleSelectEnable.value.includes(item));
+      if (e.length > 0) {
+        const newValues = e.filter(
+          (item) => !isSingleSelectEnable.value.includes(item)
+        );
 
         // If there are new values, update the form data and the state
         if (newValues.length > 0) {
           formData.form_data[index].value = newValues[0];
           setSingleSelect({ ...isSingleSelectEnable, value: newValues });
         }
-      }else{
-        formData.form_data[index].value = '';
+      } else {
+        formData.form_data[index].value = "";
         setSingleSelect({ ...isSingleSelectEnable, value: [] });
-      
       }
-      
     } else {
-      formData.form_data[index].value = e.join(',');
+      formData.form_data[index].value = e.join(",");
       setSingleSelect({ ...isSingleSelectEnable, value: e });
     }
   };
-
 
   const checkDisable = () => {
     let flag = false;
     formData.form_data.forEach((item) => {
       if (
         item.type === "textArea" &&
-        (item.value === undefined || item.value === null|| item.value === "") &&
+        (item.value === undefined ||
+          item.value === null ||
+          item.value === "") &&
         item.required
       ) {
-       
         flag = true;
       } else if (
         item.type === "CheckBox" &&
-        (item.value === "" || item.value === null || item.value === undefined) &&
+        (item.value === "" ||
+          item.value === null ||
+          item.value === undefined) &&
         item.required
       ) {
         flag = true;
@@ -232,7 +240,7 @@ export const CustomerForm = ({
         flag = true;
       }
     });
-  
+
     return flag;
   };
 
@@ -255,19 +263,16 @@ export const CustomerForm = ({
       }
       if (item.type === "CheckBox") {
         singleSelect = true;
-
       }
-
     });
     setIsUploadEnable({ enable: flag, required: required });
-    setSingleSelect({enable:singleSelect ,value:''});
+    setSingleSelect({ enable: singleSelect, value: "" });
   }, []);
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
-  }, [formDetails, imageData , isSingleSelectEnable]);
+  }, [formDetails, imageData, isSingleSelectEnable]);
 
-  
   return (
     <div
       className="customer-form-container"
@@ -276,164 +281,181 @@ export const CustomerForm = ({
     >
       {loading && <Loader />}
 
-      <div className="form-header">{serviceTitle}</div>
-      <div
-        className="w-divider-component-wrapper divider-component-wrapper_XE2"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="3000px"
-          height="33"
-          style={{ width: "12%" }}
-        >
-          <path
-            d="M0 16.5 L3000 16.5"
-            style={{ fill: "none", stroke: data.button_bg, strokeWidth: "3px" }}
-          ></path>
-        </svg>
-      </div>
-      <div className="form-header-description">
-        Please fill out the form to proceed with the needed action to provide
-        you with this service
-      </div>
-      <Flex
-        vertical
-        gap={15}
-        className="pt-5"
-        style={{ paddingBottom: "20px" }}
-      >
-        {formData.form_data.map((item, index) => {
-          if (item.type === "textArea") {
-            return (
-              <div
-                className="form-field"
-                style={{ display: "flex" }}
-                key={item.key}
-              >
-                <Input
-                  style={{
-                    fontSize: "13px",
-                  }}
-                  size="large"
-                  variant="filled"
-                  placeholder={item.required ? item.label + " *" : item.label}
-                  onChange={(e) => handleChangeValue(e, index)}
-                />
-              </div>
-            );
-          } else if (item.type === "CheckBox") {
-            const data = item;
-            const options = getCheckBoxOptions(data.subLabel.split(","));
-            if(isSingleSelectEnable.enable){
-              return (
-                <div
-                  key={data.key}
-                  style={{
-                    background: "#0000000A",
-                    padding: "10px",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                    {data.label}
-                  </p>
-                  <Checkbox.Group
-                    style={{ fontSize: "13px" }}
-                    options={options}
-                    onChange={(e) => onChangeCheckBox(e, index)}
-                    value={isSingleSelectEnable.value}
-                     
-              
-                  />
-                </div>
-              );
-            }else{
-              return (
-                <div
-                  key={data.key}
-                  style={{
-                    background: "#0000000A",
-                    padding: "10px",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <p style={{ color: "#2C2E38", fontSize: "13px" }}>
-                    {data.label}
-                  </p>
-                  <Checkbox.Group
-                    style={{ fontSize: "13px" }}
-                    options={options}
-                    onChange={(e) => onChangeCheckBox(e, index)}
-              
-                  />
-                </div>
-              );
-            }
-            
-          } else {
-            return (
-              <div
-                key={imageData.length}
-                className="form-field"
+      {formSubmitted ? (
+        <div>
+          Thank you for submitting the form! We appreciate your time and effort.
+          We'll get back to you shortly. Have a great day!
+        </div>
+      ) : (
+        <>
+          {" "}
+          <div className="form-header">{serviceTitle}</div>
+          <div
+            className="w-divider-component-wrapper divider-component-wrapper_XE2"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="3000px"
+              height="33"
+              style={{ width: "12%" }}
+            >
+              <path
+                d="M0 16.5 L3000 16.5"
                 style={{
-                  background: "#0000000A",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  color: "#2c2e38",
+                  fill: "none",
+                  stroke: data.button_bg,
+                  strokeWidth: "3px",
+                }}
+              ></path>
+            </svg>
+          </div>
+          <div className="form-header-description">
+            Please fill out the form to proceed with the needed action to
+            provide you with this service
+          </div>
+          <Flex
+            vertical
+            gap={15}
+            className="pt-5"
+            style={{ paddingBottom: "20px" }}
+          >
+            {formData.form_data.map((item, index) => {
+              if (item.type === "textArea") {
+                return (
+                  <div
+                    className="form-field"
+                    style={{ display: "flex" }}
+                    key={item.key}
+                  >
+                    <Input
+                      style={{
+                        fontSize: "13px",
+                      }}
+                      size="large"
+                      variant="filled"
+                      placeholder={
+                        item.required ? item.label + " *" : item.label
+                      }
+                      onChange={(e) => handleChangeValue(e, index)}
+                    />
+                  </div>
+                );
+              } else if (item.type === "CheckBox") {
+                const data = item;
+                const options = getCheckBoxOptions(data.subLabel.split(","));
+                if (isSingleSelectEnable.enable) {
+                  return (
+                    <div
+                      key={data.key}
+                      style={{
+                        background: "#0000000A",
+                        padding: "10px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <p style={{ color: "#2C2E38", fontSize: "13px" }}>
+                        {data.label}
+                      </p>
+                      <Checkbox.Group
+                        style={{ fontSize: "13px" }}
+                        options={options}
+                        onChange={(e) => onChangeCheckBox(e, index)}
+                        value={isSingleSelectEnable.value}
+                      />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      key={data.key}
+                      style={{
+                        background: "#0000000A",
+                        padding: "10px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <p style={{ color: "#2C2E38", fontSize: "13px" }}>
+                        {data.label}
+                      </p>
+                      <Checkbox.Group
+                        style={{ fontSize: "13px" }}
+                        options={options}
+                        onChange={(e) => onChangeCheckBox(e, index)}
+                      />
+                    </div>
+                  );
+                }
+              } else {
+                return (
+                  <div
+                    key={imageData.length}
+                    className="form-field"
+                    style={{
+                      background: "#0000000A",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      color: "#2c2e38",
+                    }}
+                  >
+                    <label
+                      htmlFor={`upload-${index}`}
+                      style={{ color: "#2c2e38", fontSize: "13px" }}
+                    >
+                      {item.label || "Upload the following documents"}
+                    </label>
+                    <div>{getUploadLabel(item.subLabel)}</div>
+
+                    <Upload
+                      {...props}
+                      onChange={(e) => handleFileChange(e, false)}
+                    >
+                      <Button
+                        icon={<UploadOutlined />}
+                        style={{ fontSize: "13px", color: "#2c2e38" }}
+                      >
+                        Click to Upload
+                      </Button>
+                    </Upload>
+                    <span
+                      style={{
+                        marginLeft: "5px",
+                        marginTop: "5px",
+                        fontSize: "13px",
+                      }}
+                    >
+                      {imageData.length + " files uploaded"}
+                    </span>
+                  </div>
+                );
+              }
+            })}
+          </Flex>
+          <div className="w-100 d-flex justify-content-center">
+            <Button
+              disabled={isButtonDisabled}
+              size="large"
+              style={{
+                width: "100%",
+                border: "none",
+                background: isButtonDisabled ? "#ecedf5" : data.button_bg,
+                color: isButtonDisabled ? "#32333861" : "#fff",
+              }}
+              icon={<Submit />}
+              onClick={handleSubmitAll}
+            >
+              <span
+                style={{
+                  fontSize: "15px",
+                  fontFamily: "montserrat, sans-serif",
                 }}
               >
-                <label
-                  htmlFor={`upload-${index}`}
-                  style={{ color: "#2c2e38", fontSize: "13px" }}
-                >
-                  {item.label || "Upload the following documents"}
-                </label>
-                <div>{getUploadLabel(item.subLabel)}</div>
-
-                <Upload {...props} onChange={(e) => handleFileChange(e, false)}>
-                  <Button
-                    icon={<UploadOutlined />}
-                    style={{ fontSize: "13px", color: "#2c2e38" }}
-                  >
-                    Click to Upload
-                  </Button>
-                </Upload>
-                <span
-                  style={{
-                    marginLeft: "5px",
-                    marginTop: "5px",
-                    fontSize: "13px",
-                  }}
-                >
-                  {imageData.length + " files uploaded"}
-                </span>
-              </div>
-            );
-          }
-        })}
-      </Flex>
-
-      <div className="w-100 d-flex justify-content-center">
-        <Button
-          disabled={isButtonDisabled}
-          size="large"
-          style={{
-            width: "100%",
-            border: "none",
-            background: isButtonDisabled ? "#ecedf5" : data.button_bg,
-            color: isButtonDisabled ? "#32333861" : "#fff",
-          }}
-          icon={<Submit />}
-          onClick={handleSubmitAll}
-        >
-          <span
-            style={{ fontSize: "15px", fontFamily: "montserrat, sans-serif" }}
-          >
-            Submit
-          </span>
-        </Button>
-      </div>
+                Submit
+              </span>
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
