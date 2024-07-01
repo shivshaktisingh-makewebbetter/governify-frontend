@@ -24,7 +24,7 @@ export const CustomerForm = ({
       "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
-  };;
+  };
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
   const [checkedValue, setCheckedValue] = useState([]);
@@ -92,7 +92,7 @@ export const CustomerForm = ({
 
   const uploadImage = async (image, idForImage) => {
     image.item_id = idForImage;
-    console.log(image , idForImage)
+    console.log(image, idForImage);
 
     let token = sessionStorage.getItem("token");
     try {
@@ -296,6 +296,7 @@ export const CustomerForm = ({
                   {data.label}
                 </p>
                 <Checkbox.Group
+                  style={{ fontSize: "13px" }}
                   options={options}
                   defaultValue={["Apple"]}
                   onChange={onChangeCheckBox}
@@ -323,10 +324,20 @@ export const CustomerForm = ({
                 <div>{getUploadLabel(item.subLabel)}</div>
 
                 <Upload {...props} onChange={(e) => handleFileChange(e, false)}>
-                  <Button icon={<UploadOutlined />}
-                  style={{fontSize:"13px" , color:"#2c2e38"}}>Click to Upload</Button>
+                  <Button
+                    icon={<UploadOutlined />}
+                    style={{ fontSize: "13px", color: "#2c2e38" }}
+                  >
+                    Click to Upload
+                  </Button>
                 </Upload>
-                <span style={{ marginLeft: "5px" ,marginTop:"5px" }}>
+                <span
+                  style={{
+                    marginLeft: "5px",
+                    marginTop: "5px",
+                    fontSize: "13px",
+                  }}
+                >
                   {imageData.length + " files uploaded"}
                 </span>
               </div>
