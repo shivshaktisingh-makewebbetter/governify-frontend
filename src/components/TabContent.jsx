@@ -55,13 +55,13 @@ export const TabContent = ({ details, categoryName }) => {
                 style={{ minHeight: "71px" }}
               >
                 {isExpanded ? description : truncatedDescription}
-                {description.length > 85 && (
+                {description.length > 85 && !isExpanded &&(
                 <Button
                   className="read-more-btn"
                    type="link"
                   onClick={() => toggleDescription(item.service_request.id)}
                 >
-                  {isExpanded ? "Read Less" : "Read More"}
+                  {!isExpanded && "Read More"}
                 </Button>
               )}
               </Typography>
