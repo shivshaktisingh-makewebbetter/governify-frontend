@@ -151,6 +151,8 @@ const Login = () => {
               <button
                 id="login-button"
                 class="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center"
+                style={{borderRadius:"50px"
+                }}
                 type="button"
                 onClick={handleSubmit}
                 disabled={
