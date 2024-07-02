@@ -6,13 +6,7 @@ import { Submit } from "../../assets/image";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-export const CustomerForm = ({
-  formData,
-  serviceTitle,
-  loading,
-  setLoading,
-  categoryName,
-}) => {
+export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
       "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
@@ -37,7 +31,7 @@ export const CustomerForm = ({
     required: false,
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [buttonLoading , setButtonLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const props = {
     multiple: true,
@@ -94,7 +88,7 @@ export const CustomerForm = ({
     formData.append("item_id", idForImage);
     formData.append("file_name", image.file_name);
     formData.append("file", image.file);
-  
+
     let token = sessionStorage.getItem("token");
     try {
       const response = await axios.post(
@@ -107,18 +101,17 @@ export const CustomerForm = ({
           },
         }
       );
-  
+
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
-      
+
       return response.data.success; // Assuming the API returns a success field
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       return false;
     }
   };
-  
 
   const uploadAllImage = async (imageData, idForImage) => {
     const uploadPromises = imageData.map((image) =>
@@ -131,44 +124,42 @@ export const CustomerForm = ({
 
   const handleSubmitAll = async () => {
     setButtonLoading(true);
+
     try {
       const response1 = await handleSubmit();
       const id = response1.response.response.data.create_item.id;
       const tempImageData = [];
 
       if (isUploadEnable.enable) {
-       
         formDetails.forEach((item) => {
           if (item.type === "image" || item.type === "Document") {
-            if (item.value.length > 0) {
+            if (item.value!==undefined && item.value.length > 0) {
               item.value.forEach((subItem) => {
                 tempImageData.push({
                   file: subItem.file,
-                  file_name: subItem.file_name, // Corrected from subItem.file_name to fileName
+                  file_name: subItem.file_name, // Ensure the property name is correct
                   item_id: id,
                 });
               });
             }
           }
         });
-
-     
-      }
-      const response2 = await uploadAllImage(tempImageData, id);
-      console.log(response2, "uploadAllImage response");
-
-      if (!isUploadEnable.enable) {
-        if (response1.status) {
-          setFormSubmitted(true);
+        if (tempImageData.length > 0) {
+          const response2 = await uploadAllImage(tempImageData, id);
+          if (response2) {
+            setFormSubmitted(true);
+          }
+        } else {
+          setFormSubmitted(true); // No images to upload but form is submitted
         }
-      }else{
-        if(response2){
+      } else {
+        if (response1.status) {
           setFormSubmitted(true);
         }
       }
     } catch (error) {
       console.error("Error in handleSubmitAll:", error);
-    }finally{
+    } finally {
       setButtonLoading(false);
     }
   };
@@ -313,8 +304,7 @@ export const CustomerForm = ({
       style={{ maxWidth: "550px", width: "100%", marginTop: "25px" }}
       key={imageData.length}
     >
-   
-
+      {buttonLoading && <Loader />}
       {formSubmitted ? (
         <div>
           Thank you for submitting the form! We appreciate your time and effort.
@@ -354,7 +344,7 @@ export const CustomerForm = ({
             className="pt-5"
             style={{ paddingBottom: "20px" }}
           >
-            {formData.form_data.map((item, index) => {
+            {formDetails.map((item, index) => {
               if (item.type === "textArea") {
                 return (
                   <div
@@ -469,7 +459,6 @@ export const CustomerForm = ({
               }}
               icon={<Submit />}
               onClick={handleSubmitAll}
-              loading={buttonLoading}
             >
               <span
                 style={{

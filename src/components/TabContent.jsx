@@ -3,11 +3,11 @@ import { useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
+import { Loader } from "./common/Loader";
 
 export const TabContent = ({ details, categoryName }) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState();
-  const [loading, setLoading] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
@@ -27,6 +27,7 @@ export const TabContent = ({ details, categoryName }) => {
 
   return (
     <div key={uuidv4()}>
+  
       <div className="service-parent-div">
         {details.map((item) => {
           const description = item.service_request.description;
@@ -85,16 +86,14 @@ export const TabContent = ({ details, categoryName }) => {
         })}
       </div>
 
-      <Modal open={open} centered footer={null} onCancel={() => setOpen(false)}>
+   {open &&   <Modal open={open} centered footer={null} onCancel={() => setOpen(false)}>
         <CustomerForm
           formData={formData}
-          loading={loading}
-          setLoading={setLoading}
           serviceTitle={serviceTitle}
           categoryName={categoryName}
           key={uuidv4()}
         />
-      </Modal>
+      </Modal> }
     </div>
   );
 };
