@@ -221,8 +221,37 @@ export const EditForms = ({
     return response;
   };
 
+  const mappedDataAlreadyPresentInSession = (tempData) =>{
+    let sessionData = JSON.parse(sessionStorage.getItem('mappedServices'));
+    let flag = isObjectInArray(sessionData, tempData);
+    return flag;
+
+  }
+
+  function isObjectInArray(array, obj) {
+    return array.some(element => {
+        return JSON.stringify(element) === JSON.stringify(obj);
+    });
+}
+
   const handleServiceChange = async (e, index) => {
     const tempData = [...categoryServicesMapping];
+    let flag = mappedDataAlreadyPresentInSession({
+      category_id: categoryServicesMapping[index].category_id,
+      services_id: e,
+    })
+  
+    if(flag){
+      let tempSelectedServices = [];
+      tempData[index].services_id = e;
+  
+      tempData.forEach((item) => {
+        tempSelectedServices.push(item.services_id);
+      });
+      setCategoryServicesMapping(tempData);
+      setSelectedServices(tempSelectedServices);
+      return;
+    }
     // callEndpointToCheckSameCategoryAndServicePairExistOrNot
     try {
       setLoading(true);
@@ -294,6 +323,7 @@ export const EditForms = ({
 
       setCategoryServicesMapping(tempData);
       setSelectedServices(tempSelectedServices);
+      sessionStorage.setItem('mappedServices' , JSON.stringify(tempData));
     }
   }, []);
 
