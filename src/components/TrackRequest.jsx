@@ -126,18 +126,7 @@ const [limit , setLimit] = useState(10);
   };
 
   const onShowSizeChange = (current , size) =>{
-    
-    // const tempData = [...originalArray];
-    // const from = (pageNumber - 1) * size;
-    // const to = dataLength < pageNumber * size ? dataLength : pageNumber * size;
-    // const newData = tempData.slice(from, to);
-    // setData(newData);
-    // setCurrentPage(current);
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth",
-    // });
-    // setLimit(size);
+ 
     setLimit(size)
   }
 
@@ -195,7 +184,7 @@ const [limit , setLimit] = useState(10);
   };
 
   const handleExport = () => {
-    let tempData = [...data];
+    let tempData = [...originalArray];
     const dataFormatToPrepare = [
       [
         "Name Of Service",
