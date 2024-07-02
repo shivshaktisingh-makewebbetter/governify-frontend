@@ -37,6 +37,7 @@ export const CustomerForm = ({
     required: false,
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [buttonLoading , setButtonLoading] = useState(false);
 
   const props = {
     multiple: true,
@@ -129,6 +130,7 @@ export const CustomerForm = ({
   };
 
   const handleSubmitAll = async () => {
+    setButtonLoading(true);
     try {
       const response1 = await handleSubmit();
       const id = response1.response.response.data.create_item.id;
@@ -166,6 +168,8 @@ export const CustomerForm = ({
       }
     } catch (error) {
       console.error("Error in handleSubmitAll:", error);
+    }finally{
+      setButtonLoading(false);
     }
   };
 
@@ -309,7 +313,7 @@ export const CustomerForm = ({
       style={{ maxWidth: "550px", width: "100%", marginTop: "25px" }}
       key={imageData.length}
     >
-      {loading && <Loader />}
+   
 
       {formSubmitted ? (
         <div>
@@ -465,6 +469,7 @@ export const CustomerForm = ({
               }}
               icon={<Submit />}
               onClick={handleSubmitAll}
+              loading={buttonLoading}
             >
               <span
                 style={{

@@ -49,9 +49,7 @@ export const TabContent = ({ details, categoryName }) => {
               <Typography className="service-child-title font-family-hind">
                 {title}
               </Typography>
-              <Typography
-                className="service-child-subtitle font-family-hind"
-              >
+              <Typography className="service-child-subtitle font-family-hind">
                 {isExpanded ? description : truncatedDescription}
                 {description.length > 85 && !isExpanded && (
                   <span
