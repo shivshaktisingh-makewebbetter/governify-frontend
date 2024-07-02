@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Button, Flex, Input, Upload, Checkbox } from "antd";
+import { Button, Flex, Input, Upload, Checkbox, Modal } from "antd";
 import { fetcher } from "../../utils/helper";
 import { Loader } from "../common/Loader";
 import { Submit } from "../../assets/image";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { ThankyouModal } from "./ThankyouModal";
 
-export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
+export const CustomerForm = ({
+  formData,
+  serviceTitle,
+  categoryName,
+  handleOpen,
+  formSubmitted,
+  setFormSubmitted,
+}) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
       "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
@@ -18,6 +26,7 @@ export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
   };
+
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -30,7 +39,7 @@ export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
     enable: false,
     required: false,
   });
-  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const props = {
@@ -133,7 +142,7 @@ export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
       if (isUploadEnable.enable) {
         formDetails.forEach((item) => {
           if (item.type === "image" || item.type === "Document") {
-            if (item.value!==undefined && item.value.length > 0) {
+            if (item.value !== undefined && item.value.length > 0) {
               item.value.forEach((subItem) => {
                 tempImageData.push({
                   file: subItem.file,
@@ -305,12 +314,7 @@ export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
       key={imageData.length}
     >
       {buttonLoading && <Loader />}
-      {formSubmitted ? (
-        <div>
-          Thank you for submitting the form! We appreciate your time and effort.
-          We'll get back to you shortly. Have a great day!
-        </div>
-      ) : (
+      {!formSubmitted && (
         <>
           {" "}
           <div className="form-header">{serviceTitle}</div>
@@ -471,6 +475,18 @@ export const CustomerForm = ({ formData, serviceTitle, categoryName }) => {
             </Button>
           </div>
         </>
+      )}
+
+      {formSubmitted && (
+        <Modal
+          open={formSubmitted}
+          centered
+          footer={null}
+          onCancel={handleOpen}
+          width={400}
+        >
+          <ThankyouModal handleOpen={handleOpen} />
+        </Modal>
       )}
     </div>
   );

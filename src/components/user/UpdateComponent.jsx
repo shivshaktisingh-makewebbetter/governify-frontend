@@ -297,7 +297,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                         handleChangeTextEditor={handleChangeTextEditor}
                         updateValue={updateValue}
                         update={update}
-                        handleFileChange={() => {}}
+                        handleFileChange={(e) => handleFileChange(e, true)}
                         handleChangeEmoji={() => {}}
                         isUpdated={true}
                         props={props}
