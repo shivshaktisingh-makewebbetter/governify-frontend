@@ -99,9 +99,9 @@ export const EditServices = ({data , setShowSkeleton , setLoading , loading  , s
             <div className="form_wrapper border border-success p-4 primary-shadow" style={{height:'600px' , overflowY:'auto'}}>
                 <div>
                     
-                <ImageUpload onFileSelect={handleFileSelect} imageName={serviceData.image_name} imageUrl={serviceData.image}/>
+                <ImageUpload onFileSelect={handleFileSelect} imageName={serviceData.image_name} imageUrl={serviceData.image} />
                 </div>
-                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} value={serviceData.title} addonBefore="Title"/>
+                <Input placeholder="Service Title" className="mt-30" onChange={handleTitleChange} value={serviceData.title} addonBefore="Title" disabled={true}/>
                 <Input placeholder="Service description" className="mt-10" onChange={handleDescriptionChange} value={serviceData.description} addonBefore="Description"/>    
                      
               <div className="mt-10">
