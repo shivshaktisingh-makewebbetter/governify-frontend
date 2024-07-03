@@ -233,7 +233,16 @@ export const CreateForms = ({
       if(!response.status){
         toast.error(response.message || 'Form already assigned with the same service and category.');
        tempData[index].services_id = '';
-       setCategoryServicesMapping(tempData);
+       let tempSelectedServices = [];
+       tempData.forEach((item) => {
+        if(item.services_id !== ''){
+          tempSelectedServices.push(item.services_id);
+        }
+      });
+      setSelectedServices(tempSelectedServices);
+      setCategoryServicesMapping(tempData);
+
+
         return;
       }
 

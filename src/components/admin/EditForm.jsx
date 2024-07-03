@@ -122,11 +122,10 @@ export const EditForms = ({
           return { ...item, type: "image", enabled: true };
         }
       } else {
-        if(item.type === "CheckBox"){
+        if (item.type === "CheckBox") {
           return item;
-        }else{
+        } else {
           return { ...item, type: "textArea", enabled: false };
-
         }
       }
     });
@@ -221,30 +220,29 @@ export const EditForms = ({
     return response;
   };
 
-  const mappedDataAlreadyPresentInSession = (tempData) =>{
-    let sessionData = JSON.parse(sessionStorage.getItem('mappedServices'));
+  const mappedDataAlreadyPresentInSession = (tempData) => {
+    let sessionData = JSON.parse(sessionStorage.getItem("mappedServices"));
     let flag = isObjectInArray(sessionData, tempData);
     return flag;
-
-  }
+  };
 
   function isObjectInArray(array, obj) {
-    return array.some(element => {
-        return JSON.stringify(element) === JSON.stringify(obj);
+    return array.some((element) => {
+      return JSON.stringify(element) === JSON.stringify(obj);
     });
-}
+  }
 
   const handleServiceChange = async (e, index) => {
     const tempData = [...categoryServicesMapping];
     let flag = mappedDataAlreadyPresentInSession({
       category_id: categoryServicesMapping[index].category_id,
       services_id: e,
-    })
-  
-    if(flag){
+    });
+
+    if (flag) {
       let tempSelectedServices = [];
       tempData[index].services_id = e;
-  
+
       tempData.forEach((item) => {
         tempSelectedServices.push(item.services_id);
       });
@@ -266,6 +264,13 @@ export const EditForms = ({
             "Form already assigned with the same service and category."
         );
         tempData[index].services_id = "";
+        let tempSelectedServices = [];
+        tempData.forEach((item) => {
+          if (item.services_id !== "") {
+            tempSelectedServices.push(item.services_id);
+          }
+        });
+        setSelectedServices(tempSelectedServices);
         setCategoryServicesMapping(tempData);
         return;
       }
@@ -323,7 +328,7 @@ export const EditForms = ({
 
       setCategoryServicesMapping(tempData);
       setSelectedServices(tempSelectedServices);
-      sessionStorage.setItem('mappedServices' , JSON.stringify(tempData));
+      sessionStorage.setItem("mappedServices", JSON.stringify(tempData));
     }
   }, []);
 
@@ -380,6 +385,69 @@ export const EditForms = ({
   useEffect(() => {
     getSelectedServiceDisable();
   }, [categoryServicesMapping]);
+
+  useEffect(async () => {
+      let tempSelectedServices = [];
+
+
+
+
+      let method = "GET";
+      let url = "governify/admin/getCategoriesWithAllService";
+  
+      try {
+        const response = await fetcher(url, method);
+        if (response.status) {
+          setCategoryListing(
+            response.response.map((item) => {
+              return { label: item.title, value: item.id };
+            })
+          );
+  
+          let tempServiceListingData = {};
+  
+          response.response.forEach((item) => {
+            const categoryId = item.id;
+  
+            if (!tempServiceListingData[categoryId]) {
+              tempServiceListingData[categoryId] = [];
+            }
+  
+            item.service_requests.forEach((subItem) => {
+              tempServiceListingData[categoryId].push({
+                label: subItem.title,
+                value: subItem.id,
+              });
+            });
+          });
+
+
+          data.category_service_form_mappings.forEach((item) => {
+            tempSelectedServices.push(item.service_id);
+          });
+          setSelectedServices(tempSelectedServices);
+          for (let key in tempServiceListingData) {
+            if (tempServiceListingData.hasOwnProperty(key)) {
+              tempServiceListingData[key].forEach((item) => {
+                if (tempSelectedServices.includes(item.value)) {
+                  item.disabled = true;
+                } else {
+                  item.disabled = false;
+                }
+              });
+            }
+          }
+          setServicesListing(tempServiceListingData);
+  
+          setShowSkeleton(false);
+        }
+      } catch (err) {
+        throw new Error("Network response was not ok ", err);
+      } finally {
+      }
+
+   
+  }, []);
 
   return (
     <>
