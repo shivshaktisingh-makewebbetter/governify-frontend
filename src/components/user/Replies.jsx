@@ -10,7 +10,7 @@ const Replies = ({ item }) => {
       <div>
         <span
           className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-          style={{width: "35px", height: "35px" , background:"#5AC063" , paddingTop:userName !== "Governify Team"?"2px":"0px" }}
+          style={{width: "35px", height: "35px" , background:"#5AC063" , paddingTop:userName !== "Governify Team"?"3px":"0px" }}
         >
           {userName === "Governify Team" ? <GovernifyTeam /> : getFirstLettersOfName(userName)}
         </span>
