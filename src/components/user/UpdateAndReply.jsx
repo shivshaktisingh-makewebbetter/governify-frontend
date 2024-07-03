@@ -142,7 +142,7 @@ const UpdateAndReply = ({
         <div
           className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
           style={{
-            background: "#ff6221",
+            background: "#5ac063",
             width: "38px",
             height: "35px",
             fontSize: "15px",
@@ -169,7 +169,7 @@ const UpdateAndReply = ({
        <div
          className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
          style={{
-           background: "#ff6221",
+           background: "#5ac063",
            width: "38px",
            height: "35px",
            fontSize: "15px",

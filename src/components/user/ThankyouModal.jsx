@@ -50,7 +50,7 @@ export const ThankyouModal = ({handleOpen}) => {
             className="w-text-content"
             style={{ color: "#928f8f", fontSize: "13px", marginTop: "20px" }}
           >
-            We will contact you shortly.
+            Our team will review your request details and get back to you shortly.
           </span>
         </span>
       </div>
