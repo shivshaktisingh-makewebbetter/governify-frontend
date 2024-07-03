@@ -6,6 +6,7 @@ import { Submit } from "../../assets/image";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { ThankyouModal } from "./ThankyouModal";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export const CustomerForm = ({
   formData,
@@ -41,12 +42,13 @@ export const CustomerForm = ({
   });
 
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const [recaptchaExpired, setRecaptchaExpired] = useState(false);
 
   const props = {
     multiple: true,
     onRemove: (file) => {
-
-      console.log(file)
+      console.log(file);
     },
     beforeUpload: (file) => {
       return false;
@@ -56,7 +58,7 @@ export const CustomerForm = ({
   const handleFileChange = async (event, index) => {
     const files = event.file;
 
-    console.log(files)
+    console.log(files);
 
     if (files) {
       let reader = new FileReader();
@@ -85,6 +87,16 @@ export const CustomerForm = ({
 
       reader.readAsDataURL(files);
     }
+  };
+
+  const onRecaptchaExpired = () => {
+    setRecaptchaToken(null);
+    setRecaptchaExpired(true);
+  };
+
+  const onRecaptchaChange = (token) => {
+    setRecaptchaToken(token);
+    setRecaptchaExpired(false);
   };
 
   const getUploadLabel = (item) => {
@@ -252,36 +264,29 @@ export const CustomerForm = ({
 
   const checkDisable = () => {
     let flag = false;
+  
     formDetails.forEach((item) => {
-      if (
-        item.type === "textArea" &&
-        (item.value === undefined ||
-          item.value === null ||
-          item.value === "") &&
-        item.required
-      ) {
-        flag = true;
-      } else if (
-        item.type === "CheckBox" &&
-        (item.value === "" ||
-          item.value === null ||
-          item.value === undefined) &&
-        item.required
-      ) {
-        flag = true;
-      } else if (
-        (item.type === "image" || item.type === "Document") &&
-        item.value !== undefined &&
-        item.value !== null &&
-        item.value.length === 0 &&
-        item.required
-      ) {
-        flag = true;
+      console.log(item.value);
+  
+      if (item.required) {
+        if (
+          (item.type === "textArea" || item.type === "CheckBox") &&
+          (item.value === undefined ||
+            item.value === null ||
+            item.value === "")
+        ) {
+          flag = true;
+        } else if (item.value === undefined || item.value.length === 0) {
+          flag = true;
+        }
       }
     });
-
+  
+    flag = flag || recaptchaExpired || recaptchaToken === '';
+  
     return flag;
   };
+  
 
   const getCheckBoxOptions = (options) => {
     const tempData = options.map((item) => ({
@@ -310,7 +315,7 @@ export const CustomerForm = ({
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
-  }, [formDetails, imageData, isSingleSelectEnable]);
+  }, [formDetails, imageData, isSingleSelectEnable , recaptchaExpired  , recaptchaToken]);
 
   return (
     <div
@@ -456,6 +461,16 @@ export const CustomerForm = ({
               }
             })}
           </Flex>
+          <div
+            className="w-100 d-flex justify-content-center "
+            style={{ marginBottom: "10px" }}
+          >
+            <ReCAPTCHA
+              sitekey="6LdmFMQpAAAAAGwLfYZopzckKXOu0obCtpHW0obV"
+              onChange={onRecaptchaChange}
+              onExpired={onRecaptchaExpired}
+            />
+          </div>
           <div className="w-100 d-flex justify-content-center">
             <Button
               disabled={isButtonDisabled}
