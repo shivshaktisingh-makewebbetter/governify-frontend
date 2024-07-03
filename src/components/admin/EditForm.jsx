@@ -391,12 +391,11 @@ export const EditForms = ({
     getSelectedServiceDisable();
   }, [categoryServicesMapping]);
 
-  useEffect(async () => {
-      let tempSelectedServices = [];
-
-
-
-
+  useEffect(() => {
+    let isMounted = true; // To check if the component is still mounted
+    let tempSelectedServices = [];
+  
+    const fetchData = async () => {
       let method = "GET";
       let url = "governify/admin/getCategoriesWithAllService";
   
@@ -404,9 +403,10 @@ export const EditForms = ({
         const response = await fetcher(url, method);
         if (response.status) {
           setCategoryListing(
-            response.response.map((item) => {
-              return { label: item.title, value: item.id };
-            })
+            response.response.map((item) => ({
+              label: item.title,
+              value: item.id
+            }))
           );
   
           let tempServiceListingData = {};
@@ -421,24 +421,20 @@ export const EditForms = ({
             item.service_requests.forEach((subItem) => {
               tempServiceListingData[categoryId].push({
                 label: subItem.title,
-                value: subItem.id,
+                value: subItem.id
               });
             });
           });
-
-
+  
           data.category_service_form_mappings.forEach((item) => {
             tempSelectedServices.push(item.service_id);
           });
           setSelectedServices(tempSelectedServices);
+  
           for (let key in tempServiceListingData) {
             if (tempServiceListingData.hasOwnProperty(key)) {
               tempServiceListingData[key].forEach((item) => {
-                if (tempSelectedServices.includes(item.value)) {
-                  item.disabled = true;
-                } else {
-                  item.disabled = false;
-                }
+                item.disabled = tempSelectedServices.includes(item.value);
               });
             }
           }
@@ -447,12 +443,18 @@ export const EditForms = ({
           setShowSkeleton(false);
         }
       } catch (err) {
-        throw new Error("Network response was not ok ", err);
-      } finally {
+        console.error("Network response was not ok ", err);
       }
-
-   
-  }, []);
+    };
+  
+    fetchData();
+  
+    return () => {
+      isMounted = false; // Cleanup action to set isMounted to false
+    };
+  }, []); // Add dependencies here if required
+  
+  
 
   return (
     <>
