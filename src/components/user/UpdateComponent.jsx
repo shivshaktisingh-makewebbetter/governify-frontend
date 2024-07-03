@@ -226,6 +226,7 @@ export const UpdateComponent = ({
                 if (name) {
                   let value = `<a href="${response?.data?.data?.data.add_file_to_column.url}">${response?.data?.data?.data.add_file_to_column.name}</a>`;
                   if (mode === "update") {
+
                     setUpdateValue(value);
                   } else {
                     setReplyValue(value);
@@ -359,6 +360,7 @@ export const UpdateComponent = ({
                         handleFileChange={handleFileChange}
                         handleChangeEmoji={handleChangeEmoji}
                         isUpdated={true}
+                        type="update"
                         props={props}
                       />
                     </div>

@@ -13,7 +13,7 @@ const TextEditor = ({
   updateValue,
   update,
   handleFileChange,
-
+  type,
   props,
 }) => {
   const [showEmoji, setShowEmoji] = useState(false);
@@ -126,7 +126,7 @@ const TextEditor = ({
             <Upload
               {...props}
               showUploadList={false}
-              onChange={(e) => handleFileChange(e, true, "reply")}
+              onChange={(e) => handleFileChange(e, true, type)}
               multiple={false}
             >
               <Button type="text" icon={<AddFiles />}>
