@@ -37,11 +37,12 @@ export const TabContent = ({ details, categoryName }) => {
   
       <div className="service-parent-div">
         {details.map((item) => {
+          
           const description = item.service_request.description;
           const isExpanded = expandedDescriptions[item.service_request.id];
           const truncatedDescription =
-            description.length > 85
-              ? description.substring(0, 85) + "..."
+            description.length > 117
+              ? description.substring(0, 80) + "..."
               : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
@@ -55,17 +56,17 @@ export const TabContent = ({ details, categoryName }) => {
                 />
               </div>
               <Typography className="service-child-title font-family-hind">
-                {title}
+                {title}            
               </Typography>
               <Typography className="service-child-subtitle font-family-hind">
                 {isExpanded ? description : truncatedDescription}
-                {description.length > 85 && !isExpanded && (
+                {description.length > 117 && !isExpanded && (
                   <span
                     className="read-more-btn"
                     onClick={() => toggleDescription(item.service_request.id)}
                     style={{ cursor: "pointer", color: "blue" }}
                   >
-                    {!isExpanded && "  Read More"}
+                    {!isExpanded && <span style={{whiteSpace:"nowrap"}}> Read More</span>}
                   </span>
                 )}
               </Typography>
