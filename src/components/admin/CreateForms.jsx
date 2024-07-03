@@ -52,6 +52,11 @@ export const CreateForms = ({
         message = "Please Enter all the label of Form";
         return;
       }
+      if((item.type === 'image' || item.type==='Document') && item.subLabel === ""){
+        flag = true;
+        message = "Please Enter the SubLabel for Document";
+        return;    
+      }
     });
 
 
