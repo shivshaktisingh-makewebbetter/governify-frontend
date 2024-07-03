@@ -12,7 +12,7 @@ import {
 } from "../../assets/image";
 import { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
-import { fetcher } from "../../utils/helper";
+import { appendEmoji, fetcher } from "../../utils/helper";
 import UpdateAndReply from "./UpdateAndReply";
 import { Loader } from "../common/Loader";
 import axios from "axios";
@@ -129,6 +129,15 @@ export const UpdateComponent = ({
       console.log(err, "error");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleChangeEmoji = (content, isUpdate) => {
+    let value = appendEmoji(updateValue, content);
+    if (isUpdate) {
+      handleChangeTextEditor(value);
+    } else {
+      handleChangeReplyValue(value);
     }
   };
 
@@ -348,7 +357,7 @@ export const UpdateComponent = ({
                         updateValue={updateValue}
                         update={update}
                         handleFileChange={handleFileChange}
-                        handleChangeEmoji={() => {}}
+                        handleChangeEmoji={handleChangeEmoji}
                         isUpdated={true}
                         props={props}
                       />
@@ -377,6 +386,8 @@ export const UpdateComponent = ({
                           handleChangeReplyValue={handleChangeReplyValue}
                           replyValue={replyValue}
                           handleFileChange={handleFileChange}
+                          handleChangeEmoji={handleChangeEmoji}
+                          isUpdated={true}
                           likeIds={likeIds.includes(item.id)}
                           unlikeComment={unlikeComment}
                           props={props}

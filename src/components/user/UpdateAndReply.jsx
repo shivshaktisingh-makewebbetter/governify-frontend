@@ -23,9 +23,11 @@ const UpdateAndReply = ({
   handleChangeReplyValue,
   replyValue,
   handleFileChange,
+  handleChangeEmoji,
+  isUpdated,
   likeIds,
   unlikeComment,
-  props
+  props,
 }) => {
   const [showReplyEditor, setShowReplyEditor] = useState(false);
 
@@ -95,7 +97,7 @@ const UpdateAndReply = ({
             borderRight: "1px solid #cbc2c2",
             color: "#6F7490",
           }}
-          onClick={likeIds ? ()=>unlikeComment(item.id) : handleLike}
+          onClick={likeIds ? () => unlikeComment(item.id) : handleLike}
         >
           <span
             className="d-flex justify-content-center align-items-center"
@@ -138,52 +140,59 @@ const UpdateAndReply = ({
           );
         })}
       {item.replies.length > 0 && !showReplyEditor && (
-        <Flex align="center" className="p-4" gap={10}>
-        <div className="d-flex align-items-center">
-          <span
-            className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-            style={{ width: "35px", height: "35px", background: "#5AC063" }}
-          >
-            {getFirstLettersOfName(sessionStorage.getItem('userName'))}
+        <Flex className="p-4" gap={10}>
+          <div className="d-flex align-items-center">
+            <span
+              className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
+              style={{ width: "35px", height: "35px", background: "#5AC063" }}
+            >
+              {getFirstLettersOfName(sessionStorage.getItem("userName"))}
+            </span>
+          </div>
+          <span className="d-block w-100">
+            <input
+              type="text"
+              placeholder="Write a reply..."
+              className="w-100 border border-info-subtle incorpify-update-input"
+              style={{
+                borderRadius: "50px",
+                padding: "5px 10px",
+              }}
+              onFocus={(e) => setShowReplyEditor(true)}
+            />
           </span>
-        </div>
-        <span className="d-block w-100">
-          <input
-            type="text"
-            placeholder="Write a reply..."
-            className="w-100 border border-info-subtle incorpify-update-input"
-            style={{
-              borderRadius: "50px",
-              padding: "5px 10px",
-            }}
-            onFocus={(e) => setShowReplyEditor(true)}
-          />
-        </span>
-      </Flex>
+        </Flex>
       )}
       {showReplyEditor && (
-       <Flex gap={10} className="p-4">
-       <div className="d-flex align-items-center">
-          <span
+        <Flex gap={10} className="p-4">
+          <div
             className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-            style={{ width: "35px", height: "35px", background: "#5AC063" }}
+            style={{
+              background: "#5AC063",
+              width: "38px",
+              height: "35px",
+              fontSize: "15px",
+              lineHeight: 1,
+              display: "inline-block",
+            }}
           >
-            {getFirstLettersOfName(sessionStorage.getItem('userName'))}
-          </span>
-        </div>
-       <div className="w-100">
-         <TextEditor
-           cancelUpdate={cancelReply}
-           handleChangeTextEditor={handleChangeTextEditor}
-           updateValue={replyValue}
-           update={replies}
-           handleFileChange={handleFileChange}
-           handleChangeEmoji={()=>{}}
-           isUpdated={false}
-           props={props}
-         />
-       </div>
-     </Flex>
+            <span style={{ lineHeight: 1, display: "inline-block" }}>
+              {getFirstLettersOfName(sessionStorage.getItem("userName"))}
+            </span>
+          </div>
+          <div className="w-100">
+            <TextEditor
+              cancelUpdate={cancelReply}
+              handleChangeTextEditor={handleChangeTextEditor}
+              updateValue={replyValue}
+              update={replies}
+              handleFileChange={handleFileChange}
+              handleChangeEmoji={handleChangeEmoji}
+              isUpdated={false}
+              props={props}
+            />
+          </div>
+        </Flex>
       )}
     </div>
   );

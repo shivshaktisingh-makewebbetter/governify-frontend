@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import { Button, Flex, Upload } from "antd";
-import { AddFiles } from "../../assets/image";
+import { AddFiles, Emoji } from "../../assets/image";
+import EmojiPicker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 const TextEditor = ({
   cancelUpdate,
   handleChangeTextEditor,
+  handleChangeEmoji,
+  isUpdated,
   updateValue,
   update,
   handleFileChange,
@@ -13,6 +17,7 @@ const TextEditor = ({
   props,
 }) => {
   const [showEmoji, setShowEmoji] = useState(false);
+  const editorRef = useRef(null);
   var modules = {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
@@ -93,16 +98,21 @@ const TextEditor = ({
     handleChangeTextEditor(content);
   };
 
-  const onEmojiClick = (event, emojiObject) => {
-    // handleChangeEmoji(emojiObject.target, isUpdated);
+  const onEmojiClick = (event) => {
+    handleChangeEmoji(event.native, isUpdated);
     setShowEmoji(false);
     // setChosenEmoji(emojiObject);
   };
+
+  useEffect(() => {
+    editorRef.current.focus();
+  }, []);
 
   return (
     <div className="">
       <div className="incorpify-text-editor" style={{}}>
         <ReactQuill
+          ref={editorRef}
           theme="snow"
           modules={modules}
           formats={formats}
@@ -116,29 +126,34 @@ const TextEditor = ({
             <Upload
               {...props}
               showUploadList={false}
-              onChange={(e) => handleFileChange(e, true, 'reply')}
+              onChange={(e) => handleFileChange(e, true, "reply")}
               multiple={false}
             >
               <Button type="text" icon={<AddFiles />}>
                 Add files
               </Button>
             </Upload>
-            {/* {!showEmoji ? (
+            <span className="position-relative emoji-wrapper">
               <Button
                 type="text"
                 icon={<Emoji />}
-                onClick={() => setShowEmoji(true)}
+                onClick={() => setShowEmoji(!showEmoji)}
               >
                 Emoji
               </Button>
-            ) : (
-              <EmojiPicker
-                reactionsDefaultOpen={false}
-                onEmojiClick={onEmojiClick}
+              {showEmoji && (
+                <span className="emoji-container">
+                  <EmojiPicker
+                    data={data}
+                    previewPosition="none"
+                    // reactionsDefaultOpen={false}
+                    onEmojiSelect={(e) => onEmojiClick(e)}
 
-                // onReactionClick={handleReaction}
-              />
-            )} */}
+                    // onReactionClick={handleReaction}
+                  />
+                </span>
+              )}
+            </span>
           </Flex>
           <Flex gap={5}>
             <Button

@@ -1188,4 +1188,14 @@ table tr:hover {
   }
 }
 
+@media (max-width: 540px) {
+  .emoji-wrapper {
+    display: none;
+  }
+
+  .form-container {
+    padding: 20px;
+  } 
+}
+
 

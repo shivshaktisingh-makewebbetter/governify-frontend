@@ -113,3 +113,22 @@ export function showUserName(value) {
 
     return userName;
   }
+
+  export function appendEmoji(value, emoji) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(value, "text/html");
+  
+    // Find all <p> tags
+    const pTags = doc.querySelectorAll("p");
+  
+    // Append emoji to the last <p> tag
+    if (pTags.length > 0) {
+      let lastPTag = pTags[pTags.length - 1];
+      if (lastPTag.innerHTML.trim() === "<br>") lastPTag.innerHTML = "";
+      lastPTag.append(emoji);
+    }
+  
+    // Convert the modified document back to a string
+    const modifiedHtmlString = doc.body.innerHTML;
+    return value === "" ? emoji : modifiedHtmlString;
+  }
