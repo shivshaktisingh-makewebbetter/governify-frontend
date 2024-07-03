@@ -15,6 +15,7 @@ import {
   Reply,
   ThumpsUp,
 } from "../../assets/image";
+import { Flex } from "antd";
 
 const UpdateAndReply = ({
   item,
@@ -24,6 +25,7 @@ const UpdateAndReply = ({
   handleFileChange,
   likeIds,
   unlikeComment,
+  props
 }) => {
   const [showReplyEditor, setShowReplyEditor] = useState(false);
 
@@ -136,27 +138,62 @@ const UpdateAndReply = ({
           );
         })}
       {item.replies.length > 0 && !showReplyEditor && (
-        <span className="d-block pt-3">
+        <Flex align="center" className="p-4" gap={10}>
+        <div
+          className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
+          style={{
+            background: "#ff6221",
+            width: "38px",
+            height: "35px",
+            fontSize: "15px",
+          }}
+        >
+          <span>{getFirstLettersOfName(sessionStorage.getItem('userName'))}</span>
+        </div>
+        <span className="d-block w-100">
           <input
             type="text"
             placeholder="Write a reply..."
             className="w-100 border border-info-subtle incorpify-update-input"
-            style={{ borderRadius: "5px", padding: "5px 10px" }}
+            style={{
+              borderRadius: "50px",
+              padding: "5px 10px",
+            }}
             onFocus={(e) => setShowReplyEditor(true)}
-            // disabled={showTextEditor}
           />
         </span>
+      </Flex>
       )}
       {showReplyEditor && (
-        <div className="pt-3">
-          <TextEditor
-            cancelUpdate={cancelReply}
-            handleChangeTextEditor={handleChangeTextEditor}
-            updateValue={replyValue}
-            update={replies}
-            handleFileChange={handleFileChange}
-          />
-        </div>
+       <Flex gap={10} className="p-4">
+       <div
+         className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
+         style={{
+           background: "#ff6221",
+           width: "38px",
+           height: "35px",
+           fontSize: "15px",
+           lineHeight: 1,
+           display: "inline-block",
+         }}
+       >
+         <span style={{ lineHeight: 1, display: "inline-block" }}>
+           {getFirstLettersOfName(sessionStorage.getItem('userName'))}
+         </span>
+       </div>
+       <div className="w-100">
+         <TextEditor
+           cancelUpdate={cancelReply}
+           handleChangeTextEditor={handleChangeTextEditor}
+           updateValue={replyValue}
+           update={replies}
+           handleFileChange={handleFileChange}
+           handleChangeEmoji={()=>{}}
+           isUpdated={false}
+           props={props}
+         />
+       </div>
+     </Flex>
       )}
     </div>
   );

@@ -114,7 +114,7 @@ const TextEditor = ({
         <Flex justify="space-between" wrap className="mt-1">
           <Flex>
             <Upload
-            //   {...props}
+              {...props}
               showUploadList={false}
               onChange={(e) => handleFileChange(e, true)}
               multiple={false}
