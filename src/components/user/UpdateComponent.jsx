@@ -325,9 +325,10 @@ export const UpdateComponent = ({
                       iconPosition="end"
                       style={{
                         padding: "5px 10px",
-                        background: settingsData.button_bg,
+                        background: '#00B34D',
                         color: "#ffffff",
-                        border:"none"
+                        border:"none" ,
+                        borderRadius:"10px"
                       }}
                     >
                       Upload
