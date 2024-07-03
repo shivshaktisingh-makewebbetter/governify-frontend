@@ -49,7 +49,7 @@ const UpdateAndReply = ({
 
   return (
     <div className={`border pt-2 mt-5 rounded position-relative`}>
-      <div className="d-flex px-4 align-items-center" style={{ gap: "5px" }}>
+      <div className="d-flex px-4 align-items-center" style={{ gap: "5px" , marginTop:"1.1rem" }}>
         <div className="d-flex align-items-center">
           <span
             className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"

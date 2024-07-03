@@ -38,7 +38,7 @@ export const ThankyouModal = ({handleOpen}) => {
         <span className="w-text-block" style={{ display: "block" }}>
           <span
             className="w-text-content"
-            style={{ color: "#928f8f", fontSize: "16px", fontWeight: "700" }}
+            style={{ color: "#928f8f", fontSize: "26px", fontWeight: "700" }}
           >
             Thank you!
           </span>
