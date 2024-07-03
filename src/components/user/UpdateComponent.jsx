@@ -1,5 +1,5 @@
 import { Button, Flex, Popover, Upload } from "antd";
-import { AdobeAcrobat, UploadIcon } from "../../assets/image";
+import { AdobeAcrobat, Csvicon, Docicon, Jpegicon, Jpgicon, Mp4icon, Pngicon, UploadIcon, Xlsxicon } from "../../assets/image";
 import { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
 import { fetcher } from "../../utils/helper";
@@ -144,6 +144,34 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
     }
   };
 
+  const getSvgIcon = (name) =>{
+    let tempArray = name.split('.');
+    let svgType = tempArray[tempArray.length -1];
+   if(svgType === 'csv'){
+    return <Csvicon/>
+   }
+   if(svgType === 'doc' || svgType === 'docx'){
+    return <Docicon/>
+   }
+   if(svgType === 'png'){
+    return <Pngicon/>
+   }
+   if(svgType === 'jpg'){
+    return <Jpgicon/>
+   }
+   if(svgType === 'jpeg'){
+    return <Jpegicon/>
+   }
+   if(svgType === 'mp4'){
+    return <Mp4icon/>
+   }
+
+   if(svgType === 'xlsx'){
+    return <Xlsxicon/>
+   }
+   return <AdobeAcrobat/>
+  }
+
   const handleFileChange = async (e, name) => {
     let files = e.file;
     let reader = new FileReader();
@@ -236,6 +264,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                 {data.assets.length > 0 && (
                   <Flex gap={10}>
                     {data.assets.map((item, i) => {
+
                       return (
                         <>
                           <div>
@@ -244,7 +273,8 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                               target="_blank"
                               rel="noreferrer"
                             >
-                              <AdobeAcrobat />
+                              {getSvgIcon(item.name)}
+                              {/* <AdobeAcrobat /> */}
                             </a>
                             <div className="mt-1">
                               <Popover content={item.name} trigger="hover">
