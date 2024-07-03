@@ -327,10 +327,11 @@ const [limit , setLimit] = useState(10);
         onChange={onChange}
         showTotal={(total) => `Total ${total} items`}
         current={currentPage}
-        showSizeChanger
+        showSizeChanger ={true}
         onShowSizeChange={onShowSizeChange}
         defaultPageSize={10}
         pageSizeOptions={[10, 20, 50, 100]}
+        
       />
     </div>
   );

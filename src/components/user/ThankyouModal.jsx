@@ -48,7 +48,7 @@ export const ThankyouModal = ({handleOpen}) => {
         <span className="w-text-block" style={{ display: "block" }}>
           <span
             className="w-text-content"
-            style={{ color: "#928f8f", fontSize: "16px", marginTop: "20px" }}
+            style={{ color: "#928f8f", fontSize: "16px", marginTop: "20px" , display:"flex" , textAlign:"center" }}
           >
             Our team will review your request details and get back to you shortly.
           </span>
