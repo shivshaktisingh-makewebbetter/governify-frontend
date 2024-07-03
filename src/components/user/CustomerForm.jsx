@@ -7,6 +7,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { ThankyouModal } from "./ThankyouModal";
 import ReCAPTCHA from "react-google-recaptcha";
+import { toast } from "react-toastify";
+
 
 export const CustomerForm = ({
   formData,
@@ -154,9 +156,12 @@ export const CustomerForm = ({
         }
       );
 
+     
+
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
+       toast.success(image.file_name +" Updated.")
 
       return response.data.success; // Assuming the API returns a success field
     } catch (error) {
@@ -212,7 +217,10 @@ export const CustomerForm = ({
     } catch (error) {
       console.error("Error in handleSubmitAll:", error);
     } finally {
-      setButtonLoading(false);
+      setTimeout(()=>{
+        setButtonLoading(false);
+
+      } ,3000)
     }
   };
 
