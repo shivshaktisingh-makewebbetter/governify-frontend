@@ -327,6 +327,7 @@ export const UpdateComponent = ({
                         padding: "5px 10px",
                         background: settingsData.button_bg,
                         color: "#ffffff",
+                        border:"none"
                       }}
                     >
                       Upload
