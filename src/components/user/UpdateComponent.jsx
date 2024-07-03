@@ -226,9 +226,9 @@ export const UpdateComponent = ({
                   let value = `<a href="${response?.data?.data?.data.add_file_to_column.url}">${response?.data?.data?.data.add_file_to_column.name}</a>`;
                   if (mode === "update") {
 
-                    setUpdateValue(value);
+                    setUpdateValue(updateValue+value);
                   } else {
-                    setReplyValue(value);
+                    setReplyValue(replyValue+value);
                   }
                 }
                 newFetchData();
