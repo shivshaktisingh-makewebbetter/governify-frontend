@@ -320,15 +320,17 @@ export const UpdateComponent = ({
                     onChange={(e) => handleFileChange(e, false, 'update')}
                   >
                     <Button
+                    className="fs-12 fw-700"
                       icon={<UploadIcon />}
                       size="large"
                       iconPosition="end"
                       style={{
-                        padding: "5px 10px",
                         background: '#00B34D',
                         color: "#ffffff",
                         border:"none" ,
-                        borderRadius:"10px"
+                        borderRadius:"10px",
+                        width:"100px" ,
+
                       }}
                     >
                       Upload
