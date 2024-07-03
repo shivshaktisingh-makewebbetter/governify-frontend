@@ -190,6 +190,7 @@ const UpdateAndReply = ({
               handleChangeEmoji={handleChangeEmoji}
               isUpdated={false}
               props={props}
+              type='reply'
             />
           </div>
         </Flex>
