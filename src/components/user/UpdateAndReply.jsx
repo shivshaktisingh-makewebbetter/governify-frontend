@@ -139,16 +139,13 @@ const UpdateAndReply = ({
         })}
       {item.replies.length > 0 && !showReplyEditor && (
         <Flex align="center" className="p-4" gap={10}>
-        <div
-          className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-          style={{
-            background: "#ff6221",
-            width: "38px",
-            height: "35px",
-            fontSize: "15px",
-          }}
-        >
-          <span>{getFirstLettersOfName(sessionStorage.getItem('userName'))}</span>
+        <div className="d-flex align-items-center">
+          <span
+            className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
+            style={{ width: "35px", height: "35px", background: "#5AC063" }}
+          >
+            {getFirstLettersOfName(sessionStorage.getItem('userName'))}
+          </span>
         </div>
         <span className="d-block w-100">
           <input
@@ -166,21 +163,14 @@ const UpdateAndReply = ({
       )}
       {showReplyEditor && (
        <Flex gap={10} className="p-4">
-       <div
-         className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-         style={{
-           background: "#ff6221",
-           width: "38px",
-           height: "35px",
-           fontSize: "15px",
-           lineHeight: 1,
-           display: "inline-block",
-         }}
-       >
-         <span style={{ lineHeight: 1, display: "inline-block" }}>
-           {getFirstLettersOfName(sessionStorage.getItem('userName'))}
-         </span>
-       </div>
+       <div className="d-flex align-items-center">
+          <span
+            className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
+            style={{ width: "35px", height: "35px", background: "#5AC063" }}
+          >
+            {getFirstLettersOfName(sessionStorage.getItem('userName'))}
+          </span>
+        </div>
        <div className="w-100">
          <TextEditor
            cancelUpdate={cancelReply}

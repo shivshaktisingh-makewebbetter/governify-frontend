@@ -1,5 +1,15 @@
 import { Button, Flex, Popover, Upload } from "antd";
-import { AdobeAcrobat, Csvicon, Docicon, Jpegicon, Jpgicon, Mp4icon, Pngicon, UploadIcon, Xlsxicon } from "../../assets/image";
+import {
+  AdobeAcrobat,
+  Csvicon,
+  Docicon,
+  Jpegicon,
+  Jpgicon,
+  Mp4icon,
+  Pngicon,
+  UploadIcon,
+  Xlsxicon,
+} from "../../assets/image";
 import { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
 import { fetcher } from "../../utils/helper";
@@ -7,7 +17,13 @@ import UpdateAndReply from "./UpdateAndReply";
 import { Loader } from "../common/Loader";
 import axios from "axios";
 
-export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes }) => {
+export const UpdateComponent = ({
+  id,
+  fetchData,
+  setOpen,
+  likeIds,
+  getAllLikes,
+}) => {
   const [data, setData] = useState("");
   const [showTextEditor, setShowTextEditor] = useState(false);
   const [updateValue, setUpdateValue] = useState("");
@@ -25,11 +41,11 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
     head_title_color: "#5ac063",
   };
 
-  const unlikeComment = async(commentId) => {
+  const unlikeComment = async (commentId) => {
     setLoading(true);
     try {
       const res = await fetcher(
-        `/incorpify/dislikeUpdateOrReply/${commentId}`,
+        `incorpify/dislikeUpdateOrReply/${commentId}`,
         "DELETE"
       );
       if (res.success) {
@@ -44,9 +60,9 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
       setLoading(false);
       console.log("error", error);
     }
-  }
+  };
   const props = {
-    multiple:true ,
+    multiple: true,
     onRemove: (file) => {
       //   const index = fileList.indexOf(file);
       //   const newFileList = fileList.slice();
@@ -57,8 +73,6 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
       return false;
     },
   };
-
-
 
   const cancelUpdate = (value) => {
     setShowTextEditor(false);
@@ -89,6 +103,9 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
         // getSubItemData();
         setReplyValue("");
         newFetchData();
+        if (mode === "like") {
+          getAllLikes();
+        }
       } else {
         // toast.error("Something went wrong!");
         setLoading(false);
@@ -100,7 +117,6 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
   };
 
   const newFetchData = async () => {
-
     setLoading(true);
     try {
       let url = `incorpify/getSubItemDetailsById/${id}`;
@@ -122,7 +138,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
       parent_id: "",
       item_id: id,
       text_body: `From ${sessionStorage.getItem("userEmail")}: ${updateValue}`,
-      email:sessionStorage.getItem("userEmail")
+      email: sessionStorage.getItem("userEmail"),
     };
     try {
       const response = await fetcher(
@@ -144,35 +160,35 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
     }
   };
 
-  const getSvgIcon = (name) =>{
-    let tempArray = name.split('.');
-    let svgType = tempArray[tempArray.length -1];
-   if(svgType === 'csv'){
-    return <Csvicon/>
-   }
-   if(svgType === 'doc' || svgType === 'docx'){
-    return <Docicon/>
-   }
-   if(svgType === 'png'){
-    return <Pngicon/>
-   }
-   if(svgType === 'jpg'){
-    return <Jpgicon/>
-   }
-   if(svgType === 'jpeg'){
-    return <Jpegicon/>
-   }
-   if(svgType === 'mp4'){
-    return <Mp4icon/>
-   }
+  const getSvgIcon = (name) => {
+    let tempArray = name.split(".");
+    let svgType = tempArray[tempArray.length - 1];
+    if (svgType === "csv") {
+      return <Csvicon />;
+    }
+    if (svgType === "doc" || svgType === "docx") {
+      return <Docicon />;
+    }
+    if (svgType === "png") {
+      return <Pngicon />;
+    }
+    if (svgType === "jpg") {
+      return <Jpgicon />;
+    }
+    if (svgType === "jpeg") {
+      return <Jpegicon />;
+    }
+    if (svgType === "mp4") {
+      return <Mp4icon />;
+    }
 
-   if(svgType === 'xlsx'){
-    return <Xlsxicon/>
-   }
-   return <AdobeAcrobat/>
-  }
+    if (svgType === "xlsx") {
+      return <Xlsxicon />;
+    }
+    return <AdobeAcrobat />;
+  };
 
-  const handleFileChange = async (e, name) => {
+  const handleFileChange = async (e, name, mode) => {
     let files = e.file;
     let reader = new FileReader();
     if (files) {
@@ -182,8 +198,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
           formData.append("item_id", id);
           formData.append("file_name", files.name);
           formData.append("file", files);
-          let token =
-            sessionStorage.getItem("token") ;
+          let token = sessionStorage.getItem("token");
           try {
             setLoading(true);
             const response = await axios.post(
@@ -197,11 +212,15 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
               }
             );
             setTimeout(() => {
-              console.log(response , 'response')
-              if (response.status === 200) {
+              console.log(response, "response");
+              if (response.data.success) {
                 if (name) {
-                  let value = `<a href="${response.data.data.add_file_to_column.url}">${response.data.data.add_file_to_column.name}</a>`;
-                  setUpdateValue(value);
+                  let value = `<a href="${response?.data?.data?.data.add_file_to_column.url}">${response?.data?.data?.data.add_file_to_column.name}</a>`;
+                  if (mode === "update") {
+                    setUpdateValue(value);
+                  } else {
+                    setReplyValue(value);
+                  }
                 }
                 newFetchData();
               } else {
@@ -217,7 +236,6 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
       reader.readAsDataURL(files);
     }
   };
-
 
   useEffect(() => {
     newFetchData();
@@ -262,9 +280,8 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                   Documents
                 </span>
                 {data.assets.length > 0 && (
-                  <Flex gap={10}>
+                  <Flex gap={10} wrap>
                     {data.assets.map((item, i) => {
-
                       return (
                         <>
                           <div>
@@ -291,8 +308,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                   <Upload
                     {...props}
                     showUploadList={false}
-                    onChange={(e) => handleFileChange(e, false)}
-                
+                    onChange={(e) => handleFileChange(e, false, 'update')}
                   >
                     <Button
                       icon={<UploadIcon />}
@@ -315,7 +331,11 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
               >
                 <span
                   className="fw-bold"
-                  style={{ color: "#6F7490", fontSize: "17px", padding: "0 10px" }}
+                  style={{
+                    color: "#6F7490",
+                    fontSize: "17px",
+                    padding: "0 10px",
+                  }}
                 >
                   Latest Updates
                 </span>
@@ -327,7 +347,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                         handleChangeTextEditor={handleChangeTextEditor}
                         updateValue={updateValue}
                         update={update}
-                        handleFileChange={(e) => handleFileChange(e, false)}
+                        handleFileChange={handleFileChange}
                         handleChangeEmoji={() => {}}
                         isUpdated={true}
                         props={props}
@@ -357,7 +377,7 @@ export const UpdateComponent = ({ id, fetchData, setOpen , likeIds , getAllLikes
                           handleChangeReplyValue={handleChangeReplyValue}
                           replyValue={replyValue}
                           handleFileChange={handleFileChange}
-                          likeIds ={likeIds.includes(item.id)}
+                          likeIds={likeIds.includes(item.id)}
                           unlikeComment={unlikeComment}
                           props={props}
                         />

@@ -116,7 +116,7 @@ const TextEditor = ({
             <Upload
               {...props}
               showUploadList={false}
-              onChange={(e) => handleFileChange(e, true)}
+              onChange={(e) => handleFileChange(e, true, 'reply')}
               multiple={false}
             >
               <Button type="text" icon={<AddFiles />}>
