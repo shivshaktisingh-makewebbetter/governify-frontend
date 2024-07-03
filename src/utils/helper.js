@@ -93,7 +93,7 @@ export function extractUsernameFromMessage(value) {
     if (value.includes(sessionStorage.getItem("userEmail"))) {
       newValue.forEach((msg, i) => {
         if (i !== 0) {
-          message += msg;
+          message += msg.replace("https", "https:");
         }
       });
     } else {
