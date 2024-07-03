@@ -330,6 +330,8 @@ export const UpdateComponent = ({
                         border:"none" ,
                         borderRadius:"10px",
                         width:"100px" ,
+                        paddingLeft:"20px" ,
+                        paddingRight:"20px"
 
                       }}
                     >
