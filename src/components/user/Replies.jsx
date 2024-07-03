@@ -12,7 +12,7 @@ const Replies = ({ item }) => {
           className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
           style={{width: "35px", height: "35px" , background:"#5AC063" , paddingTop:"2px" }}
         >
-          {userName === "Incorpify Team" ? <GovernifyTeam /> : getFirstLettersOfName(userName)}
+          {userName === "Governify Team" ? <GovernifyTeam /> : getFirstLettersOfName(userName)}
         </span>
       </div>
       <div className="rounded-2 px-3 py-2" style={{ background: "#6f74900f" }}>

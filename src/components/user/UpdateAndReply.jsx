@@ -53,7 +53,7 @@ const UpdateAndReply = ({
         <div className="d-flex align-items-center">
           <span
             className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-            style={{ width: "40px", height: "40px", background: "#5AC063" , paddingTop:userName !== "Governify Team"?"4px":"0px" , fontSize:"18px" }}
+            style={{ width: "40px", height: "40px", background: "#5AC063" , paddingTop:userName !== "Governify Team"?"3px":"0px" , fontSize:"18px" }}
           >
             {userName === "Governify Team" ? (
               <GovernifyTeam />
@@ -144,7 +144,7 @@ const UpdateAndReply = ({
           <div className="d-flex align-items-center">
             <span
               className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
-              style={{ width: "35px", height: "35px", background: "#5AC063" , paddingTop:"4px" }}
+              style={{ width: "35px", height: "35px", background: "#5AC063" , paddingTop:"3px" }}
             >
               {getFirstLettersOfName(sessionStorage.getItem("userName"))}
             </span>
