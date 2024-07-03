@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Flex, Input, Upload, Checkbox, Modal } from "antd";
 import { fetcher } from "../../utils/helper";
 import { Loader } from "../common/Loader";
@@ -28,6 +28,8 @@ export const CustomerForm = ({
     head_title_color: "#5ac063",
   };
 
+  const ref = useRef();
+
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [imageData, setImageData] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -56,37 +58,40 @@ export const CustomerForm = ({
   };
 
   const handleFileChange = async (event, index) => {
-    const files = event.file;
+    clearTimeout(ref.current);
+    ref.current = setTimeout(() => {
+      const files = event.file;
+      console.log(event ,'dsf');
 
-    console.log(files);
-
-    if (files) {
-      let reader = new FileReader();
-      reader.onload = (function (theFile) {
-        return function (event) {
-          const tempFormData = [...formDetails];
-          let tempImageData = [];
-          tempFormData.forEach((item) => {
-            if (item.type === "Document" || item.type === "image") {
-              if (item.value == undefined) {
-                tempImageData = [];
-              } else {
-                tempImageData = item.value;
+      const tempDataIMage = [...formDetails];
+      if (files) {
+        let reader = new FileReader();
+        reader.onload = (function (theFile) {
+          return function (event) {
+            const tempFormData = [...tempDataIMage];
+            let tempImageData = [];
+            tempFormData.forEach((item) => {
+              if (item.type === "Document" || item.type === "image") {
+                if (item.value == undefined) {
+                  tempImageData = [];
+                } else {
+                  tempImageData = item.value;
+                }
               }
-            }
-          });
-          tempImageData.push({ file: files, file_name: files.name });
-          tempFormData.forEach((item) => {
-            if (item.type === "Document" || item.type === "image") {
-              item.value = tempImageData;
-            }
-          });
-          setFormDetails(tempFormData);
-        };
-      })(files);
+            });
+            tempImageData.push({ file: files, file_name: files.name });
+            tempFormData.forEach((item) => {
+              if (item.type === "Document" || item.type === "image") {
+                item.value = tempImageData;
+              }
+            });
+            setFormDetails(tempFormData);
+          };
+        })(files);
 
-      reader.readAsDataURL(files);
-    }
+        reader.readAsDataURL(files);
+      }
+    });
   };
 
   const onRecaptchaExpired = () => {
@@ -264,16 +269,12 @@ export const CustomerForm = ({
 
   const checkDisable = () => {
     let flag = false;
-  
+
     formDetails.forEach((item) => {
-      console.log(item.value);
-  
       if (item.required) {
         if (
           (item.type === "textArea" || item.type === "CheckBox") &&
-          (item.value === undefined ||
-            item.value === null ||
-            item.value === "")
+          (item.value === undefined || item.value === null || item.value === "")
         ) {
           flag = true;
         } else if (item.value === undefined || item.value.length === 0) {
@@ -281,12 +282,11 @@ export const CustomerForm = ({
         }
       }
     });
-  
-    flag = flag || recaptchaExpired || recaptchaToken === '';
-  
+
+    flag = flag || recaptchaExpired || recaptchaToken === "";
+
     return flag;
   };
-  
 
   const getCheckBoxOptions = (options) => {
     const tempData = options.map((item) => ({
@@ -315,7 +315,13 @@ export const CustomerForm = ({
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
-  }, [formDetails, imageData, isSingleSelectEnable , recaptchaExpired  , recaptchaToken]);
+  }, [
+    formDetails,
+    imageData,
+    isSingleSelectEnable,
+    recaptchaExpired,
+    recaptchaToken,
+  ]);
 
   return (
     <div
