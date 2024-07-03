@@ -44,7 +44,10 @@ export const CustomerForm = ({
 
   const props = {
     multiple: true,
-    onRemove: (file) => {},
+    onRemove: (file) => {
+
+      console.log(file)
+    },
     beforeUpload: (file) => {
       return false;
     },
@@ -52,6 +55,8 @@ export const CustomerForm = ({
 
   const handleFileChange = async (event, index) => {
     const files = event.file;
+
+    console.log(files)
 
     if (files) {
       let reader = new FileReader();
