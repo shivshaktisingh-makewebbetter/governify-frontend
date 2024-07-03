@@ -50,6 +50,30 @@ export const CustomerForm = ({
   const props = {
     multiple: true,
     onRemove: (file) => {
+      setTimeout(()=>{
+        const tempFormData = [...formDetails];
+        const tempNewSelection = [];
+        let imageName = file.name;
+        // let tempImageData = [];
+        tempFormData.forEach((item) => {
+          if (item.type === "Document" || item.type === "image") {
+            item.value.forEach((subItem) =>{
+              if(subItem.file_name !== imageName){
+                tempNewSelection.push(subItem);
+              }
+
+            })
+          }
+        });
+
+        tempFormData.forEach((item) => {
+          if (item.type === "Document" || item.type === "image") {
+            item.value = tempNewSelection;
+          }
+        });
+        setFormDetails(tempFormData);
+
+      } , 500)
       console.log(file);
     },
     beforeUpload: (file) => {
@@ -58,17 +82,14 @@ export const CustomerForm = ({
   };
 
   const handleFileChange = async (event, index) => {
-    clearTimeout(ref.current);
-    ref.current = setTimeout(() => {
+    
       const files = event.file;
-      console.log(event ,'dsf');
 
-      const tempDataIMage = [...formDetails];
       if (files) {
         let reader = new FileReader();
         reader.onload = (function (theFile) {
           return function (event) {
-            const tempFormData = [...tempDataIMage];
+            const tempFormData = [...formDetails];
             let tempImageData = [];
             tempFormData.forEach((item) => {
               if (item.type === "Document" || item.type === "image") {
@@ -91,7 +112,7 @@ export const CustomerForm = ({
 
         reader.readAsDataURL(files);
       }
-    });
+   
   };
 
   const onRecaptchaExpired = () => {
