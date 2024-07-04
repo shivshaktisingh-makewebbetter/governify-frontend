@@ -92,10 +92,14 @@ const Register = () => {
     <div className="container auth-container text-center">
         {loading && <Loader/>}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
-        <div className="animation-container" style={{ minHeight: "120px" }}>
+        <div className="animation-container" style={{ minHeight: "90px" }}>
           <div
             className={`header-heading1 ${animation ? "animation-content" : ""} ff-ws `}
-            style={{ transition: "transform 1s ease, opacity 2s ease" }}
+            style={{
+              transition: "transform 1s ease, opacity 2s ease",
+              fontSize:"50px" ,
+              fontWeight:"500"
+            }}
           >
             Governify
           </div>
@@ -103,7 +107,7 @@ const Register = () => {
         <div className="form-container mx-auto"  style={{maxWidth:"440px"}}>
           <div>
             <img src="/tasc.svg" alt="TASC logo" style={{ maxWidth: "250px" }} />
-            <div className="fs-36 ff-ws mb-3 text-inc-tundora">Sign Up</div>
+            <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>Sign Up</div>
           </div>
           <form onSubmit={handleSubmit} className="form-auth" id="registration-custom-form">
             <input
