@@ -87,7 +87,7 @@ const Login = () => {
     <div className="inc-auth-container">
     <div className="container auth-container text-center">
       {loading && <Loader />}
-      <div className="cover-container w-100 h-100 p-3 pb-2 ">
+      <div className="cover-container w-100 h-100 pb-2 ">
         <div class="">
           <div className="animation-container" style={{ minHeight: "90px" }}>
             <div
