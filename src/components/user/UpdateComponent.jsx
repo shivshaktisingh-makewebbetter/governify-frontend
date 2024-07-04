@@ -220,7 +220,7 @@ export const UpdateComponent = ({
     // }
 
     let icons = {
-      csv: <Csvicon />,
+      csv: <Xlsxicon />,
       doc: <Docicon />,
       docx: <Docxicon />,
       png: <Pngicon />,
