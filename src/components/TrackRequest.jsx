@@ -35,10 +35,10 @@ export const TrackRequest = () => {
     3: "Canceled",
     5: "Awaiting Action",
   });
-const [limit , setLimit] = useState(10);
+  const [limit, setLimit] = useState(10);
 
   const onChange = (pageNumber) => {
-   setCurrentPage(pageNumber);
+    setCurrentPage(pageNumber);
   };
 
   const items = [
@@ -92,31 +92,32 @@ const [limit , setLimit] = useState(10);
 
     let updatedFilterColumn = [
       {
-        key: 1,
-        label: (
-          <Radio.Group
-            onChange={() => onChangeRadioFilter(9, "All")}
-            value={selectedFilter}
-          >
-            <Radio value={9}>All</Radio>
-          </Radio.Group>
-        ),
+        label: "All",
+        key: "9",
       },
     ];
+    let statusObject = listOfStatus.labels;
 
-    Object.entries(listOfStatus.labels).forEach(([key, value], index) => {
+    Object.keys(statusObject).map((key) =>
       updatedFilterColumn.push({
-        key: index + 2,
-        label: (
-          <Radio.Group
-            onChange={() => onChangeRadioFilter(key, value)}
-            value={selectedFilter}
-          >
-            <Radio value={key}>{value}</Radio>
-          </Radio.Group>
-        ),
-      });
-    });
+        label: statusObject[key],
+        key: parseInt(key, 10),
+      })
+    );
+
+    // Object.entries(listOfStatus.labels).forEach(([key, value], index) => {
+    //   updatedFilterColumn.push({
+    //     key: index + 2,
+    //     label: (
+    //       <Radio.Group
+    //         onChange={() => onChangeRadioFilter(key, value)}
+    //         value={selectedFilter}
+    //       >
+    //         <Radio value={key}>{value}</Radio>
+    //       </Radio.Group>
+    //     ),
+    //   });
+    // });
 
     setStatusItems(updatedFilterColumn);
   };
@@ -125,10 +126,9 @@ const [limit , setLimit] = useState(10);
     return data.filter((item) => item.name.includes(searchString));
   };
 
-  const onShowSizeChange = (current , size) =>{
- 
-    setLimit(size)
-  }
+  const onShowSizeChange = (current, size) => {
+    setLimit(size);
+  };
 
   const sortData = (data, order) => {
     return order === 1 ? data : data.slice().reverse();
@@ -161,17 +161,6 @@ const [limit , setLimit] = useState(10);
     return tempValue;
   };
 
-  const getFormInformation = (tempData) => {
-    let tempValue = "";
-    tempData.forEach((item) => {
-      if (item.id === "form_infomation__1") {
-        tempValue = item.text;
-      }
-    });
-
-    return tempValue;
-  };
-
   const getCategory = (tempData) => {
     let tempValue = "";
     tempData.forEach((item) => {
@@ -186,12 +175,7 @@ const [limit , setLimit] = useState(10);
   const handleExport = () => {
     let tempData = [...originalArray];
     const dataFormatToPrepare = [
-      [
-        "Name Of Service",
-        "Category Of Service",
-        "Created Date",
-        "Status",
-      ],
+      ["Name Of Service", "Category Of Service", "Created Date", "Status"],
     ];
     tempData.forEach((item) => {
       let createdAt = item.created_at;
@@ -285,18 +269,18 @@ const [limit , setLimit] = useState(10);
     return () => {};
   }, [token]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const tempData = [...originalArray];
     const from = (currentPage - 1) * limit;
-    const to = dataLength < currentPage * limit ? dataLength : currentPage * limit;
+    const to =
+      dataLength < currentPage * limit ? dataLength : currentPage * limit;
     const newData = tempData.slice(from, to);
     setData(newData);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
-  } , [currentPage , limit])
+  }, [currentPage, limit]);
 
   return (
     <div style={{ paddingLeft: "16px", paddingRight: "16px" }}>
@@ -327,11 +311,10 @@ const [limit , setLimit] = useState(10);
         onChange={onChange}
         showTotal={(total) => `Total ${total} items`}
         current={currentPage}
-        showSizeChanger ={true}
+        showSizeChanger={true}
         onShowSizeChange={onShowSizeChange}
         defaultPageSize={10}
         pageSizeOptions={[10, 20, 50, 100]}
-        
       />
     </div>
   );

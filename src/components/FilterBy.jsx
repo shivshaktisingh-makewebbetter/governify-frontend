@@ -3,38 +3,38 @@ import React from 'react';
 import { Button, Dropdown , Space } from 'antd';
 
 
-export const FilterBy = ({setSelectedFilter}) =>{
+export const FilterBy = ({setSelectedFilter , items}) =>{
 
   const handleMenuClick = (e) => {
    setSelectedFilter(e.key);
   };
-  const items = [
-    {
-      label: 'All',
-      key: '9',
-    },
-    {
-      label: 'In Progress',
-      key: '0',
-    },
-    {
-      label: 'Pending',
-      key: '2',
+  // const items = [
+  //   {
+  //     label: 'All',
+  //     key: '9',
+  //   },
+  //   {
+  //     label: 'In Progress',
+  //     key: '0',
+  //   },
+  //   {
+  //     label: 'Pending',
+  //     key: '2',
       
-    },
-    {
-      label: 'Cancelled',
-      key: '3',
-    },
-    {
-      label: 'Awaiting Action',
-      key: '5',
-    },
-    {
-      label: 'Done',
-      key: '1',
-    },
-  ];
+  //   },
+  //   {
+  //     label: 'Cancelled',
+  //     key: '3',
+  //   },
+  //   {
+  //     label: 'Awaiting Action',
+  //     key: '5',
+  //   },
+  //   {
+  //     label: 'Done',
+  //     key: '1',
+  //   },
+  // ];
   const menuProps = {
     items,
     selectable: true,

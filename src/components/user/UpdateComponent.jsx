@@ -189,35 +189,6 @@ export const UpdateComponent = ({
   const getSvgIcon = (name) => {
     let tempArray = name.split(".");
     let svgType = tempArray[tempArray.length - 1];
-    // if (svgType === "csv") {
-    //   return <Csvicon />;
-    // }
-    // if (svgType === "doc") {
-    //   return <Docicon />;
-    // }
-    // if (svgType === "docx") {
-    //   return <Docxicon />;
-    // }
-    // if (svgType === "png") {
-    //   return <Pngicon />;
-    // }
-    // if (svgType === "jpg") {
-    //   return <Jpgicon />;
-    // }
-    // if (svgType === "jpeg") {
-    //   return <Jpegicon />;
-    // }
-    // if (svgType === "mp4") {
-    //   return <Mp4icon />;
-    // }
-
-    // if (svgType === "svg") {
-    //   return <Svgicon />;
-    // }
-
-    // if (svgType === "xlsx") {
-    //   return <Xlsxicon />;
-    // }
 
     let icons = {
       csv: <Xlsxicon />,
