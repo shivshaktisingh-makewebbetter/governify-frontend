@@ -107,7 +107,7 @@ const Register = () => {
         <div className="form-container mx-auto"  style={{maxWidth:"440px"}}>
           <div>
             <img src="/tasc.svg" alt="TASC logo" style={{ maxWidth: "220px" }} />
-            <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>Sign Up</div>
+            <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600 , color:"#434343"}}>Sign Up</div>
           </div>
           <form onSubmit={handleSubmit} className="form-auth" id="registration-custom-form">
             <input
@@ -116,6 +116,9 @@ const Register = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
+              style={{background:"#e8f0fe"}}
+              className="input-customer-focus form-control"
+
             />
             <input
               type="text"
@@ -123,6 +126,9 @@ const Register = () => {
               name="company_name"
               value={formData.company_name}
               onChange={handleInputChange}
+              style={{background:"#e8f0fe"}}
+              className="input-customer-focus form-control"
+
             />
             <input
               type="text"
@@ -130,6 +136,9 @@ const Register = () => {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
+              style={{background:"#e8f0fe"}}
+              className="input-customer-focus form-control"
+
             />
             <input
               type="text"
@@ -137,16 +146,21 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              style={{background:"#e8f0fe"}}
+              className="input-customer-focus form-control"
+
             />
             <div className="input-group flex-nowrap" id="password-filled">
               <input
-                className="form-control"
+                className="form-control input-customer-focus"
                 id="input-password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
+                style={{background:"#e8f0fe"}}
+
               />
               <span
                 className="input-group-text fs-5 encrypted"
@@ -188,7 +202,7 @@ const Register = () => {
             </button>
           </form>
           <div className="mt-4">
-            <a href="/signin" className="fs-13">Already have an Account?</a>
+            <a href="/signin" className="fs-13" style={{color:"#434343"}}>Already have an Account?</a>
           </div>
           <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®

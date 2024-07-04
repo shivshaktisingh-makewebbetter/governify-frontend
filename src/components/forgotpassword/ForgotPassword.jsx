@@ -80,7 +80,7 @@ const ForgotPassword = () => {
                   style={{ maxWidth: "220px" }}
                 />
               </div>
-              <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>
+              <div className="fs-24 ff-ws mb-2 text-inc-tundora" style={{fontWeight:600 , color:"#434343"}}>
                 Forgot Password
               </div>
             </div>
@@ -90,6 +90,9 @@ const ForgotPassword = () => {
                 type="email"
                 value={email}
                 onChange={handleEmail}
+                style={{background:"#e8f0fe"}}
+                className="input-customer-focus form-control"
+
               />
               <button
                 id="login-button"
@@ -114,7 +117,7 @@ const ForgotPassword = () => {
                 </span>
               </button>
               <div class="d-flex justify-content-center w-100 mt-2">
-                <a href="/signin" className="fs-13">Back to login?</a>
+                <a href="/signin" className="fs-13" style={{color:"#434343"}}>Back to login?</a>
               </div>
               <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®

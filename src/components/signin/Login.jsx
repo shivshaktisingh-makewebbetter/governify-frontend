@@ -125,16 +125,19 @@ const Login = () => {
                 type="email"
                 value={userDetails.email}
                 onChange={(e) => handleChangeUserDetails(e, "email")}
+                style={{background:"#e8f0fe"}}
+                  className="input-customer-focus form-control"
               />
               <div class="input-group flex-nowrap" id="password-filled">
                 <input
-                  class="form-control"
+                  className="form-control input-customer-focus"
                   id="input-password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   name="password"
                   value={userDetails.password}
                   onChange={(e) => handleChangeUserDetails(e, "password")}
+                  style={{background:"#e8f0fe"}}
                 />
                 <span
                   class="input-group-text fs-5 encrypted"
@@ -175,8 +178,8 @@ const Login = () => {
                 </span>
               </button>
               <div class="d-flex justify-content-between align-items-start w-100 mt-2">
-                <a href="/forget-password" className="fs-13">Forgot Password?</a>
-                <a href="/signup" className="fs-13">Create New Account?</a>
+                <a href="/forget-password" className="fs-13" style={{color:"#434343"}}>Forgot Password?</a>
+                <a href="/signup" className="fs-13" style={{color:"#434343"}}>Create New Account?</a>
               </div>
               <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®
