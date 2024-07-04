@@ -204,7 +204,11 @@ export const CustomerForm = ({
         if (tempImageData.length > 0) {
           const response2 = await uploadAllImage(tempImageData, id);
           if (response2) {
-            setFormSubmitted(true);
+            setTimeout(()=>{
+              setFormSubmitted(true);
+
+      
+            } ,3000)
           }
         } else {
           setFormSubmitted(true); // No images to upload but form is submitted

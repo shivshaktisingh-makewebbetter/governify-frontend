@@ -99,7 +99,7 @@ const Register = () => {
             Governify
           </div>
         </div>
-        <div className="form-container mx-auto">
+        <div className="form-container mx-auto"  style={{maxWidth:"440px"}}>
           <div>
             <img src="/tasc.svg" alt="TASC logo" style={{ maxWidth: "250px" }} />
             <div className="fs-36 ff-ws mb-3 text-inc-tundora">Sign Up</div>
@@ -162,9 +162,10 @@ const Register = () => {
               />
             </div>
             <button
-              className="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center bg-inc-orange"
+              class="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center"
               type="submit"
               disabled={!isFormValid}
+              style={{borderRadius:"50px"}}
             >
               <span className="fw-bold">Sign Up</span>
               <span className="icon-btn_track" style={{ marginLeft: "10px" }}>
@@ -182,11 +183,11 @@ const Register = () => {
             </button>
           </form>
           <div className="mt-4">
-            <a href="/signin">Already have an Account?</a>
+            <a href="/signin" className="fs-13">Already have an Account?</a>
           </div>
-          <div className="mt-3 fs-18 ff-ws text-inc-tundora">
-            Powered by TASC Outsourcing®
-          </div>
+          <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
+                Powered by TASC Outsourcing®
+              </div>
         </div>
       </div>
       <ToastContainer position="bottom-right" />
