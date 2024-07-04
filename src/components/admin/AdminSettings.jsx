@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { Loader } from "../common/Loader";
+import { userSettingData } from "../../utils/tools";
 
 export const AdminSettings = () =>{
     const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:"" , form_description:""});
@@ -76,6 +77,7 @@ export const AdminSettings = () =>{
         console.log(response);
         if(response.status){
           toast.success('Settings Updated.')
+          userSettingData();
         }
 
     }catch(err){
@@ -83,6 +85,7 @@ export const AdminSettings = () =>{
     }finally{
       setTimeout(()=>{
         setLoading(false);
+        window.location.reload();
 
       } , 1000)
     }
@@ -110,6 +113,7 @@ export const AdminSettings = () =>{
 
   useEffect(()=>{
     fetchData()
+
   } ,[])
 
     return (

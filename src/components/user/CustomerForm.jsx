@@ -28,6 +28,7 @@ export const CustomerForm = ({
       "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
+    form_description: 'Please fill out the form to proceed with the needed action to provide you with this service'
   };
 
   const ref = useRef();
@@ -359,6 +360,8 @@ export const CustomerForm = ({
     recaptchaToken,
   ]);
 
+
+
   return (
     <div
       className="customer-form-container"
@@ -391,8 +394,7 @@ export const CustomerForm = ({
             </svg>
           </div>
           <div className="form-header-description">
-            Please fill out the form to proceed with the needed action to
-            provide you with this service
+           {data.form_description || 'Please fill out the form to proceed with the needed action to provide you with this service'} 
           </div>
           <Flex
             vertical

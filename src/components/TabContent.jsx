@@ -13,6 +13,18 @@ export const TabContent = ({ details, categoryName }) => {
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const data = JSON.parse(sessionStorage.getItem("settings")) || {
+    image:
+      "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
+    site_bg: "#ffffff",
+    button_bg: "#5ac063",
+    banner_bg: "#5ac063",
+    banner_content:
+      "Hire an attitude, not just experience and qualification. Greg Savage.",
+    header_bg: "#f7f7f7",
+    head_title_color: "#5ac063",
+    form_description: 'Please fill out the form to proceed with the needed action to provide you with this service'
+  };
 
   const handleModalForm = (formData, title) => {
     const formDetails = Object.entries(formData)[0][1];
@@ -78,6 +90,7 @@ export const TabContent = ({ details, categoryName }) => {
                   position: "absolute",
                   bottom: "0px",
                   borderRadius: "10px",
+                  background:data.button_bg
                 }}
                 icon={<PlusOutlined />}
                 onClick={() =>
