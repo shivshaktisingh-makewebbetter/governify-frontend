@@ -128,6 +128,9 @@ export const CustomerForm = ({
   };
 
   const getUploadLabel = (item) => {
+    if(item === null || undefined){
+      return <div></div>;
+    }
     let newItem = item.split("\n");
     const data = newItem.map((subItem, index) => (
       <li style={{ color: "#2c2e38", fontSize: "13px" }} key={index}>
@@ -310,7 +313,7 @@ export const CustomerForm = ({
           (item.value === undefined || item.value === null || item.value === "")
         ) {
           flag = true;
-        } else if (item.value === undefined || item.value.length === 0) {
+        } else if (item.value === null ||item.value === undefined || item.value.length === 0) {
           flag = true;
         }
       }

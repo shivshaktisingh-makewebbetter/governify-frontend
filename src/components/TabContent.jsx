@@ -95,7 +95,7 @@ export const TabContent = ({ details, categoryName }) => {
         })}
       </div>
 
-   {open &&   <Modal open={open} centered footer={null} onCancel={() => setOpen(false)} width={formSubmitted ? 50 : 600}>
+   {open &&   <Modal open={open} centered footer={null} onCancel={() => setOpen(false)} width={formSubmitted ? 50 : 450}>
         <CustomerForm
           formData={formData}
           serviceTitle={serviceTitle}

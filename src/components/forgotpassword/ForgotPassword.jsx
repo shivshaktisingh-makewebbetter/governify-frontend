@@ -48,17 +48,20 @@ const ForgotPassword = () => {
     }, 300);
   }, []);
   return (
+    <div className="inc-auth-container">
     <div className="container auth-container text-center">
       {loading && <Loader />}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div>
-          <div className="animation-container" style={{ minHeight: "160px" }}>
+          <div className="animation-container" style={{ minHeight: "90px" }}>
             <div
               className={`header-heading1 ${
                 animation ? "animation-content" : ""
               } ff-ws `}
               style={{
                 transition: "transform 1s ease, opacity 2s ease",
+                fontSize:"50px" ,
+                fontWeight:500
               }}
             >
               Governify
@@ -71,14 +74,13 @@ const ForgotPassword = () => {
           <div className="form-container mx-auto">
             <div>
               <div>
-                {/* <span className="inc-tasc-gradient-btn">TASC</span><span className="fs-48 ff-ws"> 360</span> */}
                 <img
                   src="/tasc.svg"
                   alt="TASC logo"
                   style={{ maxWidth: "250px" }}
                 />
               </div>
-              <div className="fs-36 ff-ws mb-3 text-inc-tundora">
+              <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>
                 Forgot Password
               </div>
             </div>
@@ -91,10 +93,11 @@ const ForgotPassword = () => {
               />
               <button
                 id="login-button"
-                class="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center bg-inc-orange"
+                className="btn btn-to-link btn-secondary btn-gradiant mt-4 d-flex align-items-center bg-inc-orange"
                 type="button"
                 disabled={buttonDisable()}
                 onClick={handleSubmit}
+                style={{borderRadius:"50px"}}
               >
                 <span className="fw-bold">Email me a recovery link</span>
                 <span class="icon-btn_track" style={{ marginLeft: "10px" }}>
@@ -111,9 +114,9 @@ const ForgotPassword = () => {
                 </span>
               </button>
               <div class="d-flex justify-content-center w-100 mt-2">
-                <a href="/signin">Back to login?</a>
+                <a href="/signin" className="fs-13">Back to login?</a>
               </div>
-              <div className="mt-3 fs-18 ff-ws text-inc-tundora">
+              <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®
               </div>
             </div>
@@ -121,6 +124,7 @@ const ForgotPassword = () => {
         </div>
       </div>
       <ToastContainer position="bottom-right" />
+    </div>
     </div>
   );
 };
