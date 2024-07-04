@@ -227,7 +227,7 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
               style={{ display: "flex", justifyContent: "start", gap: "10px" }}
             >
               {getKey === 5 && (
-                <div>
+                <div style={{ display: "flex", gap: "20px" }}>
                   <Button
                     style={{
                       background: statusColor,
@@ -249,6 +249,27 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
                     <span className="fs-16">
                       <i className="bi bi-arrow-right-circle-fill"></i>
                     </span>
+                  </Button>
+                  <Button
+                    style={{
+                      color: statusColor,
+                      display: "flex",
+                      background: "transparent",
+                      borderColor: statusColor,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
+                      height: "40px",
+                      borderRadius: "10px",
+                    }}
+                    className="border-radius-10"
+                  >
+                    <span
+                      className="fs-12 fw-700 font-family-montse"
+                      onClick={() => cancelRequest(item)}
+                    >
+                      Cancel Request
+                    </span>{" "}
                   </Button>
                 </div>
               )}
