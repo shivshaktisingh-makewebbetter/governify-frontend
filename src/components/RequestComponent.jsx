@@ -77,21 +77,21 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
     return tempText.toUpperCase();
    
    
-    if (item  === 1) {
-      return "COMPLETED";
-    }
-    if (item === 0) {
-      return "IN PROGRESS";
-    }
-    if (item === 2) {
-      return "PENDING";
-    }
-    if (item === 3) {
-      return "CANCELLED";
-    }
-    if (item === 5) {
-      return "AWAITING ACTION";
-    }
+    // if (item  === 1) {
+    //   return "COMPLETED";
+    // }
+    // if (item === 0) {
+    //   return "IN PROGRESS";
+    // }
+    // if (item === 2) {
+    //   return "PENDING";
+    // }
+    // if (item === 3) {
+    //   return "CANCELLED";
+    // }
+    // if (item === 5) {
+    //   return "AWAITING ACTION";
+    // }
   };
 
   const getCreatedDate = (dateStr) => {
