@@ -1,14 +1,29 @@
 import { Button, Flex, Popover, Upload } from "antd";
 import {
   AdobeAcrobat,
+  AiIcon,
+  ApkIcon,
+  CssIcon,
   Csvicon,
+  DmgIcon,
   Docicon,
+  Docxicon,
+  HtmlIcon,
   Jpegicon,
   Jpgicon,
+  Mp3icon,
   Mp4icon,
   Pngicon,
+  PptIcon,
+  PptxIcon,
+  PsdIcon,
+  RarIcon,
+  Svgicon,
+  Txticon,
   UploadIcon,
+  XlsIcon,
   Xlsxicon,
+  ZipIcon,
 } from "../../assets/image";
 import { useEffect, useState } from "react";
 import TextEditor from "./TextEditor";
@@ -172,29 +187,63 @@ export const UpdateComponent = ({
   const getSvgIcon = (name) => {
     let tempArray = name.split(".");
     let svgType = tempArray[tempArray.length - 1];
-    if (svgType === "csv") {
-      return <Csvicon />;
-    }
-    if (svgType === "doc" || svgType === "docx") {
-      return <Docicon />;
-    }
-    if (svgType === "png") {
-      return <Pngicon />;
-    }
-    if (svgType === "jpg") {
-      return <Jpgicon />;
-    }
-    if (svgType === "jpeg") {
-      return <Jpegicon />;
-    }
-    if (svgType === "mp4") {
-      return <Mp4icon />;
-    }
+    // if (svgType === "csv") {
+    //   return <Csvicon />;
+    // }
+    // if (svgType === "doc") {
+    //   return <Docicon />;
+    // }
+    // if (svgType === "docx") {
+    //   return <Docxicon />;
+    // }
+    // if (svgType === "png") {
+    //   return <Pngicon />;
+    // }
+    // if (svgType === "jpg") {
+    //   return <Jpgicon />;
+    // }
+    // if (svgType === "jpeg") {
+    //   return <Jpegicon />;
+    // }
+    // if (svgType === "mp4") {
+    //   return <Mp4icon />;
+    // }
 
-    if (svgType === "xlsx") {
-      return <Xlsxicon />;
-    }
-    return <AdobeAcrobat />;
+    // if (svgType === "svg") {
+    //   return <Svgicon />;
+    // }
+
+    // if (svgType === "xlsx") {
+    //   return <Xlsxicon />;
+    // }
+
+    let icons = {
+      csv: <Csvicon />,
+      doc: <Docicon />,
+      docx: <Docxicon />,
+      png: <Pngicon />,
+      jpg: <Jpgicon />,
+      jpeg: <Jpegicon />,
+      mp4: <Mp4icon />,
+      svg: <Svgicon />,
+      xlsx: <Xlsxicon />,
+      pdf: <AdobeAcrobat />,
+      mp3: <Mp3icon />,
+      txt: <Txticon />,
+      ppt: <PptIcon />,
+      psd: <PsdIcon />,
+      dmg: <DmgIcon />,
+      ai: <AiIcon />,
+      html: <HtmlIcon />,
+      css: <CssIcon />,
+      xls: <XlsIcon />,
+      zip: <ZipIcon />,
+      apk: <ApkIcon />,
+      pptx: <PptxIcon />,
+      rar: <RarIcon />,
+    };
+    
+    return icons[svgType] !== undefined ? icons[svgType] : <AdobeAcrobat />;
   };
 
   const handleFileChange = async (e, name, mode) => {
@@ -225,10 +274,9 @@ export const UpdateComponent = ({
                 if (name) {
                   let value = `<a href="${response.data.data.data.add_file_to_column.url}">${response.data.data.data.add_file_to_column.name}</a>`;
                   if (mode === "update") {
-
-                    setUpdateValue(updateValue+value);
+                    setUpdateValue(updateValue + value);
                   } else {
-                    setReplyValue(replyValue+value);
+                    setReplyValue(replyValue + value);
                   }
                 }
                 newFetchData();
@@ -317,22 +365,21 @@ export const UpdateComponent = ({
                   <Upload
                     {...props}
                     showUploadList={false}
-                    onChange={(e) => handleFileChange(e, false, 'update')}
+                    onChange={(e) => handleFileChange(e, false, "update")}
                   >
                     <Button
-                    className="fs-12 fw-700"
+                      className="fs-12 fw-700"
                       icon={<UploadIcon />}
                       size="large"
                       iconPosition="end"
                       style={{
-                        background: '#00B34D',
+                        background: "#00B34D",
                         color: "#ffffff",
-                        border:"none" ,
-                        borderRadius:"10px",
-                        width:"100px" ,
-                        paddingLeft:"20px" ,
-                        paddingRight:"20px"
-
+                        border: "none",
+                        borderRadius: "10px",
+                        width: "100px",
+                        paddingLeft: "20px",
+                        paddingRight: "20px",
                       }}
                     >
                       Upload
