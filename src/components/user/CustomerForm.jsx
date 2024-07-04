@@ -397,8 +397,8 @@ export const CustomerForm = ({
           <Flex
             vertical
             gap={15}
-            className="pt-5"
-            style={{ paddingBottom: "20px" }}
+       
+            style={{ paddingBottom: "20px" , paddingTop:"24px" }}
           >
             {formDetails.map((item, index) => {
               if (item.type === "textArea") {
