@@ -67,6 +67,14 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
   };
 
   const getStatusText = (item) => {
+ let tempText  = '';
+    statusItems.forEach((subItem)=>{
+      if(subItem.key == item){
+        tempText = subItem.label;
+      }
+    })
+
+    return tempText.toUpperCase();
    
    
     if (item  === 1) {
