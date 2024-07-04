@@ -8,33 +8,7 @@ export const FilterBy = ({setSelectedFilter , items}) =>{
   const handleMenuClick = (e) => {
    setSelectedFilter(e.key);
   };
-  // const items = [
-  //   {
-  //     label: 'All',
-  //     key: '9',
-  //   },
-  //   {
-  //     label: 'In Progress',
-  //     key: '0',
-  //   },
-  //   {
-  //     label: 'Pending',
-  //     key: '2',
-      
-  //   },
-  //   {
-  //     label: 'Cancelled',
-  //     key: '3',
-  //   },
-  //   {
-  //     label: 'Awaiting Action',
-  //     key: '5',
-  //   },
-  //   {
-  //     label: 'Done',
-  //     key: '1',
-  //   },
-  // ];
+ 
   const menuProps = {
     items,
     selectable: true,
