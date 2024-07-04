@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Loader } from './common/Loader';
 import { UpdateComponent } from './user/UpdateComponent';
 import { v4 as uuidv4 } from 'uuid';
+import { ToastContainer } from "react-toastify";
 
 
 
@@ -238,6 +239,8 @@ export const RequestComponent = ({data , boardId  , fetchData }) =>{
                <UpdateComponent key={uuidv4()} id={requestId} fetchData={fetchData} setOpen={setOpen} likeIds={likeIds} getAllLikes={getAllLikes}/>
 
             </Modal>
+            <ToastContainer position="bottom-right" />
+            
         </div>
     )
 }

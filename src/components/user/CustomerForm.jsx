@@ -210,6 +210,7 @@ export const CustomerForm = ({
           if (response2) {
             setTimeout(()=>{
               setFormSubmitted(true);
+              setButtonLoading(false);
 
       
             } ,3000)

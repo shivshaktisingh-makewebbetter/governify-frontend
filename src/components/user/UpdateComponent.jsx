@@ -31,6 +31,7 @@ import { appendEmoji, fetcher } from "../../utils/helper";
 import UpdateAndReply from "./UpdateAndReply";
 import { Loader } from "../common/Loader";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const UpdateComponent = ({
   id,
@@ -44,6 +45,7 @@ export const UpdateComponent = ({
   const [updateValue, setUpdateValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [replyValue, setReplyValue] = useState("");
+  
   const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
       "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
@@ -271,6 +273,7 @@ export const UpdateComponent = ({
             );
             setTimeout(() => {
               if (response.data.success) {
+                toast.success(files.name +" Updated.")
                 if (name) {
                   let value = `<a href="${response.data.data.data.add_file_to_column.url}">${response.data.data.data.add_file_to_column.name}</a>`;
                   if (mode === "update") {

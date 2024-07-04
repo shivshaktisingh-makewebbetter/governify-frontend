@@ -3,8 +3,6 @@ import { useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
-import { Loader } from "./common/Loader";
-import { ThankyouModal } from "./user/ThankyouModal";
 import { ToastContainer } from "react-toastify";
 
 export const TabContent = ({ details, categoryName }) => {

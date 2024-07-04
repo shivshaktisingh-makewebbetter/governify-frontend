@@ -178,8 +178,8 @@ const Login = () => {
                 </span>
               </button>
               <div class="d-flex justify-content-between align-items-start w-100 mt-2">
-                <a href="/forget-password" className="fs-13" style={{color:"#434343"}}>Forgot Password?</a>
-                <a href="/signup" className="fs-13" style={{color:"#434343"}}>Create New Account?</a>
+                <a href="/forget-password" className="fs-13">Forgot Password?</a>
+                <a href="/signup" className="fs-13">Create New Account?</a>
               </div>
               <div className="mt-3 fs-13 ff-ws text-inc-tundora" style={{color:"grey"}}>
                 Powered by TASC Outsourcing®
