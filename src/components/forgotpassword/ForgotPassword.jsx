@@ -77,7 +77,7 @@ const ForgotPassword = () => {
                 <img
                   src="/tasc.svg"
                   alt="TASC logo"
-                  style={{ maxWidth: "250px" }}
+                  style={{ maxWidth: "220px" }}
                 />
               </div>
               <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>

@@ -106,7 +106,7 @@ const Register = () => {
         </div>
         <div className="form-container mx-auto"  style={{maxWidth:"440px"}}>
           <div>
-            <img src="/tasc.svg" alt="TASC logo" style={{ maxWidth: "250px" }} />
+            <img src="/tasc.svg" alt="TASC logo" style={{ maxWidth: "220px" }} />
             <div className="fs-24 ff-ws mb-3 text-inc-tundora" style={{fontWeight:600}}>Sign Up</div>
           </div>
           <form onSubmit={handleSubmit} className="form-auth" id="registration-custom-form">
