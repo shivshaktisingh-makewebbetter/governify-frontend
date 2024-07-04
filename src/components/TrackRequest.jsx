@@ -304,7 +304,7 @@ export const TrackRequest = () => {
         <FilterBy items={statusItems} setSelectedFilter={setSelectedFilter} />
         <ExportBy handleExport={handleExport} />
       </div>
-      <RequestComponent data={data} boardId={boardId} fetchData={fetchData} />
+      <RequestComponent data={data} boardId={boardId} fetchData={fetchData}     statusItems={statusItems}/>
       <Pagination
         showQuickJumper
         total={dataLength}
@@ -315,6 +315,7 @@ export const TrackRequest = () => {
         onShowSizeChange={onShowSizeChange}
         defaultPageSize={10}
         pageSizeOptions={[10, 20, 50, 100]}
+    
       />
     </div>
   );

@@ -6,62 +6,48 @@ import { UpdateComponent } from "./user/UpdateComponent";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
 
-export const RequestComponent = ({ data, boardId, fetchData }) => {
+export const RequestComponent = ({ data, boardId, fetchData ,     statusItems }) => {
   const [open, setOpen] = useState(false);
   const [likeIds, setLikeIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [requestId, setRequestId] = useState();
 
   const getBgColor = (item) => {
-    let status = null;
-    item.column_values.forEach((subItem) => {
-      if (subItem.id === "status__1") {
-        status = subItem.label;
-      }
-    });
-    if (status === null) {
+  
+    if (item === 5) {
       return "#e7e7e8";
     }
-    if (status === "Awaiting Action") {
+    if (item === 5) {
       return "#e7e7e8";
     }
-    if (status === "Done") {
+    if (item === 1) {
       return "#83f19c4a";
     }
-    if (status === "In Progress") {
+    if (item === 0) {
       return "#f4c71f4a";
     }
-    if (status === "Pending") {
+    if (item === 2) {
       return "#e118184a";
     }
-    if (status === "Canceled") {
+    if (item === 3) {
       return "#b6b6ba";
     }
   };
 
   const getStatusColor = (item) => {
-    let status = null;
-    item.column_values.forEach((subItem) => {
-      if (subItem.id === "status__1") {
-        status = subItem.label;
-      }
-    });
-    if (status === null) {
+    if (item === 5) {
       return "#939498";
     }
-    if (status === "Awaiting Action") {
-      return "#939498";
-    }
-    if (status === "Done") {
+    if (item === 1) {
       return "#29CF10";
     }
-    if (status === "In Progress") {
+    if (item === 0) {
       return "#F4981F";
     }
-    if (status === "Pending") {
+    if (item === 2) {
       return "#E14014";
     }
-    if (status === "Canceled") {
+    if (item === 3) {
       return "#757575";
     }
   };
@@ -81,28 +67,21 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
   };
 
   const getStatusText = (item) => {
-    let status = null;
-    item.column_values.forEach((subItem) => {
-      if (subItem.id === "status__1") {
-        status = subItem.label;
-      }
-    });
-    if (status === null) {
-      return " ";
-    }
-    if (status === "Done") {
+   
+   
+    if (item  === 1) {
       return "COMPLETED";
     }
-    if (status === "In Progress") {
+    if (item === 0) {
       return "IN PROGRESS";
     }
-    if (status === "Pending") {
+    if (item === 2) {
       return "PENDING";
     }
-    if (status === "Canceled") {
+    if (item === 3) {
       return "CANCELLED";
     }
-    if (status === "Awaiting Action") {
+    if (item === 5) {
       return "AWAITING ACTION";
     }
   };
@@ -176,6 +155,25 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
     return tempCategoryName;
   };
 
+  const getStatusKey = (item) =>{
+  let tempStatus = '';
+  let key = 0;
+    item.column_values.forEach((subItem)=>{
+      if(subItem.id === 'status__1'){
+         tempStatus = subItem.label;
+      }
+    })
+
+    statusItems.forEach((subItem ) =>{
+      if(tempStatus === subItem.label){
+          key = subItem.key;
+      }
+    })
+
+  console.log(key)
+  return key;
+  }
+
   useEffect(() => {
     getAllLikes();
   }, []);
@@ -187,11 +185,13 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
   return (
     <div>
       {data.map((item, index) => {
-        const bgColor = getBgColor(item);
-        const statusColor = getStatusColor(item);
-        const statusText = getStatusText(item);
+           const getKey = getStatusKey(item);
+        const bgColor = getBgColor(getKey);
+        const statusColor = getStatusColor(getKey);
+        const statusText = getStatusText(getKey);
         const createdDate = getCreatedDate(item.created_at);
         const categoryName = getCategoryName(item);
+     
         return (
           <Card
             style={{ background: bgColor, marginBottom: "24px" }}
@@ -218,7 +218,7 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
               className="mt-24"
               style={{ display: "flex", justifyContent: "start", gap: "10px" }}
             >
-              {statusText === "AWAITING ACTION" && (
+              {getKey === 5 && (
                 <div>
                   <Button
                     style={{
@@ -244,7 +244,7 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
                   </Button>
                 </div>
               )}
-              {statusText === "COMPLETED" && (
+              {getKey === 1 && (
                 <div>
                   <Button
                     style={{
@@ -270,7 +270,7 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
                   </Button>
                 </div>
               )}
-              {statusText === "IN PROGRESS" && (
+              {getKey === 0 && (
                 <div style={{ display: "flex", gap: "20px" }}>
                   <Button
                     style={{
@@ -317,7 +317,7 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
                   </Button>
                 </div>
               )}
-              {statusText === "PENDING" && (
+              {getKey === 2 && (
                 <div style={{ display: "flex", gap: "20px" }}>
                   <Button
                     style={{
@@ -364,7 +364,7 @@ export const RequestComponent = ({ data, boardId, fetchData }) => {
                   </Button>
                 </div>
               )}
-              {statusText === "CANCELLED" && (
+              {getKey === 3 && (
                 <div>
                   <Button
                     style={{
