@@ -3,10 +3,14 @@ import { fetcher } from "../../utils/helper";
 import { Button } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { Loader } from "../common/Loader";
 
 export const AdminSettings = () =>{
     const [uiData , setUiData] = useState({site_bg:"" , button_bg:"" , banner_bg:"" , banner_content:"" , header_bg:"" , head_title_color:"" , form_description:""});
     const [logoData  , setLogoData] = useState({logo_name:"" , logo_image:""});
+    const [loading , setLoading] = useState(false);
    
     const navigate = useNavigate();
 
@@ -65,11 +69,22 @@ export const AdminSettings = () =>{
     logo_image: startsWithHttp(logoData.logo_image) ? '':logoData.logo_image
    });
 
+
+   setLoading(true);
     try{
         let response = await fetcher(url , method , payload);
+        console.log(response);
+        if(response.status){
+          toast.success('Settings Updated.')
+        }
 
     }catch(err){
+    console.log(err);
+    }finally{
+      setTimeout(()=>{
+        setLoading(false);
 
+      } , 1000)
     }
   }
 
@@ -99,6 +114,7 @@ export const AdminSettings = () =>{
 
     return (
         <>
+        {loading && <Loader/>}
          <div className="w-100 d-flex flex-column align-items-center p-2">
         <div className="col-md-7 col-lg-8 text-start">
             <h4 className="mb-3"><Button icon={<LeftOutlined  style={{color:uiData.button_bg , borderColor:uiData.button_bg}}/> } onClick={handleBackNavigation}></Button><span className="mt-1 ms-2">General Settings</span></h4>
@@ -195,6 +211,7 @@ export const AdminSettings = () =>{
                     </div>
         </div>
     </div>
+    <ToastContainer position="bottom-right" />
   
         </>
     )

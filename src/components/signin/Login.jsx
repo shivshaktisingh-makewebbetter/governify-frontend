@@ -85,9 +85,7 @@ const Login = () => {
   }, []);
   return (
     <div className="inc-auth-container">
-    <div className="container text-center" style={{    display: "flex" ,
-    alignItems: "center" ,
-    justifyContent: "center" , paddingTop:"60px"}}>
+    <div className="container auth-container text-center">
       {loading && <Loader />}
       <div className="cover-container w-100 h-100 p-3 pb-2 ">
         <div class="">
@@ -119,7 +117,7 @@ const Login = () => {
                   style={{ maxWidth: "220px" }}
                 />
               </div>
-              <div className="fs-24 ff-ws mb-3 text-inc-tundora fw-600">Sign In</div>
+              <div className="fs-24 ff-ws mb-2 text-inc-tundora fw-600" style={{color:"#434343"}}>Sign In</div>
             </div>
             <div class="form-auth">
               <input
