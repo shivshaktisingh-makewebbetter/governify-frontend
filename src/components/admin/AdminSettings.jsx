@@ -7,14 +7,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { Loader } from "../common/Loader";
 import { userSettingData } from "../../utils/tools";
-import { Collapse, Divider } from "antd";
-import { TrackRequest } from "../TrackRequest";
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+import { Collapse } from "antd";
 
 export const AdminSettings = () => {
   const [uiData, setUiData] = useState({
@@ -147,41 +140,6 @@ export const AdminSettings = () => {
     navigate(-1);
   };
 
-  const fetchData = async () => {
-    let method = "GET";
-    let endpoint = "governify/admin/governifySiteSetting";
-    let response = await fetcher(endpoint, method);
-    if (response.status) {
-      let uiSettings = JSON.parse(response.response.ui_settings);
-      setLogoData({
-        logo_image: response.response.logo_location,
-        logo_name: response.response.logo_name,
-      });
-      setUiData({
-        form_description: uiSettings.form_description,
-        site_bg: uiSettings.site_bg,
-        button_bg: uiSettings.button_bg,
-        banner_bg: uiSettings.banner_bg,
-        banner_content: uiSettings.banner_content,
-        header_bg: uiSettings.header_bg,
-        head_title_color: uiSettings.head_title_color,
-        trackRequestData: uiSettings.trackRequestData
-      });
-      let method1 = "GET";
-      let endpoint1 = "governify/admin/overallStatus";
-        let response1 = await fetcher(endpoint1, method1);
-        if (response1.status) {
-          setTrackRequestSetting(response1.response);
-          let tempButtonData = response1.response.map((item) => {
-            return { type: item.label, bg: getBackColorForStatus(item.label , uiSettings.trackRequestData), buttonBg: getButtonBackColorForStatus(item.label , uiSettings.trackRequestData), value: item.value };
-          });
-          setButtonData(tempButtonData);
-        }
-
-    }
-    
-  };
-
   const handleChangeBgBtnForRequest = (e, item, index) => {
     const tempColor = e.target.value;
     let tempButtonData = [...buttonData];
@@ -226,85 +184,130 @@ export const AdminSettings = () => {
     return tempColor;
   };
 
-  const getButtonBackColorForStatus = (item , filter) =>{
-    let tempColor = '';
-    filter.forEach((subItem)=>{
-      if(subItem.type === item){
+  const getButtonBackColorForStatus = (item, filter) => {
+    let tempColor = "";
+    filter.forEach((subItem) => {
+      if (subItem.type === item) {
         tempColor = subItem.buttonBg;
       }
-    })
+    });
     return tempColor;
-  }
+  };
 
-  const getBackColorForStatus = (item , filter) =>{
-    let tempColor = '';
-    filter.forEach((subItem)=>{
-      if(subItem.type === item){
+  const getBackColorForStatus = (item, filter) => {
+    let tempColor = "";
+    filter.forEach((subItem) => {
+      if (subItem.type === item) {
         tempColor = subItem.bg;
       }
-    })
+    });
     return tempColor;
-  }
+  };
+  useEffect(() => {
+    let isMounted = true;
+    const fetchData = async () => {
+      let method = "GET";
+      let endpoint = "governify/admin/governifySiteSetting";
+      let response = await fetcher(endpoint, method);
+      if (response.status) {
+        let uiSettings = JSON.parse(response.response.ui_settings);
+        setLogoData({
+          logo_image: response.response.logo_location,
+          logo_name: response.response.logo_name,
+        });
+        setUiData({
+          form_description: uiSettings.form_description,
+          site_bg: uiSettings.site_bg,
+          button_bg: uiSettings.button_bg,
+          banner_bg: uiSettings.banner_bg,
+          banner_content: uiSettings.banner_content,
+          header_bg: uiSettings.header_bg,
+          head_title_color: uiSettings.head_title_color,
+          trackRequestData: uiSettings.trackRequestData,
+        });
+        let method1 = "GET";
+        let endpoint1 = "governify/admin/overallStatus";
+        let response1 = await fetcher(endpoint1, method1);
+        if (response1.status) {
+          setTrackRequestSetting(response1.response);
+          let tempButtonData = response1.response.map((item) => {
+            return {
+              type: item.label,
+              bg: getBackColorForStatus(
+                item.label,
+                uiSettings.trackRequestData
+              ),
+              buttonBg: getButtonBackColorForStatus(
+                item.label,
+                uiSettings.trackRequestData
+              ),
+              value: item.value,
+            };
+          });
+          setButtonData(tempButtonData);
+        }
+      }
+    };
 
+    fetchData();
 
-
-  useEffect(async () => {
-   await fetchData();
-   
+    return () => {
+      isMounted = false; // Cleanup action to set isMounted to false
+    };
   }, []);
 
   useEffect(() => {
-    if(trackRequestSetting.length > 0 && buttonData.length > 0){
+    let isMounted = true;
 
-    
-    let statuses = trackRequestSetting.map((status, index) => ({
-      ...status,
-      key: status.label,
-      // label: `${status.label} Color Settings`,
-      children: (
-        <div>
+    if (isMounted && trackRequestSetting.length > 0 && buttonData.length > 0) {
+      let statuses = trackRequestSetting.map((status, index) => ({
+        ...status,
+        key: status.label,
+        children: (
           <div>
-            <label for="site_bg" className="form-label">
-              Button-color<i className="bi bi-pen"></i>
-            </label>
-            <input
-              type="color"
-              className="w-100"
-              id="button_bg"
-              name="button_bg"
-              value={getValueButtonStatus(status.label)}
-              required
-              onChange={(e) =>
-                handleChangeBgBtnForRequest(e, status.label, index)
-              }
-            />
+            <div>
+              <label htmlFor="site_bg" className="form-label">
+                Button-color<i className="bi bi-pen"></i>
+              </label>
+              <input
+                type="color"
+                className="w-100"
+                id="button_bg"
+                name="button_bg"
+                value={getValueButtonStatus(status.label)}
+                required
+                onChange={(e) =>
+                  handleChangeBgBtnForRequest(e, status.label, index)
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="site_bg" className="form-label">
+                Background-color<i className="bi bi-pen"></i>
+              </label>
+              <input
+                type="color"
+                className="w-100"
+                id="button_bg"
+                name="button_bg"
+                value={getValueBgStatus(status.label)}
+                required
+                onChange={(e) =>
+                  handleChangeBgColorForRequest(e, status.label, index)
+                }
+              />
+            </div>
           </div>
-          <div>
-            {" "}
-            <label for="site_bg" className="form-label">
-              Background-color<i className="bi bi-pen"></i>
-            </label>
-            <input
-              type="color"
-              className="w-100"
-              id="button_bg"
-              name="button_bg"
-              value={getValueBgStatus(status.label)}
-              required
-              onChange={(e) =>
-                handleChangeBgColorForRequest(e, status.label, index)
-              }
-            />
-          </div>
-        </div>
-      ), // Assign appropriate values for buttonbg
-    }));
-    setButtonObj(statuses);
-  }
+        ),
+      }));
+
+      setButtonObj(statuses);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [trackRequestSetting, buttonData]);
-
-
- 
 
   return (
     <>

@@ -6,14 +6,57 @@ import { UpdateComponent } from "./user/UpdateComponent";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
 
-export const RequestComponent = ({ data, boardId, fetchData ,     statusItems }) => {
+export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
+  const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
+    image:
+      "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
+    site_bg: "#ffffff",
+    button_bg: "#5ac063",
+    banner_bg: "#5ac063",
+    banner_content:
+      "Hire an attitude, not just experience and qualification. Greg Savage.",
+    header_bg: "#f7f7f7",
+    head_title_color: "#5ac063",
+    trackRequestData: [
+      {
+        type: "In Progress",
+        bg: "#fdecb9",
+        buttonBg: "#f4992d",
+        value: 0,
+      },
+      {
+        type: "Completed",
+        bg: "#d5f9e2",
+        buttonBg: "#55b44e",
+        value: 1,
+      },
+      {
+        type: "Pending",
+        bg: "#f4bab6",
+        buttonBg: "#e14120",
+        value: 2,
+      },
+      {
+        type: "Canceled",
+        bg: "#b6b6ba",
+        buttonBg: "#757575",
+        value: 3,
+      },
+      {
+        type: "Awaiting Action",
+        bg: "#e7e7e8",
+        buttonBg: "#939498",
+        value: 5,
+      },
+    ],
+  };
+
   const [open, setOpen] = useState(false);
   const [likeIds, setLikeIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [requestId, setRequestId] = useState();
 
   const getBgColor = (item) => {
-  
     if (item === 5) {
       return "#e7e7e8";
     }
@@ -67,31 +110,15 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
   };
 
   const getStatusText = (item) => {
- let tempText  = '';
-    statusItems.forEach((subItem)=>{
-      if(subItem.key == item){
+    let tempText = "";
+    statusItems.forEach((subItem) => {
+      if (subItem.key == item) {
         tempText = subItem.label;
       }
-    })
+    });
 
     return tempText.toUpperCase();
-   
-   
-    // if (item  === 1) {
-    //   return "COMPLETED";
-    // }
-    // if (item === 0) {
-    //   return "IN PROGRESS";
-    // }
-    // if (item === 2) {
-    //   return "PENDING";
-    // }
-    // if (item === 3) {
-    //   return "CANCELLED";
-    // }
-    // if (item === 5) {
-    //   return "AWAITING ACTION";
-    // }
+
   };
 
   const getCreatedDate = (dateStr) => {
@@ -163,24 +190,24 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
     return tempCategoryName;
   };
 
-  const getStatusKey = (item) =>{
-  let tempStatus = '';
-  let key = 0;
-    item.column_values.forEach((subItem)=>{
-      if(subItem.id === 'status__1'){
-         tempStatus = subItem.label;
+  const getStatusKey = (item) => {
+    let tempStatus = "";
+    let key = 0;
+    item.column_values.forEach((subItem) => {
+      if (subItem.id === "status__1") {
+        tempStatus = subItem.label;
       }
-    })
+    });
 
-    statusItems.forEach((subItem ) =>{
-      if(tempStatus === subItem.label){
-          key = subItem.key;
+    statusItems.forEach((subItem) => {
+      if (tempStatus === subItem.label) {
+        key = subItem.key;
       }
-    })
+    });
 
-  console.log(key)
-  return key;
-  }
+    console.log(key);
+    return key;
+  };
 
   useEffect(() => {
     getAllLikes();
@@ -193,13 +220,13 @@ export const RequestComponent = ({ data, boardId, fetchData ,     statusItems })
   return (
     <div>
       {data.map((item, index) => {
-           const getKey = getStatusKey(item);
+        const getKey = getStatusKey(item);
         const bgColor = getBgColor(getKey);
         const statusColor = getStatusColor(getKey);
         const statusText = getStatusText(getKey);
         const createdDate = getCreatedDate(item.created_at);
         const categoryName = getCategoryName(item);
-     
+
         return (
           <Card
             style={{ background: bgColor, marginBottom: "24px" }}
