@@ -91,7 +91,7 @@ const Register = () => {
     <div className="inc-auth-container">
       <div className="container auth-container text-center">
         {loading && <Loader />}
-        <div className="cover-container w-100 h-100 p-3 pb-2 ">
+        <div className="cover-container w-100 h-100 p-3">
           <div className="animation-container" style={{ minHeight: "90px" }}>
             <div
               className={`header-heading1 ${
@@ -177,12 +177,16 @@ const Register = () => {
                   style={{ cursor: "pointer", borderRadius: "0 50px 50px 0" }}
                 >
                   {showPassword ? (
-                    <EyeTwoTone onClick={() => setShowPassword(false)} />
-                  ) : (
-                    <EyeInvisibleOutlined
-                      onClick={() => setShowPassword(true)}
-                    />
-                  )}
+                      <i
+                        className="bi bi-eye-fill"
+                        onClick={() => setShowPassword(false)}
+                      ></i>
+                    ) : (
+                      <i
+                        className="bi bi-eye-slash-fill"
+                        onClick={() => setShowPassword(true)}
+                      ></i>
+                    )}
                 </span>
               </div>
               <div className="w-100 d-flex justify-content-center">

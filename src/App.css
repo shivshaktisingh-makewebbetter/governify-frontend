@@ -843,6 +843,10 @@ body,
   vertical-align: middle !important;
 }
 
+.encrypted i::before {
+  vertical-align: middle;
+} 
+
 .bi-trash3-fill::before {
   vertical-align: middle !important;
   color: #5ac063;

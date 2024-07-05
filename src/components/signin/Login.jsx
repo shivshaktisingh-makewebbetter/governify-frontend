@@ -148,18 +148,22 @@ const Login = () => {
                     style={{ background: "#e8f0fe" }}
                   />
                   <span
-                    class="input-group-text fs-5 encrypted"
+                    className="input-group-text fs-5 encrypted eye-icon-container"
                     style={{
                       cursor: "pointer",
                       borderRadius: "0 50px 50px 0px",
                     }}
                   >
                     {showPassword ? (
-                      <EyeTwoTone onClick={() => setShowPassword(false)} />
+                      <i
+                        className="bi bi-eye-fill"
+                        onClick={() => setShowPassword(false)}
+                      ></i>
                     ) : (
-                      <EyeInvisibleOutlined
+                      <i
+                        className="bi bi-eye-slash-fill"
                         onClick={() => setShowPassword(true)}
-                      />
+                      ></i>
                     )}
                   </span>
                 </div>
@@ -237,7 +241,13 @@ const Login = () => {
                   className="mt-3 fs-13 ff-ws text-inc-tundora"
                   style={{ color: "grey" }}
                 >
-                  <span   className="mt-3 fs-13 ff-ws text-inc-tundora" style={{margin:"3px 0px"}}> Powered by TASC Outsourcing®</span>
+                  <span
+                    className="mt-3 fs-13 ff-ws text-inc-tundora"
+                    style={{ margin: "3px 0px" }}
+                  >
+                    {" "}
+                    Powered by TASC Outsourcing®
+                  </span>
                 </div>
               </div>
             </div>
