@@ -187,7 +187,6 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
       }
     });
 
-    console.log(key);
     return key;
   };
 
@@ -235,8 +234,8 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
               className="mt-24"
               style={{ display: "flex", justifyContent: "start", gap: "10px" }}
             >
-              {getKey === 5 && (
-                <div style={{ display: "flex", gap: "20px" }}>
+              <div style={{ display: "flex", gap: "20px" }}>
+                {[0, 1, 2, 5].includes(getKey) && (
                   <Button
                     style={{
                       background: statusColor,
@@ -259,6 +258,8 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
                       <i className="bi bi-arrow-right-circle-fill"></i>
                     </span>
                   </Button>
+                )}
+                {[0, 2, 5].includes(getKey) && (
                   <Button
                     style={{
                       color: statusColor,
@@ -280,128 +281,9 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
                       Cancel Request
                     </span>{" "}
                   </Button>
-                </div>
-              )}
-              {getKey === 1 && (
-                <div>
-                  <Button
-                    style={{
-                      background: "#00B34D",
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      border: "none",
-                    }}
-                    className="border-radius-10"
-                    onClick={() => handleUpdate(item)}
-                  >
-                    <span className="fs-12 fw-700 font-family-montse">
-                      Updates
-                    </span>{" "}
-                    <span className="fs-16">
-                      <i className="bi bi-arrow-right-circle-fill"></i>
-                    </span>
-                  </Button>
-                </div>
-              )}
-              {getKey === 0 && (
-                <div style={{ display: "flex", gap: "20px" }}>
-                  <Button
-                    style={{
-                      background: statusColor,
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      border: "none",
-                    }}
-                    className="border-radius-10"
-                    onClick={() => handleUpdate(item)}
-                  >
-                    <span className="fs-12 fw-700 font-family-montse">
-                      Updates
-                    </span>{" "}
-                    <span className="fs-16">
-                      <i className="bi bi-arrow-right-circle-fill"></i>
-                    </span>
-                  </Button>
-                  <Button
-                    style={{
-                      color: statusColor,
-                      display: "flex",
-                      background: "transparent",
-                      borderColor: statusColor,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "10px",
-                      height: "40px",
-                      borderRadius: "10px",
-                    }}
-                    className="border-radius-10"
-                  >
-                    <span
-                      className="fs-12 fw-700 font-family-montse"
-                      onClick={() => cancelRequest(item)}
-                    >
-                      Cancel Request
-                    </span>{" "}
-                  </Button>
-                </div>
-              )}
-              {getKey === 2 && (
-                <div style={{ display: "flex", gap: "20px" }}>
-                  <Button
-                    style={{
-                      background: statusColor,
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      border: "none",
-                    }}
-                    className="border-radius-10"
-                    onClick={() => handleUpdate(item)}
-                  >
-                    <span className="fs-12 fw-700 font-family-montse">
-                      Updates
-                    </span>{" "}
-                    <span className="fs-16">
-                      <i className="bi bi-arrow-right-circle-fill"></i>
-                    </span>
-                  </Button>
-                  <Button
-                    style={{
-                      color: statusColor,
-                      display: "flex",
-                      background: "transparent",
-                      borderColor: statusColor,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "10px",
-                      height: "40px",
-                      borderRadius: "10px",
-                    }}
-                    className="border-radius-10"
-                  >
-                    <span
-                      className="fs-12 fw-700 font-family-montse"
-                      onClick={() => cancelRequest(item)}
-                    >
-                      Cancel Request
-                    </span>{" "}
-                  </Button>
-                </div>
-              )}
+                )}
+              </div>
+
               {getKey === 3 && (
                 <div>
                   <Button
