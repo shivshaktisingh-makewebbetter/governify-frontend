@@ -169,10 +169,9 @@ const Login = () => {
                 </div>
                 <button
                   id="login-button"
-                  className="btn btn-to-link btn-secondary mt-4 d-flex align-items-center"
+                  className="btn btn-gradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
                   type="button"
                   style={{
-                    background: "#ececec",
                     border: "0",
                     borderRadius: "50px",
                     gap: "10px",
@@ -180,8 +179,7 @@ const Login = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundImage:
-                      "linear-gradient(90deg, #28dd7a 0%, #185a9d 51%, #45ce43)",
+                   
                     transition: "0.5s",
                     height: "46px",
                     opacity:
