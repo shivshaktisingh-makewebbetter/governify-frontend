@@ -28,13 +28,7 @@ export const TrackRequest = () => {
   const [loading, setLoading] = useState(false);
   const [dataLength, setDataLength] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterKeyValues, setFilterKeyValus] = useState({
-    1: "Done",
-    2: "Pending",
-    0: "In Progress",
-    3: "Canceled",
-    5: "Awaiting Action",
-  });
+
   const [limit, setLimit] = useState(10);
 
   const onChange = (pageNumber) => {
@@ -75,9 +69,7 @@ export const TrackRequest = () => {
     }
   };
 
-  const onChangeRadioFilter = (key, value) => {
-    setSelectedFilter(key);
-  };
+
 
   const location = useLocation();
   const breadCrumbData = location.pathname.split("/");
@@ -104,20 +96,6 @@ export const TrackRequest = () => {
         key: parseInt(key, 10),
       })
     );
-
-    // Object.entries(listOfStatus.labels).forEach(([key, value], index) => {
-    //   updatedFilterColumn.push({
-    //     key: index + 2,
-    //     label: (
-    //       <Radio.Group
-    //         onChange={() => onChangeRadioFilter(key, value)}
-    //         value={selectedFilter}
-    //       >
-    //         <Radio value={key}>{value}</Radio>
-    //       </Radio.Group>
-    //     ),
-    //   });
-    // });
 
     setStatusItems(updatedFilterColumn);
   };

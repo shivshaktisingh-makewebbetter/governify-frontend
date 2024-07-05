@@ -57,42 +57,25 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
   const [requestId, setRequestId] = useState();
 
   const getBgColor = (item) => {
-    if (item === 5) {
-      return "#e7e7e8";
-    }
-    if (item === 5) {
-      return "#e7e7e8";
-    }
-    if (item === 1) {
-      return "#83f19c4a";
-    }
-    if (item === 0) {
-      return "#f4c71f4a";
-    }
-    if (item === 2) {
-      return "#e118184a";
-    }
-    if (item === 3) {
-      return "#b6b6ba";
-    }
+    let tempBgColor = "";
+    settingsData.trackRequestData.forEach((subItem) => {
+      if (subItem.value === item) {
+        tempBgColor = subItem.bg;
+      }
+    });
+
+    return tempBgColor;
   };
 
   const getStatusColor = (item) => {
-    if (item === 5) {
-      return "#939498";
-    }
-    if (item === 1) {
-      return "#29CF10";
-    }
-    if (item === 0) {
-      return "#F4981F";
-    }
-    if (item === 2) {
-      return "#E14014";
-    }
-    if (item === 3) {
-      return "#757575";
-    }
+    let tempBgColor = "";
+    settingsData.trackRequestData.forEach((subItem) => {
+      if (subItem.value === item) {
+        tempBgColor = subItem.buttonBg;
+      }
+    });
+
+    return tempBgColor;
   };
 
   const getAllLikes = async () => {
@@ -118,7 +101,6 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
     });
 
     return tempText.toUpperCase();
-
   };
 
   const getCreatedDate = (dateStr) => {
