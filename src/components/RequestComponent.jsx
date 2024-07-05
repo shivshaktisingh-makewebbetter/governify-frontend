@@ -235,7 +235,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
               style={{ display: "flex", justifyContent: "start", gap: "10px" }}
             >
               <div style={{ display: "flex", gap: "20px" }}>
-                {[0, 1, 2, 5].includes(getKey) && (
+                {getKey !==3 && (
                   <Button
                     style={{
                       background: statusColor,
@@ -259,7 +259,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
                     </span>
                   </Button>
                 )}
-                {[0, 2, 5].includes(getKey) && (
+                {(getKey !==3 && getKey!==1) && (
                   <Button
                     style={{
                       color: statusColor,
