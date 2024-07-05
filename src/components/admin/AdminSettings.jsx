@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Loader } from "../common/Loader";
 import { userSettingData } from "../../utils/tools";
 import { Collapse, Divider } from "antd";
+import { TrackRequest } from "../TrackRequest";
 
 const text = `
   A dog is a type of domesticated animal.
@@ -27,6 +28,40 @@ export const AdminSettings = () => {
   });
   const [logoData, setLogoData] = useState({ logo_name: "", logo_image: "" });
   const [loading, setLoading] = useState(false);
+  const [buttonObj, setButtonObj] = useState([]);
+  const [trackRequestSetting, setTrackRequestSetting] = useState([]);
+  const [buttonData, setButtonData] = useState([
+    {
+      type: "In Progress",
+      bg: "#fdecb9",
+      buttonBg: "#f4992d",
+      value: 0,
+    },
+    {
+      type: "Completed",
+      bg: "#d5f9e2",
+      buttonBg: "#55b44e",
+      value: 1,
+    },
+    {
+      type: "Pending",
+      bg: "#f4bab6",
+      buttonBg: "#e14120",
+      value: 2,
+    },
+    {
+      type: "Canceled",
+      bg: "#b6b6ba",
+      buttonBg: "#757575",
+      value: 3,
+    },
+    {
+      type: "Awaiting Action",
+      bg: "#e7e7e8",
+      buttonBg: "#939498",
+      value: 5,
+    },
+  ]);
 
   const navigate = useNavigate();
 
@@ -77,6 +112,7 @@ export const AdminSettings = () => {
   const handleSubmit = async () => {
     let url = "governify/admin/governifySiteSetting";
     let method = "POST";
+    uiData.trackRequestData = buttonData;
 
     let payload = JSON.stringify({
       ui_settings: uiData,
@@ -89,7 +125,6 @@ export const AdminSettings = () => {
     setLoading(true);
     try {
       let response = await fetcher(url, method, payload);
-      console.log(response);
       if (response.status) {
         toast.success("Settings Updated.");
         userSettingData();
@@ -130,13 +165,146 @@ export const AdminSettings = () => {
         banner_content: uiSettings.banner_content,
         header_bg: uiSettings.header_bg,
         head_title_color: uiSettings.head_title_color,
+        trackRequestData: uiSettings.trackRequestData
       });
+      let method1 = "GET";
+      let endpoint1 = "governify/admin/overallStatus";
+        let response1 = await fetcher(endpoint1, method1);
+        if (response1.status) {
+          setTrackRequestSetting(response1.response);
+          let tempButtonData = response1.response.map((item) => {
+            return { type: item.label, bg: getBackColorForStatus(item.label , uiSettings.trackRequestData), buttonBg: getButtonBackColorForStatus(item.label , uiSettings.trackRequestData), value: item.value };
+          });
+          setButtonData(tempButtonData);
+        }
+
     }
+    
   };
 
-  useEffect(() => {
-    fetchData();
+  const handleChangeBgBtnForRequest = (e, item, index) => {
+    const tempColor = e.target.value;
+    let tempButtonData = [...buttonData];
+    tempButtonData.forEach((status) => {
+      if (status.type === item) {
+        status.buttonBg = tempColor;
+      }
+    });
+
+    setButtonData(tempButtonData);
+  };
+
+  const handleChangeBgColorForRequest = (e, item, index) => {
+    const tempColor = e.target.value;
+    let tempButtonData = [...buttonData];
+    tempButtonData.forEach((status) => {
+      if (status.type === item) {
+        status.bg = tempColor;
+      }
+    });
+
+    setButtonData(tempButtonData);
+  };
+
+  const getValueButtonStatus = (item) => {
+    let tempColor = "";
+    buttonData.forEach((status) => {
+      if (status.type === item) {
+        tempColor = status.buttonBg;
+      }
+    });
+    return tempColor;
+  };
+
+  const getValueBgStatus = (item) => {
+    let tempColor = "";
+    buttonData.forEach((status) => {
+      if (status.type === item) {
+        tempColor = status.bg;
+      }
+    });
+    return tempColor;
+  };
+
+  const getButtonBackColorForStatus = (item , filter) =>{
+    let tempColor = '';
+    filter.forEach((subItem)=>{
+      if(subItem.type === item){
+        tempColor = subItem.buttonBg;
+      }
+    })
+    return tempColor;
+  }
+
+  const getBackColorForStatus = (item , filter) =>{
+    let tempColor = '';
+    filter.forEach((subItem)=>{
+      if(subItem.type === item){
+        tempColor = subItem.bg;
+      }
+    })
+    return tempColor;
+  }
+
+
+
+  useEffect(async () => {
+   await fetchData();
+   
   }, []);
+
+  useEffect(() => {
+    if(trackRequestSetting.length > 0 && buttonData.length > 0){
+
+    
+    let statuses = trackRequestSetting.map((status, index) => ({
+      ...status,
+      key: status.label,
+      // label: `${status.label} Color Settings`,
+      children: (
+        <div>
+          <div>
+            <label for="site_bg" className="form-label">
+              Button-color<i className="bi bi-pen"></i>
+            </label>
+            <input
+              type="color"
+              className="w-100"
+              id="button_bg"
+              name="button_bg"
+              value={getValueButtonStatus(status.label)}
+              required
+              onChange={(e) =>
+                handleChangeBgBtnForRequest(e, status.label, index)
+              }
+            />
+          </div>
+          <div>
+            {" "}
+            <label for="site_bg" className="form-label">
+              Background-color<i className="bi bi-pen"></i>
+            </label>
+            <input
+              type="color"
+              className="w-100"
+              id="button_bg"
+              name="button_bg"
+              value={getValueBgStatus(status.label)}
+              required
+              onChange={(e) =>
+                handleChangeBgColorForRequest(e, status.label, index)
+              }
+            />
+          </div>
+        </div>
+      ), // Assign appropriate values for buttonbg
+    }));
+    setButtonObj(statuses);
+  }
+  }, [trackRequestSetting, buttonData]);
+
+
+ 
 
   return (
     <>
@@ -329,16 +497,7 @@ export const AdminSettings = () => {
             >
               Track Request Setting
             </div>
-            <Collapse
-              size="large"
-              items={[
-                {
-                  key: "1",
-                  label: "This is large size panel header",
-                  children: <p>{text}</p>,
-                },
-              ]}
-            />
+            <Collapse size="large" items={buttonObj} />
 
             <Button
               style={{ background: "#5AC063", color: "white", border: "none" }}
