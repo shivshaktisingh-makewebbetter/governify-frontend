@@ -259,7 +259,10 @@ export const CustomerForm = ({
     } catch (error) {
       console.error("Error in handleSubmitAll:", error);
     } finally {
-      setButtonLoading(false);
+      setTimeout(() => {
+        setFormSubmitted(true);
+        setButtonLoading(false);
+      }, 1000);
     }
   };
 
@@ -532,7 +535,7 @@ export const CustomerForm = ({
               }
             })}
           </Flex>
-          <div
+          {!buttonLoading && <div
             className="w-100 d-flex justify-content-center "
             style={{ marginBottom: "10px" }}
           >
@@ -541,7 +544,8 @@ export const CustomerForm = ({
               onChange={onRecaptchaChange}
               onExpired={onRecaptchaExpired}
             />
-          </div>
+          </div> }
+          
           <div className="w-100 d-flex justify-content-center">
             <Button
               disabled={isButtonDisabled}
