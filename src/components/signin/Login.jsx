@@ -88,7 +88,7 @@ const Login = () => {
       <div className="container auth-container text-center">
         {loading && <Loader />}
         <div className="cover-container w-100 h-100 pb-2 ">
-          <div class="">
+          <div className="">
             <div className="animation-container" style={{ minHeight: "90px" }}>
               <div
                 className={`header-heading1 ${
@@ -127,7 +127,7 @@ const Login = () => {
                   Sign In
                 </div>
               </div>
-              <div class="form-auth">
+              <div className="form-auth">
                 <input
                   placeholder="Email"
                   type="email"
@@ -136,7 +136,7 @@ const Login = () => {
                   style={{ background: "#e8f0fe" }}
                   className="input-customer-focus form-control"
                 />
-                <div class="input-group flex-nowrap" id="password-filled">
+                <div className="input-group flex-nowrap" id="password-filled">
                   <input
                     className="form-control input-customer-focus"
                     id="input-password"
@@ -219,7 +219,7 @@ const Login = () => {
                   </span>
                 </button>
 
-                <div class="d-flex justify-content-between align-items-start w-100 mt-2">
+                <div className="d-flex justify-content-between align-items-start w-100 mt-2">
                   <a
                     href="/forget-password"
                     className="fs-13"
