@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Flex, Input, Upload, Checkbox, Modal, Progress } from "antd";
 import { fetcher } from "../../utils/helper";
 import { Loader } from "../common/Loader";
@@ -31,12 +31,9 @@ export const CustomerForm = ({
       "Please fill out the form to proceed with the needed action to provide you with this service",
   };
 
-  const ref = useRef();
 
   const [formDetails, setFormDetails] = useState(formData.form_data);
-  const [imageData, setImageData] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [idForImage, setIdForImage] = useState("");
   const [isSingleSelectEnable, setSingleSelect] = useState({
     enable: false,
     value: "",
@@ -57,7 +54,6 @@ export const CustomerForm = ({
         const tempFormData = [...formDetails];
         const tempNewSelection = [];
         let imageName = file.name;
-        // let tempImageData = [];
         tempFormData.forEach((item) => {
           if (item.type === "Document" || item.type === "image") {
             item.value.forEach((subItem) => {
@@ -220,8 +216,8 @@ export const CustomerForm = ({
       const id = response1.response.response.data.create_item.id;
       const tempImageData = [];
 
-      if(!response1.succes){
-        toast.error('Form Submission Failed.')
+      if (!response1.status) {
+        toast.error("Form Submission Failed.");
         return;
       }
 
@@ -246,9 +242,9 @@ export const CustomerForm = ({
               setFormSubmitted(true);
               setButtonLoading(false);
             }, 1000);
-          }else{
+          } else {
             setButtonLoading(false);
-            toast.error('Image Not Uploaded.')
+            toast.error("Image Not Uploaded.");
           }
         } else {
           setFormSubmitted(true); // No images to upload but form is submitted
@@ -256,8 +252,8 @@ export const CustomerForm = ({
       } else {
         if (response1.status) {
           setFormSubmitted(true);
-        }else{
-          toast.error('Form Submission Failed');
+        } else {
+          toast.error("Form Submission Failed");
         }
       }
     } catch (error) {
@@ -294,7 +290,6 @@ export const CustomerForm = ({
     try {
       const response = await fetcher(url, method, payload);
       if (response.status) {
-        setIdForImage(response.response.response.data.create_item.id);
         return response;
       }
     } catch (err) {
@@ -391,13 +386,7 @@ export const CustomerForm = ({
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
-  }, [
-    formDetails,
-    imageData,
-    isSingleSelectEnable,
-    recaptchaExpired,
-    recaptchaToken,
-  ]);
+  }, [formDetails, isSingleSelectEnable, recaptchaExpired, recaptchaToken]);
 
   console.log(progress, "progress");
 
@@ -405,7 +394,6 @@ export const CustomerForm = ({
     <div
       className="customer-form-container"
       style={{ maxWidth: "550px", width: "100%", marginTop: "25px" }}
-      key={imageData.length}
     >
       {buttonLoading && <Loader />}
 
@@ -511,7 +499,6 @@ export const CustomerForm = ({
               } else {
                 return (
                   <div
-                    key={imageData.length}
                     className="form-field"
                     style={{
                       background: "#0000000A",
@@ -581,31 +568,30 @@ export const CustomerForm = ({
         </>
       )}
 
-      <div style={{marginTop:"10px"}}>
-
-      {Object.keys(progress).length > 0 && (
-        <div>
-          {Object.keys(progress).map((file, index) => {
-            if (file !== "name") {
-              return (
-                <>
-                  <div>{file}</div>
-                  <Progress
-                    key={index}
-                    percent={progress[file]}
-                    status="active"
-                    style={{ marginBottom: "10px" }}
-                    strokeColor={{
-                      from: "#108ee9",
-                      to: "#87d068",
-                    }}
-                  />
-                </>
-              );
-            }
-          })}
-        </div>
-      )}
+      <div style={{ marginTop: "10px" }}>
+        {Object.keys(progress).length > 0 && (
+          <div>
+            {Object.keys(progress).map((file, index) => {
+              if (file !== "name") {
+                return (
+                  <>
+                    <div>{file}</div>
+                    <Progress
+                      key={index}
+                      percent={progress[file]}
+                      status="active"
+                      style={{ marginBottom: "10px" }}
+                      strokeColor={{
+                        from: "#108ee9",
+                        to: "#87d068",
+                      }}
+                    />
+                  </>
+                );
+              }
+            })}
+          </div>
+        )}
       </div>
 
       {formSubmitted && (
