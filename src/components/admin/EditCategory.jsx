@@ -45,7 +45,7 @@ import {  toast } from 'react-toastify';
           <p className="p-2 m-0 fs-5" style={{display:"flex" , justifyContent:"space-between"}}><strong>Edit Category</strong><span style={{display:"flex" , alignItems:"center" ,}}><a className="fs_14" style={{textDecoration:"none"}} target="_blank" href="https://icons.getbootstrap.com/">Go to Icon's library </a></span></p>
       </div>
       <div className="form_wrapper border border-success p-4 primary-shadow" style={{overflowY:'auto'}}>
-            <div><Input    placeholder="Category Title" value={categoryData.title} onChange={(e)=> setCategoryData({...categoryData , title:e.target.value})} addonBefore="Title" /></div>
+            <div><Input    placeholder="Category Title" value={categoryData.title} onChange={(e)=> setCategoryData({...categoryData , title:e.target.value})} addonBefore="Title"  disabled={true}/></div>
             <div><Input placeholder="Category Icon" className="mt-16" value={categoryData.icon} onChange={(e)=> setCategoryData({...categoryData , icon:e.target.value})} addonBefore="Icon"/></div>
             <div><Input placeholder="Category Description" className="mt-16" value={categoryData.description} onChange={(e)=> setCategoryData({...categoryData , description:e.target.value})} addonBefore="Description"/></div>
             <div className="mt-16" style={{display:'flex' , justifyContent:"center"}}><Button style={{background:settingsData.button_bg , color:'#fff' , border:"none"}} className='fw-700' onClick={handleEditCategory} loading={loading}>Update</Button></div>
