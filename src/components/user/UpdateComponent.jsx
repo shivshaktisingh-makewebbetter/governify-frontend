@@ -297,38 +297,41 @@ export const UpdateComponent = ({
                   justifyContent: "center",
                   fontSize: "23px",
                   paddingTop: "10px",
-                  paddingBottom:"27px"
-                
+                  paddingBottom: "27px",
                 }}
               >
                 {data.name}
               </div>
-              <span
-                className="fw-bold"
-                style={{
-                  color: "#6F7490",
-                  fontSize: "17px",
-                  paddingLeft: "10px",
-                }}
-              >
-                Service Description
-              </span>
               <div
-              className="border-bottom"
-                style={{
-                  color: "#6F7490",
-                  fontWeight: "400",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "17px",
-                  paddingTop: "10px",
-                  textAlign: "left",
-                  paddingLeft: "10px",
-                  paddingBottom:"8px" ,
-                
-                }}
+                className="d-flex flex-column border-bottom py-2 p-10"
+                style={{ gap: "20px" }}
               >
-                {description}
+                <span
+                  className="fw-bold"
+                  style={{
+                    color: "#6F7490",
+                    fontSize: "17px",
+                    // paddingLeft: "10px",
+                  }}
+                >
+                  Service Description
+                </span>
+                <div
+                  // className="border-bottom"
+                  style={{
+                    color: "#6F7490",
+                    fontWeight: "400",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "17px",
+                    // paddingTop: "10px",
+                    textAlign: "left",
+                    // paddingLeft: "10px",
+                    // paddingBottom: "8px",
+                  }}
+                >
+                  {description}
+                </div>
               </div>
               <div
                 className="d-flex flex-column border-bottom py-3 p-10"
