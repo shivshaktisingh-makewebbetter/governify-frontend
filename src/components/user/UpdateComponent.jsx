@@ -324,7 +324,7 @@ export const UpdateComponent = ({
                   paddingTop: "10px",
                   textAlign: "left",
                   paddingLeft: "10px",
-                  paddingBottom:"5px" ,
+                  paddingBottom:"8px" ,
                 
                 }}
               >
