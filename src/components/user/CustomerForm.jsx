@@ -246,6 +246,9 @@ export const CustomerForm = ({
               setFormSubmitted(true);
               setButtonLoading(false);
             }, 1000);
+          }else{
+            setButtonLoading(false);
+            toast.error('Image Not Uploaded.')
           }
         } else {
           setFormSubmitted(true); // No images to upload but form is submitted
@@ -253,6 +256,8 @@ export const CustomerForm = ({
       } else {
         if (response1.status) {
           setFormSubmitted(true);
+        }else{
+          toast.error('Form Submission Failed');
         }
       }
     } catch (error) {
