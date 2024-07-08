@@ -297,6 +297,7 @@ export const UpdateComponent = ({
                   justifyContent: "center",
                   fontSize: "23px",
                   paddingTop: "10px",
+                  paddingBottom:"27px"
                 
                 }}
               >
@@ -313,15 +314,18 @@ export const UpdateComponent = ({
                 Service Description
               </span>
               <div
+              className="border-bottom"
                 style={{
                   color: "#6F7490",
                   fontWeight: "400",
                   display: "flex",
                   justifyContent: "center",
-                  fontSize: "18px",
+                  fontSize: "17px",
                   paddingTop: "10px",
                   textAlign: "left",
                   paddingLeft: "10px",
+                  paddingBottom:"5px" ,
+                
                 }}
               >
                 {description}
@@ -389,7 +393,7 @@ export const UpdateComponent = ({
               </div>
               <div
                 className="d-flex flex-column"
-                style={{ paddingBottom: "15px", paddingTop: "15px" }}
+                style={{ paddingBottom: "15px", paddingTop: "16px" }}
               >
                 <span
                   className="fw-bold"
