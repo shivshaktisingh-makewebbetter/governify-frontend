@@ -97,7 +97,7 @@ const Header = ({ user }) => {
                 className="text-decoration-none"
               >
                 <span className="header-logo float-md-start">
-                  <img height="90" alt="TASC logo" src={data.image} />
+                  <img height="80" alt="TASC logo" src={data.image} />
                 </span>
               </a>
             </div>

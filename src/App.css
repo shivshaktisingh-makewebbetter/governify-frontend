@@ -455,14 +455,15 @@ body,
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
 
 .governify-header-major-div-logo {
-  width: 60%;
+  /* width: 60%; */
 }
 
 .governify-header-major-div-buttons {
-  width: 40%;
+  /* width: 40%; */
   display: flex;
   align-items: center;
   justify-content: end;
@@ -1141,11 +1142,11 @@ table tr:hover {
   }
 
   .governify-header-major-div-logo {
-    width: 30%;
+    /* width: 30%; */
   }
 
   .governify-header-major-div-buttons {
-    width: 70%;
+    /* width: 70%; */
   }
 
   .governify-header-major-div {
@@ -1178,7 +1179,7 @@ table tr:hover {
   .governify-header-major-div-logo {
     justify-content: center;
     display: flex;
-    width: 100%;
+    /* width: 100%; */
   }
 
   .governify-header-major-div-buttons {
