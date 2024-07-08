@@ -28,6 +28,7 @@ export const TrackRequest = () => {
   const [loading, setLoading] = useState(false);
   const [dataLength, setDataLength] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allServiceDesc, setAllServiceDesc] = useState([]);
 
   const [limit, setLimit] = useState(10);
 
@@ -68,8 +69,6 @@ export const TrackRequest = () => {
       setSelectedOrder(2);
     }
   };
-
-
 
   const location = useLocation();
   const breadCrumbData = location.pathname.split("/");
@@ -220,12 +219,28 @@ export const TrackRequest = () => {
       let url = "governify/customer/requestTracking";
       let method = "POST";
       const response = await fetcher(url, method);
-      setBoardId(response.response.data.boards[0].id);
-      getFilterColumns(response.response.data.boards[0].columns);
-      setDataLength(response.response.data.boards[0].items_page.items.length);
-      setOriginalArray(response.response.data.boards[0].items_page.items);
-      setClonedData(response.response.data.boards[0].items_page.items);
-      setData(response.response.data.boards[0].items_page.items.slice(0, 10));
+      if (response.status_code === 200) {
+        const response2 = await fetcher(
+          "governify/customer/serviceRequests",
+          "GET"
+        );
+        let allServiceData = [];
+        if (response2.status) {
+          response2.response.forEach((item) => {
+            allServiceData.push({
+              title: item.title,
+              description: item.description,
+            });
+          });
+          setAllServiceDesc(allServiceData);
+        }
+        setBoardId(response.response.data.boards[0].id);
+        getFilterColumns(response.response.data.boards[0].columns);
+        setDataLength(response.response.data.boards[0].items_page.items.length);
+        setOriginalArray(response.response.data.boards[0].items_page.items);
+        setClonedData(response.response.data.boards[0].items_page.items);
+        setData(response.response.data.boards[0].items_page.items.slice(0, 10));
+      }
     } catch (err) {
       console.log(err, "error");
     } finally {
@@ -294,6 +309,7 @@ export const TrackRequest = () => {
         boardId={boardId}
         fetchData={fetchData}
         statusItems={statusItems}
+        allServiceDesc={allServiceDesc}
       />
       <Pagination
         showQuickJumper

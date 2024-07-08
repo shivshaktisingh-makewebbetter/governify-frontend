@@ -571,6 +571,8 @@ export const CustomerForm = ({
         </>
       )}
 
+      <div style={{marginTop:"10px"}}>
+
       {Object.keys(progress).length > 0 && (
         <div>
           {Object.keys(progress).map((file, index) => {
@@ -594,6 +596,7 @@ export const CustomerForm = ({
           })}
         </div>
       )}
+      </div>
 
       {formSubmitted && (
         <Modal

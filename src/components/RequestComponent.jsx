@@ -6,7 +6,13 @@ import { UpdateComponent } from "./user/UpdateComponent";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
 
-export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
+export const RequestComponent = ({
+  data,
+  boardId,
+  fetchData,
+  statusItems,
+  allServiceDesc,
+}) => {
   const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
       "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
@@ -55,6 +61,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
   const [likeIds, setLikeIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [requestId, setRequestId] = useState();
+  const [serviceDescription, setServiceDescription] = useState("");
 
   const getBgColor = (item) => {
     let tempBgColor = "";
@@ -141,6 +148,11 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
   };
 
   const handleUpdate = (details) => {
+    allServiceDesc.forEach((item)=>{
+      if(item.title === details.name){
+        setServiceDescription(item.description);
+      }
+    })
     setRequestId(details.id);
     setOpen(!open);
   };
@@ -235,7 +247,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
               style={{ display: "flex", justifyContent: "start", gap: "10px" }}
             >
               <div style={{ display: "flex", gap: "20px" }}>
-                {getKey !==3 && (
+                {getKey !== 3 && (
                   <Button
                     style={{
                       background: statusColor,
@@ -259,7 +271,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
                     </span>
                   </Button>
                 )}
-                {(getKey !==3 && getKey!==1) && (
+                {getKey !== 3 && getKey !== 1 && (
                   <Button
                     style={{
                       color: statusColor,
@@ -329,6 +341,7 @@ export const RequestComponent = ({ data, boardId, fetchData, statusItems }) => {
           setOpen={setOpen}
           likeIds={likeIds}
           getAllLikes={getAllLikes}
+          description={serviceDescription}
         />
       </Modal>
       <ToastContainer position="bottom-right" />

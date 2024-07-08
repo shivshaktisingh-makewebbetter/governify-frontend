@@ -39,6 +39,7 @@ export const UpdateComponent = ({
   setOpen,
   likeIds,
   getAllLikes,
+  description
 }) => {
   const [data, setData] = useState("");
   const [showTextEditor, setShowTextEditor] = useState(false);
@@ -299,6 +300,19 @@ export const UpdateComponent = ({
                 }}
               >
                 {data.name}
+              </div>
+              <div
+                style={{
+                  color: "#6F7490",
+                  fontWeight: "400",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "18px",
+                  paddingTop: "10px",
+                  textAlign:"center"
+                }}
+              >
+                {description}
               </div>
               <div
                 className="d-flex flex-column border-bottom py-3 p-10"
