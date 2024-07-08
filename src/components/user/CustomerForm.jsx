@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Flex, Input, Upload, Checkbox, Modal } from "antd";
+import { Button, Flex, Input, Upload, Checkbox, Modal, Progress } from "antd";
 import { fetcher } from "../../utils/helper";
 import { Loader } from "../common/Loader";
 import { Submit } from "../../assets/image";
@@ -8,7 +8,6 @@ import axios from "axios";
 import { ThankyouModal } from "./ThankyouModal";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
-
 
 export const CustomerForm = ({
   formData,
@@ -28,7 +27,8 @@ export const CustomerForm = ({
       "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
-    form_description: 'Please fill out the form to proceed with the needed action to provide you with this service'
+    form_description:
+      "Please fill out the form to proceed with the needed action to provide you with this service",
   };
 
   const ref = useRef();
@@ -45,7 +45,7 @@ export const CustomerForm = ({
     enable: false,
     required: false,
   });
-
+  const [progress, setProgress] = useState({});
   const [buttonLoading, setButtonLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [recaptchaExpired, setRecaptchaExpired] = useState(false);
@@ -53,19 +53,18 @@ export const CustomerForm = ({
   const props = {
     multiple: true,
     onRemove: (file) => {
-      setTimeout(()=>{
+      setTimeout(() => {
         const tempFormData = [...formDetails];
         const tempNewSelection = [];
         let imageName = file.name;
         // let tempImageData = [];
         tempFormData.forEach((item) => {
           if (item.type === "Document" || item.type === "image") {
-            item.value.forEach((subItem) =>{
-              if(subItem.file_name !== imageName){
+            item.value.forEach((subItem) => {
+              if (subItem.file_name !== imageName) {
                 tempNewSelection.push(subItem);
               }
-
-            })
+            });
           }
         });
 
@@ -75,8 +74,7 @@ export const CustomerForm = ({
           }
         });
         setFormDetails(tempFormData);
-
-      } , 500)
+      }, 500);
       console.log(file);
     },
     beforeUpload: (file) => {
@@ -85,37 +83,35 @@ export const CustomerForm = ({
   };
 
   const handleFileChange = async (event, index) => {
-    
-      const files = event.file;
+    const files = event.file;
 
-      if (files) {
-        let reader = new FileReader();
-        reader.onload = (function (theFile) {
-          return function (event) {
-            const tempFormData = [...formDetails];
-            let tempImageData = [];
-            tempFormData.forEach((item) => {
-              if (item.type === "Document" || item.type === "image") {
-                if (item.value == undefined) {
-                  tempImageData = [];
-                } else {
-                  tempImageData = item.value;
-                }
+    if (files) {
+      let reader = new FileReader();
+      reader.onload = (function (theFile) {
+        return function (event) {
+          const tempFormData = [...formDetails];
+          let tempImageData = [];
+          tempFormData.forEach((item) => {
+            if (item.type === "Document" || item.type === "image") {
+              if (item.value == undefined) {
+                tempImageData = [];
+              } else {
+                tempImageData = item.value;
               }
-            });
-            tempImageData.push({ file: files, file_name: files.name });
-            tempFormData.forEach((item) => {
-              if (item.type === "Document" || item.type === "image") {
-                item.value = tempImageData;
-              }
-            });
-            setFormDetails(tempFormData);
-          };
-        })(files);
+            }
+          });
+          tempImageData.push({ file: files, file_name: files.name });
+          tempFormData.forEach((item) => {
+            if (item.type === "Document" || item.type === "image") {
+              item.value = tempImageData;
+            }
+          });
+          setFormDetails(tempFormData);
+        };
+      })(files);
 
-        reader.readAsDataURL(files);
-      }
-   
+      reader.readAsDataURL(files);
+    }
   };
 
   const onRecaptchaExpired = () => {
@@ -129,7 +125,7 @@ export const CustomerForm = ({
   };
 
   const getUploadLabel = (item) => {
-    if(item === null || undefined){
+    if (item === null || undefined) {
       return <div></div>;
     }
     let newItem = item.split("\n");
@@ -148,7 +144,31 @@ export const CustomerForm = ({
     formData.append("file", image.file);
 
     let token = sessionStorage.getItem("token");
+
     try {
+      // Start with 0% progress
+      setProgress((prevProgress) => ({
+        ...prevProgress,
+        [image.file_name]: 0,
+      }));
+
+      // Simulating progress with setInterval
+      let progress = 0;
+      const interval = setInterval(() => {
+        // Check if progress has reached 100% or more
+        if (progress >= 90) {
+          clearInterval(interval);
+          return;
+        }
+
+        // Update progress by increments
+        progress += 10; // Simulate progress steps
+        setProgress((prevProgress) => ({
+          ...prevProgress,
+          [image.file_name]: progress,
+        }));
+      }, 1000); // Adjust interval time as needed
+
       const response = await axios.post(
         "https://onboardify.tasc360.com/incorpify/uploadMondayFiles",
         formData,
@@ -160,12 +180,20 @@ export const CustomerForm = ({
         }
       );
 
-     
+      // If upload completes before interval, clear interval for this file
+      if (progress < 100) {
+        clearInterval(interval);
+      }
 
       if (response.status !== 200) {
         throw new Error("Network response was not ok");
       }
-       toast.success(image.file_name +" Updated.")
+
+      // Set progress to 100% after successful response
+      setProgress((prevProgress) => ({
+        ...prevProgress,
+        [image.file_name]: 100,
+      }));
 
       return response.data.success; // Assuming the API returns a success field
     } catch (error) {
@@ -208,12 +236,10 @@ export const CustomerForm = ({
         if (tempImageData.length > 0) {
           const response2 = await uploadAllImage(tempImageData, id);
           if (response2) {
-            setTimeout(()=>{
+            setTimeout(() => {
               setFormSubmitted(true);
               setButtonLoading(false);
-
-      
-            } ,3000)
+            }, 1000);
           }
         } else {
           setFormSubmitted(true); // No images to upload but form is submitted
@@ -226,10 +252,7 @@ export const CustomerForm = ({
     } catch (error) {
       console.error("Error in handleSubmitAll:", error);
     } finally {
-      setTimeout(()=>{
-        setButtonLoading(false);
-
-      } ,3000)
+      setButtonLoading(false);
     }
   };
 
@@ -315,7 +338,11 @@ export const CustomerForm = ({
           (item.value === undefined || item.value === null || item.value === "")
         ) {
           flag = true;
-        } else if (item.value === null ||item.value === undefined || item.value.length === 0) {
+        } else if (
+          item.value === null ||
+          item.value === undefined ||
+          item.value.length === 0
+        ) {
           flag = true;
         }
       }
@@ -361,7 +388,7 @@ export const CustomerForm = ({
     recaptchaToken,
   ]);
 
-
+  console.log(progress, "progress");
 
   return (
     <div
@@ -370,6 +397,7 @@ export const CustomerForm = ({
       key={imageData.length}
     >
       {buttonLoading && <Loader />}
+
       {!formSubmitted && (
         <>
           {" "}
@@ -395,13 +423,13 @@ export const CustomerForm = ({
             </svg>
           </div>
           <div className="form-header-description">
-           {data.form_description || 'Please fill out the form to proceed with the needed action to provide you with this service'} 
+            {data.form_description ||
+              "Please fill out the form to proceed with the needed action to provide you with this service"}
           </div>
           <Flex
             vertical
             gap={15}
-       
-            style={{ paddingBottom: "20px" , paddingTop:"24px" }}
+            style={{ paddingBottom: "20px", paddingTop: "24px" }}
           >
             {formDetails.map((item, index) => {
               if (item.type === "textArea") {
@@ -540,6 +568,25 @@ export const CustomerForm = ({
             </Button>
           </div>
         </>
+      )}
+
+      {Object.keys(progress).length > 0 && (
+        <div>
+          {Object.keys(progress).map((file, index) => {
+            return (
+              <Progress
+                key={index}
+                percent={progress[file]}
+                status="active"
+                style={{ marginBottom: "10px" }}
+                strokeColor={{
+                  from: "#108ee9",
+                  to: "#87d068",
+                }}
+              />
+            );
+          })}
+        </div>
       )}
 
       {formSubmitted && (

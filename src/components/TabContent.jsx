@@ -118,7 +118,7 @@ export const TabContent = ({ details, categoryName }) => {
         />
       </Modal> }
 
-      <ToastContainer position='bottom-right'/>
+  
 
 
 
