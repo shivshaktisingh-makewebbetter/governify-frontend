@@ -166,6 +166,7 @@ export const CustomerForm = ({
         setProgress((prevProgress) => ({
           ...prevProgress,
           [image.file_name]: progress,
+          name: image.file_name,
         }));
       }, 1000); // Adjust interval time as needed
 
@@ -573,18 +574,23 @@ export const CustomerForm = ({
       {Object.keys(progress).length > 0 && (
         <div>
           {Object.keys(progress).map((file, index) => {
-            return (
-              <Progress
-                key={index}
-                percent={progress[file]}
-                status="active"
-                style={{ marginBottom: "10px" }}
-                strokeColor={{
-                  from: "#108ee9",
-                  to: "#87d068",
-                }}
-              />
-            );
+            if (file !== "name") {
+              return (
+                <>
+                  <div>{file}</div>
+                  <Progress
+                    key={index}
+                    percent={progress[file]}
+                    status="active"
+                    style={{ marginBottom: "10px" }}
+                    strokeColor={{
+                      from: "#108ee9",
+                      to: "#87d068",
+                    }}
+                  />
+                </>
+              );
+            }
           })}
         </div>
       )}
