@@ -105,6 +105,7 @@ export const TabContent = ({ details, categoryName }) => {
           );
         })}
       </div>
+      <ToastContainer position="bottom-right" />
 
    {open &&   <Modal open={open} centered footer={null} onCancel={() => setOpen(false)} width={formSubmitted ? 50 : 450}>
         <CustomerForm

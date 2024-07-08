@@ -220,6 +220,11 @@ export const CustomerForm = ({
       const id = response1.response.response.data.create_item.id;
       const tempImageData = [];
 
+      if(!response1.succes){
+        toast.error('Form Submission Failed.')
+        return;
+      }
+
       if (isUploadEnable.enable) {
         formDetails.forEach((item) => {
           if (item.type === "image" || item.type === "Document") {

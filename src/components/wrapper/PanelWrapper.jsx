@@ -20,6 +20,8 @@ const PanelWrapper = () => {
       if(response.success){
         sessionStorage.setItem('userName' , response.data.name );
         sessionStorage.setItem('userEmail' , response.data.email );
+        sessionStorage.setItem('userId' , response.data.user_id );
+        sessionStorage.setItem('createdAt' , response.data.created_at );
         setUser(response.data.name )
       }
     }catch(err){
