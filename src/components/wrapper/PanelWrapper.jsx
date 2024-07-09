@@ -32,6 +32,7 @@ const PanelWrapper = () => {
     }finally{
     }
  }
+ 
 
  useEffect(()=>{
   getLoginUserDetails();
@@ -88,7 +89,11 @@ const PanelWrapper = () => {
     }
   };
 
-  loadIntercom();
+  setTimeout(()=>{
+    loadIntercom();
+
+  } , 2000)
+
 
   // Cleanup function to remove Intercom script
   return () => {
