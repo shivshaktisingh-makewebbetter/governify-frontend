@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
-import { Button } from "antd";
+import { Button, Select } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -23,6 +23,8 @@ export const AdminSettings = () => {
   const [loading, setLoading] = useState(false);
   const [buttonObj, setButtonObj] = useState([]);
   const [trackRequestSetting, setTrackRequestSetting] = useState([]);
+  const [boardId , setBoardId] = useState('');
+  const [allBoardId, setAllBoardId] = useState([]);
   const [buttonData, setButtonData] = useState([
     {
       type: "In Progress",
@@ -113,6 +115,7 @@ export const AdminSettings = () => {
       logo_image: startsWithHttp(logoData.logo_image)
         ? ""
         : logoData.logo_image,
+      board_id: boardId
     });
 
     setLoading(true);
@@ -203,6 +206,11 @@ export const AdminSettings = () => {
     });
     return tempColor;
   };
+
+  const handleChangeBoardId = (item) => {
+    setBoardId(item);
+  };
+
   useEffect(() => {
     let isMounted = true;
     const fetchData = async () => {
@@ -215,6 +223,7 @@ export const AdminSettings = () => {
           logo_image: response.response.logo_location,
           logo_name: response.response.logo_name,
         });
+        setBoardId(response.response.board_id);
         setUiData({
           form_description: uiSettings.form_description,
           site_bg: uiSettings.site_bg,
@@ -245,6 +254,14 @@ export const AdminSettings = () => {
             };
           });
           setButtonData(tempButtonData);
+        }
+        let response2 = await fetcher("governify/admin/fetchAllBoards", "GET");
+        if (response2.status_code === 200) {
+          let tempBoardIds = [];
+          response2.response.data.boards.forEach((item) => {
+            tempBoardIds.push({ label: item.name, value: item.id });
+          });
+          setAllBoardId(tempBoardIds);
         }
       }
     };
@@ -282,7 +299,7 @@ export const AdminSettings = () => {
               />
             </div>
             <div>
-              <label htmlFor="site_bg" className="form-label">
+              <label  className="form-label">
                 Background-color<i className="bi bi-pen"></i>
               </label>
               <input
@@ -329,10 +346,27 @@ export const AdminSettings = () => {
             <span className="mt-1 ms-2">General Settings</span>
           </h4>
           <hr />
+
           <div className="row g-3">
+            <div className="col-sm-12">
+              <label className="form-label">
+                BoardId
+              </label>
+              <Select
+                showSearch
+                placeholder={"Select Category"}
+                style={{ width: "100%", borderRadius: "10px" }}
+                popupMatchSelectWidth={false}
+                placement="bottomLeft"
+                onChange={handleChangeBoardId}
+                options={allBoardId}
+                value={boardId}
+              />
+            </div>
+
             <div className="col-sm-6">
               <div className="col-sm-12 mb-5">
-                <label for="site_bg" className="form-label">
+                <label className="form-label">
                   Background-color<i className="bi bi-pen"></i>
                 </label>
                 <br />
@@ -349,7 +383,7 @@ export const AdminSettings = () => {
                 <small className="text-danger text-start ms-2"></small>
               </div>
               <div className="col-sm-12">
-                <label for="button_bg" className="form-label">
+                <label className="form-label">
                   Button background-color&nbsp;<i className="bi bi-pen"></i>
                 </label>
                 <br />
