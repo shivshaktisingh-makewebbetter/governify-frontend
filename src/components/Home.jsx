@@ -12,7 +12,7 @@ const Home = () => {
   const [searchData, setSearchData] = useState("");
   const interval = useRef(null);
   const [loading, setLoading] = useState(false);
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
 
   const getDashboardData = async () => {
     setLoading(true);
@@ -35,21 +35,18 @@ const Home = () => {
     const tempDashboardData = [...dashboardDataFixed];
     const uniqueItems = new Set();
 
-
     tempDashboardData.forEach((item) => {
-      if(item.service_requests.length > 0){
-
-      
-      item.service_requests.forEach((subItem) => {
-        if (subItem.service_request.title.includes(searchData)) {
-         
-          if (!uniqueItems.has(item)) {
-            foundData.push(item);
-            uniqueItems.add(item);
+      if (item.service_requests.length > 0) {
+        item.service_requests.forEach((subItem) => {
+          if (subItem.service_request.title.includes(searchData)) {
+            if (!uniqueItems.has(item)) {
+              foundData.push(item);
+              uniqueItems.add(item);
+            }
           }
-        }
-      });
-    }});
+        });
+      }
+    });
 
     setDashboardData(foundData);
   };
@@ -108,7 +105,6 @@ const Home = () => {
   return (
     <>
       <HeadTitle />
-
       <SearchBox setSearchData={setSearchData} />
       <InternalTab data={dashboardData} />
     </>
