@@ -50,8 +50,9 @@ const Header = ({ user }) => {
   };
 
   const logoutFunction = () =>{
-  	sessionStorage.removeItem('token');
-  	sessionStorage.removeItem('role');
+  	// sessionStorage.removeItem('token');
+  	// sessionStorage.removeItem('role');
+    sessionStorage.clear()
 	  navigate("/signin");
   }
 
