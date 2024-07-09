@@ -45,7 +45,7 @@ const PanelWrapper = () => {
         api_base: "https://api-iam.intercom.io",
         app_id: "wk35gw8g",
         name: sessionStorage.getItem('userName') ? sessionStorage.getItem('userName') : '', // Full name
-        user_id: sessionStorage.getItem('user_id') ? sessionStorage.getItem('userId') : '',
+        user_id: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
         email: sessionStorage.getItem('userEmail') ? sessionStorage.getItem('userEmail') : '',
         created_at: sessionStorage.getItem('createdAt') ? sessionStorage.getItem('createdAt') : '',
       };
