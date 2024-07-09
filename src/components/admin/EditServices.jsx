@@ -98,10 +98,10 @@ export const EditServices = ({
         <div>
           <div
             className="text-white"
-            style={{ backgroundColor: settingsData.button_bg }}
+            style={{ backgroundColor: '#59C080' }}
           >
             <p className="p-2 m-0 fs-5">
-              <strong>Create Services</strong>
+              <strong>Edit Services</strong>
             </p>
           </div>
           <div

@@ -120,7 +120,7 @@ function App() {
       theme={{
         components: {
           Table: {
-            headerBg: settingsData.button_bg,
+            headerBg: '#59C080',
             headerColor: "#fff"
           }
         }
