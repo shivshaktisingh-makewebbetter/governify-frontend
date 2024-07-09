@@ -11,17 +11,17 @@ export const TabContent = ({ details, categoryName }) => {
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [hoveredButton, setHoveredButton] = useState(null);
+  
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
-    image:
-      "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
+    image: "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
     site_bg: "#ffffff",
     button_bg: "#5ac063",
     banner_bg: "#5ac063",
-    banner_content:
-      "Hire an attitude, not just experience and qualification. Greg Savage.",
+    banner_content: "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
-    form_description: 'Please fill out the form to proceed with the needed action to provide you with this service'
+    form_description: "Please fill out the form to proceed with the needed action to provide you with this service",
   };
 
   const handleModalForm = (formData, title) => {
@@ -38,17 +38,23 @@ export const TabContent = ({ details, categoryName }) => {
     }));
   };
 
-  const handleOpen =() =>{
+  const handleOpen = () => {
     setOpen(false);
-    setFormSubmitted(false)
-  }
+    setFormSubmitted(false);
+  };
+
+  const handleHover = (id) => {
+    setHoveredButton(id);
+  };
+
+  const handleLeave = () => {
+    setHoveredButton(null);
+  };
 
   return (
     <div key={uuidv4()}>
-  
       <div className="service-parent-div">
         {details.map((item) => {
-          
           const description = item.service_request.description;
           const isExpanded = expandedDescriptions[item.service_request.id];
           const truncatedDescription =
@@ -57,6 +63,8 @@ export const TabContent = ({ details, categoryName }) => {
               : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
+          const isHovered = hoveredButton === title;
+
           return (
             <div className="service-repetitive-div" key={uuidv4()}>
               <div className="service-image-wrapper">
@@ -67,7 +75,7 @@ export const TabContent = ({ details, categoryName }) => {
                 />
               </div>
               <Typography className="service-child-title font-family-hind">
-                {title}            
+                {title}
               </Typography>
               <Typography className="service-child-subtitle font-family-hind">
                 {isExpanded ? description : truncatedDescription}
@@ -77,18 +85,23 @@ export const TabContent = ({ details, categoryName }) => {
                     onClick={() => toggleDescription(item.service_request.id)}
                     style={{ cursor: "pointer", color: "blue" }}
                   >
-                    {!isExpanded && <span style={{whiteSpace:"nowrap"}}> Read More</span>}
+                    {!isExpanded && (
+                      <span style={{ whiteSpace: "nowrap" }}> Read More</span>
+                    )}
                   </span>
                 )}
               </Typography>
 
               <Button
+                key={title}
                 className="tabcontent-create-request-btn"
                 style={{
                   position: "absolute",
                   bottom: "0px",
                   borderRadius: "10px",
-                  background:data.button_bg
+                  background: isHovered ? "white" : data.button_bg,
+                  color: isHovered ? data.button_bg : "white",
+                  border: isHovered ? `1px solid ${data.button_bg}` : "none",
                 }}
                 icon={<PlusOutlined />}
                 onClick={() =>
@@ -98,6 +111,8 @@ export const TabContent = ({ details, categoryName }) => {
                   )
                 }
                 disabled={Object.keys(item.service_forms).length === 0}
+                onMouseEnter={() => handleHover(title)}
+                onMouseLeave={handleLeave}
               >
                 Create a Request
               </Button>
@@ -107,22 +122,25 @@ export const TabContent = ({ details, categoryName }) => {
       </div>
       <ToastContainer position="bottom-right" />
 
-   {open &&   <Modal open={open} centered footer={null} onCancel={() => setOpen(false)} width={formSubmitted ? 50 : 450}>
-        <CustomerForm
-          formData={formData}
-          serviceTitle={serviceTitle}
-          categoryName={categoryName}
-          key={uuidv4()}
-          handleOpen={handleOpen}
-          formSubmitted={formSubmitted}
-          setFormSubmitted={setFormSubmitted}
-        />
-      </Modal> }
-
-  
-
-
-
+      {open && (
+        <Modal
+          open={open}
+          centered
+          footer={null}
+          onCancel={() => setOpen(false)}
+          width={formSubmitted ? 50 : 450}
+        >
+          <CustomerForm
+            formData={formData}
+            serviceTitle={serviceTitle}
+            categoryName={categoryName}
+            key={uuidv4()}
+            handleOpen={handleOpen}
+            formSubmitted={formSubmitted}
+            setFormSubmitted={setFormSubmitted}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

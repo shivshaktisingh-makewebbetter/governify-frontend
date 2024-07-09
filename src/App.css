@@ -665,9 +665,9 @@ body,
 }
 
 .governify-secondary-btn:hover {
-  color: #928f8f !important;
+  /* color: #928f8f !important;
   border-color: #928f8f !important;
-  background: transparent;
+  background: transparent; */
 }
 
 .governify-tab-headers > span > span > svg {
@@ -793,7 +793,7 @@ body,
   font-family: "Montserrat", sans-serif !important;
 }
 
-.tabcontent-create-request-btn:hover {
+/* .tabcontent-create-request-btn:hover {
   color: #5ac063 !important;
   border: 1px solid #5ac063 !important;
 }
@@ -802,7 +802,7 @@ body,
   color: #5ac063;
   background-color: transparent !important;
   border: 1px solid #5ac063 !important;
-}
+} */
 
 .onboardify-welcome-text-hani {
   color: #928f8f !important;

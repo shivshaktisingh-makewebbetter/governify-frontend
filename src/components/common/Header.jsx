@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Flex, Image, Typography } from "antd";
+import { Button, Flex, Typography } from "antd";
 import {
   HomeOutlined,
   LogoutOutlined,
@@ -24,6 +24,9 @@ const Header = ({ user }) => {
   };
   const location = useLocation();
   const navigate = useNavigate();
+  const [trackRequestHovered , setTrackRequestHovered] = useState(false);
+  const [homeBUttonHovered , setHomeButtonHovered] = useState(false);
+  const [settingButtonHovered , setSettingButtonHovered] = useState(false);
   const [notification, setNotification] = useState(
     sessionStorage.getItem("notification_bar") === "false" ? false : true
   );
@@ -47,9 +50,36 @@ const Header = ({ user }) => {
   };
 
   const logoutFunction = () =>{
-	sessionStorage.removeItem('token');
-	sessionStorage.removeItem('role');
-	navigate("/signin");
+  	sessionStorage.removeItem('token');
+  	sessionStorage.removeItem('role');
+	  navigate("/signin");
+  }
+
+  const handleHover = (flag) =>{
+    if(flag){
+      setTrackRequestHovered(true);
+     }
+      else{
+        setTrackRequestHovered(false);
+      }
+  }
+
+  const handleHoverHome = (flag) =>{
+    if(flag){
+      setHomeButtonHovered(true);
+     }
+      else{
+        setHomeButtonHovered(false);
+      }
+  }
+
+  const handleHoverSetting = (flag) =>{
+    if(flag){
+      setSettingButtonHovered(true);
+     }
+      else{
+        setSettingButtonHovered(false);
+      }
   }
 
   return (
@@ -115,10 +145,13 @@ const Header = ({ user }) => {
                         display: "flex",
                         gap: "5px",
                         alignItems: "center",
-                        color: data.button_bg,
-                        borderColor: data.button_bg,
+                        border: homeBUttonHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
+                        color: homeBUttonHovered ? `#928f8f` :data.button_bg ,
+                        background:'transparent',
                       }}
                       onClick={navigateToHome}
+                      onMouseEnter={() => handleHoverHome(true)}
+                      onMouseLeave={() => handleHoverHome(false)}
                     >
                       <span className="font-family-montse fs-12 fw-700">
                         Home
@@ -132,8 +165,13 @@ const Header = ({ user }) => {
                         display: "flex",
                         gap: "5px",
                         alignItems: "center",
+                        border: trackRequestHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
+                        color: trackRequestHovered ? `#928f8f` :data.button_bg ,
+                        background:'transparent',
                       }}
                       onClick={navigateToTrackRequest}
+                      onMouseEnter={() => handleHover(true)}
+                      onMouseLeave={() => handleHover(false)}
                     >
                       <span className="font-family-montse fs-12 fw-700">
                         Track a Request
@@ -148,8 +186,13 @@ const Header = ({ user }) => {
                       display: "flex",
                       gap: "5px",
                       alignItems: "center",
+                      border: settingButtonHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
+                        color: settingButtonHovered ? `#928f8f` :data.button_bg ,
+                        background:'transparent',
                     }}
                     onClick={navigateToSettings}
+                    onMouseEnter={() => handleHoverSetting(true)}
+                      onMouseLeave={() => handleHoverSetting(false)}
                   >
                     <span className="font-family-montse fs-12 fw-700">
                       Settings
