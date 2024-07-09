@@ -522,13 +522,15 @@ export const CustomerForm = ({
                     <Upload
                       {...props}
                       onChange={(e) => handleFileChange(e, index)}
+                 
                     >
-                      <Button
+                      <div><Button
                         icon={<UploadOutlined />}
                         style={{ fontSize: "13px", color: "#2c2e38" }}
                       >
                         Click to Upload
-                      </Button>
+                      </Button><span style={{paddingLeft:'5px' , color:'grey'}}>Max Size Can be 25 MB.</span></div>
+                      
                     </Upload>
                   </div>
                 );
