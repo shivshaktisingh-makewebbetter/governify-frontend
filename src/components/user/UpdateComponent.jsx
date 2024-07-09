@@ -192,7 +192,7 @@ export const UpdateComponent = ({
     let svgType = tempArray[tempArray.length - 1];
 
     let icons = {
-      csv: <Xlsxicon />,
+      csv: <Csvicon />,
       doc: <Docicon />,
       docx: <Docxicon />,
       png: <Pngicon />,
