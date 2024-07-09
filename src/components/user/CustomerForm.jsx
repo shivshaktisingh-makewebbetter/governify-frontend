@@ -529,7 +529,7 @@ export const CustomerForm = ({
                         style={{ fontSize: "13px", color: "#2c2e38" }}
                       >
                         Click to Upload
-                      </Button><span style={{paddingLeft:'5px' , color:'grey'}}>Max Size Can be 25 MB.</span></div>
+                      </Button><span style={{paddingLeft:'5px' , color:'grey' ,  fontSize: "13px",}}>Maximum Size allowed is 25 MB.</span></div>
                       
                     </Upload>
                   </div>
