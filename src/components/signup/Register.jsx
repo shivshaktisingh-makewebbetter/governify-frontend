@@ -214,6 +214,7 @@ const Register = () => {
                   
                 }}
                 disabled={!isFormValid}
+                onClick={handleSubmit}
               >
                 <span
                   style={{
