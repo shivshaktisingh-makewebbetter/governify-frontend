@@ -37,11 +37,11 @@ const Login = () => {
           navigate("/admin");
         }
       } else {
-        toast.error("Login Failed.");
+        toast.error(response.message);
       }
     } catch (err) {
       console.log(err, "error");
-      toast.error("Login Failed.");
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }
