@@ -20,8 +20,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from "./components/signin/Login";
 import Register from "./components/signup/Register";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
-import ResetPassword from "./components/ResetPassword/ResetPassword";
 import VerifyUser from "./components/verifypassword/VerifyUser";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
   const token = sessionStorage.getItem('token');
