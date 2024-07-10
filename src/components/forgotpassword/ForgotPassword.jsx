@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   };
 
   const handleSubmit = async () => {
-    let url = "onboardify/common-forgot";
+    let url = "common-forgot";
     let method = "POST";
     let payload = JSON.stringify({
       email: email,

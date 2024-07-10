@@ -1202,4 +1202,20 @@ table tr:hover {
   } 
 }
 
+.inc-verify-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.inc-verify-user div {
+  font-size: 24px;
+  color: #20681f;
+  background-color: #c4f3c4;
+  padding: 24px;
+  border-radius: 10px;
+  outline: 1px solid #20681f;
+}
+
 
