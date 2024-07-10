@@ -29,7 +29,7 @@ import { Loader } from "../common/Loader";
   };
 
   const handleSubmit = async () => {
-    let url = `/common/updateNewPassword`;
+    let url = `common/updateNewPassword`;
     let method = "POST";
     let payload = JSON.stringify({
       password: userDetails.password,
