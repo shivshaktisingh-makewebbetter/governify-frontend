@@ -15,7 +15,7 @@ const VerifyUser = () => {
       email: queryParameters.get("email"),
     });
     try {
-      let res = await fetcher("/common/verifyUser", "POST", payload);
+      let res = await fetcher("common/verifyUser", "POST", payload);
       if(res.status) {
         setTimeout(() => {
             navigate('signin');
