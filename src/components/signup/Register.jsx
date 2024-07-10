@@ -36,7 +36,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    const { name, company_name, email, password } = formData;
+    const { name, company_name, email, password , phone } = formData;
     setIsFormValid(
       name.trim() !== "" &&
         company_name.trim() !== "" &&
@@ -44,7 +44,7 @@ const Register = () => {
         emailRegex.test(email) &&
         password.trim() !== "" &&
         recaptchaToken !== "" &&
-        !recaptchaExpired
+        !recaptchaExpired && phone.length > 0
     );
   }, [formData, recaptchaToken, recaptchaExpired]);
 
@@ -145,7 +145,7 @@ const Register = () => {
               />
               <input
                 type="text"
-                placeholder="+966 011 XXX XXXX"
+                placeholder="+966 011 XXX XXXX*"
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
