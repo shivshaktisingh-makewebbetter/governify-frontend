@@ -18,9 +18,9 @@ import { Loader } from "../common/Loader";
   });
 
   const buttonDisable = () => {
-    if (userDetails.password === "") {
+    if (userDetails.password.length < 6) {
       return true;
-    } else if (userDetails.newPassword === "") {
+    } else if (userDetails.newPassword < 6) {
       return true;
     } else if (userDetails.newPassword !== userDetails.password) {
       return true;
