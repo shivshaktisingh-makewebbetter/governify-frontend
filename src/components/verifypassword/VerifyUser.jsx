@@ -18,7 +18,7 @@ const VerifyUser = () => {
       let res = await fetcher("common/verifyUser", "POST", payload);
       if(res.status) {
         setTimeout(() => {
-            navigate('signin');
+            navigate('/signin');
         }, 2000)
       }
     } catch (error) {
