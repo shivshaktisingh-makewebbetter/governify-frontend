@@ -106,6 +106,7 @@ import { Loader } from "../common/Loader";
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     name="password"
+                    style={{ background: "#e8f0fe" }}
                     value={userDetails.password}
                     onChange={(e) => handleChangeUserDetails(e, "password")}
                   />
@@ -137,6 +138,7 @@ import { Loader } from "../common/Loader";
                     placeholder="confirm password"
                     name="password"
                     value={userDetails.newPassword}
+                    style={{ background: "#e8f0fe" }}
                     onChange={(e) => handleChangeUserDetails(e, "newPassword")}
                   />
                   <span
