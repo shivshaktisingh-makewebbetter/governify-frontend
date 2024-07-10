@@ -161,8 +161,19 @@ import { Loader } from "../common/Loader";
                 </div>
                 <button
                   id="login-button"
-                  class="btn btn-to-link btn-secondary btn-gradiant d-flex align-items-center bg-inc-orange mt-4"
+                  className="btn btn-gradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
                   type="button"
+                  style={{
+                    border: "0",
+                    borderRadius: "50px",
+                    gap: "10px",
+                    padding: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "0.5s",
+                    height: "46px",
+                  }}
                   disabled={buttonDisable()}
                   onClick={handleSubmit}
                 >
