@@ -18,7 +18,7 @@ const ForgotPassword = () => {
     let method = "POST";
     let payload = JSON.stringify({
       email: email,
-      domain: window.location.origin,
+      domain: 'governify',
     });
     try {
       setLoading(true);
