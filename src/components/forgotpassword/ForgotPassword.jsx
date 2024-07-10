@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   };
 
   const handleSubmit = async () => {
-    let url = "common-forgot";
+    let url = "commom-forgot";
     let method = "POST";
     let payload = JSON.stringify({
       email: email,
