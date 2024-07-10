@@ -62,7 +62,7 @@ const Login = () => {
 
   const checkPasswordIsFilledValid = () => {
     const password = userDetails.password;
-    if (password.length > 6) {
+    if (password.length > 5) {
       return false;
     }
     return true;
