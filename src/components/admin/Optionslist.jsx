@@ -8,14 +8,14 @@ export const Optionslist = () =>{
     const data = [{
         title:'Category' , 
         description:'Create and manage service categories. Organize your services into logical groups for easy navigation and assignment.' , 
-        icon:<i className="bi bi-card-list" style={{fontSize:"60px"}}></i> ,
+        icon:<i className="bi bi-card-list" style={{fontSize:"70px"}}></i> ,
         buttonText:'Manage Category' ,
         navigateKey:'categories'
     } ,
     {
         title:'Services' , 
         description:'Define and update the names and descriptions of your services. Ensure each service is clearly described for better understanding and management.' , 
-        icon:<i className="bi bi-window-stack"></i> ,
+        icon:<i className="bi bi-window-stack" style={{fontSize:"70px"}}></i> ,
         buttonText:'Manage Services' ,
         navigateKey:'services'
 
@@ -23,7 +23,7 @@ export const Optionslist = () =>{
     {
         title:'Forms' , 
         description:'Create, edit, and customize forms to collect necessary information from users. Once built, assign these forms to specific services to ensure accurate data managment' , 
-        icon:<i className="bi bi-file-earmark"></i>,
+        icon:<i className="bi bi-file-earmark" style={{fontSize:"70px"}}></i>,
         buttonText:'Manage Forms' ,
         navigateKey:'forms'
 
@@ -43,7 +43,7 @@ const handleAdminRoute = (title) =>{
         {data.map((item)=>{
             return (
                 <div className='governify-option-list-repetitive' style={{position:'relative' ,paddingBottom:"40px"}}>
-                   <div className='governify-option-list-icon' style={{color:settingData.button_bg}} >{item.icon}</div>
+                   <div className='governify-option-list-icon'>{item.icon}</div>
                    <div className='governify-option-list-title font-family-hind fs-28 fw-700 mt-16 mb-16'>{item.title}</div>
                    <div className='governify-option-list-description font-family-hind fs-19 text-color-928f8f mb-16' style={{minHeight:"114px" , paddingBottom:"20px"}}>{item.description}</div>
                    <div style={{display:'flex' , alignItems:'center' , justifyContent:'center'}}>
