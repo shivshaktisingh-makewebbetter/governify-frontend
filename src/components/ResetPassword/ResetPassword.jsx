@@ -94,7 +94,7 @@ import { Loader } from "../common/Loader";
                     style={{ maxWidth: "220px" }}
                   />
                 </div>
-                <div className="fs-24 ff-ws mb-2 text-inc-tundora fw-600">
+                <div className="fs-24 ff-ws mb-2 text-inc-tundora fw-600" style={{color:"#434343"}}>
                   Enter New Password
                 </div>
               </div>
