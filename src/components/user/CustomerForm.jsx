@@ -138,6 +138,7 @@ export const CustomerForm = ({
     formData.append("item_id", idForImage);
     formData.append("file_name", image.file_name);
     formData.append("file", image.file);
+    formData.append("column_id" ,  data.selectedColumn.update)
 
     let token = sessionStorage.getItem("token");
 

@@ -668,22 +668,6 @@ export const AdminSettings = () => {
                 </div>
                 <div className="col-sm-12">
                   <label className="form-label">
-                    Select Category Name key*{" "}
-                  </label>
-                  <Select
-                    placeholder={"Select Category Name key"}
-                    style={{ width: "100%", borderRadius: "10px" }}
-                    popupMatchSelectWidth={false}
-                    placement="bottomLeft"
-                    onChange={(e) =>
-                      handleChangeColumnRequest(e, "category_name_key")
-                    }
-                    options={columnList}
-                    value={createRequestKey.category_name_key}
-                  />
-                </div>
-                <div className="col-sm-12">
-                  <label className="form-label">
                     Select Service Request Key*
                   </label>
                   <Select
@@ -698,6 +682,23 @@ export const AdminSettings = () => {
                     value={createRequestKey.service_name_key}
                   />
                 </div>
+                <div className="col-sm-12">
+                  <label className="form-label">
+                    Select Category Name key*{" "}
+                  </label>
+                  <Select
+                    placeholder={"Select Category Name key"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) =>
+                      handleChangeColumnRequest(e, "category_name_key")
+                    }
+                    options={columnList}
+                    value={createRequestKey.category_name_key}
+                  />
+                </div>
+              
                 <div className="col-sm-12">
                   <label className="form-label">
                     Select Form Information Key*
