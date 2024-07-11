@@ -22,6 +22,7 @@ import Register from "./components/signup/Register";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import VerifyUser from "./components/verifypassword/VerifyUser";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import { Intercom } from "./components/wrapper/Intercom";
 
 function App() {
   const token = sessionStorage.getItem('token');
@@ -49,7 +50,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AuthWrapper />,
+      element: <Intercom />,
       errorElement: <ErrorPage />,
       children: [
         {

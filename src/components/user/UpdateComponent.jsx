@@ -230,6 +230,7 @@ export const UpdateComponent = ({
           formData.append("item_id", id);
           formData.append("file_name", files.name);
           formData.append("file", files);
+          formData.append("column_id" , settingsData.selectedColumn.update )
           let token = sessionStorage.getItem("token");
           try {
             setLoading(true);

@@ -1,48 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Header from "../common/Header";
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Footer from "../common/Footer";
-import { fetcher } from "../../utils/helper";
-import { Loader } from "../common/Loader";
 
-const PanelWrapper = () => {
-  const [user, setUser] = useState("");
-  const token = sessionStorage.getItem("token");
-  const role = sessionStorage.getItem("role");
+export const Intercom = () => {
   const location = useLocation();
-
-  const getLoginUserDetails = async () => {
-    try {
-      const token = sessionStorage.getItem("token");
-      const url = `loginUserDetails/${token}`;
-      const method = "GET";
-      const response = await fetcher(url, method);
-      if (response.success) {
-        sessionStorage.setItem("userName", response.data.name);
-        sessionStorage.setItem("userEmail", response.data.email);
-        sessionStorage.setItem("userId", response.data.user_id);
-        sessionStorage.setItem("createdAt", response.data.created_at);
-        setUser(response.data.name);
-      }
-    } catch (err) {
-      console.log(err, "error");
-    } finally {
+  const token = sessionStorage.getItem("token");
+  if (sessionStorage.getItem("userId")) {
+    sessionStorage.removeItem("random_user");
+  } else {
+    if (!sessionStorage.getItem("random_user")) {
+      sessionStorage.setItem(
+        "random_user",
+        Math.floor(Math.random() * 10000000 + 1)
+      );
     }
-  };
-
-  useEffect(() => {
-    getLoginUserDetails();
-  }, [token]);
+  }
 
   useEffect(() => {
     const loadIntercom = () => {
-      if (
-        location.pathname === "/" ||
-        location.pathname === "/track-request" ||
-        location.pathname === "/signup" ||
-        location.pathname === "/signin" ||
-        location.pathname === "/forget-password"
-      ) {
+      if (!location.pathname.includes("/admin")) {
         // Set up intercomSettings
         window.intercomSettings = {
           api_base: "https://api-iam.intercom.io",
@@ -52,7 +27,9 @@ const PanelWrapper = () => {
             : "", // Full name
           user_id: sessionStorage.getItem("userId")
             ? sessionStorage.getItem("userId")
-            : Math.floor(100000 + Math.random() * 900000),
+            : sessionStorage.getItem("random_user")
+            ? sessionStorage.getItem("random_user")
+            : "",
           email: sessionStorage.getItem("userEmail")
             ? sessionStorage.getItem("userEmail")
             : "",
@@ -106,30 +83,13 @@ const PanelWrapper = () => {
     // Cleanup function to remove Intercom script
     return () => {
       const intercomScript = document.getElementById("intercom-script");
-      if (
-        intercomScript &&
-        location.pathname !== "/track-request" &&
-        location.pathname !== "/"
-      ) {
+      if (intercomScript && location.pathname.includes("/admin")) {
         intercomScript.remove();
       }
       if (typeof window.Intercom === "function") {
         window.Intercom("shutdown");
       }
     };
-  }, [token, role, location]);
-
-  return (
-    <>
-      <Header user={user} />
-      <div className="container d-flex flex-column h-100 text-center">
-        <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-          <Outlet />
-        </div>
-      </div>
-      <Footer />
-    </>
-  );
+  }, [token, location]);
+  return <Outlet />;
 };
-
-export default PanelWrapper;

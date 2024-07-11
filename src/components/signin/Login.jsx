@@ -1,4 +1,3 @@
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { fetcher } from "../../utils/helper";
 import { toast } from "react-toastify";
@@ -29,6 +28,7 @@ const Login = () => {
         toast.success("Logged In Successfull.");
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("role", response.role);
+        sessionStorage.removeItem('random_user')
         if (response.role === "customer") {
           setTimeout(() => {
             navigate("/");

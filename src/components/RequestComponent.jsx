@@ -148,11 +148,11 @@ export const RequestComponent = ({
   };
 
   const handleUpdate = (details) => {
-    allServiceDesc.forEach((item)=>{
-      if(item.title === details.name){
+    allServiceDesc.forEach((item) => {
+      if (item.title === details.name) {
         setServiceDescription(item.description);
       }
-    })
+    });
     setRequestId(details.id);
     setOpen(!open);
   };
@@ -202,6 +202,34 @@ export const RequestComponent = ({
     return key;
   };
 
+  const getHeadData = (item) => {
+    let temp = "";
+    if (item.hasOwnProperty(settingsData.selectedColumn.head)) {
+      temp = item[settingsData.selectedColumn.head];
+    } else {
+      item.column_values.forEach((subItem) => {
+        if (subItem.id === settingsData.selectedColumn.head) {
+          temp = subItem.text;
+        }
+      });
+    }
+    return temp;
+  };
+
+  const getMidData = (item) => {
+    let temp = "";
+    if (item.hasOwnProperty(settingsData.selectedColumn.mid)) {
+      temp = item[settingsData.selectedColumn.mid];
+    } else {
+      item.column_values.forEach((subItem) => {
+        if (subItem.id === settingsData.selectedColumn.mid) {
+          temp = subItem.text;
+        }
+      });
+    }
+    return temp;
+  };
+
   useEffect(() => {
     getAllLikes();
   }, []);
@@ -219,6 +247,8 @@ export const RequestComponent = ({
         const statusText = getStatusText(getKey);
         const createdDate = getCreatedDate(item.created_at);
         const categoryName = getCategoryName(item);
+        const head = getHeadData(item);
+        const mid = getMidData(item);
 
         return (
           <Card
@@ -226,7 +256,7 @@ export const RequestComponent = ({
             key={index}
           >
             <Typography style={{ textAlign: "left" }}>
-              <span className="text-color-928f8f fs-15">{categoryName}</span>{" "}
+              <span className="text-color-928f8f fs-15">{head}</span>{" "}
               <span style={{ color: "#212529bf" }}>|</span>{" "}
               <span className="text-color-928f8f fs-15">{createdDate}</span>
             </Typography>
@@ -234,7 +264,7 @@ export const RequestComponent = ({
               className="mt-8 mb-8 fs-26 text-color-434343 fw-700 font-family-hind"
               style={{ textAlign: "left" }}
             >
-              {item.name}
+              {mid}
             </Typography>
             <Typography
               className="mt-16 mb-8 fs-17 fw-800 font-family-hind"

@@ -23,8 +23,15 @@ export const AdminSettings = () => {
   const [loading, setLoading] = useState(false);
   const [buttonObj, setButtonObj] = useState([]);
   const [trackRequestSetting, setTrackRequestSetting] = useState([]);
-  const [boardId , setBoardId] = useState('');
+  const [boardId, setBoardId] = useState("");
   const [allBoardId, setAllBoardId] = useState([]);
+  const [columnList, setColumnList] = useState([]);
+  const [columnSelectedData, setColumnSelectedData] = useState({
+    head: "",
+    mid: "",
+    update: "",
+    email: "",
+  });
   const [buttonData, setButtonData] = useState([
     {
       type: "In Progress",
@@ -105,9 +112,20 @@ export const AdminSettings = () => {
   };
 
   const handleSubmit = async () => {
+    if (
+      boardId === "" ||
+      columnSelectedData.email === "" ||
+      columnSelectedData.update === "" ||
+      columnSelectedData.head === "" ||
+      columnSelectedData.mid === ""
+    ) {
+      toast.error("Please Enter all the fields");
+      return;
+    }
     let url = "governify/admin/governifySiteSetting";
     let method = "POST";
     uiData.trackRequestData = buttonData;
+    uiData.selectedColumn = columnSelectedData;
 
     let payload = JSON.stringify({
       ui_settings: uiData,
@@ -115,7 +133,7 @@ export const AdminSettings = () => {
       logo_image: startsWithHttp(logoData.logo_image)
         ? ""
         : logoData.logo_image,
-      board_id: boardId
+      board_id: boardId,
     });
 
     setLoading(true);
@@ -207,8 +225,25 @@ export const AdminSettings = () => {
     return tempColor;
   };
 
-  const handleChangeBoardId = (item) => {
+  const handleChangeBoardId = async (item) => {
     setBoardId(item);
+    setColumnSelectedData({ head: "", mid: "", update: "", email: "" });
+    let url = `governify/admin/fetchBoardWiseColumn/${item}`;
+    let method = "GET";
+    try {
+      let response = await fetcher(url, method);
+      let columnData = [];
+      response.response.forEach((item) => {
+        columnData.push({ label: item.title, value: item.id });
+      });
+      setColumnList(columnData);
+    } catch (err) {
+    } finally {
+    }
+  };
+
+  const handleChangeColumn = (e, filter) => {
+    setColumnSelectedData({ ...columnSelectedData, [filter]: e });
   };
 
   useEffect(() => {
@@ -234,6 +269,22 @@ export const AdminSettings = () => {
           head_title_color: uiSettings.head_title_color,
           trackRequestData: uiSettings.trackRequestData,
         });
+        setColumnSelectedData({
+          head: uiSettings.selectedColumn.head,
+          mid: uiSettings.selectedColumn.mid,
+          update: uiSettings.selectedColumn.update,
+          email: uiSettings.selectedColumn.email,
+        });
+        let columnListingRespose = await fetcher(
+          `governify/admin/fetchBoardWiseColumn/${response.response.board_id}`,
+          "GET"
+        );
+        let columnData = [];
+        columnListingRespose.response.forEach((item) => {
+          columnData.push({ label: item.title, value: item.id });
+        });
+        setColumnList(columnData);
+
         let method1 = "GET";
         let endpoint1 = "governify/admin/overallStatus";
         let response1 = await fetcher(endpoint1, method1);
@@ -299,7 +350,7 @@ export const AdminSettings = () => {
               />
             </div>
             <div>
-              <label  className="form-label">
+              <label className="form-label">
                 Background-color<i className="bi bi-pen"></i>
               </label>
               <input
@@ -348,22 +399,6 @@ export const AdminSettings = () => {
           <hr />
 
           <div className="row g-3">
-            <div className="col-sm-12">
-              <label className="form-label">
-                BoardId
-              </label>
-              <Select
-                showSearch
-                placeholder={"Select Category"}
-                style={{ width: "100%", borderRadius: "10px" }}
-                popupMatchSelectWidth={false}
-                placement="bottomLeft"
-                onChange={handleChangeBoardId}
-                options={allBoardId}
-                value={boardId}
-              />
-            </div>
-
             <div className="col-sm-6">
               <div className="col-sm-12 mb-5">
                 <label className="form-label">
@@ -522,8 +557,7 @@ export const AdminSettings = () => {
 
               <small className="text-danger text-start ms-2"></small>
             </div>
-            {/* <hr className="my-4"/> */}
-            {/* <Divider orientation="left">Track Request Settings</Divider> */}
+
             <div
               style={{
                 marginBottom: "5px",
@@ -535,6 +569,74 @@ export const AdminSettings = () => {
               Track Request Setting
             </div>
             <Collapse size="large" items={buttonObj} />
+
+            <div className="col-sm-12">
+              <label className="form-label">BoardId</label>
+              <Select
+                placeholder={"Select BoardId"}
+                style={{ width: "100%", borderRadius: "10px" }}
+                popupMatchSelectWidth={false}
+                placement="bottomLeft"
+                onChange={handleChangeBoardId}
+                options={allBoardId}
+                value={boardId}
+              />
+            </div>
+
+            {boardId.length > 0 && (
+              <>
+                <div className="col-sm-12">
+                  <label className="form-label">Top Details column* </label>
+                  <Select
+                    placeholder={"Select Columns"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) => handleChangeColumn(e, "head")}
+                    options={columnList}
+                    value={columnSelectedData.head}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">Mid Heading column* </label>
+                  <Select
+                    placeholder={"Select Columns"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) => handleChangeColumn(e, "mid")}
+                    options={columnList}
+                    value={columnSelectedData.mid}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">Document Column* </label>
+                  <Select
+                    placeholder={"Select Documnent Column"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) => handleChangeColumn(e, "update")}
+                    options={columnList}
+                    value={columnSelectedData.update}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">
+                    Select User Email Column*{" "}
+                  </label>
+                  <Select
+                    placeholder={"Select Email"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) => handleChangeColumn(e, "email")}
+                    options={columnList}
+                    value={columnSelectedData.email}
+                  />
+                </div>
+              </>
+            )}
 
             <Button
               style={{ background: "#5AC063", color: "white", border: "none" }}
