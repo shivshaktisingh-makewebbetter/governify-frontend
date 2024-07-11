@@ -405,8 +405,6 @@ export const AdminSettings = () => {
     );
   };
 
-  console.log(createRequestKey);
-
   return (
     <>
       {loading && <Loader />}
