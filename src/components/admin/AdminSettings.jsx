@@ -580,17 +580,17 @@ export const AdminSettings = () => {
             <div className="col-sm-12">
               <label className="form-label">BoardId</label>
               <Select
-    placeholder="Select BoardId"
-    allowClear
-    showSearch
-    style={{ width: "100%", borderRadius: "10px" }}
-    popupMatchSelectWidth={false}
-    placement="bottomLeft"
-    onChange={handleChangeBoardId}
-    options={allBoardId}
-    value={boardId}
-    filterOption={filterOption}
-  />
+                placeholder="Select BoardId"
+                allowClear
+                showSearch
+                style={{ width: "100%", borderRadius: "10px" }}
+                popupMatchSelectWidth={false}
+                placement="bottomLeft"
+                onChange={handleChangeBoardId}
+                options={allBoardId}
+                value={boardId}
+                filterOption={filterOption}
+              />
             </div>
 
             {boardId.length > 0 && (
