@@ -32,6 +32,11 @@ export const AdminSettings = () => {
     update: "",
     email: "",
   });
+  const [createRequestKey, setCreateRequestKey] = useState({
+    category_name_key: "",
+    service_name_key: "",
+    form_information_key: "",
+  });
   const [buttonData, setButtonData] = useState([
     {
       type: "In Progress",
@@ -117,15 +122,21 @@ export const AdminSettings = () => {
       columnSelectedData.email === "" ||
       columnSelectedData.update === "" ||
       columnSelectedData.head === "" ||
-      columnSelectedData.mid === ""
+      columnSelectedData.mid === "" ||
+      createRequestKey.category_name_key === "" ||
+      createRequestKey.form_information_key === "" ||
+      createRequestKey.service_name_key === ""
     ) {
       toast.error("Please Enter all the fields");
       return;
     }
+    const submitRequestKey = {...createRequestKey};
+    submitRequestKey.email = columnSelectedData.email;
     let url = "governify/admin/governifySiteSetting";
     let method = "POST";
     uiData.trackRequestData = buttonData;
     uiData.selectedColumn = columnSelectedData;
+    uiData.submitRequestKey = submitRequestKey;
 
     let payload = JSON.stringify({
       ui_settings: uiData,
@@ -246,6 +257,10 @@ export const AdminSettings = () => {
     setColumnSelectedData({ ...columnSelectedData, [filter]: e });
   };
 
+  const handleChangeColumnRequest = (e, filter) => {
+    setCreateRequestKey({ ...createRequestKey, [filter]: e });
+  };
+
   useEffect(() => {
     let isMounted = true;
     const fetchData = async () => {
@@ -274,6 +289,12 @@ export const AdminSettings = () => {
           mid: uiSettings.selectedColumn.mid,
           update: uiSettings.selectedColumn.update,
           email: uiSettings.selectedColumn.email,
+        });
+        setCreateRequestKey({
+          category_name_key: uiSettings.submitRequestKey.category_name_key,
+          service_name_key: uiSettings.submitRequestKey.service_name_key,
+          form_information_key:
+            uiSettings.submitRequestKey.form_information_key,
         });
         let columnListingRespose = await fetcher(
           `governify/admin/fetchBoardWiseColumn/${response.response.board_id}`,
@@ -383,6 +404,8 @@ export const AdminSettings = () => {
       option.value.toString().toLowerCase().includes(input.toLowerCase())
     );
   };
+
+  console.log(createRequestKey);
 
   return (
     <>
@@ -643,6 +666,54 @@ export const AdminSettings = () => {
                     onChange={(e) => handleChangeColumn(e, "email")}
                     options={columnList}
                     value={columnSelectedData.email}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">
+                    Select Category Name key*{" "}
+                  </label>
+                  <Select
+                    placeholder={"Select Category Name key"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) =>
+                      handleChangeColumnRequest(e, "category_name_key")
+                    }
+                    options={columnList}
+                    value={createRequestKey.category_name_key}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">
+                    Select Service Request Key*
+                  </label>
+                  <Select
+                    placeholder={"Select Service Name key"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) =>
+                      handleChangeColumnRequest(e, "service_name_key")
+                    }
+                    options={columnList}
+                    value={createRequestKey.service_name_key}
+                  />
+                </div>
+                <div className="col-sm-12">
+                  <label className="form-label">
+                    Select Form Information Key*
+                  </label>
+                  <Select
+                    placeholder={"Select Form Information key"}
+                    style={{ width: "100%", borderRadius: "10px" }}
+                    popupMatchSelectWidth={false}
+                    placement="bottomLeft"
+                    onChange={(e) =>
+                      handleChangeColumnRequest(e, "form_information_key")
+                    }
+                    options={columnList}
+                    value={createRequestKey.form_information_key}
                   />
                 </div>
               </>
