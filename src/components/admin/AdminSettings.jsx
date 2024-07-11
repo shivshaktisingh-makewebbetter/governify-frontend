@@ -23,7 +23,7 @@ export const AdminSettings = () => {
   const [loading, setLoading] = useState(false);
   const [buttonObj, setButtonObj] = useState([]);
   const [trackRequestSetting, setTrackRequestSetting] = useState([]);
-  const [boardId, setBoardId] = useState("");
+  const [boardId, setBoardId] = useState("1472103835");
   const [allBoardId, setAllBoardId] = useState([]);
   const [columnList, setColumnList] = useState([]);
   const [columnSelectedData, setColumnSelectedData] = useState({
@@ -377,6 +377,13 @@ export const AdminSettings = () => {
     };
   }, [trackRequestSetting, buttonData]);
 
+  const filterOption = (input, option) => {
+    return (
+      option.label.toLowerCase().includes(input.toLowerCase()) ||
+      option.value.toString().toLowerCase().includes(input.toLowerCase())
+    );
+  };
+
   return (
     <>
       {loading && <Loader />}
@@ -573,14 +580,17 @@ export const AdminSettings = () => {
             <div className="col-sm-12">
               <label className="form-label">BoardId</label>
               <Select
-                placeholder={"Select BoardId"}
-                style={{ width: "100%", borderRadius: "10px" }}
-                popupMatchSelectWidth={false}
-                placement="bottomLeft"
-                onChange={handleChangeBoardId}
-                options={allBoardId}
-                value={boardId}
-              />
+    placeholder="Select BoardId"
+    allowClear
+    showSearch
+    style={{ width: "100%", borderRadius: "10px" }}
+    popupMatchSelectWidth={false}
+    placement="bottomLeft"
+    onChange={handleChangeBoardId}
+    options={allBoardId}
+    value={boardId}
+    filterOption={filterOption}
+  />
             </div>
 
             {boardId.length > 0 && (
