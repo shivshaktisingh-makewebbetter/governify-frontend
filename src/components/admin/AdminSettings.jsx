@@ -590,11 +590,10 @@ export const AdminSettings = () => {
             <Collapse size="large" items={buttonObj} />
 
             <div className="mt-3 py-3 border">
-              
               <div className="col-sm-12">
-              <h5 className="text-secondary mb-3 pb-2 px-2 border-bottom">
-                    Board ID
-                  </h5>
+                <h5 className="text-secondary mb-3 pb-2 px-2 border-bottom">
+                  Board ID
+                </h5>
                 <Select
                   placeholder="Select BoardId"
                   showSearch
@@ -655,9 +654,7 @@ export const AdminSettings = () => {
                   </h5>
                   <div class="col-12 row  mx-auto">
                     <div className="col-sm-6">
-                      <label className="form-label">
-                        Select Form Information Key*
-                      </label>
+                      <label className="form-label">Information Column*</label>
                       <Select
                         placeholder={"Select Form Information key"}
                         style={{ width: "100%", borderRadius: "10px" }}
@@ -684,27 +681,20 @@ export const AdminSettings = () => {
                       />
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-3 py-3 border">
-                  <h5 className="text-secondary mb-3 pb-2 px-2 border-bottom">
-                    Additional settings:
-                  </h5>
-                  <div class="col-12 row  mx-auto">
-                    <div className="col-sm-12">
-                      <label className="form-label">
-                        Select User Email Column*{" "}
-                      </label>
-                      <Select
-                        placeholder={"Select Email"}
-                        style={{ width: "100%", borderRadius: "10px" }}
-                        popupMatchSelectWidth={false}
-                        placement="bottomLeft"
-                        onChange={(e) => handleChangeColumn(e, "email")}
-                        options={columnList}
-                        value={columnSelectedData.email}
-                      />
-                    </div>
+                  <div
+                    className="col-sm-12 row  mx-auto"
+                    style={{ marginTop: "10px" }}
+                  >
+                    <label className="form-label">Email Column* </label>
+                    <Select
+                      placeholder={"Select Email"}
+                      style={{ width: "100%", borderRadius: "10px" }}
+                      popupMatchSelectWidth={false}
+                      placement="bottomLeft"
+                      onChange={(e) => handleChangeColumn(e, "email")}
+                      options={columnList}
+                      value={columnSelectedData.email}
+                    />
                   </div>
                 </div>
               </>
