@@ -617,7 +617,7 @@ export const AdminSettings = () => {
                   <div class="col-12 row  mx-auto">
                     <div class="col-sm-6">
                       <label for="company" class="form-label fw-bold">
-                        Card Heading column
+                        Card Heading Column*
                       </label>
 
                       <Select
@@ -632,7 +632,7 @@ export const AdminSettings = () => {
                     </div>
                     <div class="col-sm-6">
                       <label for="type_of_license" class="form-label fw-bold">
-                        Card SubHeading Column
+                        Card SubHeading Column*
                       </label>
 
                       <Select
