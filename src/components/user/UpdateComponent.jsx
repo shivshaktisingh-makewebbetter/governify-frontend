@@ -230,7 +230,7 @@ export const UpdateComponent = ({
           formData.append("item_id", id);
           formData.append("file_name", files.name);
           formData.append("file", files);
-          formData.append("column_id" , settingsData.selectedColumn.update )
+          formData.append("column_id", settingsData.selectedColumn.update);
           let token = sessionStorage.getItem("token");
           try {
             setLoading(true);
@@ -268,6 +268,16 @@ export const UpdateComponent = ({
 
       reader.readAsDataURL(files);
     }
+  };
+
+  const getUrlArray = (tempData) => {
+    let urlData = [];
+    tempData.forEach((item) => {
+      if (item.id === settingsData.selectedColumn.update) {
+        urlData = item.text.split(",").map(url => url.trim());
+      }
+    });
+    return urlData;
   };
 
   useEffect(() => {
@@ -347,25 +357,31 @@ export const UpdateComponent = ({
                 {data.assets.length > 0 && (
                   <Flex gap={10} wrap>
                     {data.assets.map((item, i) => {
-                      return (
-                        <>
-                          <div>
-                            <a
-                              href={item.public_url}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {getSvgIcon(item.name)}
-                              {/* <AdobeAcrobat /> */}
-                            </a>
-                            <div className="mt-1">
-                              <Popover content={item.name} trigger="hover">
-                                <span>{item.name.slice(0, 6)}...</span>
-                              </Popover>
+                  
+                      const urlList = getUrlArray(data.column_values);
+                     
+                      if (urlList.includes(item.url)) {
+                      
+                        return (
+                          <>
+                            <div>
+                              <a
+                                href={item.public_url}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {getSvgIcon(item.name)}
+                                {/* <AdobeAcrobat /> */}
+                              </a>
+                              <div className="mt-1">
+                                <Popover content={item.name} trigger="hover">
+                                  <span>{item.name.slice(0, 6)}...</span>
+                                </Popover>
+                              </div>
                             </div>
-                          </div>
-                        </>
-                      );
+                          </>
+                        );
+                      }
                     })}
                   </Flex>
                 )}
