@@ -593,7 +593,7 @@ export const AdminSettings = () => {
               <label className="form-label">BoardId</label>
               <Select
                 placeholder="Select BoardId"
-                allowClear
+            
                 showSearch
                 style={{ width: "100%", borderRadius: "10px" }}
                 popupMatchSelectWidth={false}
