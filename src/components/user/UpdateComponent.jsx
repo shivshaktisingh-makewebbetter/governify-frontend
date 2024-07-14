@@ -315,7 +315,7 @@ export const UpdateComponent = ({
               </div>
               <div
                 className="d-flex flex-column border-bottom py-2 p-10"
-                style={{ gap: "20px" }}
+                style={{ gap: "10px" }}
               >
                 <span
                   className="fw-bold"

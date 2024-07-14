@@ -10,6 +10,7 @@ const PanelWrapper = () => {
   const token = sessionStorage.getItem("token");
   const role = sessionStorage.getItem("role");
   const location = useLocation();
+  const data = JSON.parse(sessionStorage.getItem("settings"));
 
   const getLoginUserDetails = async () => {
     try {
@@ -119,10 +120,14 @@ const PanelWrapper = () => {
     };
   }, [token, role, location]);
 
+
   return (
     <>
       <Header user={user} />
-      <div className="container d-flex flex-column h-100 text-center">
+      <div
+        className="container d-flex flex-column h-100 text-center"
+        style={{ background: data.site_bg }}
+      >
         <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
           <Outlet />
         </div>

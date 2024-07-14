@@ -324,9 +324,7 @@ export const RequestComponent = ({
                     </span>{" "}
                   </Button>
                 )}
-              </div>
-
-              {getKey === 3 && (
+                    {getKey === 3 && (
                 <div>
                   <Button
                     style={{
@@ -352,6 +350,9 @@ export const RequestComponent = ({
                   </Button>
                 </div>
               )}
+              </div>
+
+          
             </div>
           </Card>
         );
