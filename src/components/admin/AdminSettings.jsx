@@ -682,8 +682,8 @@ export const AdminSettings = () => {
                     </div>
                   </div>
                   <div
-                    className="col-sm-12 row  mx-auto"
-                    style={{ marginTop: "10px" }}
+                    className="col-sm-12 mx-auto"
+                    style={{ marginTop: "10px" , paddingLeft:"12px" , paddingRight:"12px"}}
                   >
                     <label className="form-label">Email Column* </label>
                     <Select
