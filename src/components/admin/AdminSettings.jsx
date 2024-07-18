@@ -280,11 +280,11 @@ export const AdminSettings = () => {
           trackRequestData: uiSettings.trackRequestData,
         });
         setColumnSelectedData({
-          head: uiSettings.selectedColumn.head,
-          mid: uiSettings.selectedColumn.mid,
-          update: uiSettings.selectedColumn.update,
-          email: uiSettings.selectedColumn.email,
-          form_information_key: uiSettings.selectedColumn.form_information_key,
+          head: uiSettings.selectedColumn.head || '',
+          mid: uiSettings.selectedColumn.mid || '',
+          update: uiSettings.selectedColumn.update || '',
+          email: uiSettings.selectedColumn.email || '',
+          form_information_key: uiSettings.selectedColumn.form_information_key || '',
         });
 
         let columnListingRespose = await fetcher(
