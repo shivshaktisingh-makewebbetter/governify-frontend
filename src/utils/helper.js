@@ -34,9 +34,11 @@ export const fetcher = async (endpoint, method, payload = null) => {
   try {
     const response = await fetch(url, requestOptions);
     const data = await response.json();
+    console.log(data ,'unauthenticated');
+
     return data;
   } catch (err) {
-    console.log(err);
+    console.log(err ,'unauthenticated');
   }
 };
 
