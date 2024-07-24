@@ -32,6 +32,7 @@ export const AdminSettings = () => {
     update: "",
     email: "",
     form_information_key: "",
+    status:""
   });
 
   const [buttonData, setButtonData] = useState([
@@ -286,6 +287,7 @@ export const AdminSettings = () => {
           update: uiSettings?.selectedColumn?.update || '',
           email: uiSettings?.selectedColumn?.email || '',
           form_information_key: uiSettings?.selectedColumn?.form_information_key || '',
+          status: uiSettings?.selectedColumn?.status || '',
         });
 
         let columnListingRespose = await fetcher(
@@ -682,10 +684,10 @@ export const AdminSettings = () => {
                       />
                     </div>
                   </div>
-                  <div
-                    className="col-sm-12 mx-auto"
-                    style={{ marginTop: "10px" , paddingLeft:"12px" , paddingRight:"12px"}}
-                  >
+                  
+
+                  <div class="col-12 row  mx-auto" style={{paddingTop:"10px"}}>
+                    <div className="col-sm-6">
                     <label className="form-label">Email Column* </label>
                     <Select
                       placeholder={"Select Email"}
@@ -696,7 +698,23 @@ export const AdminSettings = () => {
                       options={columnList}
                       value={columnSelectedData.email}
                     />
+                    </div>
+
+                    <div className="col-sm-6">
+                      <label className="form-label">Overall Status Column* </label>
+                      <Select
+                        placeholder={"Select Documnent Column"}
+                        style={{ width: "100%", borderRadius: "10px" }}
+                        popupMatchSelectWidth={false}
+                        placement="bottomLeft"
+                        onChange={(e) => handleChangeColumn(e, "status")}
+                        options={columnList}
+                        value={columnSelectedData.status}
+                      />
+                    </div>
                   </div>
+
+
                 </div>
               </>
             )}
