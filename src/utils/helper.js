@@ -35,6 +35,9 @@ export const fetcher = async (endpoint, method, payload = null) => {
     const response = await fetch(url, requestOptions);
     const data = await response.json();
     console.log(data ,'unauthenticated');
+    if(data.hasOwnProperty('message') && data.message === 'Unauthenticated'){
+     window.location.href = 'https://governify.tasc360.com/signin';
+    }
 
     return data;
   } catch (err) {
