@@ -72,13 +72,18 @@ const Login = () => {
 
   useEffect(() => {
     let role = sessionStorage.getItem("role");
-    if (role === "customer") {
-      navigate("/");
+    let tempToken = sessionStorage.getItem('token');
+    let status = isTokenValid(tempToken);
+    if(status){
+      if (role === "customer") {
+        navigate("/");
+      }
+  
+      if (role === "superAdmin") {
+        navigate("/admin");
+      }
     }
-
-    if (role === "superAdmin") {
-      navigate("/admin");
-    }
+    
   }, []);
   return (
     <div className="inc-auth-container">
