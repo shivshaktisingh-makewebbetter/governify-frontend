@@ -77,6 +77,12 @@ const Login = () => {
       navigate("/admin");
     }
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimation(false);
+    }, 300);
+  }, []);
   
   return (
     <div className="inc-auth-container">
