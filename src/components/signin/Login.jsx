@@ -74,16 +74,15 @@ const Login = () => {
     let role = sessionStorage.getItem("role");
     let tempToken = sessionStorage.getItem('token');
     let status = isTokenValid(tempToken);
-    // if(status){
-    //   if (role === "customer") {
-    //     navigate("/");
-    //   }
+ 
+      if (role === "customer") {
+        navigate("/");
+      }
   
-    //   if (role === "superAdmin") {
-    //     navigate("/admin");
-    //   }
-    // }
-    console.log(status)
+      if (role === "superAdmin") {
+        navigate("/admin");
+      }
+ 
     
   }, []);
   return (
