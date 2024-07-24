@@ -72,8 +72,7 @@ const Login = () => {
 
   useEffect(() => {
     let role = sessionStorage.getItem("role");
-    let tempToken = sessionStorage.getItem('token');
-    let status = isTokenValid(tempToken);
+ 
  
       if (role === "customer") {
         navigate("/");
