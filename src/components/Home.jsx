@@ -38,7 +38,7 @@ const Home = () => {
     tempDashboardData.forEach((item) => {
       if (item.service_requests.length > 0) {
         item.service_requests.forEach((subItem) => {
-          if (subItem.service_request.title.includes(searchData)) {
+          if (subItem.service_request.title.toLowerCase().includes(searchData.toLowerCase())) {
             if (!uniqueItems.has(item)) {
               foundData.push(item);
               uniqueItems.add(item);

@@ -28,7 +28,7 @@ const Login = () => {
         toast.success("Logged In Successfull.");
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("role", response.role);
-        sessionStorage.removeItem('random_user')
+        sessionStorage.removeItem("random_user");
         if (response.role === "customer") {
           setTimeout(() => {
             navigate("/");
@@ -68,11 +68,8 @@ const Login = () => {
     return true;
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimation(false);
-    }, 300);
-  }, []);
+ 
+
   useEffect(() => {
     let role = sessionStorage.getItem("role");
     if (role === "customer") {
@@ -179,7 +176,7 @@ const Login = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                   
+
                     transition: "0.5s",
                     height: "46px",
                     opacity:

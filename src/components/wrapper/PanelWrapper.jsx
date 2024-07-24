@@ -3,7 +3,6 @@ import Header from "../common/Header";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../common/Footer";
 import { fetcher } from "../../utils/helper";
-import { Loader } from "../common/Loader";
 
 const PanelWrapper = () => {
   const [user, setUser] = useState("");
