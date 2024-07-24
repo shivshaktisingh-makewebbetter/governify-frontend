@@ -68,22 +68,16 @@ const Login = () => {
     return true;
   };
 
- 
-
   useEffect(() => {
     let role = sessionStorage.getItem("role");
- 
- 
-      if (role === "customer") {
-        navigate("/");
-      }
-  
-      if (role === "superAdmin") {
-        navigate("/admin");
-      }
- 
-    
+    if (role === "customer") {
+      navigate("/");
+    }
+    if (role === "superAdmin") {
+      navigate("/admin");
+    }
   }, []);
+  
   return (
     <div className="inc-auth-container">
       <div className="container auth-container text-center">
