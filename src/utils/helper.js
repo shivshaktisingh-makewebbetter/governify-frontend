@@ -23,7 +23,7 @@ export const fetcher = async (endpoint, method, payload = null) => {
   myHeaders.append("Accept", "application/json");
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `bearer ${token}`);
-  let url = `https://onboardify.tasc360.com/${endpoint}`;
+  let url = `https://governifyapi.tasc360.com/${endpoint}`;
   let requestOptions = {
     method,
     headers: myHeaders,
