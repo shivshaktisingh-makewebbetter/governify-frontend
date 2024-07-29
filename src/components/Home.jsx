@@ -40,7 +40,11 @@ const Home = () => {
         item.service_requests.forEach((subItem) => {
           if (subItem.service_request.title.toLowerCase().includes(searchData.toLowerCase())) {
             if (!uniqueItems.has(item)) {
-              foundData.push(item);
+              const filteredRequests = item.service_requests.filter((subItem) => 
+                subItem.service_request.title.toLowerCase().includes(searchData.toLowerCase())
+              );
+              let tempItem = { ...item, service_requests: filteredRequests };
+              foundData.push(tempItem);
               uniqueItems.add(item);
             }
           }
