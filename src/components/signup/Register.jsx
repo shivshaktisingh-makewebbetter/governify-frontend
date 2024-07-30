@@ -36,7 +36,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    const { name, company_name, email, password , phone } = formData;
+    const { name, company_name, email, password, phone } = formData;
     setIsFormValid(
       name.trim() !== "" &&
         company_name.trim() !== "" &&
@@ -44,7 +44,8 @@ const Register = () => {
         emailRegex.test(email) &&
         password.trim() !== "" &&
         recaptchaToken !== "" &&
-        !recaptchaExpired && phone.length > 0
+        !recaptchaExpired &&
+        phone.length > 0
     );
   }, [formData, recaptchaToken, recaptchaExpired]);
 
@@ -108,11 +109,7 @@ const Register = () => {
           </div>
           <div className="form-container mx-auto" style={{ maxWidth: "440px" }}>
             <div>
-              <img
-                src="/tasc.svg"
-                alt="TASC logo"
-                style={{ maxWidth: "220px" }}
-              />
+              <img src="/1.png" alt="TASC logo" style={{ maxWidth: "220px" }} />
               <div
                 className="fs-24 ff-ws mb-3 text-inc-tundora"
                 style={{ fontWeight: 600, color: "#434343" }}
@@ -177,16 +174,16 @@ const Register = () => {
                   style={{ cursor: "pointer", borderRadius: "0 50px 50px 0" }}
                 >
                   {showPassword ? (
-                      <i
-                        className="bi bi-eye-fill"
-                        onClick={() => setShowPassword(false)}
-                      ></i>
-                    ) : (
-                      <i
-                        className="bi bi-eye-slash-fill"
-                        onClick={() => setShowPassword(true)}
-                      ></i>
-                    )}
+                    <i
+                      className="bi bi-eye-fill"
+                      onClick={() => setShowPassword(false)}
+                    ></i>
+                  ) : (
+                    <i
+                      className="bi bi-eye-slash-fill"
+                      onClick={() => setShowPassword(true)}
+                    ></i>
+                  )}
                 </span>
               </div>
               <div className="w-100 d-flex justify-content-center">
@@ -201,17 +198,15 @@ const Register = () => {
                 className="btn btn-gradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
                 type="button"
                 style={{
-   
                   border: "0",
                   borderRadius: "50px",
                   gap: "10px",
                   padding: "15px",
                   display: "flex",
                   alignItems: "center",
-             
+
                   transition: "0.5s",
                   height: "46px",
-                  
                 }}
                 disabled={!isFormValid}
                 onClick={handleSubmit}

@@ -18,7 +18,7 @@ const ForgotPassword = () => {
     let method = "POST";
     let payload = JSON.stringify({
       email: email,
-      domain: 'governify',
+      domain: "governify",
     });
     try {
       setLoading(true);
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
               <div>
                 <div>
                   <img
-                    src="/tasc.svg"
+                    src="/1.png"
                     alt="TASC logo"
                     style={{ maxWidth: "220px" }}
                   />
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
                   style={{ background: "#e8f0fe" }}
                   className="input-customer-focus form-control"
                 />
-               <button
+                <button
                   id="login-button"
                   className="btn btn-gradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
                   type="button"
@@ -110,7 +110,6 @@ const ForgotPassword = () => {
                   }}
                   onClick={handleSubmit}
                   disabled={buttonDisable()}
-                  
                 >
                   <span
                     style={{

@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Loader } from "../common/Loader";
 
- const ResetPassword = () => {
+const ResetPassword = () => {
   const location = useLocation();
   const queryParameters = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -89,12 +89,15 @@ import { Loader } from "../common/Loader";
               <div>
                 <div>
                   <img
-                    src="/tasc.svg"
+                    src="/1.png"
                     alt="TASC logo"
                     style={{ maxWidth: "220px" }}
                   />
                 </div>
-                <div className="fs-24 ff-ws mb-2 text-inc-tundora fw-600" style={{color:"#434343"}}>
+                <div
+                  className="fs-24 ff-ws mb-2 text-inc-tundora fw-600"
+                  style={{ color: "#434343" }}
+                >
                   Enter New Password
                 </div>
               </div>
@@ -218,4 +221,3 @@ import { Loader } from "../common/Loader";
 };
 
 export default ResetPassword;
-
