@@ -95,7 +95,7 @@ const ForgotPassword = () => {
                 />
                 <button
                   id="login-button"
-                  className="btn btn-gradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
+                  className="btn btn-newgradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
                   type="button"
                   style={{
                     border: "0",
