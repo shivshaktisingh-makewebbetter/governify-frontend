@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { fetcher, isTokenValid } from "../../utils/helper";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Loader } from "../common/Loader";
+import { getLoginUserDetails, userSettingData } from "../../utils/tools";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +12,12 @@ const Login = () => {
   const [userDetails, setUserDetails] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParameters = new URLSearchParams(location.search);
+  let token = queryParameters.get("token");
+  let role = queryParameters.get("role");
+  let id = queryParameters.get("id");
+  let path = queryParameters.get("path");
 
   const handleSubmit = async () => {
     let url = "commom-login";
@@ -68,22 +75,49 @@ const Login = () => {
     return true;
   };
 
+  const adminLogin = async () => {
+    let status = isTokenValid(token);
+    if (status.valid) {
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("role", role);
+      await getLoginUserDetails();
+      await userSettingData();
+      if (id && role === "customer") {
+        sessionStorage.setItem("requestId", id);
+        sessionStorage.setItem("modalOpen", true);
+        navigate(`/${path}`);
+      } else if (role === "customer") {
+        navigate("/");
+      } else {
+        navigate("/admin");
+      }
+    } else {
+      navigate("/signin");
+    }
+  };
+
   useEffect(() => {
-    let role = sessionStorage.getItem("role");
-    if (role === "customer") {
-      navigate("/");
+    if (token) {
+      adminLogin();
     }
-    if (role === "superAdmin") {
-      navigate("/admin");
-    }
-  }, []);
+  }, [token]);
+
+  // useEffect(() => {
+  //   let role = sessionStorage.getItem("role");
+  //   if (role === "customer") {
+  //     navigate("/");
+  //   }
+  //   if (role === "superAdmin") {
+  //     navigate("/admin");
+  //   }
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setAnimation(false);
     }, 300);
   }, []);
-  
+
   return (
     <div className="inc-auth-container">
       <div className="container auth-container text-center">
