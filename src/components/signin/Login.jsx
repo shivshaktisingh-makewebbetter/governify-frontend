@@ -118,6 +118,10 @@ const Login = () => {
     }, 300);
   }, []);
 
+  if(token){
+    return <Loader />;
+  }
+
   return (
     <div className="inc-auth-container">
       <div className="container auth-container text-center">
