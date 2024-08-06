@@ -10,7 +10,12 @@ export const SearchBox = ({ setSearchData}) =>{
   const [data , setData] = useState('');
 
   const handleChange = (e) =>{
-    setData(e.target.value);
+   let tempData = e.target.value; 
+    if(tempData.length === 0){
+   handleEraseData();
+    }
+    setData(tempData);
+
   }
 
   const handleEnterPressed = (event) =>{
