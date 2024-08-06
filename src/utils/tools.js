@@ -14,6 +14,24 @@ export const userSettingData = async() =>{
 	}
 }
 
+export const getLoginUserDetails = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const url = `loginUserDetails/${token}`;
+      const method = "GET";
+      const response = await fetcher(url, method);
+      if (response.success) {
+        sessionStorage.setItem("userName", response.data.name);
+        sessionStorage.setItem("userEmail", response.data.email);
+        sessionStorage.setItem("userId", response.data.user_id);
+        sessionStorage.setItem("createdAt", response.data.created_at);
+      }
+    } catch (err) {
+      console.log(err, "error");
+    } finally {
+    }
+  };
+
 
 
 

@@ -142,6 +142,7 @@ export const UpdateComponent = ({
       const response = await fetcher(url, method);
       if (response.success) {
         setData(response.data.response.data.items[0]);
+        sessionStorage.removeItem('modalOpen');
       }
     } catch (err) {
       console.log(err, "error");

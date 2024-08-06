@@ -62,6 +62,7 @@ export const RequestComponent = ({
   const [loading, setLoading] = useState(false);
   const [requestId, setRequestId] = useState();
   const [serviceDescription, setServiceDescription] = useState("");
+  const [flag, setFlag] = useState(false);
 
   const getBgColor = (item) => {
     let tempBgColor = "";
@@ -97,6 +98,7 @@ export const RequestComponent = ({
     }
 
     setLikeIds(ids);
+    setFlag(true);
   };
 
   const getStatusText = (item) => {
@@ -233,6 +235,17 @@ export const RequestComponent = ({
   useEffect(() => {
     getAllLikes();
   }, []);
+  useEffect(() => {
+    if (data.length > 0 && flag && sessionStorage.getItem("modalOpen")) {
+      setLoading(true);
+      setTimeout(()=>{
+      
+      setOpen(true);
+      setLoading(false);
+      setRequestId(sessionStorage.getItem("requestId"));
+      }, 3000)
+    }
+  }, [data, flag]);
 
   if (loading) {
     return <Loader />;
@@ -324,57 +337,55 @@ export const RequestComponent = ({
                     </span>{" "}
                   </Button>
                 )}
-                    {getKey === 3 && (
-                <div>
-                  <Button
-                    style={{
-                      background: statusColor,
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "5px",
-                      height: "40px",
-                      borderRadius: "10px",
-                      border: "none",
-                    }}
-                    className="border-radius-10"
-                    onClick={() => revokeCancelRequest(item)}
-                  >
-                    <span className="fs-12 fw-700 font-family-montse">
-                      Revoke
-                    </span>{" "}
-                    <span className="fs-16">
-                      <i className="bi bi-arrow-right-circle-fill"></i>
-                    </span>
-                  </Button>
-                </div>
-              )}
+                {getKey === 3 && (
+                  <div>
+                    <Button
+                      style={{
+                        background: statusColor,
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "5px",
+                        height: "40px",
+                        borderRadius: "10px",
+                        border: "none",
+                      }}
+                      className="border-radius-10"
+                      onClick={() => revokeCancelRequest(item)}
+                    >
+                      <span className="fs-12 fw-700 font-family-montse">
+                        Revoke
+                      </span>{" "}
+                      <span className="fs-16">
+                        <i className="bi bi-arrow-right-circle-fill"></i>
+                      </span>
+                    </Button>
+                  </div>
+                )}
               </div>
-
-          
             </div>
           </Card>
         );
       })}
 
-      <Modal
-        open={open}
-        centered
-        footer={(_) => <></>}
-        onCancel={() => setOpen(false)}
-        width={800}
-      >
-        <UpdateComponent
-          key={uuidv4()}
-          id={requestId}
-          fetchData={fetchData}
-          setOpen={setOpen}
-          likeIds={likeIds}
-          getAllLikes={getAllLikes}
-          description={serviceDescription}
-        />
-      </Modal>
+        <Modal
+          open={open}
+          centered
+          footer={(_) => <></>}
+          onCancel={() => setOpen(false)}
+          width={800}
+        >
+          <UpdateComponent
+            key={uuidv4()}
+            id={requestId}
+            fetchData={fetchData}
+            setOpen={setOpen}
+            likeIds={likeIds}
+            getAllLikes={getAllLikes}
+            description={serviceDescription}
+          />
+        </Modal>
       <ToastContainer position="bottom-right" />
     </div>
   );
