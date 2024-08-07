@@ -13,7 +13,7 @@ export const TabContent = ({ details, categoryName }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [hoveredButton, setHoveredButton] = useState(null);
   
-  const data = JSON.parse(sessionStorage.getItem("settings")) || {
+  const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
     image: "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
     site_bg: "#ffffff",
     button_bg: "#5ac063",
@@ -43,12 +43,20 @@ export const TabContent = ({ details, categoryName }) => {
     setFormSubmitted(false);
   };
 
-  const handleHover = (id) => {
-    setHoveredButton(id);
+  const buttonStyle = {
+    border: `1px solid ${settingsData.button_bg}`,
+    color: settingsData.button_bg,
+    transition: "all 0.3s ease",
+    height: "41px",
+    borderRadius: "10px",
+    fontSize: "12px",
+    fontWeight: "600",
+    backgroundColor: "transparent", // Ensure the default background is transparent
   };
 
-  const handleLeave = () => {
-    setHoveredButton(null);
+  const buttonHoverStyle = {
+    backgroundColor: settingsData.button_bg,
+    color: "#ffffff",
   };
 
   return (
@@ -95,15 +103,8 @@ export const TabContent = ({ details, categoryName }) => {
               <Button
                 key={title}
                 className="tabcontent-create-request-btn"
-                style={{
-                  position: "absolute",
-                  bottom: "0px",
-                  borderRadius: "10px",
-                  background: isHovered ? "white" : data.button_bg,
-                  color: isHovered ? data.button_bg : "white",
-                  border: isHovered ? `1px solid ${data.button_bg}` : "none",
-                }}
-                icon={<PlusOutlined />}
+                style={buttonStyle}
+                icon={<PlusOutlined style={{ color: settingsData.button_bg }} />}
                 onClick={() =>
                   handleModalForm(
                     item.service_forms,
@@ -111,8 +112,16 @@ export const TabContent = ({ details, categoryName }) => {
                   )
                 }
                 disabled={Object.keys(item.service_forms).length === 0}
-                onMouseEnter={() => handleHover(title)}
-                onMouseLeave={handleLeave}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor;
+                  e.currentTarget.style.color = buttonHoverStyle.color;
+                  e.currentTarget.querySelector(".anticon").style.color = buttonHoverStyle.color;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = settingsData.button_bg;
+                  e.currentTarget.querySelector(".anticon").style.color = settingsData.button_bg;
+                }}
               >
                 Create a Request
               </Button>
