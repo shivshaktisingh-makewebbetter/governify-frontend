@@ -71,7 +71,7 @@ export const TabContent = ({ details, categoryName }) => {
               : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
-          const isHovered = hoveredButton === title;
+        
 
           return (
             <div className="service-repetitive-div" key={uuidv4()}>
@@ -91,7 +91,7 @@ export const TabContent = ({ details, categoryName }) => {
                   <span
                     className="read-more-btn"
                     onClick={() => toggleDescription(item.service_request.id)}
-                    style={{ cursor: "pointer", color: "blue" }}
+                    style={{ cursor: "pointer", color: "#4096ff" }}
                   >
                     {!isExpanded && (
                       <span style={{ whiteSpace: "nowrap" }}> Read More</span>
