@@ -5,6 +5,7 @@ import { Loader } from "./common/Loader";
 import { UpdateComponent } from "./user/UpdateComponent";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export const RequestComponent = ({
   data,
@@ -323,10 +324,14 @@ export const RequestComponent = ({
                       borderColor: statusColor,
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: "10px",
+                      gap: "5px",
                       height: "40px",
                       borderRadius: "10px",
                     }}
+
+
+
+                   
                     className="border-radius-10"
                   >
                     <span
@@ -335,6 +340,9 @@ export const RequestComponent = ({
                     >
                       Cancel Request
                     </span>{" "}
+                    <span className="fs-16">
+                    <i className="bi bi-trash"></i>
+                    </span>
                   </Button>
                 )}
                 {getKey === 3 && (

@@ -1232,4 +1232,8 @@ table tr:hover {
   min-width: 110px;
 }
 
+.bi-trash::before {
+  vertical-align: middle !important;
+}
+
 
