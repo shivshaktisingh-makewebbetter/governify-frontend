@@ -14,6 +14,7 @@ export const FilterBy = ({setSelectedFilter , items}) =>{
     selectable: true,
     defaultSelectedKeys: ['9'],
     onClick: handleMenuClick,
+    
   };
 
     return (

@@ -16,6 +16,9 @@ export const CustomerForm = ({
   handleOpen,
   formSubmitted,
   setFormSubmitted,
+  categoryId,
+  selectedFormId,
+  selectedServiceId,
 }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
@@ -30,7 +33,6 @@ export const CustomerForm = ({
     form_description:
       "Please fill out the form to proceed with the needed action to provide you with this service",
   };
-
 
   const [formDetails, setFormDetails] = useState(formData.form_data);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -138,7 +140,7 @@ export const CustomerForm = ({
     formData.append("item_id", idForImage);
     formData.append("file_name", image.file_name);
     formData.append("file", image.file);
-    formData.append("column_id" ,  data.selectedColumn.update)
+    formData.append("column_id", data.selectedColumn.update);
 
     let token = sessionStorage.getItem("token");
 
@@ -207,6 +209,24 @@ export const CustomerForm = ({
     const results = await Promise.all(uploadPromises);
 
     return results.every((result) => result === true);
+  };
+
+  const saveDataForFutureUse = async (id) => {
+    let method = "POST";
+    let url = "governify/customer/createGovernifyServiceRecord";
+    let payload = JSON.stringify({
+      user_id: sessionStorage.getItem("userId"),
+      category_id: categoryId.toString(),
+      service_id: selectedServiceId.toString(),
+      form_id: selectedFormId.toString(),
+      governify_item_id: id.toString(),
+    });
+    try {
+      const response = await fetcher(url, method, payload);
+      console.log(response, "response");
+    } catch (err) {
+    } finally {
+    }
   };
 
   const handleSubmitAll = async () => {
@@ -294,6 +314,9 @@ export const CustomerForm = ({
     try {
       const response = await fetcher(url, method, payload);
       if (response.status) {
+        await saveDataForFutureUse(
+          response.response.response.data.create_item.id
+        );
         return response;
       }
     } catch (err) {
@@ -371,28 +394,63 @@ export const CustomerForm = ({
     return tempData;
   };
 
-  useEffect(() => {
-    let flag = false;
-    let required = false;
-    let singleSelect = false;
-    formData.form_data.forEach((item) => {
-      if (item.type === "image" || item.type === "Document") {
-        flag = true;
-        required = item.required;
-      }
-      if (item.type === "CheckBox") {
-        singleSelect = true;
-      }
+  const parseCredentials = (input) => {
+    const result = {};
+    const pairs = input.split(",");
+
+    pairs.forEach((pair) => {
+      const [key, value] = pair.split(":").map((item) => item.trim());
+      result[key] = value;
     });
-    setIsUploadEnable({ enable: flag, required: required });
-    setSingleSelect({ enable: singleSelect, value: "" });
-  }, []);
+
+    return result;
+  };
+
+  const fetchPreviousData = async () => {
+    let userId = sessionStorage.getItem("userId");
+    let tempObject = {};
+    try {
+      let method = "GET";
+      let url = `governify/customer/getGovernifyServiceRecord?user_id=${userId}&category_id=${categoryId}&service_id=${selectedServiceId}&form_id=${selectedFormId}`;
+      const response = await fetcher(url, method);
+      // console.log(response , response.status, 'response')
+      if (response.status) {
+        response.response[0].column_values.forEach((item) => {
+          if (item.id === "form_infomation__1") {
+            tempObject = parseCredentials(item.text);
+          }
+        });
+
+        let flag = false;
+        let required = false;
+        let singleSelect = false;
+        formData.form_data.forEach((item) => {
+          if (item.type === "image" || item.type === "Document") {
+            flag = true;
+            required = item.required;
+          }
+          if (item.type === "CheckBox") {
+            singleSelect = true;
+          } else {
+            item.value = tempObject[item.label];
+          }
+        });
+        setIsUploadEnable({ enable: flag, required: required });
+        setSingleSelect({ enable: singleSelect, value: "" });
+
+        setFormDetails(formData.form_data);
+      }
+      // console.log(tempObject);
+    } catch (err) {}
+  };
 
   useEffect(() => {
     setIsButtonDisabled(checkDisable());
   }, [formDetails, isSingleSelectEnable, recaptchaExpired, recaptchaToken]);
 
-  console.log(progress, "progress");
+  useEffect(() => {
+    fetchPreviousData();
+  }, []);
 
   return (
     <div
@@ -452,6 +510,7 @@ export const CustomerForm = ({
                         item.required ? item.label + " *" : item.label
                       }
                       onChange={(e) => handleChangeValue(e, index)}
+                      value={item.value}
                     />
                   </div>
                 );
@@ -523,32 +582,42 @@ export const CustomerForm = ({
                     <Upload
                       {...props}
                       onChange={(e) => handleFileChange(e, index)}
-                 
                     >
-                      <div><Button
-                        icon={<UploadOutlined />}
-                        style={{ fontSize: "13px", color: "#2c2e38" }}
-                      >
-                        Click to Upload
-                      </Button><span style={{paddingLeft:'5px' , color:'grey' ,  fontSize: "13px",}}>Maximum Size allowed is 25 MB.</span></div>
-                      
+                      <div>
+                        <Button
+                          icon={<UploadOutlined />}
+                          style={{ fontSize: "13px", color: "#2c2e38" }}
+                        >
+                          Click to Upload
+                        </Button>
+                        <span
+                          style={{
+                            paddingLeft: "5px",
+                            color: "grey",
+                            fontSize: "13px",
+                          }}
+                        >
+                          Maximum Size allowed is 25 MB.
+                        </span>
+                      </div>
                     </Upload>
                   </div>
                 );
               }
             })}
           </Flex>
-          {!buttonLoading && <div
-            className="w-100 d-flex justify-content-center "
-            style={{ marginBottom: "10px" }}
-          >
-            <ReCAPTCHA
-              sitekey="6LdmFMQpAAAAAGwLfYZopzckKXOu0obCtpHW0obV"
-              onChange={onRecaptchaChange}
-              onExpired={onRecaptchaExpired}
-            />
-          </div> }
-          
+          {!buttonLoading && (
+            <div
+              className="w-100 d-flex justify-content-center "
+              style={{ marginBottom: "10px" }}
+            >
+              <ReCAPTCHA
+                sitekey="6LdmFMQpAAAAAGwLfYZopzckKXOu0obCtpHW0obV"
+                onChange={onRecaptchaChange}
+                onExpired={onRecaptchaExpired}
+              />
+            </div>
+          )}
           <div className="w-100 d-flex justify-content-center">
             <Button
               disabled={isButtonDisabled}

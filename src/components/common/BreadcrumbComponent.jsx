@@ -12,6 +12,10 @@ export const BreadcrumbComponent = ({data}) =>{
     navigate('/');
   }
 
+  
+
+
+
     return (
         <div className='breadcrumb-major-component'>
         <span className='text-decoration-underline governify-breadcumb-home governify-cursor-pointer' onClick={navigateToHome}>Home</span>

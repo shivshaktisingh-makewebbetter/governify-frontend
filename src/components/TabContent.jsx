@@ -5,13 +5,14 @@ import { PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
 
-export const TabContent = ({ details, categoryName }) => {
+export const TabContent = ({ details, categoryName , categoryId }) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState();
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [hoveredButton, setHoveredButton] = useState(null);
+  const [selectedFormId , setSelectedFormId] = useState('');
+  const [selectedServiceId , setSelectedServiceId] = useState('');
   
   const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
     image: "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
@@ -24,10 +25,13 @@ export const TabContent = ({ details, categoryName }) => {
     form_description: "Please fill out the form to proceed with the needed action to provide you with this service",
   };
 
-  const handleModalForm = (formData, title) => {
+  const handleModalForm = (formData, title , serviceId) => {
+   
     const formDetails = Object.entries(formData)[0][1];
     setFormData(formDetails);
+    setSelectedFormId(formDetails.id);
     setServiceTitle(title);
+    setSelectedServiceId(serviceId);
     setOpen(true);
   };
 
@@ -108,7 +112,8 @@ export const TabContent = ({ details, categoryName }) => {
                 onClick={() =>
                   handleModalForm(
                     item.service_forms,
-                    item.service_request.title
+                    item.service_request.title , 
+                    item.service_request.id
                   )
                 }
                 disabled={Object.keys(item.service_forms).length === 0}
@@ -147,6 +152,9 @@ export const TabContent = ({ details, categoryName }) => {
             handleOpen={handleOpen}
             formSubmitted={formSubmitted}
             setFormSubmitted={setFormSubmitted}
+            categoryId={categoryId}
+            selectedFormId={selectedFormId}
+            selectedServiceId={selectedServiceId}
           />
         </Modal>
       )}
