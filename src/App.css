@@ -1166,7 +1166,7 @@ table tr:hover {
 
   .governify-header-major-div {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
   }
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button, Flex, Typography } from "antd";
+import { Button, Drawer, Flex, Typography } from "antd";
 import {
+  CloseOutlined,
   HomeOutlined,
   LogoutOutlined,
+  MenuOutlined,
   SearchOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
@@ -24,9 +26,10 @@ const Header = ({ user }) => {
   };
   const location = useLocation();
   const navigate = useNavigate();
-  const [trackRequestHovered , setTrackRequestHovered] = useState(false);
-  const [homeBUttonHovered , setHomeButtonHovered] = useState(false);
-  const [settingButtonHovered , setSettingButtonHovered] = useState(false);
+  const [trackRequestHovered, setTrackRequestHovered] = useState(false);
+  const [homeBUttonHovered, setHomeButtonHovered] = useState(false);
+  const [settingButtonHovered, setSettingButtonHovered] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [notification, setNotification] = useState(
     sessionStorage.getItem("notification_bar") === "false" ? false : true
   );
@@ -49,39 +52,36 @@ const Header = ({ user }) => {
     sessionStorage.setItem("notification_bar", "false");
   };
 
-  const logoutFunction = () =>{
-  	// sessionStorage.removeItem('token');
-  	// sessionStorage.removeItem('role');
-    sessionStorage.clear()
-	  navigate("/signin");
-  }
+  const logoutFunction = () => {
+    // sessionStorage.removeItem('token');
+    // sessionStorage.removeItem('role');
+    sessionStorage.clear();
+    navigate("/signin");
+  };
 
-  const handleHover = (flag) =>{
-    if(flag){
+  const handleHover = (flag) => {
+    if (flag) {
       setTrackRequestHovered(true);
-     }
-      else{
-        setTrackRequestHovered(false);
-      }
-  }
+    } else {
+      setTrackRequestHovered(false);
+    }
+  };
 
-  const handleHoverHome = (flag) =>{
-    if(flag){
+  const handleHoverHome = (flag) => {
+    if (flag) {
       setHomeButtonHovered(true);
-     }
-      else{
-        setHomeButtonHovered(false);
-      }
-  }
+    } else {
+      setHomeButtonHovered(false);
+    }
+  };
 
-  const handleHoverSetting = (flag) =>{
-    if(flag){
+  const handleHoverSetting = (flag) => {
+    if (flag) {
       setSettingButtonHovered(true);
-     }
-      else{
-        setSettingButtonHovered(false);
-      }
-  }
+    } else {
+      setSettingButtonHovered(false);
+    }
+  };
 
   return (
     <>
@@ -117,7 +117,7 @@ const Header = ({ user }) => {
         style={{ background: data.header_bg }}
       >
         <div className="container h-100 p-3 py-2 mx-auto">
-          <Flex className="governify-header-major-div">
+          <div className="governify-header-major-div">
             <div className="governify-header-major-div-logo">
               <a
                 href="/"
@@ -132,7 +132,7 @@ const Header = ({ user }) => {
                 </span>
               </a>
             </div>
-            <div className="governify-header-major-div-buttons">
+            <div className="governify-header-major-div-buttons d-none  d-md-flex d-lg-flex d-xl-flex d-xxl-flex">
               <Typography>
                 <span className="onboardify-welcome">Welcome</span>{" "}
                 <span className="onboardify-welcome-text-hani">{user}</span>
@@ -146,9 +146,11 @@ const Header = ({ user }) => {
                         display: "flex",
                         gap: "5px",
                         alignItems: "center",
-                        border: homeBUttonHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
-                        color: homeBUttonHovered ? `#928f8f` :data.button_bg ,
-                        background:'transparent',
+                        border: homeBUttonHovered
+                          ? `1px solid #928f8f`
+                          : `1px solid ${data.button_bg}`,
+                        color: homeBUttonHovered ? `#928f8f` : data.button_bg,
+                        background: "transparent",
                       }}
                       onClick={navigateToHome}
                       onMouseEnter={() => handleHoverHome(true)}
@@ -166,9 +168,11 @@ const Header = ({ user }) => {
                         display: "flex",
                         gap: "5px",
                         alignItems: "center",
-                        border: trackRequestHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
-                        color: trackRequestHovered ? `#928f8f` :data.button_bg ,
-                        background:'transparent',
+                        border: trackRequestHovered
+                          ? `1px solid #928f8f`
+                          : `1px solid ${data.button_bg}`,
+                        color: trackRequestHovered ? `#928f8f` : data.button_bg,
+                        background: "transparent",
                       }}
                       onClick={navigateToTrackRequest}
                       onMouseEnter={() => handleHover(true)}
@@ -187,13 +191,15 @@ const Header = ({ user }) => {
                       display: "flex",
                       gap: "5px",
                       alignItems: "center",
-                      border: settingButtonHovered ? `1px solid #928f8f`:`1px solid ${data.button_bg}`,
-                        color: settingButtonHovered ? `#928f8f` :data.button_bg ,
-                        background:'transparent',
+                      border: settingButtonHovered
+                        ? `1px solid #928f8f`
+                        : `1px solid ${data.button_bg}`,
+                      color: settingButtonHovered ? `#928f8f` : data.button_bg,
+                      background: "transparent",
                     }}
                     onClick={navigateToSettings}
                     onMouseEnter={() => handleHoverSetting(true)}
-                      onMouseLeave={() => handleHoverSetting(false)}
+                    onMouseLeave={() => handleHoverSetting(false)}
                   >
                     <span className="font-family-montse fs-12 fw-700">
                       Settings
@@ -221,9 +227,80 @@ const Header = ({ user }) => {
                 </Button>
               </div>
             </div>
-          </Flex>
+            <div className="d-block  d-md-none d-lg-none d-xl-none d-xxl-none lh-1">
+              <MenuOutlined
+                style={{ color: "#000000", fontSize: "20px" }}
+                onClick={() => setOpenDrawer(true)}
+              />
+            </div>
+          </div>
         </div>
       </header>
+      <Drawer
+        title={
+          <Flex justify="space-between">
+            <span>Welcome, {sessionStorage.getItem("userName")}</span>{" "}
+            <CloseOutlined
+              onClick={() => setOpenDrawer(false)}
+              style={{ cursor: "pointer" }}
+            />{" "}
+          </Flex>
+        }
+        placement="right"
+        closable={false}
+        onClose={() => setOpenDrawer(false)}
+        open={openDrawer}
+        width="90%"
+        key="right"
+      >
+        <Flex align="start" vertical gap={10}>
+          {role === "customer" ? (
+            location.pathname === "/track-request" ? (
+              <Button
+                type="text"
+                onClick={() => {
+                  navigateToHome();
+                  setOpenDrawer(false);
+                }}
+              >
+                <span className="font-family-montse fs-12 fw-700">Home</span>
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                onClick={() => {
+                  navigateToTrackRequest();
+                  setOpenDrawer(false);
+                }}
+              >
+                <span className="font-family-montse fs-12 fw-700">
+                  Track a Request
+                </span>
+              </Button>
+            )
+          ) : (
+            <Button
+              type="text"
+              onClick={() => {
+                navigateToSettings();
+                setOpenDrawer(false);
+              }}
+            >
+              <span className="font-family-montse fs-12 fw-700">Settings</span>
+            </Button>
+          )}
+
+          <Button
+            type="text"
+            onClick={() => {
+              logoutFunction();
+              setOpenDrawer(false);
+            }}
+          >
+            <span className="font-family-montse fs-12 fw-700">Log out</span>
+          </Button>
+        </Flex>
+      </Drawer>
     </>
   );
 };
