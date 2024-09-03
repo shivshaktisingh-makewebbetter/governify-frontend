@@ -185,7 +185,7 @@ const Register = () => {
                 value={formData.company_name || params?.company_name}
                 onChange={handleInputChange}
                 disabled={params?.company_name}
-                style={{ background: "#e8f0fe" }}
+                style={{ background: params?.company_name ? "#ececec" : "#e8f0fe" }}
                 className="input-customer-focus form-control"
               />
               <input
@@ -204,7 +204,7 @@ const Register = () => {
                 value={formData.email || params?.invited_user_email}
                 onChange={handleInputChange}
                 disabled={params?.invited_user_email}
-                style={{ background: "#e8f0fe" }}
+                style={{ background: params?.invited_user_email ? "#ececec" : "#e8f0fe" }}
                 className="input-customer-focus form-control"
               />
               <div className="input-group flex-nowrap" id="password-filled">
