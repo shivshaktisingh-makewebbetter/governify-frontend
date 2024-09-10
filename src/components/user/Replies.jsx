@@ -6,7 +6,7 @@ import { extractUsernameFromMessage, getFirstLettersOfName, showUserName } from 
 const Replies = ({ item }) => {
   let userName = showUserName(item.body);
   return (
-    <div className="d-flex align-items-center" style={{ gap: "5px" }}>
+    <div className="d-flex" style={{ gap: "5px" }}>
       <div>
         <span
           className="rounded-circle fw-bold text-white d-flex align-items-center justify-content-center"
