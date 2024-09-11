@@ -38,7 +38,7 @@ export const CustomerForm = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isSingleSelectEnable, setSingleSelect] = useState({
     enable: false,
-    value: "",
+    value: [],
   });
   const [isUploadEnable, setIsUploadEnable] = useState({
     enable: false,
@@ -48,6 +48,7 @@ export const CustomerForm = ({
   const [buttonLoading, setButtonLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState("");
   const [recaptchaExpired, setRecaptchaExpired] = useState(false);
+   const [selected, setSelected] = useState(null);
 
   const props = {
     multiple: true,
@@ -406,7 +407,10 @@ export const CustomerForm = ({
     return result;
   };
 
+
+
   const fetchPreviousData = async () => {
+
     let userId = sessionStorage.getItem("userId");
     let tempObject = {};
     try {
@@ -421,10 +425,12 @@ export const CustomerForm = ({
           }
         });
 
+
         let flag = false;
         let required = false;
         let singleSelect = false;
         formData.form_data.forEach((item) => {
+
           if (item.type === "image" || item.type === "Document") {
             flag = true;
             required = item.required;
@@ -439,6 +445,24 @@ export const CustomerForm = ({
         setSingleSelect({ enable: singleSelect, value: "" });
 
         setFormDetails(formData.form_data);
+      }else{
+        let flag = false;
+        let required = false;
+        let singleSelect = false;
+        formData.form_data.forEach((item) => {
+
+          if (item.type === "image" || item.type === "Document") {
+            flag = true;
+            required = item.required;
+          }
+          if (item.type === "CheckBox") {
+            singleSelect = true;
+          } else {
+            item.value = tempObject[item.label];
+          }
+        });
+        setIsUploadEnable({ enable: flag, required: required });
+        setSingleSelect({ enable: singleSelect, value: "" });
       }
       // console.log(tempObject);
     } catch (err) {}
@@ -535,7 +559,9 @@ export const CustomerForm = ({
                         options={options}
                         onChange={(e) => onChangeCheckBox(e, index)}
                         value={isSingleSelectEnable.value}
+                        key={data.key}
                       />
+                     
                     </div>
                   );
                 } else {
@@ -555,6 +581,7 @@ export const CustomerForm = ({
                         style={{ fontSize: "13px" }}
                         options={options}
                         onChange={(e) => onChangeCheckBox(e, index)}
+                    
                       />
                     </div>
                   );
