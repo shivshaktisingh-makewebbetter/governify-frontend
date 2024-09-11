@@ -55,8 +55,9 @@ const Register = () => {
 
     // Filter out specific keys and set the filteredParams state
     const filteredObj = Object.fromEntries(
-      Object.entries(paramsObj).filter(([key]) => 
-        !['company_name', 'invited_user_email', 'user_email'].includes(key)
+      Object.entries(paramsObj).filter(
+        ([key]) =>
+          !["company_name", "invited_user_email", "user_email"].includes(key)
       )
     );
 
@@ -74,10 +75,14 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if(params?.company_name) {
-      setFormData({...formData, company_name: params.company_name, email: params.invited_user_email});
+    if (params?.company_name) {
+      setFormData({
+        ...formData,
+        company_name: params.company_name,
+        email: params.invited_user_email,
+      });
     }
-  }, [params])
+  }, [params]);
 
   useEffect(() => {
     const { name, company_name, email, password, phone } = formData;
@@ -185,7 +190,10 @@ const Register = () => {
                 value={formData.company_name || params?.company_name}
                 onChange={handleInputChange}
                 disabled={params?.company_name}
-                style={{ background: params?.company_name ? "#ececec" : "#e8f0fe" }}
+                style={{
+                  background: params?.company_name ? "#ececec" : "#e8f0fe",
+                  color: params?.company_name ? "darkgrey" : "",
+                }}
                 className="input-customer-focus form-control"
               />
               <input
@@ -204,7 +212,12 @@ const Register = () => {
                 value={formData.email || params?.invited_user_email}
                 onChange={handleInputChange}
                 disabled={params?.invited_user_email}
-                style={{ background: params?.invited_user_email ? "#ececec" : "#e8f0fe" }}
+                style={{
+                  background: params?.invited_user_email
+                    ? "#ececec"
+                    : "#e8f0fe",
+                  color: params?.invited_user_email ? "darkgrey" : "",
+                }}
                 className="input-customer-focus form-control"
               />
               <div className="input-group flex-nowrap" id="password-filled">
