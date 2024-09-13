@@ -417,7 +417,6 @@ export const CustomerForm = ({
       let method = "GET";
       let url = `governify/customer/getGovernifyServiceRecord?user_id=${userId}&category_id=${categoryId}&service_id=${selectedServiceId}&form_id=${selectedFormId}`;
       const response = await fetcher(url, method);
-      // console.log(response , response.status, 'response')
       if (response.status) {
         response.response[0].column_values.forEach((item) => {
           if (item.id === "form_infomation__1") {
