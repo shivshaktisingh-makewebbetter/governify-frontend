@@ -25,7 +25,7 @@ const Login = () => {
     let payload = JSON.stringify({
       email: userDetails.email,
       password: userDetails.password,
-      domain: 'governify',
+      domain: "governify",
     });
 
     try {
@@ -96,6 +96,14 @@ const Login = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      if (!checkEmailIsFilledAndValid() && !checkPasswordIsFilledValid()) {
+        handleSubmit();
+      }
+    }
+  };
+
   useEffect(() => {
     if (token) {
       adminLogin();
@@ -118,7 +126,7 @@ const Login = () => {
     }, 300);
   }, []);
 
-  if(token){
+  if (token) {
     return <Loader />;
   }
 
@@ -167,125 +175,128 @@ const Login = () => {
                 </div>
               </div>
               <div className="form-auth">
-                <input
-                  placeholder="Email"
-                  type="email"
-                  value={userDetails.email}
-                  onChange={(e) => handleChangeUserDetails(e, "email")}
-                  style={{ background: "#e8f0fe" }}
-                  className="input-customer-focus form-control"
-                />
-                <div className="input-group flex-nowrap" id="password-filled">
+                <form className="form-auth" onKeyDown={handleKeyDown}>
                   <input
-                    className="form-control input-customer-focus"
-                    id="input-password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    name="password"
-                    value={userDetails.password}
-                    onChange={(e) => handleChangeUserDetails(e, "password")}
+                    placeholder="Email"
+                    type="email"
+                    value={userDetails.email}
+                    onChange={(e) => handleChangeUserDetails(e, "email")}
                     style={{ background: "#e8f0fe" }}
+                    className="input-customer-focus form-control"
                   />
-                  <span
-                    className="input-group-text fs-5 encrypted eye-icon-container"
+                  <div className="input-group flex-nowrap" id="password-filled">
+                    <input
+                      className="form-control input-customer-focus"
+                      id="input-password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      name="password"
+                      value={userDetails.password}
+                      onChange={(e) => handleChangeUserDetails(e, "password")}
+                      style={{ background: "#e8f0fe" }}
+                    />
+                    <span
+                      className="input-group-text fs-5 encrypted eye-icon-container"
+                      style={{
+                        cursor: "pointer",
+                        borderRadius: "0 50px 50px 0px",
+                      }}
+                    >
+                      {showPassword ? (
+                        <i
+                          className="bi bi-eye-fill"
+                          onClick={() => setShowPassword(false)}
+                        ></i>
+                      ) : (
+                        <i
+                          className="bi bi-eye-slash-fill"
+                          onClick={() => setShowPassword(true)}
+                        ></i>
+                      )}
+                    </span>
+                  </div>
+                  <button
+                    id="login-button"
+                    className="btn btn-newgradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
+                    type="button"
                     style={{
-                      cursor: "pointer",
-                      borderRadius: "0 50px 50px 0px",
-                    }}
-                  >
-                    {showPassword ? (
-                      <i
-                        className="bi bi-eye-fill"
-                        onClick={() => setShowPassword(false)}
-                      ></i>
-                    ) : (
-                      <i
-                        className="bi bi-eye-slash-fill"
-                        onClick={() => setShowPassword(true)}
-                      ></i>
-                    )}
-                  </span>
-                </div>
-                <button
-                  id="login-button"
-                  className="btn btn-newgradiant btn-to-link btn-secondary mt-4 d-flex align-items-center"
-                  type="button"
-                  style={{
-                    border: "0",
-                    borderRadius: "50px",
-                    gap: "10px",
-                    padding: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                      border: "0",
+                      borderRadius: "50px",
+                      gap: "10px",
+                      padding: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
 
-                    transition: "0.5s",
-                    height: "46px",
-                    opacity:
+                      transition: "0.5s",
+                      height: "46px",
+                      opacity:
+                        checkEmailIsFilledAndValid() ||
+                        checkPasswordIsFilledValid()
+                          ? "0.65"
+                          : "",
+                    }}
+                    onClick={handleSubmit}
+                    disabled={
                       checkEmailIsFilledAndValid() ||
                       checkPasswordIsFilledValid()
-                        ? "0.65"
-                        : "",
-                  }}
-                  onClick={handleSubmit}
-                  disabled={
-                    checkEmailIsFilledAndValid() || checkPasswordIsFilledValid()
-                  }
-                >
-                  <span
-                    style={{
-                      fontFamily: "Montserrat!important",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                    }}
+                    }
                   >
-                    Sign In
-                  </span>
-                  <span
-                    className="icon-btn_track"
-                    style={{ marginLeft: "10px" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-arrow-right-circle-fill"
-                      viewBox="0 0 16 16"
+                    <span
+                      style={{
+                        fontFamily: "Montserrat!important",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                      }}
                     >
-                      <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
-                    </svg>
-                  </span>
-                </button>
+                      Sign In
+                    </span>
+                    <span
+                      className="icon-btn_track"
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-arrow-right-circle-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
+                      </svg>
+                    </span>
+                  </button>
 
-                <div className="d-flex justify-content-between align-items-start w-100 mt-2">
-                  <a
-                    href="/forget-password"
-                    className="fs-13"
-                    style={{ color: "#434343" }}
-                  >
-                    Forgot Password?
-                  </a>
-                  <a
-                    href="/signup"
-                    className="fs-13"
-                    style={{ color: "#434343" }}
-                  >
-                    Create New Account?
-                  </a>
-                </div>
-                <div
-                  className="mt-3 fs-13 ff-ws text-inc-tundora"
-                  style={{ color: "grey" }}
-                >
-                  <span
+                  <div className="d-flex justify-content-between align-items-start w-100 mt-2">
+                    <a
+                      href="/forget-password"
+                      className="fs-13"
+                      style={{ color: "#434343" }}
+                    >
+                      Forgot Password?
+                    </a>
+                    <a
+                      href="/signup"
+                      className="fs-13"
+                      style={{ color: "#434343" }}
+                    >
+                      Create New Account?
+                    </a>
+                  </div>
+                  <div
                     className="mt-3 fs-13 ff-ws text-inc-tundora"
-                    style={{ margin: "3px 0px" }}
+                    style={{ color: "grey" }}
                   >
-                    {" "}
-                    Powered by TASC Outsourcing®
-                  </span>
-                </div>
+                    <span
+                      className="mt-3 fs-13 ff-ws text-inc-tundora"
+                      style={{ margin: "3px 0px" }}
+                    >
+                      {" "}
+                      Powered by TASC Outsourcing®
+                    </span>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
