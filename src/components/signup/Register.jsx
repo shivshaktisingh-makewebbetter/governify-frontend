@@ -87,12 +87,15 @@ const Register = () => {
   }, [params]);
 
   useEffect(() => {
-    const { name, company_name, email, password, phone } = formData;
+    const { name, company_name, email, country, password, phone } = formData;
     setIsFormValid(
       name.trim() !== "" &&
         company_name.trim() !== "" &&
         email.trim() !== "" &&
         emailRegex.test(email) &&
+        country !== null &&
+        country !== "" &&
+        country !== undefined &&
         password.trim() !== "" &&
         recaptchaToken !== "" &&
         !recaptchaExpired &&

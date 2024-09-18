@@ -62,7 +62,6 @@ const CountrySelect = ({formData, setFormData}) => {
       placeholder="Select Country*"
         onChange={(value) => handleChangeCountry(value)}
       options={options}
-    //   style={{ background: "rgb(232, 240, 254)" }}
       showSearch
       placement="bottomLeft"
       onBlur={handleBlur}
