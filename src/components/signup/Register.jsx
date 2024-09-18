@@ -4,6 +4,7 @@ import { fetcher } from "../../utils/helper";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { Loader } from "../common/Loader";
+import CountrySelect from "../common/CountrySelect";
 
 const Register = () => {
   const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
@@ -17,6 +18,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     company_name: "",
+    country: null,
     phone: "",
     email: "",
     password: "",
@@ -205,6 +207,7 @@ const Register = () => {
                 }}
                 className="input-customer-focus form-control"
               />
+              <CountrySelect formData={formData} setFormData={setFormData} />
               <input
                 type="text"
                 placeholder="+966 011 XXX XXXX*"
