@@ -23,6 +23,7 @@ import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import VerifyUser from "./components/verifypassword/VerifyUser";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { Intercom } from "./components/wrapper/Intercom";
+import CredentialManagement from "./components/PortalCredentials/CredentialManagement";
 
 function App() {
   const token = sessionStorage.getItem('token');
@@ -68,6 +69,10 @@ function App() {
             {
               path: "track-request",
               element: <TrackRequest />
+            },
+            {
+              path: "portals",
+              element: <CredentialManagement />
             },
             {
               path: "admin",
