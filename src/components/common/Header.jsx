@@ -43,6 +43,10 @@ const Header = ({ user }) => {
     navigate("track-request");
   };
 
+  const navigateToReport = () => {
+    navigate("report");
+  };
+
   const navigateToHome = () => {
     navigate("/");
   };
@@ -152,12 +156,12 @@ const Header = ({ user }) => {
                         color: homeBUttonHovered ? `#928f8f` : data.button_bg,
                         background: "transparent",
                       }}
-                      onClick={navigateToHome}
+                      onClick={navigateToReport}
                       onMouseEnter={() => handleHoverHome(true)}
                       onMouseLeave={() => handleHoverHome(false)}
                     >
                       <span className="font-family-montse fs-12 fw-700">
-                        Home
+                        Report
                       </span>
                       <HomeOutlined className="fs_20 fw-700" />
                     </Button>
