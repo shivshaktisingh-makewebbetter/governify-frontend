@@ -37,24 +37,26 @@ export const BarChartHorizontal = ({
     indexAxis: "y", // This makes the chart horizontal
     responsive: true,
     plugins: {
-      beforeDraw: function (chart) {
+      beforeDatasetsDraw: function (chart) {
         const ctx = chart.ctx;
         ctx.save();
 
         chart.data.datasets.forEach((dataset, i) => {
           const meta = chart.getDatasetMeta(i);
           meta.data.forEach((bar, index) => {
+            // Apply shadow properties
             ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 5;
             ctx.shadowOffsetY = 5;
 
-            // Draw the shadowed bar
+            // Draw the shadow effect
+            const model = bar.getProps(["x", "y", "width", "height"]);
             ctx.fillRect(
-              bar.x - bar.width / 2,
-              bar.y,
-              bar.width,
-              chart.chartArea.bottom - bar.y
+              model.x - model.width / 2,
+              model.y,
+              model.width,
+              chart.chartArea.bottom - model.y
             );
           });
         });
@@ -63,22 +65,21 @@ export const BarChartHorizontal = ({
       },
       legend: {
         position: "top",
-        labels :{
+        labels: {
           boxWidth: 15, // Width of the square dot
           boxHeight: 15,
-        } ,
-        
+        },
       },
       title: {
-        display: true,
-        text: title ,
+        display: false,
+        text: title,
         font: {
           size: 24, // Set the font size for the title
           family: "Arial, sans-serif", // Font family for the title
           weight: "700", // Font weight for the title
         },
-        align:"start"
-      }
+        align: "start",
+      },
     },
     scales: {
       x: {
@@ -89,7 +90,7 @@ export const BarChartHorizontal = ({
         },
         grid: {
           drawBorder: false, // Hide border lines
-          display: false
+          display: false,
         },
       },
       y: {
@@ -102,8 +103,34 @@ export const BarChartHorizontal = ({
   };
 
   return (
-  
+    <>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "24px",
+            fontWeight: "700",
+            lineHeight: "33.6px",
+            color: "#202223",
+            textAlign: "left",
+          }}
+        >
+          {title}
+        </span>
+        <span>
+          {description.length > 0 && (
+            <CustomTooltip description={description} />
+          )}
+        </span>
+      </div>
       <Bar data={data} options={options} />
-  
+    </>
   );
 };

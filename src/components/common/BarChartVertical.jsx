@@ -37,24 +37,28 @@ export const BarChartVertical = ({
   const options = {
     responsive: true,
     plugins: {
-      beforeDraw: function (chart) {
+      beforeDatasetsDraw: function (chart) {
         const ctx = chart.ctx;
         ctx.save();
 
         chart.data.datasets.forEach((dataset, i) => {
           const meta = chart.getDatasetMeta(i);
-          meta.data.forEach((bar, index) => {
+          meta.data.forEach((bar) => {
+            // Apply shadow properties
             ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
             ctx.shadowBlur = 10;
             ctx.shadowOffsetX = 5;
             ctx.shadowOffsetY = 5;
 
-            // Draw the shadowed bar
+            // Get the bar dimensions and position
+            const { x, y, width, height } = bar.getProps(['x', 'y', 'width', 'height']);
+
+            // Draw shadow aligned with the top of the bar
             ctx.fillRect(
-              bar.x - bar.width / 2,
-              bar.y,
-              bar.width,
-              chart.chartArea.bottom - bar.y
+              x - width / 2, // Position the shadow rectangle properly
+              y,             // Align with the top of the bar
+              width,         // Same width as the bar
+              height         // Extend shadow down the bar height
             );
           });
         });
@@ -75,15 +79,15 @@ export const BarChartVertical = ({
         position: "bottom",
       },
       title: {
-        display: true,
-        text: title ,
+        display: false,
+        text: title,
         font: {
           size: 24, // Set the font size for the title
           family: "Arial, sans-serif", // Font family for the title
           weight: "700", // Font weight for the title
         },
-        align:"start"
-      }
+        align: "start",
+      },
     },
     scales: {
       x: {
@@ -103,8 +107,34 @@ export const BarChartVertical = ({
   };
 
   return (
-   
+    <>
+      <div
+        style={{
+          width:"100%" ,
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <span
+          style={{
+            fontSize: "24px",
+            fontWeight: "700",
+            lineHeight: "33.6px",
+            color: "#202223",
+            textAlign: "left",
+          }}
+        >
+          {title}
+        </span>
+        <span>
+          {description.length > 0 && (
+            <CustomTooltip description={description} />
+          )}
+        </span>
+      </div>
       <Bar data={data} options={options} />
-
+    </>
   );
 };

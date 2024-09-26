@@ -11,6 +11,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { getRole } from "../../utils/helper";
+import { ReportIcon } from "../../assets/image";
 
 const Header = ({ user }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
@@ -163,7 +164,7 @@ const Header = ({ user }) => {
                       <span className="font-family-montse fs-12 fw-700">
                         Report
                       </span>
-                      <HomeOutlined className="fs_20 fw-700" />
+                      <ReportIcon className="fs_20 fw-700" />
                     </Button>
                   ) : (
                     <Button
