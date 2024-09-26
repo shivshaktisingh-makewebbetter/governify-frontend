@@ -51,14 +51,19 @@ export const BarChartVertical = ({
             ctx.shadowOffsetY = 5;
 
             // Get the bar dimensions and position
-            const { x, y, width, height } = bar.getProps(['x', 'y', 'width', 'height']);
+            const { x, y, width, height } = bar.getProps([
+              "x",
+              "y",
+              "width",
+              "height",
+            ]);
 
             // Draw shadow aligned with the top of the bar
             ctx.fillRect(
               x - width / 2, // Position the shadow rectangle properly
-              y,             // Align with the top of the bar
-              width,         // Same width as the bar
-              height         // Extend shadow down the bar height
+              y, // Align with the top of the bar
+              width, // Same width as the bar
+              height // Extend shadow down the bar height
             );
           });
         });
@@ -102,6 +107,8 @@ export const BarChartVertical = ({
         grid: {
           display: false,
         },
+        categoryPercentage: 1, // Adjusts space between categories (bars)
+        barPercentage: 20,
       },
     },
   };
@@ -110,11 +117,11 @@ export const BarChartVertical = ({
     <>
       <div
         style={{
-          width:"100%" ,
+          width: "100%",
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          marginBottom: "20px",
+          marginTop: "20px",
         }}
       >
         <span

@@ -92,6 +92,8 @@ export const BarChartHorizontal = ({
           drawBorder: false, // Hide border lines
           display: false,
         },
+        categoryPercentage: 1, // Adjusts space between categories (bars)
+        barPercentage: 20,
       },
       y: {
         display: false, // Show y-axis labels
@@ -110,7 +112,7 @@ export const BarChartHorizontal = ({
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          marginBottom: "20px",
+          marginTop: "20px",
         }}
       >
         <span

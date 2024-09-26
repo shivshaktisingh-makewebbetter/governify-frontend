@@ -307,7 +307,15 @@ export const Report = () => {
         data: [getColumnValueForTextChart(item)],
         backgroundColor: getBgColorForBarChart(subItem, item),
         borderColor: getBorderColorForBarChart(subItem, item),
+        borderRadius: {
+          topLeft: 5,   // Set the top-left corner radius
+          topRight: 5,  // Set the top-right corner radius
+          bottomLeft: 0, // No radius for the bottom-left corner
+          bottomRight: 0 // No radius for the bottom-right corner
+        },
+        borderSkipped: false,
         borderWidth: 1,
+        // barThickness: 1
       });
     });
 
