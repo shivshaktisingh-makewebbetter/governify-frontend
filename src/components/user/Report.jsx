@@ -1,27 +1,22 @@
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loader } from "../common/Loader";
 import { userSettingData } from "../../utils/tools";
 import Hero from "../common/Hero";
 import { fetcher } from "../../utils/helper";
-import { Button, Select, Table, Tooltip } from "antd";
-import { BarChartHorizontal } from "../common/BarChartHorizontal";
-import { BarChartVertical } from "../common/BarChartVertical";
-import {
-  FallOutlined,
-  InfoCircleOutlined,
-  RiseOutlined,
-} from "@ant-design/icons";
+import { Button, Select } from "antd";
+
 import { EmptyReports } from "../common/EmptyReports";
-import { PieChart } from "../common/PieChart";
+
 import {
   ChartViewIcon,
   ComplianceReportIcon,
   ExportReportViewIcon,
   ListReportIcon,
-  ServiceReport,
   ServiceReportIcon,
 } from "../../assets/image";
+import { ComplianceReportViewList } from "./ComplianceReportViewList";
+import { ComplianceReportViewChart } from "./ComplianceReportViewChart";
+import { ServiceReportViewChart } from "./ServiceReportViewChart";
 
 export const Report = () => {
   const token = sessionStorage.getItem("token");
@@ -33,6 +28,7 @@ export const Report = () => {
   const [currentData, setCurrentData] = useState([]);
   const [previousData, setPreviousData] = useState([]);
   const [allColumnTitle, setAllColumnTitle] = useState([]);
+  const [allColumnTitleService, setAllColumnTitleService] = useState([]);
   const [tableColumns, setAllTableColumns] = useState([]);
   const [governifyFilterData, setGovernifyFilterData] = useState({});
   const [dataSource, setDataSource] = useState([]);
@@ -99,8 +95,7 @@ export const Report = () => {
         } else {
           let tempDataSource = [];
           let tempTableColumns = [];
-          let tempSelectedCurrentData = [];
-          let tempSelectedPreviousData = [];
+   
           let tempNamevalue = { currentName: "", previousName: "" };
           let tempMonthFilterData = [];
 
@@ -126,7 +121,7 @@ export const Report = () => {
           // Handling current data
           response1.response.data.boards[0].items_page.items.forEach((item) => {
             if (item.name.toLowerCase() === filterKey) {
-              tempSelectedCurrentData = item.column_values;
+              // tempSelectedCurrentData = item.column_values;
               setCurrentData(item.column_values);
               tempNamevalue.currentName = item.name;
             }
@@ -136,7 +131,7 @@ export const Report = () => {
           response1.response.data.boards[0].items_page.previous_month_items.forEach(
             (item) => {
               if (item.name.toLowerCase() === filterKey) {
-                tempSelectedPreviousData = item.column_values;
+                // tempSelectedPreviousData = item.column_values;
                 setPreviousData(item.column_values);
                 tempNamevalue.previousName = item.name;
               }
@@ -210,9 +205,11 @@ export const Report = () => {
   };
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
@@ -556,6 +553,8 @@ export const Report = () => {
               justifyContent: "space-between",
               alignItems: "center",
               borderBottom: "1px solid #858b932E",
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius:"8px"
             }}
           >
             <span
@@ -712,445 +711,28 @@ export const Report = () => {
         {activeReport === "compliance" && !noData && (
           <div>
             {activeView === "list" && (
-              <Table
-                className="governify-report-table"
-                rowSelection={rowSelection}
-                columns={tableColumns}
+              <ComplianceReportViewList
                 dataSource={dataSource}
+                tableColumns={tableColumns}
+                rowSelection={rowSelection}
               />
             )}
 
             {activeView === "chart" && (
-              <div style={{ marginTop: "20px" }}>
-                {complianceReportViewData.map((item) => {
-                  return (
-                    <div style={{ height: item.height }}>
-                      <p
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "600",
-                          color: "#818181",
-                          textAlign: "left",
-                          marginBottom: "0px",
-                        }}
-                      >
-                        {item.title}
-                      </p>
-                      <div style={{ position: "relative" }}>
-                        {item.boxes.map((subItem) => {
-                          if (subItem.type === "Value Chart") {
-                            const description = getDescriptionForColumn(
-                              subItem.column
-                            );
-                            const changePreviousMonth = getPreviousMonthChange(
-                              subItem.column
-                            );
-                            return (
-                              <div
-                                style={{
-                                  width: subItem.size.width,
-                                  height: subItem.size.height,
-                                  position: "absolute",
-                                  left: subItem.position.x,
-                                  top: subItem.position.y,
-                                  background: "white",
-                                  border: "1px solid #E3E3E3",
-                                  borderRadius: "8px",
-                                  padding: "10px",
-                                  marginBottom: "10px",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    width: "100%",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <div>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "left",
-                                        fontSize: "14px",
-                                        fontWeight: "400",
-                                        color: "#6d7175",
-                                        marginBottom: "6px",
-                                      }}
-                                    >
-                                      {getColumnTitleForTextChart(
-                                        subItem.column
-                                      )}
-                                      <span>
-                                        {description.length > 0 && (
-                                          <Tooltip
-                                            placement="top"
-                                            title={description}
-                                          >
-                                            {" "}
-                                            <InfoCircleOutlined
-                                              style={{ fontSize: "14px" }}
-                                            />{" "}
-                                          </Tooltip>
-                                        )}
-                                      </span>
-                                    </p>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "left",
-                                        fontSize: "24px",
-                                        fontWeight: "600",
-                                        color: "#202223",
-                                        marginBottom: "6px",
-                                      }}
-                                    >
-                                      {getColumnValueForTextChart(
-                                        subItem.column
-                                      )}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "right",
-                                        fontSize: "16px",
-                                        fontWeight: "600",
-                                        marginBottom: "6px",
-                                        borderRadius: "100px",
-                                        padding: "6px 12px",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "4px",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      <span
-                                        style={{
-                                          textAlign: "right",
-                                          color:
-                                            changePreviousMonth > 0
-                                              ? "#22c55e"
-                                              : "#EF4444",
-                                          fontSize: "12px",
-                                          fotWeight: "600",
-                                          lineHeight: "16.8px",
-                                        }}
-                                      >
-                                        <span>
-                                          {changePreviousMonth > 0 ? (
-                                            <RiseOutlined color={"#22c55e"} />
-                                          ) : (
-                                            <FallOutlined color={"#ef4444"} />
-                                          )}
-                                        </span>{" "}
-                                        <span>
-                                          {" "}
-                                          {changePreviousMonth + " %"}{" "}
-                                        </span>
-                                      </span>
-                                      <span
-                                        style={{
-                                          fontWeight: "400",
-                                          fontSize: "12px",
-                                          color: "#6d7175",
-                                          lineHeight: "16.8px",
-                                        }}
-                                      >
-                                        vs last Month
-                                      </span>
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          }
-                          if (subItem.type === "Text Chart") {
-                            return (
-                              <div
-                                style={{
-                                  width: subItem.size.width,
-                                  height: subItem.size.height,
-                                  position: "absolute",
-                                  left: subItem.position.x,
-                                  top: subItem.position.y,
-                                  background: "white",
-                                  border: "1px solid #E3E3E3",
-                                  borderRadius: "8px",
-                                  padding: "10px",
-                                  marginBottom: "10px",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    width: "100%",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <div>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "left",
-                                        fontSize: "14px",
-                                        fontWeight: "400",
-                                        color: "#6d7175",
-                                        marginBottom: "6px",
-                                      }}
-                                    >
-                                      {getColumnTitleForTextChart(
-                                        subItem.column1
-                                      )}
-                                    </p>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "left",
-                                        fontSize: "24px",
-                                        fontWeight: "600",
-                                        color: "#202223",
-                                        marginBottom: "6px",
-                                      }}
-                                    >
-                                      {getColumnValueForTextChart(
-                                        subItem.column1
-                                      )}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p
-                                      style={{
-                                        width: "100%",
-                                        textAlign: "right",
-                                        fontSize: "16px",
-                                        fontWeight: "600",
-                                        marginBottom: "6px",
-                                        borderRadius: "100px",
-                                        background: hexToRgba(
-                                          subItem.color,
-                                          "0.2"
-                                        ),
-                                        padding: "6px 12px",
-                                        color: subItem.color,
-                                      }}
-                                    >
-                                      {getColumnValueForTextChart(
-                                        subItem.column2
-                                      )}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          }
-                          if (subItem.type === "Multi Value Chart") {
-                            return (
-                              <div
-                                style={{
-                                  width: subItem.size.width,
-                                  height: subItem.size.height,
-                                  position: "absolute",
-                                  left: subItem.position.x,
-                                  top: subItem.position.y,
-                                  background: "white",
-                                  border: "1px solid #E3E3E3",
-                                  borderRadius: "8px",
-                                  padding: "28px",
-                                  marginBottom: "10px",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  gap: "44px",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    borderBottom:
-                                      "1px solid rgba(201, 204, 207, 0.7)",
-                                  }}
-                                >
-                                  <p
-                                    style={{
-                                      textAlign: "center",
-                                      fontSize: "24px",
-                                      fontWeight: "700",
-                                      color: "#202223",
-                                    }}
-                                  >
-                                    {subItem.heading}
-                                  </p>
-                                </div>
-
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    gap: "26px",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  {subItem.selectedColumns.map(
-                                    (column, index) => (
-                                      <div
-                                        key={index}
-                                        style={{ marginBottom: "10px" }}
-                                      >
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            gap: "24px",
-                                          }}
-                                        >
-                                          <div
-                                            style={{
-                                              width: "16px",
-                                              height: "16px",
-                                              background: getBgSquareColor(
-                                                column,
-                                                subItem.selectedColor
-                                              ),
-                                              borderRadius: "4px",
-                                            }}
-                                          ></div>
-                                          <div
-                                            style={{
-                                              color: "#202223",
-                                              fontSize: "20px",
-                                              fontWeight: "600",
-                                            }}
-                                          >
-                                            {getColumnTitleForTextChart(column)}
-                                          </div>
-                                        </div>
-                                        <p
-                                          style={{
-                                            fontSize: "45px",
-                                            fontWeight: "700",
-                                            color: "#202223",
-                                          }}
-                                        >
-                                          {getColumnPercentage(
-                                            column,
-                                            subItem.selectedColumns
-                                          )}
-                                        </p>
-                                        {subItem.selectedColumns.length - 1 >
-                                          index && (
-                                          <div
-                                            style={{
-                                              marginTop: "15px",
-                                              marginBottom: "15px",
-                                              border:
-                                                "1px solid rgba(201, 204, 207, 0.7)",
-                                            }}
-                                          ></div>
-                                        )}
-                                      </div>
-                                    )
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          }
-                          if (subItem.type === "Bar Chart") {
-                            return (
-                              <div
-                                style={{
-                                  width: subItem.size.width,
-                                  height: subItem.size.height,
-                                  position: "absolute",
-                                  left: subItem.position.x,
-                                  top: subItem.position.y,
-                                  background: "white",
-                                  border: "1px solid #E3E3E3",
-                                  borderRadius: "8px",
-                                  padding: "10px",
-                                  marginBottom: "10px",
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                {subItem.horizontal ? (
-                                  <BarChartHorizontal
-                                    dataset={getDataSetForVerticalBarChart(
-                                      subItem
-                                    )}
-                                    stepsize={getStepSizeForVerticalBarChart(
-                                      subItem
-                                    )}
-                                    max={getMaxForVerticalBarChart(subItem)}
-                                    title={subItem.heading}
-                                    description={subItem.description}
-                                  />
-                                ) : (
-                                  <BarChartVertical
-                                    dataset={getDataSetForVerticalBarChart(
-                                      subItem
-                                    )}
-                                    stepsize={getStepSizeForVerticalBarChart(
-                                      subItem
-                                    )}
-                                    max={getMaxForVerticalBarChart(subItem)}
-                                    title={subItem.heading}
-                                    description={subItem.description}
-                                  />
-                                )}
-                              </div>
-                            );
-                          }
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-                <div>
-                  <p
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: "600",
-                      color: "#818181",
-                      textAlign: "left",
-                      marginBottom: "0px",
-                    }}
-                  >
-                    {complianceReportSettingData.recommendation_text.title}
-                  </p>
-                  <div
-                    style={{
-                      background: "white",
-                      border: "1px solid #E3E3E3",
-                      borderRadius: "8px",
-                      textAlign: "left",
-                      fontWeight: 400,
-                      fontSize: "16px",
-                      color: "#202223",
-                      minHeight: "69px",
-                      padding: "8px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {getColumnValueForTextChart(
-                      complianceReportSettingData.recommendation_text.column
-                    )}
-                  </div>
-                </div>
-              </div>
+              <ComplianceReportViewChart
+                hexToRgba={hexToRgba}
+                getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+                getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
+                getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+                complianceReportSettingData={complianceReportSettingData}
+                complianceReportViewData={complianceReportViewData}
+                getDescriptionForColumn={getDescriptionForColumn}
+                getPreviousMonthChange={getPreviousMonthChange}
+                getColumnValueForTextChart={getColumnValueForTextChart}
+                getColumnTitleForTextChart={getColumnTitleForTextChart}
+                getBgSquareColor={getBgSquareColor}
+                getColumnPercentage={getColumnPercentage}
+              />
             )}
           </div>
         )}
@@ -1200,423 +782,21 @@ export const Report = () => {
         {noData && <EmptyReports activeReport={activeReport} />}
 
         {activeReport === "service" && !noData && (
-          <div style={{ marginTop: "20px" }}>
-            {serviceReportViewData.map((item) => {
-              return (
-                <div style={{ height: item.height }}>
-                  <p
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: "600",
-                      color: "#818181",
-                      textAlign: "left",
-                      marginBottom: "0px",
-                    }}
-                  >
-                    {item.title}
-                  </p>
-                  <div style={{ position: "relative" }}>
-                    {item.boxes.map((subItem) => {
-                      if (subItem.type === "Value Chart") {
-                        const description = getDescriptionForColumn(
-                          subItem.column
-                        );
-                        const changePreviousMonth = getPreviousMonthChange(
-                          subItem.column
-                        );
-                        return (
-                          <div
-                            style={{
-                              width: subItem.size.width,
-                              height: subItem.size.height,
-                              position: "absolute",
-                              left: subItem.position.x,
-                              top: subItem.position.y,
-                              background: "white",
-                              border: "1px solid #E3E3E3",
-                              borderRadius: "8px",
-                              padding: "10px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                width: "100%",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <div>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "left",
-                                    fontSize: "14px",
-                                    fontWeight: "400",
-                                    color: "#6d7175",
-                                    marginBottom: "6px",
-                                  }}
-                                >
-                                  {getColumnTitleForTextChart(subItem.column)}
-                                  <span>
-                                    {description.length > 0 && (
-                                      <Tooltip
-                                        placement="top"
-                                        title={description}
-                                      >
-                                        {" "}
-                                        <InfoCircleOutlined
-                                          style={{ fontSize: "14px" }}
-                                        />{" "}
-                                      </Tooltip>
-                                    )}
-                                  </span>
-                                </p>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "left",
-                                    fontSize: "24px",
-                                    fontWeight: "600",
-                                    color: "#202223",
-                                    marginBottom: "6px",
-                                  }}
-                                >
-                                  {getColumnValueForTextChart(subItem.column)}
-                                </p>
-                              </div>
-                              <div>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "right",
-                                    fontSize: "16px",
-                                    fontWeight: "600",
-                                    marginBottom: "6px",
-                                    borderRadius: "100px",
-                                    padding: "6px 12px",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "4px",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      textAlign: "right",
-                                      color:
-                                        changePreviousMonth > 0
-                                          ? "#22c55e"
-                                          : "#EF4444",
-                                      fontSize: "12px",
-                                      fotWeight: "600",
-                                      lineHeight: "16.8px",
-                                    }}
-                                  >
-                                    <span>
-                                      {changePreviousMonth > 0 ? (
-                                        <RiseOutlined color={"#22c55e"} />
-                                      ) : (
-                                        <FallOutlined color={"#ef4444"} />
-                                      )}
-                                    </span>{" "}
-                                    <span> {changePreviousMonth + " %"} </span>
-                                  </span>
-                                  <span
-                                    style={{
-                                      fontWeight: "400",
-                                      fontSize: "12px",
-                                      color: "#6d7175",
-                                      lineHeight: "16.8px",
-                                    }}
-                                  >
-                                    vs last Month
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                      if (subItem.type === "Text Chart") {
-                        return (
-                          <div
-                            style={{
-                              width: subItem.size.width,
-                              height: subItem.size.height,
-                              position: "absolute",
-                              left: subItem.position.x,
-                              top: subItem.position.y,
-                              background: "white",
-                              border: "1px solid #E3E3E3",
-                              borderRadius: "8px",
-                              padding: "10px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                width: "100%",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <div>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "left",
-                                    fontSize: "14px",
-                                    fontWeight: "400",
-                                    color: "#6d7175",
-                                    marginBottom: "6px",
-                                  }}
-                                >
-                                  {getColumnTitleForTextChart(subItem.column1)}
-                                </p>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "left",
-                                    fontSize: "24px",
-                                    fontWeight: "600",
-                                    color: "#202223",
-                                    marginBottom: "6px",
-                                  }}
-                                >
-                                  {getColumnValueForTextChart(subItem.column1)}
-                                </p>
-                              </div>
-                              <div>
-                                <p
-                                  style={{
-                                    width: "100%",
-                                    textAlign: "right",
-                                    fontSize: "16px",
-                                    fontWeight: "600",
-                                    marginBottom: "6px",
-                                    borderRadius: "100px",
-                                    background: hexToRgba(subItem.color, "0.2"),
-                                    padding: "6px 12px",
-                                    color: subItem.color,
-                                  }}
-                                >
-                                  {getColumnValueForTextChart(subItem.column2)}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      }
-                      if (subItem.type === "Multi Value Chart") {
-                        return (
-                          <div
-                            style={{
-                              width: subItem.size.width,
-                              height: subItem.size.height,
-                              position: "absolute",
-                              left: subItem.position.x,
-                              top: subItem.position.y,
-                              background: "white",
-                              border: "1px solid #E3E3E3",
-                              borderRadius: "8px",
-                              padding: "28px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              gap: "44px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                borderBottom:
-                                  "1px solid rgba(201, 204, 207, 0.7)",
-                                position: "absolute",
-                                top: "20px",
-                              }}
-                            >
-                              <p
-                                style={{
-                                  textAlign: "center",
-                                  fontSize: "24px",
-                                  fontWeight: "700",
-                                  color: "#202223",
-                                }}
-                              >
-                                {subItem.heading}
-                              </p>
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "26px",
-                                flexDirection: "column",
-                              }}
-                            >
-                              {subItem.selectedColumns.map((column, index) => (
-                                <div
-                                  key={index}
-                                  style={{ marginBottom: "10px" }}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      gap: "24px",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        width: "16px",
-                                        height: "16px",
-                                        background: getBgSquareColor(
-                                          column,
-                                          subItem.selectedColor
-                                        ),
-                                        borderRadius: "4px",
-                                      }}
-                                    ></div>
-                                    <div
-                                      style={{
-                                        color: "#202223",
-                                        fontSize: "20px",
-                                        fontWeight: "600",
-                                      }}
-                                    >
-                                      {getColumnTitleForTextChart(column)}
-                                    </div>
-                                  </div>
-                                  <p
-                                    style={{
-                                      fontSize: "45px",
-                                      fontWeight: "700",
-                                      color: "#202223",
-                                    }}
-                                  >
-                                    {getColumnPercentage(
-                                      column,
-                                      subItem.selectedColumns
-                                    )}
-                                  </p>
-                                  {subItem.selectedColumns.length - 1 >
-                                    index && (
-                                    <div
-                                      style={{
-                                        marginTop: "15px",
-                                        marginBottom: "15px",
-                                        border:
-                                          "1px solid rgba(201, 204, 207, 0.7)",
-                                      }}
-                                    ></div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      }
-                      if (subItem.type === "Bar Chart") {
-                        return (
-                          <div
-                            style={{
-                              width: subItem.size.width,
-                              height: subItem.size.height,
-                              position: "absolute",
-                              left: subItem.position.x,
-                              top: subItem.position.y,
-                              background: "white",
-                              border: "1px solid #E3E3E3",
-                              borderRadius: "8px",
-                              padding: "10px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {subItem.horizontal ? (
-                              <BarChartHorizontal
-                                dataset={getDataSetForVerticalBarChart(subItem)}
-                                stepsize={getStepSizeForVerticalBarChart(
-                                  subItem
-                                )}
-                                max={getMaxForVerticalBarChart(subItem)}
-                                title={subItem.heading}
-                                description={subItem.description}
-                              />
-                            ) : (
-                              <BarChartVertical
-                                dataset={getDataSetForVerticalBarChart(subItem)}
-                                stepsize={getStepSizeForVerticalBarChart(
-                                  subItem
-                                )}
-                                max={getMaxForVerticalBarChart(subItem)}
-                                title={subItem.heading}
-                                description={subItem.description}
-                              />
-                            )}
-                          </div>
-                        );
-                      }
-                      if (subItem.type === "Pie Chart") {
-                        const title = subItem.heading;
-                        const dataset = getPieChartDataSet(subItem);
-                        const bgSet = getPieChartBg(subItem);
-                        const pieChartLabel = getPieChartLabel(subItem);
-                        const borderColorSetPie = getPieChartBorder(subItem);
-                        const description = subItem.description;
-
-                        return (
-                          <div
-                            style={{
-                              width: subItem.size.width,
-                              height: subItem.size.height,
-                              position: "absolute",
-                              left: subItem.position.x,
-                              top: subItem.position.y,
-                              background: "white",
-                              border: "1px solid #E3E3E3",
-                              borderRadius: "8px",
-                              padding: "10px",
-                              marginBottom: "10px",
-                              display: "flex",
-                              flexDirection: "column",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <PieChart
-                              title={title}
-                              dataset={dataset}
-                              bgSet={bgSet}
-                              pieChartLabel={pieChartLabel}
-                              borderColorSetPie={borderColorSetPie}
-                              description={description}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <ServiceReportViewChart
+           loading={loading}
+           setLoading={setLoading}
+            getPieChartDataSet={getPieChartDataSet}
+            getPieChartBg={getPieChartBg}
+            getPieChartLabel={getPieChartLabel}
+            getPieChartBorder={getPieChartBorder}
+            getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+            getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
+            getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+            hexToRgba={hexToRgba}
+            serviceReportViewData={serviceReportViewData}
+            getColumnTitleForTextChart={getColumnTitleForTextChart}
+            getColumnValueForTextChart={getColumnValueForTextChart}
+          />
         )}
       </div>
     </div>

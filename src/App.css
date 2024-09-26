@@ -160,7 +160,6 @@ body,
   color: green !important;
 }
 
-
 .dt-length > label {
   margin-left: 15px;
 }
@@ -728,9 +727,9 @@ body,
 }
 
 .inc-auth-container {
-	background-image: url('/public/authbg.svg');
-	background-size: 100%;
-  }
+  background-image: url("/public/authbg.svg");
+  background-size: 100%;
+}
 
 .service-repetitive-div {
   flex: 1 1 calc(33.333% - 10px);
@@ -834,7 +833,7 @@ body,
 
 .encrypted i::before {
   vertical-align: middle;
-} 
+}
 
 .bi-trash3-fill::before {
   vertical-align: middle !important;
@@ -901,8 +900,6 @@ body,
 
   padding: 20px;
 }
-
-
 
 .customer-form-container {
   /* border: 1px solid #ccc; */
@@ -1055,9 +1052,8 @@ body,
   /* border-radius: 8px; */
   box-shadow: 0 2px 6px #0003;
   max-width: 440px;
-  background:#ffffff;
+  background: #ffffff;
 }
-
 
 @media (max-width: 1000px) {
   /* 	
@@ -1150,7 +1146,7 @@ body,
 
   .form-container {
     padding: 20px;
-  } 
+  }
 }
 
 .inc-verify-user {
@@ -1169,8 +1165,8 @@ body,
   outline: 1px solid #20681f;
 }
 
-.btn-newgradiant{
-  background-image: linear-gradient(90deg, #434343 0, #0CC3E1 51%, #45CE43);
+.btn-newgradiant {
+  background-image: linear-gradient(90deg, #434343 0, #0cc3e1 51%, #45ce43);
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
@@ -1187,9 +1183,44 @@ body,
   vertical-align: middle !important;
 }
 
-.governify-report-table > div> div> div> div> div > table > thead > tr> th{
-   background:#F6F6FB !important;
-   color:#202223 !important;
+.governify-report-table
+  > div
+  > div
+  > div
+  > div
+  > div
+  > table
+  > thead
+  > tr
+  > th {
+  background: #f6f6fb !important;
+  color: #202223 !important;
 }
 
+.custom-pagination {
+
+  background: white !important;
+}
+
+/* Table header background */
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f6f6f7 !important; 
+}
+
+.custom-table{
+  background: white !important;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+}
+
+/* Table body background */
+.custom-table .ant-table-tbody > tr > td {
+  background-color: white !important; ; /* Set table body background to white */
+}
+
+/* Pagination background */
+.custom-pagination {
+  background-color: white !important; ; /* Set pagination background to white */
+}
 

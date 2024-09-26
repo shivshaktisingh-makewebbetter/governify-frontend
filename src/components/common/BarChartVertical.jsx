@@ -80,6 +80,7 @@ export const BarChartVertical = ({
           padding: 20, // Add padding between legend items
           boxWidth: 15, // Width of the square dot
           boxHeight: 15,
+          borderRadius: 10
         },
         position: "bottom",
       },
