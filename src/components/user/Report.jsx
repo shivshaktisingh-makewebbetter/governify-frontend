@@ -308,10 +308,10 @@ export const Report = () => {
         backgroundColor: getBgColorForBarChart(subItem, item),
         borderColor: getBorderColorForBarChart(subItem, item),
         borderRadius: {
-          topLeft: 5,   // Set the top-left corner radius
-          topRight: 5,  // Set the top-right corner radius
+          topLeft: 5, // Set the top-left corner radius
+          topRight: 5, // Set the top-right corner radius
           bottomLeft: 0, // No radius for the bottom-left corner
-          bottomRight: 0 // No radius for the bottom-right corner
+          bottomRight: 0, // No radius for the bottom-right corner
         },
         borderSkipped: false,
         borderWidth: 1,
@@ -452,8 +452,29 @@ export const Report = () => {
     return tempData;
   };
 
+  const convertToCSV = (array) => {
+    const header =
+      Object.keys(array[0])
+        .map((item) => getColumnTitleForTextChart(item))
+        .join(",") + "\n";
+    const rows = array.map((obj) => Object.values(obj).join(",")).join("\n");
+    return header + rows;
+  };
+
   const handleExport = () => {
-    console.log(selectedRowKeys, "selectedRowKeys");
+    const filteredData = dataSource
+      .filter((item) => selectedRowKeys.includes(item.key))
+      .map(({ key, ...rest }) => rest);
+    const csvContent = convertToCSV(filteredData);
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "exported_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -643,7 +664,6 @@ export const Report = () => {
                 }}
                 icon={<ExportReportViewIcon />}
                 iconPosition="start"
-                disabled={true}
                 onClick={handleExport}
               >
                 Export{" "}
@@ -1423,8 +1443,8 @@ export const Report = () => {
                               style={{
                                 borderBottom:
                                   "1px solid rgba(201, 204, 207, 0.7)",
-                                  position:"absolute" ,
-                                  top:"20px"
+                                position: "absolute",
+                                top: "20px",
                               }}
                             >
                               <p
