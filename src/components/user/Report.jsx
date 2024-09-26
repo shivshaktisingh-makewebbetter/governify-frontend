@@ -1423,6 +1423,8 @@ export const Report = () => {
                               style={{
                                 borderBottom:
                                   "1px solid rgba(201, 204, 207, 0.7)",
+                                  position:"absolute" ,
+                                  top:"20px"
                               }}
                             >
                               <p

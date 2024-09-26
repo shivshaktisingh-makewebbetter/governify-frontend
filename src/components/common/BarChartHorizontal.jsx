@@ -112,7 +112,9 @@ export const BarChartHorizontal = ({
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          marginTop: "20px",
+          position: "absolute" ,
+          top:"20px" ,
+          left:"20px"
         }}
       >
         <span
