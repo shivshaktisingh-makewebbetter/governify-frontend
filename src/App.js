@@ -26,6 +26,7 @@ import { Intercom } from "./components/wrapper/Intercom";
 import { Report } from "./components/user/Report";
 
 function App() {
+
   const token = sessionStorage.getItem('token');
   const settingsData =
     JSON.parse(sessionStorage.getItem("settings")) ||
@@ -47,6 +48,8 @@ function App() {
     userSettingData();
     return () => {};
   }, [token]);
+
+
 
   const router = createBrowserRouter([
     {

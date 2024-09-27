@@ -16,8 +16,10 @@ import {
 import { ComplianceReportViewList } from "./ComplianceReportViewList";
 import { ComplianceReportViewChart } from "./ComplianceReportViewChart";
 import { ServiceReportViewChart } from "./ServiceReportViewChart";
+import { useLocation } from "react-router-dom";
 
 export const Report = () => {
+  const location = useLocation();
   const token = sessionStorage.getItem("token");
   const settingData = sessionStorage.getItem("settings");
   const [loading, setLoading] = useState(false);
@@ -473,6 +475,15 @@ export const Report = () => {
     document.body.removeChild(link);
   };
 
+  useEffect(() => {
+    if (location.pathname === '/report') {
+      document.body.style.backgroundColor = '#F6F6FB'; // Change to red
+    } else {
+      document.body.style.backgroundColor = 'white'; // Reset to default
+    }
+
+  }, []);
+
   return (
     <div
       style={{
@@ -562,6 +573,7 @@ export const Report = () => {
                 fontSize: "24px",
                 lineHeight: "33.6px",
                 color: "#202223",
+                fontFamily: "Graphie-Regular",
               }}
             >
               Compliance Report
@@ -629,50 +641,15 @@ export const Report = () => {
           </div>
         )}
 
-        {activeReport === "compliance" &&
-          !noData &&
-          activeView === "list" &&
-          selectedRowKeys.length > 0 && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                background: "white",
-                padding: "16px",
-              }}
-            >
-              <span
-                style={{
-                  color: "#5ac063",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                {selectedRowKeys.length} items selected
-              </span>
-              <Button
-                style={{
-                  background: "#5ac063",
-                  color: "white",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  height: "35px",
-                }}
-                icon={<ExportReportViewIcon />}
-                iconPosition="start"
-                onClick={handleExport}
-              >
-                Export{" "}
-              </Button>
-            </div>
-          )}
-
         {activeReport === "compliance" && !noData && (
           <div>
             {activeView === "list" && (
               <ComplianceReportViewList
+                activeReport={activeReport}
+                activeView={activeView}
+                noData={noData}
+                selectedRowKeys={selectedRowKeys}
+                handleExport={handleExport}
                 dataSource={dataSource}
                 tableColumns={tableColumns}
                 rowSelection={rowSelection}

@@ -47,7 +47,6 @@ export const ServiceReportViewChart = ({
             justifyContent: "space-between",
             alignItems: "center",
             borderBottom: "1px solid #858b932E",
-
             borderRadius: "8px",
           }}
         >

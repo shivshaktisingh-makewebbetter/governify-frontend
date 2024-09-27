@@ -40,8 +40,8 @@ export const ComplianceReportViewChart = ({
             background: "white",
             padding: "24px",
             marginBottom: "20px",
-            borderBottomRightRadius:"8px",
-            borderBottomLeftRadius:"8px"
+            borderBottomRightRadius: "8px",
+            borderBottomLeftRadius: "8px",
           }}
         >
           <Select
