@@ -4,9 +4,8 @@ import { userSettingData } from "../../utils/tools";
 import Hero from "../common/Hero";
 import { fetcher } from "../../utils/helper";
 import { Button, Select } from "antd";
-
+import { usePDF } from "react-to-pdf";
 import { EmptyReports } from "../common/EmptyReports";
-
 import {
   ChartViewIcon,
   ComplianceReportIcon,
@@ -95,7 +94,7 @@ export const Report = () => {
         } else {
           let tempDataSource = [];
           let tempTableColumns = [];
-   
+
           let tempNamevalue = { currentName: "", previousName: "" };
           let tempMonthFilterData = [];
 
@@ -554,7 +553,7 @@ export const Report = () => {
               alignItems: "center",
               borderBottom: "1px solid #858b932E",
               borderTopLeftRadius: "8px",
-              borderTopRightRadius:"8px"
+              borderTopRightRadius: "8px",
             }}
           >
             <span
@@ -670,44 +669,6 @@ export const Report = () => {
             </div>
           )}
 
-        {activeReport === "compliance" && !noData && activeView === "chart" && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              background: "white",
-              padding: "16px",
-            }}
-          >
-            <Select
-              showSearch
-              placeholder="Select Month"
-              popupMatchSelectWidth={false}
-              placement="bottomLeft"
-              disabled={true}
-              // onChange={handleCategoryChange}
-              options={monthFilterData}
-              style={{ border: "none" }}
-            />
-            <Button
-              style={{
-                background: "#5ac063",
-                color: "white",
-                border: "none",
-                fontSize: "16px",
-                fontWeight: 600,
-                height: "35px",
-              }}
-              icon={<ExportReportViewIcon />}
-              iconPosition="end"
-              disabled={true}
-            >
-              Download Report
-            </Button>
-          </div>
-        )}
-
         {activeReport === "compliance" && !noData && (
           <div>
             {activeView === "list" && (
@@ -720,6 +681,10 @@ export const Report = () => {
 
             {activeView === "chart" && (
               <ComplianceReportViewChart
+                activeView={activeView}
+                activeReport={activeReport}
+                noData={noData}
+                monthFilterData={monthFilterData}
                 hexToRgba={hexToRgba}
                 getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
                 getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
@@ -737,54 +702,14 @@ export const Report = () => {
           </div>
         )}
 
-        {activeReport === "service" && (
-          <div
-            style={{
-              marginTop: "12px",
-              padding: "24px",
-              background: "white",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid #858b932E",
-            }}
-          >
-            <span
-              style={{
-                fontWeight: "600",
-                fontSize: "24px",
-                lineHeight: "33.6px",
-                color: "#202223",
-              }}
-            >
-              Service Reports
-            </span>{" "}
-            {!noData && (
-              <Button
-                style={{
-                  background: "#5ac063",
-                  color: "white",
-                  border: "none",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  height: "35px",
-                }}
-                icon={<ExportReportViewIcon />}
-                iconPosition="end"
-                disabled={true}
-              >
-                Download Report
-              </Button>
-            )}
-          </div>
-        )}
-
         {noData && <EmptyReports activeReport={activeReport} />}
 
         {activeReport === "service" && !noData && (
           <ServiceReportViewChart
-           loading={loading}
-           setLoading={setLoading}
+            activeReport={activeReport}
+            noData={noData}
+            loading={loading}
+            setLoading={setLoading}
             getPieChartDataSet={getPieChartDataSet}
             getPieChartBg={getPieChartBg}
             getPieChartLabel={getPieChartLabel}

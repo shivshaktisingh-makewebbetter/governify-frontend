@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "Graphie-Regular";
+  src: url("https://db.onlinewebfonts.com/t/a5b0e20f1b3c4884638d19a0b5d43074.ttf")
+    format("truetype");
+}
+
 body,
 * {
   font-family: "Hind", sans-serif;
@@ -1198,29 +1204,26 @@ body,
 }
 
 .custom-pagination {
-
   background: white !important;
 }
 
 /* Table header background */
 .custom-table .ant-table-thead > tr > th {
-  background-color: #f6f6f7 !important; 
+  background-color: #f6f6f7 !important;
 }
 
-.custom-table{
+.custom-table {
   background: white !important;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-
 }
 
 /* Table body background */
 .custom-table .ant-table-tbody > tr > td {
-  background-color: white !important; ; /* Set table body background to white */
+  background-color: white !important; /* Set table body background to white */
 }
 
 /* Pagination background */
 .custom-pagination {
-  background-color: white !important; ; /* Set pagination background to white */
+  background-color: white !important; /* Set pagination background to white */
 }
-
