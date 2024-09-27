@@ -27,6 +27,7 @@ export const Report = () => {
   const [activeView, setActiveView] = useState("list"); // Track the active view, default to 'list'
   const [noData, setNoData] = useState(false);
   const [currentData, setCurrentData] = useState([]);
+  const [currentDataService, setCurrentDataService] = useState([]);
   const [previousData, setPreviousData] = useState([]);
   const [allColumnTitle, setAllColumnTitle] = useState([]);
   const [allColumnTitleService, setAllColumnTitleService] = useState([]);
@@ -43,6 +44,8 @@ export const Report = () => {
     currentName: "",
     previousName: "",
   });
+
+  const [nameValueService, setNameValueService] = useState("");
 
   const handleViewClick = (viewType) => {
     setActiveView(viewType); // Update active view on click
@@ -81,6 +84,9 @@ export const Report = () => {
       const response2 = await fetcher(
         `governify/customer/getAllComplianceReportForCustomer`
       );
+      const serviceResponse = await fetcher(
+        `governify/customer/getServiceReport`
+      );
 
       if (!response1.status) {
         setNoData(true);
@@ -88,6 +94,25 @@ export const Report = () => {
 
       if (response1.status) {
         setAllColumnTitle(response1.response.data.boards[0].columns);
+      }
+
+      if (serviceResponse.status) {
+        serviceResponse.response.data.boards[0].items_page.items.forEach(
+          (item) => {
+            if (
+              item.name.toLowerCase() ===
+              JSON.parse(
+                response.response[0].governify_service_filter_key
+              ).value.toLowerCase()
+            ) {
+              setCurrentDataService(item.column_values);
+              setNameValueService(item.name);
+            }
+          }
+        );
+        setAllColumnTitleService(
+          serviceResponse.response.data.boards[0].columns
+        );
       }
 
       if (response.status) {
@@ -102,13 +127,15 @@ export const Report = () => {
 
           // Building table columns
           JSON.parse(response.response[0].governify_table_settings).forEach(
-            (item) => {
+            (item, index) => {
               response1.response.data.boards[0].columns.forEach((subItem) => {
                 if (item === subItem.id) {
                   tempTableColumns.push({
                     title: subItem.title,
                     dataIndex: subItem.id,
                     key: subItem.id,
+                    width: 150,
+                    ...(index === 0 && { fixed: "left" }), // conditionally apply fixed: 'right' if index is 0
                   });
                 }
               });
@@ -122,7 +149,6 @@ export const Report = () => {
           // Handling current data
           response1.response.data.boards[0].items_page.items.forEach((item) => {
             if (item.name.toLowerCase() === filterKey) {
-              // tempSelectedCurrentData = item.column_values;
               setCurrentData(item.column_values);
               tempNamevalue.currentName = item.name;
             }
@@ -132,7 +158,6 @@ export const Report = () => {
           response1.response.data.boards[0].items_page.previous_month_items.forEach(
             (item) => {
               if (item.name.toLowerCase() === filterKey) {
-                // tempSelectedPreviousData = item.column_values;
                 setPreviousData(item.column_values);
                 tempNamevalue.previousName = item.name;
               }
@@ -218,14 +243,26 @@ export const Report = () => {
 
   const getColumnValueForTextChart = (id) => {
     let tempValue = "";
-    if (id === "name") {
-      tempValue = nameValue.currentName;
+    if (activeReport === "service") {
+      if (id === "name") {
+        tempValue = nameValueService;
+      } else {
+        currentDataService.forEach((item) => {
+          if (item.id === id) {
+            tempValue = item.text;
+          }
+        });
+      }
     } else {
-      currentData.forEach((item) => {
-        if (item.id === id) {
-          tempValue = item.text;
-        }
-      });
+      if (id === "name") {
+        tempValue = nameValue.currentName;
+      } else {
+        currentData.forEach((item) => {
+          if (item.id === id) {
+            tempValue = item.text;
+          }
+        });
+      }
     }
 
     return tempValue;
@@ -243,11 +280,21 @@ export const Report = () => {
 
   const getColumnTitleForTextChart = (id) => {
     let tempValue = "";
-    allColumnTitle.forEach((item) => {
-      if (item.id === id) {
-        tempValue = item.title;
-      }
-    });
+
+    if (activeReport === "service") {
+      allColumnTitleService.forEach((item) => {
+        if (item.id === id) {
+          tempValue = item.title;
+        }
+      });
+    } else {
+      allColumnTitle.forEach((item) => {
+        if (item.id === id) {
+          tempValue = item.title;
+        }
+      });
+    }
+
     return tempValue;
   };
 
@@ -310,6 +357,29 @@ export const Report = () => {
           topRight: 5, // Set the top-right corner radius
           bottomLeft: 0, // No radius for the bottom-left corner
           bottomRight: 0, // No radius for the bottom-right corner
+        },
+        borderSkipped: false,
+        borderWidth: 1,
+        // barThickness: 1
+      });
+    });
+
+    return tempData;
+  };
+
+  const getDataSetForHorizontalBarChart = (subItem) => {
+    let tempData = [];
+    subItem.selectedColumns.forEach((item) => {
+      tempData.push({
+        label: getColumnTitleForTextChart(item),
+        data: [getColumnValueForTextChart(item)],
+        backgroundColor: getBgColorForBarChart(subItem, item),
+        borderColor: getBorderColorForBarChart(subItem, item),
+        borderRadius: {
+          topLeft: 0, // Set the top-left corner radius
+          topRight: 5, // Set the top-right corner radius
+          bottomLeft: 0, // No radius for the bottom-left corner
+          bottomRight: 5, // No radius for the bottom-right corner
         },
         borderSkipped: false,
         borderWidth: 1,
@@ -476,12 +546,13 @@ export const Report = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === '/report') {
-      document.body.style.backgroundColor = '#F6F6FB'; // Change to red
-    } else {
-      document.body.style.backgroundColor = 'white'; // Reset to default
+    if (location.pathname === "/report") {
+      document.body.style.backgroundColor = "#F6F6FB"; // Change to red
     }
 
+    return () => {
+      document.body.style.backgroundColor = "white"; // Reset to default
+    };
   }, []);
 
   return (
@@ -674,6 +745,9 @@ export const Report = () => {
                 getColumnTitleForTextChart={getColumnTitleForTextChart}
                 getBgSquareColor={getBgSquareColor}
                 getColumnPercentage={getColumnPercentage}
+                getDataSetForHorizontalBarChart={
+                  getDataSetForHorizontalBarChart
+                }
               />
             )}
           </div>

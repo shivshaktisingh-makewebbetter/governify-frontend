@@ -16,6 +16,7 @@ export const ComplianceReportViewChart = ({
   monthFilterData,
   hexToRgba,
   getDataSetForVerticalBarChart,
+  getDataSetForHorizontalBarChart,
   getStepSizeForVerticalBarChart,
   getMaxForVerticalBarChart,
   complianceReportSettingData,
@@ -410,7 +411,7 @@ export const ComplianceReportViewChart = ({
                       >
                         {subItem.horizontal ? (
                           <BarChartHorizontal
-                            dataset={getDataSetForVerticalBarChart(subItem)}
+                            dataset={getDataSetForHorizontalBarChart(subItem)}
                             stepsize={getStepSizeForVerticalBarChart(subItem)}
                             max={getMaxForVerticalBarChart(subItem)}
                             title={subItem.heading}

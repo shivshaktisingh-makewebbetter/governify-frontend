@@ -59,6 +59,7 @@ export const ComplianceReportViewList = ({
         )}
 
       <Table
+        scroll={{ x: 768 }}
         className="governify-report-table custom-table"
         rowSelection={rowSelection}
         columns={tableColumns}
