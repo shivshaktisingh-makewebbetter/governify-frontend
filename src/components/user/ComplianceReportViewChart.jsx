@@ -297,11 +297,11 @@ export const ComplianceReportViewChart = ({
                           background: "white",
                           border: "1px solid #E3E3E3",
                           borderRadius: "8px",
-                          padding: "28px",
+                          padding: "10px",
                           marginBottom: "10px",
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "space-between",
+                          justifyContent: "center",
                           alignItems: "center",
                           gap: "44px",
                         }}
@@ -317,6 +317,10 @@ export const ComplianceReportViewChart = ({
                               fontSize: "24px",
                               fontWeight: "700",
                               color: "#202223",
+                              position: "absolute",
+                              top: "20px",
+                              left: "20px",
+                              width: "90%",
                             }}
                           >
                             {subItem.heading}
