@@ -1,26 +1,9 @@
-import React from "react";
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { Chart, registerables } from "chart.js"; // Import Chart and registerables
 import { CustomTooltip } from "./CustomTooltip";
 
-// Register necessary Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+// Register all components (including scales)
+Chart.register(...registerables);
 
 export const BarChartVertical = ({
   dataset,
@@ -37,33 +20,25 @@ export const BarChartVertical = ({
   const options = {
     responsive: true,
     plugins: {
-      beforeDatasetsDraw: function (chart) {
+      beforeDraw: function (chart) {
         const ctx = chart.ctx;
         ctx.save();
 
         chart.data.datasets.forEach((dataset, i) => {
           const meta = chart.getDatasetMeta(i);
-          meta.data.forEach((bar) => {
-            // Apply shadow properties
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-            ctx.shadowBlur = 10;
-            ctx.shadowOffsetX = 5;
-            ctx.shadowOffsetY = 5;
+          meta.data.forEach((bar, index) => {
+            ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // Shadow color
+            ctx.shadowBlur = 10; // Blur effect
+            ctx.shadowOffsetX = 5; // Horizontal offset
+            ctx.shadowOffsetY = 5; // Vertical offset
 
-            // Get the bar dimensions and position
-            const { x, y, width, height } = bar.getProps([
-              "x",
-              "y",
-              "width",
-              "height",
-            ]);
-
-            // Draw shadow aligned with the top of the bar
+            // Draw the shadowed bar
+            ctx.fillStyle = dataset.backgroundColor; // Use the dataset color
             ctx.fillRect(
-              x - width / 2, // Position the shadow rectangle properly
-              y, // Align with the top of the bar
-              width, // Same width as the bar
-              height // Extend shadow down the bar height
+              bar.x - bar.width / 2,
+              bar.y,
+              bar.width,
+              chart.chartArea.bottom - bar.y
             );
           });
         });
@@ -73,14 +48,13 @@ export const BarChartVertical = ({
       legend: {
         labels: {
           font: {
-            size: "14px", // Change this value to adjust legend font size
-            weight: "400", // Change font weight if needed
+            size: "14px",
+            weight: "400",
             color: "#6d7175",
           },
-          padding: 20, // Add padding between legend items
-          boxWidth: 15, // Width of the square dot
-          boxHeight: 15,
-          borderRadius: 10
+          padding: 20,
+          boxWidth: 10,
+          boxHeight: 10,
         },
         position: "bottom",
       },
@@ -88,28 +62,74 @@ export const BarChartVertical = ({
         display: false,
         text: title,
         font: {
-          size: 24, // Set the font size for the title
-          family: "Arial, sans-serif", // Font family for the title
-          weight: "700", // Font weight for the title
+          size: 24,
+          family: "Arial, sans-serif",
+          weight: "700",
         },
         align: "start",
+      },
+      tooltip: {
+        yAlign: "bottom",
+        xAlign: "center",
+        displayColors: false,
+        backgroundColor: "#ffffff",
+        titleFont: {
+          size: 12,
+          weight: "400",
+        },
+        titleColor: "#6d7175",
+        bodyFont: {
+          size: 16,
+          weight: "400",
+          color: "#202223",
+        },
+        bodyColor: "#000000",
+        padding: {
+          top: 12,
+          bottom: 12,
+          left: 20,
+          right: 20,
+        },
+        cornerRadius: 8,
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+        callbacks: {
+          label: function (tooltipItem) {
+            const label = tooltipItem.dataset.label || "";
+            const value = tooltipItem.raw || 0;
+            return [`${label}`, `${value}`];
+          },
+        },
+        bodyAlign: "center",
+        titleAlign: "center",
+        borderColor: "#ccc",
+        borderWidth: 0.3,
+      },
+      datalabels: {
+        anchor: "end",
+        align: "end",
+        formatter: (value) => value,
+        color: "#202223",
+        font: {
+          weight: "bold",
+          size: 14,
+        },
       },
     },
     scales: {
       x: {
         display: false,
+        categoryPercentage: 1,
+        barPercentage: 20,
       },
       y: {
         beginAtZero: true,
-        max: max, // Set maximum value for y-axis
+        max: max,
         ticks: {
-          stepSize: stepsize, // Define the step size for y-axis
+          stepSize: stepsize,
         },
         grid: {
-          display: false,
+          color: "rgba(200, 200, 200, 0.2)",
         },
-        categoryPercentage: 1, // Adjusts space between categories (bars)
-        barPercentage: 20,
       },
     },
   };
@@ -118,13 +138,13 @@ export const BarChartVertical = ({
     <>
       <div
         style={{
-          width: "100%",
+          width: "80%",
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          position: "absolute" ,
-          top:"20px" ,
-          left:"20px"
+          position: "absolute",
+          top: "20px",
+          left: "20px",
         }}
       >
         <span
@@ -139,9 +159,7 @@ export const BarChartVertical = ({
           {title}
         </span>
         <span>
-          {description.length > 0 && (
-            <CustomTooltip description={description} />
-          )}
+          {description.length > 0 && <CustomTooltip description={description} />}
         </span>
       </div>
       <Bar data={data} options={options} />

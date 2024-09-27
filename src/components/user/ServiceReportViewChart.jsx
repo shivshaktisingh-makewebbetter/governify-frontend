@@ -18,7 +18,7 @@ export const ServiceReportViewChart = ({
   getColumnTitleForTextChart,
   getColumnValueForTextChart,
 }) => {
-    
+
   const fetchData = async () => {
    try{
 
@@ -144,7 +144,7 @@ export const ServiceReportViewChart = ({
                         marginBottom: "10px",
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "center",
+                        justifyContent: "flex-end",
                         alignItems: "center",
                       }}
                     >
@@ -192,7 +192,7 @@ export const ServiceReportViewChart = ({
                         marginBottom: "10px",
                         display: "flex",
                         flexDirection: "column",
-                        justifyContent: "center",
+                        justifyContent: "flex-end",
                         alignItems: "center",
                       }}
                     >

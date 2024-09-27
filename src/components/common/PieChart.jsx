@@ -1,10 +1,12 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels"; // Import the data labels plugin
 import { CustomTooltip } from "./CustomTooltip";
 
+
 // Register necessary components
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 export const PieChart = ({
   title,
@@ -32,24 +34,67 @@ export const PieChart = ({
   const options = {
     plugins: {
       legend: {
-        display: true, // Ensure the legend is displayed
+        display: true,
         position: "bottom",
         labels: {
-          generateLabels: (chart) => {
-            const { data } = chart;
-            return data.labels.map((label, i) => ({
-              text: label,
-              fillStyle: data.datasets[0].backgroundColor[i],
-              strokeStyle: data.datasets[0].borderColor[i],
-              lineWidth: 1,
-              hidden: chart.getDatasetMeta(0).data[i].hidden,
-              index: i,
-              boxWidth: 5, // Size of the legend box
-              boxHeight: 5,
-              borderRadius: 5, // Adding border-radius for rounded edges
-            }));
+          boxWidth: 10,
+          boxHeight: 10,
+          padding: 20,
+          font: {
+            size: "14px",
+            weight: "400",
+            color: "#6d7175",
           },
         },
+      },
+      tooltip: {
+        xAlign: "center",
+        yAlign: "bottom",
+        displayColors: false,
+        backgroundColor: "#ffffff",
+        titleFont: {
+          size: 12,
+          weight: "400",
+        },
+        titleColor: "#6d7175",
+        bodyFont: {
+          size: 16,
+          weight: "700",
+          color: "#202223",
+        },
+        bodyColor: "#000000",
+        padding: {
+          top: 10,
+          bottom: 10,
+          left: 15,
+          right: 15,
+        },
+        callbacks: {
+          label: function (tooltipItem) {
+            const value = tooltipItem.raw || 0;
+            return value;
+          },
+        },
+        bodyAlign: "center",
+        titleAlign: "center",
+      },
+      datalabels: {
+        color: "white", // Set the text color here
+        formatter: (value, context) => {
+          return value + "%"; // Show the label name
+        },
+        labels: {
+          title: {
+            font: {
+              weight: "bold",
+            },
+          },
+          value: {
+            color: "white",
+          },
+        },
+        anchor: "center",
+        align: "end",
       },
     },
   };
@@ -61,9 +106,9 @@ export const PieChart = ({
           display: "flex",
           justifyContent: "start",
           alignItems: "center",
-          position: "absolute" ,
-          top:"20px" ,
-          left:"20px"
+          position: "absolute",
+          top: "20px",
+          left: "20px",
         }}
       >
         <span
@@ -83,7 +128,9 @@ export const PieChart = ({
           )}
         </span>
       </div>
-      <Pie data={data} options={options} />
+      <div style={{}}>
+        <Pie data={data} options={options} />
+      </div>
     </div>
   );
 };
