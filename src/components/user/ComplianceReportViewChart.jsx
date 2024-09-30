@@ -308,6 +308,7 @@ export const ComplianceReportViewChart = ({
                       >
                         <div
                           style={{
+                            width:"70%" ,
                             borderBottom: "1px solid rgba(201, 204, 207, 0.7)",
                           }}
                         >
@@ -332,6 +333,7 @@ export const ComplianceReportViewChart = ({
                             display: "flex",
                             gap: "26px",
                             flexDirection: "column",
+                            width:"70%"
                           }}
                         >
                           {subItem.selectedColumns.map((column, index) => (
@@ -382,7 +384,7 @@ export const ComplianceReportViewChart = ({
                                   style={{
                                     marginTop: "15px",
                                     marginBottom: "15px",
-                                    border:
+                                    borderBottom:
                                       "1px solid rgba(201, 204, 207, 0.7)",
                                   }}
                                 ></div>
