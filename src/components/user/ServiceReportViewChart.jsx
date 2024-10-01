@@ -36,6 +36,8 @@ export const ServiceReportViewChart = ({
             alignItems: "center",
             borderBottom: "1px solid #858b932E",
             borderRadius: "8px",
+            marginLeft:"20px" ,
+            marginRight:"20px" , 
           }}
         >
           <span

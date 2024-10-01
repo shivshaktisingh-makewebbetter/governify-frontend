@@ -54,6 +54,8 @@ export const ComplianceReportViewChart = ({
             background: "white",
             padding: "24px",
             marginBottom: "20px",
+            marginLeft:"20px" ,
+            marginRight:"20px" , 
             borderBottomRightRadius: "8px",
             borderBottomLeftRadius: "8px",
           }}
@@ -65,7 +67,7 @@ export const ComplianceReportViewChart = ({
             placement="bottomLeft"
             onChange={handleMonthChange}
             options={monthFilterData}
-            style={{ border: "none" }}
+            style={{ border: "none" , marginLeft:"5px" , marginRight:"5px" }}
             value={selectedComplianceMonth}
           />
           <Button

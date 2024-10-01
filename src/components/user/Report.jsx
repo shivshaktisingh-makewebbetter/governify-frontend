@@ -693,11 +693,14 @@ export const Report = () => {
             color: "#818181",
             fontWeight: "600",
             textAlign: "left",
+            marginLeft:"20px" ,
+            marginRight:"20px" , 
           }}
         >
           Reports
         </div>
-        <div style={{ textAlign: "left", marginTop: "12px" }}>
+        <div style={{ textAlign: "left", marginTop: "12px"  ,       marginLeft:"20px" ,
+            marginRight:"20px" , }}>
           <Button
             style={{
               fontWeight: "600",
@@ -746,6 +749,8 @@ export const Report = () => {
               borderBottom: "1px solid #858b932E",
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
+              marginLeft:"20px" ,
+              marginRight:"20px" , 
             }}
           >
             <span
