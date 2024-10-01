@@ -45,6 +45,9 @@ export const Report = () => {
   });
   const [finalData, setFinalData] = useState({});
   const [selectedComplianceMonth, setSelectedComplianceMonth] = useState("");
+  const [noDataCompliance , setNoDataCompliance] = useState(false);
+  const [noDataService , setNoDataService] = useState(false);
+
 
   const [nameValueService, setNameValueService] = useState("");
 
@@ -123,27 +126,39 @@ export const Report = () => {
 
   const fetchData = async () => {
     setLoading(true);
+    const tempData = [];
     try {
       const response = await fetcher(
         `newonboardify/customer/allProfileWithServicesByUser`
       );
 
-      const response1 = await fetcher(`governify/customer/getComplianceReport`);
-      const response2 = await fetcher(
+      const complianceResponse = await fetcher(
         `governify/customer/getAllComplianceReportForCustomer`
       );
       const serviceResponse = await fetcher(
         `governify/customer/getServiceReport`
       );
 
-      if (!response1.status) {
+  
+      if (!complianceResponse.status) {
         setNoData(true);
+        setNoDataCompliance(true);
+        setNoDataService(true);
       }
 
-      if (response2.status) {
-        setAllColumnTitle(response2.response.data.boards[0].columns);
-        const tempData = [];
-        response2.response.data.boards[0].items_page.items.forEach((item) => {
+      if(JSON.parse(response.response[0].governify_compliance_report) === null || JSON.parse(response.response[0].governify_compliance_report_view) === null){
+        setNoDataCompliance(true);
+      }
+
+
+      if(JSON.parse(response.response[0].governify_service_report) === null || JSON.parse(response.response[0].governify_service_report_view) === null){
+        setNoDataService(true);
+      }
+
+      if (complianceResponse.status) {
+        setAllColumnTitle(complianceResponse.response.data.boards[0].columns);
+     
+        complianceResponse.response.data.boards[0].items_page.items.forEach((item) => {
           if (
             item.name.toLowerCase() ===
             JSON.parse(
@@ -200,7 +215,7 @@ export const Report = () => {
           // Building table columns
           JSON.parse(response.response[0].governify_table_settings).forEach(
             (item, index) => {
-              response1.response.data.boards[0].columns.forEach((subItem) => {
+              complianceResponse.response.data.boards[0].columns.forEach((subItem) => {
                 if (item === subItem.id) {
                   tempTableColumns.push({
                     title: subItem.title,
@@ -218,7 +233,7 @@ export const Report = () => {
             response.response[0].governify_compliance_filter_key
           ).value.toLowerCase();
 
-          response2.response.data.boards[0].items_page.items.forEach(
+          complianceResponse.response.data.boards[0].items_page.items.forEach(
             (item, index) => {
               if (item.name.toLowerCase() === filterKey) {
                 let obj = { key: index };
@@ -237,7 +252,7 @@ export const Report = () => {
             }
           );
 
-          response2.response.data.boards[0].items_page.items.forEach((item) => {
+          complianceResponse.response.data.boards[0].items_page.items.forEach((item) => {
             if (item.name.toLowerCase() === filterKey) {
               let monthData = getMonthNameWithYear(item.created_at);
               if (!tempMonthFilter.includes(monthData.value)) {
@@ -329,11 +344,19 @@ export const Report = () => {
   };
 
   const getPreviousMonthChange = (id) => {
-    if(previousData.length === 0){
-      return '';
+    console.log(id);
+    if (id === undefined) {
+      return "1 %";
     }
+    if (previousData.length === 0 || currentData.length === 0) {
+      return "";
+    }
+
     const currentResult = currentData.find((item) => item.id === id);
     const previousResult = previousData.find((item) => item.id === id);
+    if (currentResult === undefined || previousResult === undefined) {
+      return "";
+    }
     const percentageChange =
       ((Number(currentResult.text) - Number(previousResult.text)) /
         Number(previousResult.text)) *
@@ -371,7 +394,18 @@ export const Report = () => {
     return tempColor;
   };
 
-  function hexToRgba(hex, opacity) {
+  function getRandomColor() {
+    // Generate a random integer between 0 and 255
+    return Math.floor(Math.random() * 256);
+  }
+
+  function hexToRgba(hex, opacity = 1) {
+    // Check if hex is undefined or invalid
+    if (!hex || typeof hex !== "string" || hex.length !== 7 || hex[0] !== "#") {
+      // Return a random RGBA color
+      return `rgba(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()}, ${opacity})`;
+    }
+
     // Remove the '#' if it's there
     hex = hex.replace("#", "");
 
@@ -640,7 +674,6 @@ export const Report = () => {
   };
 
   const handleMonthChange = (e) => {
-
     let newCurrentData = getItemsByMonth(finalData, e);
     let previousMonthData = getPreviousItem(finalData, {
       created_at: newCurrentData[0].created_at,
@@ -664,6 +697,9 @@ export const Report = () => {
       document.body.style.backgroundColor = "white"; // Reset to default
     };
   }, []);
+
+
+
 
   return (
     <div
@@ -693,14 +729,20 @@ export const Report = () => {
             color: "#818181",
             fontWeight: "600",
             textAlign: "left",
-            marginLeft:"20px" ,
-            marginRight:"20px" , 
+            marginLeft: "20px",
+            marginRight: "20px",
           }}
         >
           Reports
         </div>
-        <div style={{ textAlign: "left", marginTop: "12px"  ,       marginLeft:"20px" ,
-            marginRight:"20px" , }}>
+        <div
+          style={{
+            textAlign: "left",
+            marginTop: "12px",
+            marginLeft: "20px",
+            marginRight: "20px",
+          }}
+        >
           <Button
             style={{
               fontWeight: "600",
@@ -749,8 +791,8 @@ export const Report = () => {
               borderBottom: "1px solid #858b932E",
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
-              marginLeft:"20px" ,
-              marginRight:"20px" , 
+              marginLeft: "20px",
+              marginRight: "20px",
             }}
           >
             <span
@@ -771,7 +813,7 @@ export const Report = () => {
                 borderRadius: "8px",
               }}
             >
-              {!noData && (
+              {!noDataCompliance && (
                 <Button
                   style={{
                     marginRight: "16px",
@@ -797,7 +839,7 @@ export const Report = () => {
                   List View
                 </Button>
               )}
-              {!noData && (
+              {!noDataCompliance && (
                 <Button
                   style={{
                     border: "none",
@@ -827,7 +869,7 @@ export const Report = () => {
           </div>
         )}
 
-        {activeReport === "compliance" && !noData && (
+        {activeReport === "compliance" && !noDataCompliance && (
           <div>
             {activeView === "list" && (
               <ComplianceReportViewList
@@ -871,12 +913,15 @@ export const Report = () => {
           </div>
         )}
 
-        {noData && <EmptyReports activeReport={activeReport} />}
+        {noDataCompliance && activeReport === 'compliance' && <EmptyReports activeReport={activeReport} />}
+        {noDataService && activeReport === 'service' && <EmptyReports activeReport={activeReport} />}
 
-        {activeReport === "service" && !noData && (
+
+        {activeReport === "service" && !noDataService && (
           <ServiceReportViewChart
             activeReport={activeReport}
             noData={noData}
+            noDataService={noDataService}
             loading={loading}
             setLoading={setLoading}
             getPieChartDataSet={getPieChartDataSet}
