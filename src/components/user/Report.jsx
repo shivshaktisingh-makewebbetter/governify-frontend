@@ -643,7 +643,7 @@ export const Report = () => {
 
     let newCurrentData = getItemsByMonth(finalData, e);
     let previousMonthData = getPreviousItem(finalData, {
-      created_at: newCurrentData.created_at,
+      created_at: newCurrentData[0].created_at,
     });
 
     setCurrentData(newCurrentData[0].column_values);
