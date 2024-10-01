@@ -262,22 +262,34 @@ const Header = ({ user }) => {
           {role === "customer" ? (
             location.pathname === "/track-request" ? (
               <Button
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 type="text"
                 onClick={() => {
                   navigateToHome();
                   setOpenDrawer(false);
                 }}
               >
+                <HomeOutlined className="fs_20 fw-700" />
                 <span className="font-family-montse fs-12 fw-700">Home</span>
               </Button>
             ) : (
               <Button
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 type="text"
                 onClick={() => {
                   navigateToTrackRequest();
                   setOpenDrawer(false);
                 }}
               >
+                <SearchOutlined className="fs_20 fw-700" />
                 <span className="font-family-montse fs-12 fw-700">
                   Track a Request
                 </span>
@@ -285,23 +297,35 @@ const Header = ({ user }) => {
             )
           ) : (
             <Button
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               type="text"
               onClick={() => {
                 navigateToSettings();
                 setOpenDrawer(false);
               }}
             >
+              <SettingOutlined className="fs_20 fw-700" />
               <span className="font-family-montse fs-12 fw-700">Settings</span>
             </Button>
           )}
 
           <Button
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             type="text"
             onClick={() => {
               logoutFunction();
               setOpenDrawer(false);
             }}
           >
+            <LogoutOutlined style={{ fontSize: "16px" }} />
             <span className="font-family-montse fs-12 fw-700">Log out</span>
           </Button>
         </Flex>

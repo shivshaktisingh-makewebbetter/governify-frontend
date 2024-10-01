@@ -4,6 +4,7 @@ import { fetcher } from "../../utils/helper";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import { Loader } from "../common/Loader";
+import CountrySelect from "../common/CountrySelect";
 
 const Register = () => {
   const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
@@ -17,6 +18,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     company_name: "",
+    country: null,
     phone: "",
     email: "",
     password: "",
@@ -55,8 +57,9 @@ const Register = () => {
 
     // Filter out specific keys and set the filteredParams state
     const filteredObj = Object.fromEntries(
-      Object.entries(paramsObj).filter(([key]) => 
-        !['company_name', 'invited_user_email', 'user_email'].includes(key)
+      Object.entries(paramsObj).filter(
+        ([key]) =>
+          !["company_name", "invited_user_email", "user_email"].includes(key)
       )
     );
 
@@ -74,18 +77,25 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if(params?.company_name) {
-      setFormData({...formData, company_name: params.company_name, email: params.invited_user_email});
+    if (params?.company_name) {
+      setFormData({
+        ...formData,
+        company_name: params.company_name,
+        email: params.invited_user_email,
+      });
     }
-  }, [params])
+  }, [params]);
 
   useEffect(() => {
-    const { name, company_name, email, password, phone } = formData;
+    const { name, company_name, email, country, password, phone } = formData;
     setIsFormValid(
       name.trim() !== "" &&
         company_name.trim() !== "" &&
         email.trim() !== "" &&
         emailRegex.test(email) &&
+        country !== null &&
+        country !== "" &&
+        country !== undefined &&
         password.trim() !== "" &&
         recaptchaToken !== "" &&
         !recaptchaExpired &&
@@ -128,6 +138,14 @@ const Register = () => {
     }));
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if(isFormValid) {
+        handleSubmit(event);
+      }
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setAnimation(false);
@@ -167,6 +185,7 @@ const Register = () => {
               onSubmit={handleSubmit}
               className="form-auth"
               id="registration-custom-form"
+              onKeyDown={handleKeyDown}
             >
               <input
                 type="text"
@@ -184,9 +203,13 @@ const Register = () => {
                 value={formData.company_name || params?.company_name}
                 onChange={handleInputChange}
                 disabled={params?.company_name}
-                style={{ background: params?.company_name ? "#ececec" : "#e8f0fe" }}
+                style={{
+                  background: params?.company_name ? "#ececec" : "#e8f0fe",
+                  color: params?.company_name ? "darkgrey" : "",
+                }}
                 className="input-customer-focus form-control"
               />
+              <CountrySelect formData={formData} setFormData={setFormData} />
               <input
                 type="text"
                 placeholder="+966 011 XXX XXXX*"
@@ -203,7 +226,12 @@ const Register = () => {
                 value={formData.email || params?.invited_user_email}
                 onChange={handleInputChange}
                 disabled={params?.invited_user_email}
-                style={{ background: params?.invited_user_email ? "#ececec" : "#e8f0fe" }}
+                style={{
+                  background: params?.invited_user_email
+                    ? "#ececec"
+                    : "#e8f0fe",
+                  color: params?.invited_user_email ? "darkgrey" : "",
+                }}
                 className="input-customer-focus form-control"
               />
               <div className="input-group flex-nowrap" id="password-filled">
