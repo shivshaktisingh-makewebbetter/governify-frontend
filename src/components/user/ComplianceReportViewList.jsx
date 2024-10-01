@@ -16,6 +16,8 @@ export const ComplianceReportViewList = ({
       style={{
         borderBottomLeftRadius: "8px",
         borderBottomRightRadius: "8px",
+        marginLeft:"20px" ,
+        marginRight:"20px" , 
       }}
     >
       {activeReport === "compliance" &&

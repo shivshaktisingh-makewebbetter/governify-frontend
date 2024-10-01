@@ -61,7 +61,6 @@ export const ComplianceReportViewChart = ({
           }}
         >
           <Select
-            showSearch
             placeholder="Select Month"
             popupMatchSelectWidth={false}
             placement="bottomLeft"
