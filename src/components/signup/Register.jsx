@@ -113,7 +113,6 @@ const Register = () => {
       } else {
         toast.error(response.message);
       }
-      console.log(response);
     } catch (err) {
       console.log(err, "error");
     } finally {
