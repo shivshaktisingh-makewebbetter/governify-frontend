@@ -15,6 +15,8 @@ export const PieChart = ({
   borderColorSetPie,
   description,
 }) => {
+  const total = dataset.reduce((acc, value) => acc + Number(value), 0); // Calculate total
+
   const data = {
     labels: pieChartLabel,
     datasets: [
@@ -71,7 +73,7 @@ export const PieChart = ({
         callbacks: {
           label: function (tooltipItem) {
             const value = tooltipItem.raw || 0;
-            return value;
+            return `${value}`; // Show value and percentage
           },
         },
         bodyAlign: "center",
@@ -80,7 +82,8 @@ export const PieChart = ({
       datalabels: {
         color: "white", // Set the text color here
         formatter: (value, context) => {
-          return value + "%"; // Show the label name
+          const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage
+          return `${percentage}%`; // Show percentage
         },
         labels: {
           title: {

@@ -28,21 +28,20 @@ export const ComplianceReportViewChart = ({
   getColumnTitleForTextChart,
   getBgSquareColor,
   getColumnPercentage,
-  handleMonthChange ,
-  selectedComplianceMonth
+  handleMonthChange,
+  selectedComplianceMonth,
+  previousData,
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
-  const [recommendationObject , setRecommendationObject] = useState({});
+  const [recommendationObject, setRecommendationObject] = useState({});
 
-  
-
-  useEffect(()=>{
-    complianceReportSettingData.forEach((item)=>{
-      if(item.hasOwnProperty('type') && item.type === "Recommendation"){
+  useEffect(() => {
+    complianceReportSettingData.forEach((item) => {
+      if (item.hasOwnProperty("type") && item.type === "Recommendation") {
         setRecommendationObject(item);
       }
-    })
-  },[complianceReportSettingData])
+    });
+  }, [complianceReportSettingData]);
 
   return (
     <div>
@@ -86,7 +85,10 @@ export const ComplianceReportViewChart = ({
           </Button>
         </div>
       )}
-      <div ref={targetRef} style={{paddingLeft:"20px" , paddingRight:"20px"}}>
+      <div
+        ref={targetRef}
+        style={{ paddingLeft: "20px", paddingRight: "20px" }}
+      >
         {complianceReportViewData.map((item) => {
           return (
             <div style={{ height: item.height }}>
@@ -172,53 +174,55 @@ export const ComplianceReportViewChart = ({
                             </p>
                           </div>
                           <div>
-                            <p
-                              style={{
-                                width: "100%",
-                                textAlign: "right",
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                marginBottom: "6px",
-                                borderRadius: "100px",
-                                padding: "6px 12px",
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: "4px",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <span
+                            {previousData.length > 0 && (
+                              <p
                                 style={{
+                                  width: "100%",
                                   textAlign: "right",
-                                  color:
-                                    changePreviousMonth > 0
-                                      ? "#22c55e"
-                                      : "#EF4444",
-                                  fontSize: "12px",
-                                  fotWeight: "600",
-                                  lineHeight: "16.8px",
+                                  fontSize: "16px",
+                                  fontWeight: "600",
+                                  marginBottom: "6px",
+                                  borderRadius: "100px",
+                                  padding: "6px 12px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "4px",
+                                  justifyContent: "space-between",
                                 }}
                               >
-                                <span>
-                                  {changePreviousMonth > 0 ? (
-                                    <RiseOutlined color={"#22c55e"} />
-                                  ) : (
-                                    <FallOutlined color={"#ef4444"} />
-                                  )}
-                                </span>{" "}
-                                <span> {changePreviousMonth + " %"} </span>
-                              </span>
-                              <span
-                                style={{
-                                  fontWeight: "400",
-                                  fontSize: "12px",
-                                  color: "#6d7175",
-                                  lineHeight: "16.8px",
-                                }}
-                              >
-                                vs last Month
-                              </span>
-                            </p>
+                                <span
+                                  style={{
+                                    textAlign: "right",
+                                    color:
+                                      changePreviousMonth > 0
+                                        ? "#22c55e"
+                                        : "#EF4444",
+                                    fontSize: "12px",
+                                    fotWeight: "600",
+                                    lineHeight: "16.8px",
+                                  }}
+                                >
+                                  <span>
+                                    {changePreviousMonth > 0 ? (
+                                      <RiseOutlined color={"#22c55e"} />
+                                    ) : (
+                                      <FallOutlined color={"#ef4444"} />
+                                    )}
+                                  </span>{" "}
+                                  <span> {changePreviousMonth + " %"} </span>
+                                </span>
+                                <span
+                                  style={{
+                                    fontWeight: "400",
+                                    fontSize: "12px",
+                                    color: "#6d7175",
+                                    lineHeight: "16.8px",
+                                  }}
+                                >
+                                  vs last Month
+                                </span>
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -322,7 +326,7 @@ export const ComplianceReportViewChart = ({
                       >
                         <div
                           style={{
-                            width:"70%" ,
+                            width: "70%",
                             borderBottom: "1px solid rgba(201, 204, 207, 0.7)",
                           }}
                         >
@@ -347,7 +351,7 @@ export const ComplianceReportViewChart = ({
                             display: "flex",
                             gap: "26px",
                             flexDirection: "column",
-                            width:"70%"
+                            width: "70%",
                           }}
                         >
                           {subItem.selectedColumns.map((column, index) => (
@@ -480,9 +484,7 @@ export const ComplianceReportViewChart = ({
               marginTop: "10px",
             }}
           >
-            {getColumnValueForTextChart(
-              recommendationObject.column
-            )}
+            {getColumnValueForTextChart(recommendationObject.column)}
           </div>
         </div>
       </div>

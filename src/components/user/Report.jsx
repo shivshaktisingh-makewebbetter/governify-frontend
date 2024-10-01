@@ -43,8 +43,8 @@ export const Report = () => {
     currentName: "",
     previousName: "",
   });
-  const [finalData , setFinalData] = useState({});
-  const [selectedComplianceMonth , setSelectedComplianceMonth] = useState('');
+  const [finalData, setFinalData] = useState({});
+  const [selectedComplianceMonth, setSelectedComplianceMonth] = useState("");
 
   const [nameValueService, setNameValueService] = useState("");
 
@@ -71,18 +71,55 @@ export const Report = () => {
     const monthName = monthNames[date.getUTCMonth()]; // Get the month name
     const year = date.getUTCFullYear(); // Get the year
 
-    return {label:`${monthName} ${year}` , value:monthName}; // Return in "Month Year" format
+    return { label: `${monthName} ${year}`, value: monthName }; // Return in "Month Year" format
   };
 
   const getCurrentMonthName = () => {
     const date = new Date();
     const monthNames = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
     const monthIndex = date.getMonth(); // getMonth() returns 0-11
     return monthNames[monthIndex];
   };
+
+  const getLatestItem = (arr) => {
+    return arr.reduce((latest, current) => {
+      return new Date(current.created_at) > new Date(latest.created_at)
+        ? current
+        : latest;
+    });
+  };
+
+  const getPreviousItem = (arr, currentData) => {
+    // Sort the array by created_at in ascending order
+    const sortedArr = arr
+      .slice()
+      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+    // Find the index of the currentData
+    const currentIndex = sortedArr.findIndex(
+      (item) => item.created_at === currentData.created_at
+    );
+
+    // Return the previous item if it exists
+    return currentIndex > 0 ? sortedArr[currentIndex - 1] : null;
+  };
+
+  // const currentData = { created_at: '2024-09-26T10:20:00Z' };
+  // const previousItem = getPreviousItem(items, currentData);
+  // console.log(previousItem); // Output: { created_at: '2024-09-25T15:30:20Z' }
 
   const fetchData = async () => {
     setLoading(true);
@@ -103,8 +140,33 @@ export const Report = () => {
         setNoData(true);
       }
 
-      if (response1.status) {
-        setAllColumnTitle(response1.response.data.boards[0].columns);
+      if (response2.status) {
+        setAllColumnTitle(response2.response.data.boards[0].columns);
+        const tempData = [];
+        response2.response.data.boards[0].items_page.items.forEach((item) => {
+          if (
+            item.name.toLowerCase() ===
+            JSON.parse(
+              response.response[0].governify_compliance_filter_key
+            ).value.toLowerCase()
+          ) {
+            tempData.push(item);
+          }
+        });
+
+        const latestItem = getLatestItem(tempData);
+        let latestMonthData = getMonthNameWithYear(latestItem.created_at);
+        let previousMonthData = getPreviousItem(tempData, {
+          created_at: latestItem.created_at,
+        });
+        setFinalData(tempData);
+        setSelectedComplianceMonth(latestMonthData.value);
+        setCurrentData(latestItem.column_values);
+        if (previousMonthData === null) {
+          setPreviousData([]);
+        } else {
+          setPreviousData(previousMonthData.column_values);
+        }
       }
 
       if (serviceResponse.status) {
@@ -126,15 +188,12 @@ export const Report = () => {
         );
       }
 
-
       if (response.status) {
         if (response.response.length === 0) {
           setNoData(false);
         } else {
           let tempDataSource = [];
           let tempTableColumns = [];
-
-          let tempNamevalue = { currentName: "", previousName: "" };
           let tempMonthFilterData = [];
           let tempMonthFilter = [];
 
@@ -158,27 +217,6 @@ export const Report = () => {
           const filterKey = JSON.parse(
             response.response[0].governify_compliance_filter_key
           ).value.toLowerCase();
-
-          // Handling current data
-          response1.response.data.boards[0].items_page.items.forEach((item) => {
-            if (item.name.toLowerCase() === filterKey) {
-              let currentMonth = getCurrentMonthName();
-              setSelectedComplianceMonth(currentMonth);
-              console.log(getMonthNameWithYear(item.created_at))
-              setCurrentData(item.column_values);
-              tempNamevalue.currentName = item.name;
-            }
-          });
-
-          // Handling previous data
-          response1.response.data.boards[0].items_page.previous_month_items.forEach(
-            (item) => {
-              if (item.name.toLowerCase() === filterKey) {
-                setPreviousData(item.column_values);
-                tempNamevalue.previousName = item.name;
-              }
-            }
-          );
 
           response2.response.data.boards[0].items_page.items.forEach(
             (item, index) => {
@@ -204,7 +242,10 @@ export const Report = () => {
               let monthData = getMonthNameWithYear(item.created_at);
               if (!tempMonthFilter.includes(monthData.value)) {
                 tempMonthFilter.push(monthData.value);
-                tempMonthFilterData.push({ label: monthData.label, value: monthData.value });
+                tempMonthFilterData.push({
+                  label: monthData.label,
+                  value: monthData.value,
+                });
               }
             }
           });
@@ -288,6 +329,9 @@ export const Report = () => {
   };
 
   const getPreviousMonthChange = (id) => {
+    if(previousData.length === 0){
+      return '';
+    }
     const currentResult = currentData.find((item) => item.id === id);
     const previousResult = previousData.find((item) => item.id === id);
     const percentageChange =
@@ -564,7 +608,52 @@ export const Report = () => {
     document.body.removeChild(link);
   };
 
-  const handleMonthChange = () => {};
+  const getItemsByMonth = (arr, monthName) => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    // Convert monthName to its corresponding month index
+    const monthIndex = monthNames.indexOf(monthName);
+
+    if (monthIndex === -1) {
+      // Return an empty array if monthName is invalid
+      return [];
+    }
+
+    // Filter items that match the given month
+    return arr.filter((item) => {
+      const itemDate = new Date(item.created_at);
+      return itemDate.getUTCMonth() === monthIndex;
+    });
+  };
+
+  const handleMonthChange = (e) => {
+
+    let newCurrentData = getItemsByMonth(finalData, e);
+    let previousMonthData = getPreviousItem(finalData, {
+      created_at: newCurrentData.created_at,
+    });
+
+    setCurrentData(newCurrentData[0].column_values);
+    if (previousMonthData === null) {
+      setPreviousData([]);
+    } else {
+      setPreviousData(previousMonthData.column_values);
+    }
+    setSelectedComplianceMonth(e);
+  };
 
   useEffect(() => {
     if (location.pathname === "/report") {
@@ -771,6 +860,7 @@ export const Report = () => {
                 }
                 handleMonthChange={handleMonthChange}
                 selectedComplianceMonth={selectedComplianceMonth}
+                previousData={previousData}
               />
             )}
           </div>
