@@ -1,14 +1,11 @@
 import { PieChart } from "../common/PieChart";
 import { BarChartHorizontal } from "../common/BarChartHorizontal";
 import { BarChartVertical } from "../common/BarChartVertical";
-import { useEffect } from "react";
 import { ExportReportViewIcon } from "../../assets/image";
 import { Button } from "antd";
 import { usePDF } from "react-to-pdf";
 
 export const ServiceReportViewChart = ({
-  loading,
-  setLoading,
   noData,
   activeReport,
   getPieChartDataSet,
@@ -23,18 +20,9 @@ export const ServiceReportViewChart = ({
   getColumnTitleForTextChart,
   getColumnValueForTextChart,
 }) => {
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const { toPDF, targetRef } = usePDF({ filename: "service.pdf" });
 
-  const fetchData = async () => {
-    try {
-    } catch (err) {
-    } finally {
-    }
-  };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
   return (
     <div style={{ marginTop: "20px" }}>
       {activeReport === "service" && (
@@ -81,7 +69,7 @@ export const ServiceReportViewChart = ({
         </div>
       )}
 
-      <div ref={targetRef}>
+      <div ref={targetRef} style={{paddingLeft:"20px" , paddingRight:"20px"}}>
         {serviceReportViewData.map((item) => {
           return (
             <div style={{ height: item.height, marginTop: "20px" }}>

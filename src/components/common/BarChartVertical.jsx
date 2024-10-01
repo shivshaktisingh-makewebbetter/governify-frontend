@@ -135,7 +135,6 @@ export const BarChartVertical = ({
     },
   };
 
-  console.log(dataset , 'dataset');
 
   return (
     <div style={{width:"100%"}}>

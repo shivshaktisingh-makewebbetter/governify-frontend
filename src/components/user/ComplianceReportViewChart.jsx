@@ -8,6 +8,7 @@ import { BarChartHorizontal } from "../common/BarChartHorizontal";
 import { BarChartVertical } from "../common/BarChartVertical";
 import { usePDF } from "react-to-pdf";
 import { ExportReportViewIcon } from "../../assets/image";
+import { useEffect, useState } from "react";
 
 export const ComplianceReportViewChart = ({
   activeView,
@@ -27,8 +28,21 @@ export const ComplianceReportViewChart = ({
   getColumnTitleForTextChart,
   getBgSquareColor,
   getColumnPercentage,
+  handleMonthChange ,
+  selectedComplianceMonth
 }) => {
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
+  const [recommendationObject , setRecommendationObject] = useState({});
+
+  
+
+  useEffect(()=>{
+    complianceReportSettingData.forEach((item)=>{
+      if(item.hasOwnProperty('type') && item.type === "Recommendation"){
+        setRecommendationObject(item);
+      }
+    })
+  },[complianceReportSettingData])
 
   return (
     <div>
@@ -50,10 +64,10 @@ export const ComplianceReportViewChart = ({
             placeholder="Select Month"
             popupMatchSelectWidth={false}
             placement="bottomLeft"
-            disabled={true}
-            // onChange={handleCategoryChange}
+            onChange={handleMonthChange}
             options={monthFilterData}
             style={{ border: "none" }}
+            value={selectedComplianceMonth}
           />
           <Button
             style={{
@@ -72,7 +86,7 @@ export const ComplianceReportViewChart = ({
           </Button>
         </div>
       )}
-      <div ref={targetRef}>
+      <div ref={targetRef} style={{paddingLeft:"20px" , paddingRight:"20px"}}>
         {complianceReportViewData.map((item) => {
           return (
             <div style={{ height: item.height }}>
@@ -450,7 +464,7 @@ export const ComplianceReportViewChart = ({
               marginBottom: "0px",
             }}
           >
-            {complianceReportSettingData.recommendation_text.title}
+            {recommendationObject.title}
           </p>
           <div
             style={{
@@ -467,7 +481,7 @@ export const ComplianceReportViewChart = ({
             }}
           >
             {getColumnValueForTextChart(
-              complianceReportSettingData.recommendation_text.column
+              recommendationObject.column
             )}
           </div>
         </div>

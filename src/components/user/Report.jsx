@@ -32,7 +32,6 @@ export const Report = () => {
   const [allColumnTitle, setAllColumnTitle] = useState([]);
   const [allColumnTitleService, setAllColumnTitleService] = useState([]);
   const [tableColumns, setAllTableColumns] = useState([]);
-  const [governifyFilterData, setGovernifyFilterData] = useState({});
   const [dataSource, setDataSource] = useState([]);
   const [complianceReportSettingData, setComplianceReportSettingData] =
     useState({});
@@ -44,6 +43,8 @@ export const Report = () => {
     currentName: "",
     previousName: "",
   });
+  const [finalData , setFinalData] = useState({});
+  const [selectedComplianceMonth , setSelectedComplianceMonth] = useState('');
 
   const [nameValueService, setNameValueService] = useState("");
 
@@ -70,7 +71,17 @@ export const Report = () => {
     const monthName = monthNames[date.getUTCMonth()]; // Get the month name
     const year = date.getUTCFullYear(); // Get the year
 
-    return `${monthName} ${year}`; // Return in "Month Year" format
+    return {label:`${monthName} ${year}` , value:monthName}; // Return in "Month Year" format
+  };
+
+  const getCurrentMonthName = () => {
+    const date = new Date();
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    const monthIndex = date.getMonth(); // getMonth() returns 0-11
+    return monthNames[monthIndex];
   };
 
   const fetchData = async () => {
@@ -115,6 +126,7 @@ export const Report = () => {
         );
       }
 
+
       if (response.status) {
         if (response.response.length === 0) {
           setNoData(false);
@@ -124,6 +136,7 @@ export const Report = () => {
 
           let tempNamevalue = { currentName: "", previousName: "" };
           let tempMonthFilterData = [];
+          let tempMonthFilter = [];
 
           // Building table columns
           JSON.parse(response.response[0].governify_table_settings).forEach(
@@ -149,6 +162,9 @@ export const Report = () => {
           // Handling current data
           response1.response.data.boards[0].items_page.items.forEach((item) => {
             if (item.name.toLowerCase() === filterKey) {
+              let currentMonth = getCurrentMonthName();
+              setSelectedComplianceMonth(currentMonth);
+              console.log(getMonthNameWithYear(item.created_at))
               setCurrentData(item.column_values);
               tempNamevalue.currentName = item.name;
             }
@@ -185,9 +201,11 @@ export const Report = () => {
 
           response2.response.data.boards[0].items_page.items.forEach((item) => {
             if (item.name.toLowerCase() === filterKey) {
-              let month = getMonthNameWithYear(item.created_at);
-              if (!tempMonthFilterData.includes(month))
-                tempMonthFilterData.push({ label: month, value: month });
+              let monthData = getMonthNameWithYear(item.created_at);
+              if (!tempMonthFilter.includes(monthData.value)) {
+                tempMonthFilter.push(monthData.value);
+                tempMonthFilterData.push({ label: monthData.label, value: monthData.value });
+              }
             }
           });
 
@@ -196,6 +214,7 @@ export const Report = () => {
           setComplianceReportSettingData(
             JSON.parse(response.response[0].governify_compliance_report)
           );
+
           setComplianceReportViewData(
             JSON.parse(response.response[0].governify_compliance_report_view)
           );
@@ -470,8 +489,8 @@ export const Report = () => {
     let description = "";
     allColumnTitle.forEach((item) => {
       if (item.id === column) {
-        if (item.hasOwnProperty("description") && item.desc !== null) {
-          description = item.desc;
+        if (item.hasOwnProperty("description") && item.description !== null) {
+          description = item.description;
         } else {
           description = "";
         }
@@ -544,6 +563,8 @@ export const Report = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+  const handleMonthChange = () => {};
 
   useEffect(() => {
     if (location.pathname === "/report") {
@@ -748,6 +769,8 @@ export const Report = () => {
                 getDataSetForHorizontalBarChart={
                   getDataSetForHorizontalBarChart
                 }
+                handleMonthChange={handleMonthChange}
+                selectedComplianceMonth={selectedComplianceMonth}
               />
             )}
           </div>
