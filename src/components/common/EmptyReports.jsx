@@ -38,7 +38,6 @@ export const EmptyReports = ({ activeReport }) => {
         style={{
           background: "white",
           margin: "auto",
-          marginTop: "10px",
           marginLeft: "20px",
           marginRight: "20px",
           padding: "40px 0 56px 0",
@@ -62,9 +61,10 @@ export const EmptyReports = ({ activeReport }) => {
               lineHeight: "33.6px",
               textAlign: "center",
               color: "#202223",
+              fontFamily: "Graphie-Regular",
             }}
           >
-            You do not have any reports Yet!
+            You do not have any reports yet!
           </p>
           <p
             style={{
@@ -73,6 +73,7 @@ export const EmptyReports = ({ activeReport }) => {
               lineHeight: "22.4px",
               textAlign: "center",
               color: "#6d7175",
+              fontFamily: "Graphie-Regular",
             }}
           >
             {activeReport === "compliance"

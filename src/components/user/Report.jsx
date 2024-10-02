@@ -711,7 +711,7 @@ export const Report = () => {
     >
       <Hero
         heading={"Performance Reports"}
-        subheading="Easily monitor, manage, and track the status and progress of all your service requests in real-time."
+        subheading="Stay Informed and in control of the overall status of your requests"
         forHome={false}
       />
 
@@ -752,6 +752,7 @@ export const Report = () => {
               border: "none",
               lineHeight: "22.4px",
               height: "40px",
+              fontFamily: "Graphie-Regular",
             }}
             onClick={() => handleButtonClick("service")}
             icon={<ServiceReportIcon activeReport={activeReport} />}
@@ -770,6 +771,7 @@ export const Report = () => {
               border: "none",
               lineHeight: "22.4px",
               height: "40px",
+              fontFamily: "Graphie-Regular",
             }}
             onClick={() => handleButtonClick("compliance")}
             icon={<ComplianceReportIcon activeReport={activeReport} />}
