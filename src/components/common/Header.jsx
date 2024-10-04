@@ -11,6 +11,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { getRole } from "../../utils/helper";
+import { ReportIcon } from "../../assets/image";
 
 const Header = ({ user }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
@@ -41,6 +42,10 @@ const Header = ({ user }) => {
 
   const navigateToTrackRequest = () => {
     navigate("track-request");
+  };
+
+  const navigateToReport = () => {
+    navigate("report");
   };
 
   const navigateToHome = () => {
@@ -152,14 +157,14 @@ const Header = ({ user }) => {
                         color: homeBUttonHovered ? `#928f8f` : data.button_bg,
                         background: "transparent",
                       }}
-                      onClick={navigateToHome}
+                      onClick={navigateToReport}
                       onMouseEnter={() => handleHoverHome(true)}
                       onMouseLeave={() => handleHoverHome(false)}
                     >
                       <span className="font-family-montse fs-12 fw-700">
-                        Home
+                        Report
                       </span>
-                      <HomeOutlined className="fs_20 fw-700" />
+                      <ReportIcon className="fs_20 fw-700" />
                     </Button>
                   ) : (
                     <Button

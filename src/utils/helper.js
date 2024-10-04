@@ -24,6 +24,7 @@ export const fetcher = async (endpoint, method, payload = null) => {
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `bearer ${token}`);
   let url = `https://onboardifyapi.tasc360.com/${endpoint}`;
+  // let url = `http://127.0.0.1:8000/${endpoint}`;
   let requestOptions = {
     method,
     headers: myHeaders,

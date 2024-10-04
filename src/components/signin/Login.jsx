@@ -31,7 +31,8 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await fetcher(url, method, payload);
-      if (response.status) {
+
+      if (response !== undefined && response.status) {
         toast.success("Logged In Successfull.");
         sessionStorage.setItem("token", response.token);
         sessionStorage.setItem("role", response.role);

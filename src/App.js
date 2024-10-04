@@ -23,8 +23,10 @@ import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import VerifyUser from "./components/verifypassword/VerifyUser";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { Intercom } from "./components/wrapper/Intercom";
+import { Report } from "./components/user/Report";
 
 function App() {
+
   const token = sessionStorage.getItem('token');
   const settingsData =
     JSON.parse(sessionStorage.getItem("settings")) ||
@@ -47,6 +49,8 @@ function App() {
     return () => {};
   }, [token]);
 
+
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -68,6 +72,10 @@ function App() {
             {
               path: "track-request",
               element: <TrackRequest />
+            },
+            {
+              path: "report",
+              element: <Report />
             },
             {
               path: "admin",
