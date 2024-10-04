@@ -119,9 +119,7 @@ export const Report = () => {
     return currentIndex > 0 ? sortedArr[currentIndex - 1] : null;
   };
 
-  // const currentData = { created_at: '2024-09-26T10:20:00Z' };
-  // const previousItem = getPreviousItem(items, currentData);
-  // console.log(previousItem); // Output: { created_at: '2024-09-25T15:30:20Z' }
+
 
   const fetchData = async () => {
     setLoading(true);
