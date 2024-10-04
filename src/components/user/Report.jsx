@@ -193,6 +193,16 @@ export const Report = () => {
           }
         );
 
+        if(tempData.length === 0){
+
+          setFinalData([]);
+          setSelectedComplianceMonth('');
+          setCurrentData({});
+          setPreviousData({});
+          return;
+        }
+    
+
         const latestItem = getLatestItem(tempData);
         let latestMonthData = getMonthNameWithYear(latestItem.created_at);
         let previousMonthData = getPreviousItem(tempData, {
