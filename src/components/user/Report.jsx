@@ -45,9 +45,8 @@ export const Report = () => {
   });
   const [finalData, setFinalData] = useState({});
   const [selectedComplianceMonth, setSelectedComplianceMonth] = useState("");
-  const [noDataCompliance , setNoDataCompliance] = useState(false);
-  const [noDataService , setNoDataService] = useState(false);
-
+  const [noDataCompliance, setNoDataCompliance] = useState(false);
+  const [noDataService, setNoDataService] = useState(false);
 
   const [nameValueService, setNameValueService] = useState("");
 
@@ -139,35 +138,62 @@ export const Report = () => {
         `governify/customer/getServiceReport`
       );
 
-  
       if (!complianceResponse.status) {
         setNoData(true);
         setNoDataCompliance(true);
         setNoDataService(true);
       }
 
-      if(JSON.parse(response.response[0].governify_compliance_report) === null || JSON.parse(response.response[0].governify_compliance_report_view) === null){
+      if (
+        JSON.parse(response.response[0].governify_compliance_report) === null ||
+        JSON.parse(response.response[0].governify_compliance_report_view) ===
+          null
+      ) {
         setNoDataCompliance(true);
       }
 
-
-      if(JSON.parse(response.response[0].governify_service_report) === null || JSON.parse(response.response[0].governify_service_report_view) === null){
+      if (
+        JSON.parse(response.response[0].governify_service_report) === null ||
+        JSON.parse(response.response[0].governify_service_report_view) === null
+      ) {
         setNoDataService(true);
       }
 
       if (complianceResponse.status) {
         setAllColumnTitle(complianceResponse.response.data.boards[0].columns);
-     
-        complianceResponse.response.data.boards[0].items_page.items.forEach((item) => {
-          if (
-            item.name.toLowerCase() ===
-            JSON.parse(
-              response.response[0].governify_compliance_filter_key
-            ).value.toLowerCase()
-          ) {
-            tempData.push(item);
+
+        complianceResponse.response.data.boards[0].items_page.items.forEach(
+          (item) => {
+            if (
+              JSON.parse(response.response[0].governify_compliance_filter_key)
+                .key === "name"
+            ) {
+              if (
+                item.name.toLowerCase() ===
+                JSON.parse(
+                  response.response[0].governify_compliance_filter_key
+                ).value.toLowerCase()
+              ) {
+                tempData.push(item);
+              }
+            } else {
+              item.column_values.forEach((subItem) => {
+                if (
+                  subItem.id ===
+                    JSON.parse(
+                      response.response[0].governify_compliance_filter_key
+                    ).key &&
+                  subItem.text.toLowerCase() ===
+                    JSON.parse(
+                      response.response[0].governify_compliance_filter_key
+                    ).value.toLowerCase()
+                ) {
+                  tempData.push(item);
+                }
+              });
+            }
           }
-        });
+        );
 
         const latestItem = getLatestItem(tempData);
         let latestMonthData = getMonthNameWithYear(latestItem.created_at);
@@ -185,19 +211,47 @@ export const Report = () => {
       }
 
       if (serviceResponse.status) {
-        serviceResponse.response.data.boards[0].items_page.items.forEach(
-          (item) => {
-            if (
-              item.name.toLowerCase() ===
-              JSON.parse(
-                response.response[0].governify_service_filter_key
-              ).value.toLowerCase()
-            ) {
-              setCurrentDataService(item.column_values);
-              setNameValueService(item.name);
+        if (
+          JSON.parse(response.response[0].governify_service_filter_key).key ===
+          "name"
+        ) {
+          serviceResponse.response.data.boards[0].items_page.items.forEach(
+            (item) => {
+              if (
+                item.name.toLowerCase() ===
+                JSON.parse(
+                  response.response[0].governify_service_filter_key
+                ).value.toLowerCase()
+              ) {
+                setCurrentDataService(item.column_values);
+                setNameValueService(item.name);
+              }
             }
-          }
-        );
+          );
+        } else {
+          serviceResponse.response.data.boards[0].items_page.items.forEach(
+            (item) => {
+              item.column_values.forEach((subItem, subIndex) => {
+                if (subItem.text) {
+                  if (
+                    subItem.id ===
+                      JSON.parse(
+                        response.response[0].governify_service_filter_key
+                      ).key &&
+                    subItem.text.toLowerCase() ===
+                      JSON.parse(
+                        response.response[0].governify_service_filter_key
+                      ).value.toLowerCase()
+                  ) {
+                    setCurrentDataService(item.column_values);
+                    setNameValueService(item.name);
+                  }
+                }
+              });
+            }
+          );
+        }
+
         setAllColumnTitleService(
           serviceResponse.response.data.boards[0].columns
         );
@@ -215,17 +269,19 @@ export const Report = () => {
           // Building table columns
           JSON.parse(response.response[0].governify_table_settings).forEach(
             (item, index) => {
-              complianceResponse.response.data.boards[0].columns.forEach((subItem) => {
-                if (item === subItem.id) {
-                  tempTableColumns.push({
-                    title: subItem.title,
-                    dataIndex: subItem.id,
-                    key: subItem.id,
-                    width: 150,
-                    ...(index === 0 && { fixed: "left" }), // conditionally apply fixed: 'right' if index is 0
-                  });
+              complianceResponse.response.data.boards[0].columns.forEach(
+                (subItem) => {
+                  if (item === subItem.id) {
+                    tempTableColumns.push({
+                      title: subItem.title,
+                      dataIndex: subItem.id,
+                      key: subItem.id,
+                      width: 150,
+                      ...(index === 0 && { fixed: "left" }), // conditionally apply fixed: 'right' if index is 0
+                    });
+                  }
                 }
-              });
+              );
             }
           );
 
@@ -233,37 +289,89 @@ export const Report = () => {
             response.response[0].governify_compliance_filter_key
           ).value.toLowerCase();
 
-          complianceResponse.response.data.boards[0].items_page.items.forEach(
-            (item, index) => {
-              if (item.name.toLowerCase() === filterKey) {
+          if (
+            JSON.parse(response.response[0].governify_compliance_filter_key)
+              .key === "name"
+          ) {
+            complianceResponse.response.data.boards[0].items_page.items.forEach(
+              (item, index) => {
+                if (
+                  item.name.toLowerCase() ===
+                  JSON.parse(
+                    response.response[0].governify_compliance_filter_key
+                  ).value.toLowerCase()
+                ) {
+                  let obj = { key: index };
+                  item.column_values.forEach((subItem) => {
+                    if (
+                      JSON.parse(
+                        response.response[0].governify_table_settings
+                      ).includes(subItem.id)
+                    ) {
+                      obj[subItem.id] = subItem.text;
+                    }
+                  });
+
+                  tempDataSource.push(obj);
+                }
+              }
+            );
+          } else {
+            const tableParentColumn = [];
+            const complianceFilterKey = JSON.parse(
+              response.response[0].governify_compliance_filter_key
+            );
+            const tableSettings = JSON.parse(
+              response.response[0].governify_table_settings
+            );
+            const boards =
+              complianceResponse.response.data.boards[0].items_page.items;
+
+            boards.forEach((item, index) => {
+              let obj = { key: index };
+
+              item.column_values.forEach((subItem) => {
+                if (subItem.text) {
+                  // Ensure subItem.text is not null or undefined
+                  const isMatchingKey = subItem.id === complianceFilterKey.key;
+                  const isMatchingValue =
+                    subItem.text.toLowerCase() ===
+                    complianceFilterKey.value.toLowerCase();
+                  if (isMatchingKey && isMatchingValue) {
+                    tableParentColumn.push(item);
+                    // obj[subItem.id] = subItem.text;
+                  }
+                }
+              });
+            });
+
+            if (tableParentColumn.length > 0) {
+              tableParentColumn.forEach((item, index) => {
                 let obj = { key: index };
                 item.column_values.forEach((subItem) => {
-                  if (
-                    JSON.parse(
-                      response.response[0].governify_table_settings
-                    ).includes(subItem.id)
-                  ) {
+                  if (tableSettings.includes(subItem.id)) {
                     obj[subItem.id] = subItem.text;
                   }
                 });
-
                 tempDataSource.push(obj);
+              });
+            }
+          }
+
+          complianceResponse.response.data.boards[0].items_page.items.forEach(
+            (item) => {
+              if (item.name.toLowerCase() === filterKey) {
+                let monthData = getMonthNameWithYear(item.created_at);
+                if (!tempMonthFilter.includes(monthData.value)) {
+                  tempMonthFilter.push(monthData.value);
+                  tempMonthFilterData.push({
+                    label: monthData.label,
+                    value: monthData.value,
+                  });
+                }
               }
             }
           );
-
-          complianceResponse.response.data.boards[0].items_page.items.forEach((item) => {
-            if (item.name.toLowerCase() === filterKey) {
-              let monthData = getMonthNameWithYear(item.created_at);
-              if (!tempMonthFilter.includes(monthData.value)) {
-                tempMonthFilter.push(monthData.value);
-                tempMonthFilterData.push({
-                  label: monthData.label,
-                  value: monthData.value,
-                });
-              }
-            }
-          });
 
           setMonthFilterData(tempMonthFilterData);
           setDataSource(tempDataSource);
@@ -344,7 +452,6 @@ export const Report = () => {
   };
 
   const getPreviousMonthChange = (id) => {
-    console.log(id);
     if (id === undefined) {
       return "1 %";
     }
@@ -698,9 +805,6 @@ export const Report = () => {
     };
   }, []);
 
-
-
-
   return (
     <div
       style={{
@@ -915,9 +1019,12 @@ export const Report = () => {
           </div>
         )}
 
-        {noDataCompliance && activeReport === 'compliance' && <EmptyReports activeReport={activeReport} />}
-        {noDataService && activeReport === 'service' && <EmptyReports activeReport={activeReport} />}
-
+        {noDataCompliance && activeReport === "compliance" && (
+          <EmptyReports activeReport={activeReport} />
+        )}
+        {noDataService && activeReport === "service" && (
+          <EmptyReports activeReport={activeReport} />
+        )}
 
         {activeReport === "service" && !noDataService && (
           <ServiceReportViewChart
