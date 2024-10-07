@@ -236,7 +236,7 @@ export const UpdateComponent = ({
           try {
             setLoading(true);
             const response = await axios.post(
-              "https://onboardify.tasc360.com/incorpify/uploadMondayFiles",
+              "https://onboardifyapi.tasc360.com/incorpify/uploadMondayFiles",
               formData,
               {
                 headers: {
