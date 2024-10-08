@@ -35,6 +35,10 @@ export const Report = () => {
   const [complianceReportSettingData, setComplianceReportSettingData] =
     useState({});
   const [complianceReportViewData, setComplianceReportViewData] = useState([]);
+  const [complianceReportFilterData, setComplianceReportFilterData] = useState(
+    {}
+  );
+
   const [serviceReportViewData, setServiceReportViewData] = useState([]);
   const [serviceReportSettingData, setServiceReportSettingData] = useState({});
   const [monthFilterData, setMonthFilterData] = useState([]);
@@ -123,17 +127,29 @@ export const Report = () => {
     return dateString;
   };
 
-  const getPreviousItem = (arr, currentData) => {
-    // Sort the array by created_at in ascending order
-    const sortedArr = arr
-      .slice()
-      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+  const getPreviousItem = (arr, dateFilter, currentData) => {
+    // Helper function to get the text value from the subItem based on dateFilter
+    const getTextFromColumnValues = (item) => {
+      const subItem = item.column_values.find((col) => col.id === dateFilter);
+      return subItem ? subItem.text : null;
+    };
 
-    // Find the index of the currentData
+    // Sort the array by the date value extracted from subItem.text
+    const sortedArr = arr.slice().sort((a, b) => {
+      const dateA = new Date(getTextFromColumnValues(a));
+      const dateB = new Date(getTextFromColumnValues(b));
+
+      // Handle cases where date is null
+      if (!dateA || !dateB) {
+        return 0;
+      }
+      return dateA - dateB;
+    });
+
+    // Find the index of the currentData based on subItem.text === currentData.created_at
     const currentIndex = sortedArr.findIndex(
-      (item) => item.created_at === currentData.created_at
+      (item) => getTextFromColumnValues(item) === currentData.created_at
     );
-
     // Return the previous item if it exists
     return currentIndex > 0 ? sortedArr[currentIndex - 1] : null;
   };
@@ -163,7 +179,7 @@ export const Report = () => {
     const complianceTempNameValue = {
       currentName: "",
       previousName: "",
-    }
+    };
     try {
       const response = await fetcher(
         `newonboardify/customer/allProfileWithServicesByUser`
@@ -358,6 +374,7 @@ export const Report = () => {
 
       ////compliance Chart DataPreparation
       if (complianceResponse.status && complianceChartData !== null) {
+        setComplianceReportFilterData(complianceFilterKeyData);
         setComplianceReportViewData(complianceChartData);
         setComplianceReportSettingData(
           JSON.parse(response.response[0].governify_service_report)
@@ -390,15 +407,15 @@ export const Report = () => {
           if (tempData.length === 0) {
             setFinalData([]);
             setSelectedComplianceMonth("");
-            setCurrentData({});
-            setPreviousData({});
+            setCurrentData([]);
+            setPreviousData([]);
             noDataTempComplianceChart = true;
           } else {
             if (dateFilter === null) {
               setFinalData([]);
               setSelectedComplianceMonth("");
-              setCurrentData({});
-              setPreviousData({});
+              setCurrentData([]);
+              setPreviousData([]);
               noDataTempComplianceChart = true;
             } else {
               const latestItem = getLatestItem(tempData, dateFilter);
@@ -407,12 +424,13 @@ export const Report = () => {
                 dateFilter
               );
               let latestMonthData = getMonthNameWithYear(dateFromLatestItem);
-              let previousMonthData = getPreviousItem(tempData, {
+              let previousMonthData = getPreviousItem(tempData, dateFilter, {
                 created_at: dateFromLatestItem,
               });
               complianceTempNameValue.currentName = latestItem.name;
               setFinalData(tempData);
               setSelectedComplianceMonth(latestMonthData.value);
+              console.log(latestItem);
               setCurrentData(latestItem.column_values);
 
               if (previousMonthData === null) {
@@ -421,7 +439,7 @@ export const Report = () => {
                 setPreviousData(previousMonthData.column_values);
                 complianceTempNameValue.previousName = previousMonthData.name;
               }
-              setNameValue(complianceTempNameValue)
+              setNameValue(complianceTempNameValue);
             }
           }
         } else {
@@ -591,7 +609,6 @@ export const Report = () => {
   };
 
   const getColumnValueForTextChart = (id) => {
- 
     let tempValue = "";
     if (activeReport === "service") {
       if (id === "name") {
@@ -934,6 +951,18 @@ export const Report = () => {
 
     // Convert monthName to its corresponding month index
     const monthIndex = monthNames.indexOf(monthName);
+    console.log(monthIndex);
+
+    const getItemDate = (columns) => {
+      const tempDateFilter = complianceReportFilterData.date_key;
+      let tempDate;
+      columns.column_values.forEach((subItem) => {
+        if (subItem.id === tempDateFilter) {
+          tempDate = subItem.text;
+        }
+      });
+      return tempDate;
+    };
 
     if (monthIndex === -1) {
       // Return an empty array if monthName is invalid
@@ -942,15 +971,28 @@ export const Report = () => {
 
     // Filter items that match the given month
     return arr.filter((item) => {
-      const itemDate = new Date(item.created_at);
+      const itemDate = new Date(getItemDate(item));
       return itemDate.getUTCMonth() === monthIndex;
     });
   };
 
+  const getPreviousDate = (tempData , dateFilter) =>{
+    let tempPreviousDate ;
+     tempData[0].column_values.forEach((item)=>{
+        if(item.id === dateFilter){
+          tempPreviousDate = item.text;
+        }
+     })
+     return tempPreviousDate;
+  }
+
   const handleMonthChange = (e) => {
     let newCurrentData = getItemsByMonth(finalData, e);
-    let previousMonthData = getPreviousItem(finalData, {
-      created_at: newCurrentData[0].created_at,
+
+   let newPreviousDate = getPreviousDate(newCurrentData ,  complianceReportFilterData.date_key );
+ 
+    let previousMonthData = getPreviousItem(finalData, complianceReportFilterData.date_key ,{
+      created_at: newPreviousDate,
     });
 
     setCurrentData(newCurrentData[0].column_values);
