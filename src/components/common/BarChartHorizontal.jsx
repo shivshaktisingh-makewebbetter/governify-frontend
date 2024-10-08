@@ -19,33 +19,10 @@ export const BarChartHorizontal = ({
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     indexAxis: "y", // Set indexAxis to 'y' for horizontal bars
     plugins: {
-      beforeDraw: function (chart) {
-        const ctx = chart.ctx;
-        ctx.save();
-
-        chart.data.datasets.forEach((dataset, i) => {
-          const meta = chart.getDatasetMeta(i);
-          meta.data.forEach((bar, index) => {
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)"; // Shadow color
-            ctx.shadowBlur = 10; // Blur effect
-            ctx.shadowOffsetX = 5; // Horizontal offset
-            ctx.shadowOffsetY = 5; // Vertical offset
-
-            // Draw the shadowed bar
-            ctx.fillStyle = dataset.backgroundColor; // Use the dataset color
-            ctx.fillRect(
-              bar.x,
-              bar.y - bar.height / 2, // Adjust for height
-              chart.chartArea.right - bar.x, // Width is based on the chart area
-              bar.height
-            );
-          });
-        });
-
-        ctx.restore();
-      },
+      
       legend: {
         display: false,
         labels: {
@@ -131,14 +108,21 @@ export const BarChartHorizontal = ({
       },
       y: {
         display: false, // Display y-axis for labels
-        categoryPercentage: 1,
-        barPercentage: 0.5, // Adjust bar width
+        categoryPercentage: 0.8, // Adjust space taken by bars
+        barPercentage: 0.6, // Adjust bar width within category
       },
     },
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+      }}
+    >
       <div
         style={{
           width: "80%",
@@ -157,7 +141,6 @@ export const BarChartHorizontal = ({
             lineHeight: "33.6px",
             color: "#202223",
             textAlign: "left",
-            fontFamily:"Graphie-SemiBold"
           }}
         >
           {title}
@@ -168,14 +151,18 @@ export const BarChartHorizontal = ({
           )}
         </span>
       </div>
-      <Bar data={data} options={options} />
+      <div style={{ width: "100%", height: "80%" , position:"absolute" , top:"30px" }}>
+        <Bar data={data} options={options} />
+      </div>
       <div
         style={{
           display: "flex",
           margin: "auto",
           marginTop: "20px",
           justifyContent: "center",
-          width: "65%",
+          width: "100%",
+          position:"absolute" ,
+          bottom:"10px"
         }}
       >
         {dataset.map((item, index) => {
@@ -207,16 +194,37 @@ export const BarChartHorizontal = ({
                   fontSize: "14px",
                   fontWeight: "400",
                   color: "#6d7175",
-                  fontFamily:"Graphie-Thin"
                 }}
                 title={item.label}
               >
-                {truncatedLabel}
+                {item.label}
               </div>
             </div>
           );
         })}
       </div>
     </div>
+  </div>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
