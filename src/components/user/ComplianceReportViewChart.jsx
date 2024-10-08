@@ -9,6 +9,7 @@ import { BarChartVertical } from "../common/BarChartVertical";
 import { usePDF } from "react-to-pdf";
 import { ExportReportViewIcon } from "../../assets/image";
 import { useEffect, useState } from "react";
+import { CustomTooltip } from "../common/CustomTooltip";
 
 export const ComplianceReportViewChart = ({
   activeView,
@@ -351,6 +352,13 @@ export const ComplianceReportViewChart = ({
                             }}
                           >
                             {subItem.heading}
+                            <span>
+                              {subItem.description.length > 0 && (
+                                <CustomTooltip
+                                  description={subItem.description}
+                                />
+                              )}
+                            </span>
                           </p>
                         </div>
 
