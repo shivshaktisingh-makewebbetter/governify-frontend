@@ -160,6 +160,10 @@ export const Report = () => {
     const complianceTableDataSource = [];
     const tempMonthFilter = [];
     const tempMonthFilterData = [];
+    const complianceTempNameValue = {
+      currentName: "",
+      previousName: "",
+    }
     try {
       const response = await fetcher(
         `newonboardify/customer/allProfileWithServicesByUser`
@@ -406,14 +410,18 @@ export const Report = () => {
               let previousMonthData = getPreviousItem(tempData, {
                 created_at: dateFromLatestItem,
               });
+              complianceTempNameValue.currentName = latestItem.name;
               setFinalData(tempData);
               setSelectedComplianceMonth(latestMonthData.value);
               setCurrentData(latestItem.column_values);
+
               if (previousMonthData === null) {
                 setPreviousData([]);
               } else {
                 setPreviousData(previousMonthData.column_values);
+                complianceTempNameValue.previousName = previousMonthData.name;
               }
+              setNameValue(complianceTempNameValue)
             }
           }
         } else {
@@ -583,6 +591,7 @@ export const Report = () => {
   };
 
   const getColumnValueForTextChart = (id) => {
+ 
     let tempValue = "";
     if (activeReport === "service") {
       if (id === "name") {

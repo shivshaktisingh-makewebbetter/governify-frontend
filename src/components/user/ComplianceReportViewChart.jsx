@@ -266,7 +266,7 @@ export const ComplianceReportViewChart = ({
                                 width: "100%",
                                 textAlign: "left",
                                 fontSize: "14px",
-                                fontWeight: "400",
+                                fontWeight: "600",
                                 color: "#6d7175",
                                 marginBottom: "6px",
                                 fontFamily: "Graphie-Thin",
