@@ -138,6 +138,17 @@ export const Report = () => {
     return currentIndex > 0 ? sortedArr[currentIndex - 1] : null;
   };
 
+  const getDateFormatForReportDate = (dateString) => {
+    const inputDate = new Date(dateString);
+    const formattedDate = inputDate.toLocaleDateString("en-US", {
+      month: "short", // Abbreviated month name
+      day: "numeric", // Numeric day of the month
+      year: "numeric", // Numeric year
+    });
+
+    return formattedDate;
+  };
+
   const fetchData = async () => {
     setLoading(true);
     let noDataTempServiceChart = false;
@@ -226,7 +237,17 @@ export const Report = () => {
               (subItem) => {
                 if (item === subItem.id) {
                   tempComplianceTableComlumns.push({
-                    title: <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'Graphie-SemiBold' }}>{subItem.title}</span> ,
+                    title: (
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "600",
+                          fontFamily: "Graphie-SemiBold",
+                        }}
+                      >
+                        {subItem.title}
+                      </span>
+                    ),
                     dataIndex: subItem.id,
                     key: subItem.id,
                     width: 150,
@@ -254,8 +275,13 @@ export const Report = () => {
                         response.response[0].governify_table_settings
                       ).includes(subItem.id)
                     ) {
-             
-                      obj[subItem.id] = subItem.text;
+                      if (subItem.type === "date") {
+                        obj[subItem.id] = getDateFormatForReportDate(
+                          subItem.text
+                        );
+                      } else {
+                        obj[subItem.id] = subItem.text;
+                      }
                     }
                   });
 
@@ -437,7 +463,17 @@ export const Report = () => {
                   if (!tempMonthFilter.includes(monthData.value)) {
                     tempMonthFilter.push(monthData.value);
                     tempMonthFilterData.push({
-                      label: <span style={{fontSize:"16px" , fontWeight:"600" , fontFamily:"Graphie-Book"}}>{monthData.label}</span>,
+                      label: (
+                        <span
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "600",
+                            fontFamily: "Graphie-Book",
+                          }}
+                        >
+                          {monthData.label}
+                        </span>
+                      ),
                       value: monthData.value,
                     });
                   }
@@ -957,7 +993,7 @@ export const Report = () => {
             textAlign: "left",
             marginLeft: "20px",
             marginRight: "20px",
-            fontFamily:"Graphie-SemiBold"
+            fontFamily: "Graphie-SemiBold",
           }}
         >
           Reports
@@ -1037,7 +1073,7 @@ export const Report = () => {
                 fontSize: "24px",
                 lineHeight: "33.6px",
                 color: "#202223",
-                fontFamily: "Graphie-Regular",
+                fontFamily: "Graphie-SemiBold",
               }}
             >
               Compliance Report
@@ -1072,8 +1108,14 @@ export const Report = () => {
                     />
                   }
                 >
-                       <span style={{ fontFamily: "Graphie-SemiBold" , fontWeight:"600" , fontSize:"14px" }}>
-                  List View
+                  <span
+                    style={{
+                      fontFamily: "Graphie-SemiBold",
+                      fontWeight: "600",
+                      fontSize: "14px",
+                    }}
+                  >
+                    List View
                   </span>
                 </Button>
               )}

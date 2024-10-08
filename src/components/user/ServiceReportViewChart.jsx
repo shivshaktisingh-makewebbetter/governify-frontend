@@ -46,7 +46,7 @@ export const ServiceReportViewChart = ({
               fontSize: "24px",
               lineHeight: "33.6px",
               color: "#202223",
-              fontFamily: "Graphie-Regular",
+              fontFamily: "Graphie-SemiBold",
             }}
           >
             Service Reports
