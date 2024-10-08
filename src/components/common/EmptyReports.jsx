@@ -61,7 +61,7 @@ export const EmptyReports = ({ activeReport }) => {
               lineHeight: "33.6px",
               textAlign: "center",
               color: "#202223",
-              fontFamily: "Graphie-Regular",
+              fontFamily: "Graphie-Book",
             }}
           >
             You do not have any reports yet!
@@ -73,7 +73,7 @@ export const EmptyReports = ({ activeReport }) => {
               lineHeight: "22.4px",
               textAlign: "center",
               color: "#6d7175",
-              fontFamily: "Graphie-Regular",
+              fontFamily: "Graphie-Light",
             }}
           >
             {activeReport === "compliance"

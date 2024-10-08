@@ -135,9 +135,8 @@ export const BarChartVertical = ({
     },
   };
 
-
   return (
-    <div style={{width:"100%"}}>
+    <div style={{ width: "100%" }}>
       <div
         style={{
           width: "80%",
@@ -156,60 +155,66 @@ export const BarChartVertical = ({
             lineHeight: "33.6px",
             color: "#202223",
             textAlign: "left",
+            fontFamily: "Graphie-SemiBold",
           }}
         >
           {title}
         </span>
         <span>
-          {description.length > 0 && <CustomTooltip description={description} />}
+          {description.length > 0 && (
+            <CustomTooltip description={description} />
+          )}
         </span>
       </div>
       <Bar data={data} options={options} />
       <div
-          style={{
-            display: "flex",
-            margin:"auto" ,
-            marginTop: "20px",
-            justifyContent: "center",
-            width:"65%" ,
-          }}
-        >
-          {dataset.map((item, index) => {
-            const truncatedLabel =
-              item.label.length > 12 ? `${item.label.substring(0, 13)}...` : item.label;
-            return (
+        style={{
+          display: "flex",
+          margin: "auto",
+          marginTop: "20px",
+          justifyContent: "center",
+          width: "65%",
+        }}
+      >
+        {dataset.map((item, index) => {
+          const truncatedLabel =
+            item.label.length > 12
+              ? `${item.label.substring(0, 13)}...`
+              : item.label;
+          return (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "4px",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
               <div
-                key={index}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  justifyContent: "center",
-                  width: "100%",
+                  background: item.backgroundColor,
+                  width: "15px",
+                  height: "15px",
+                  borderRadius: "3px",
                 }}
+              ></div>
+              <div
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  color: "#6d7175",
+                  fontFamily: "Graphie-Thin",
+                }}
+                title={item.label}
               >
-                <div
-                  style={{
-                    background: item.backgroundColor,
-                    width: "15px",
-                    height: "15px",
-                    borderRadius: "3px",
-                  }}
-                ></div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "400",
-                    color: "#6d7175",
-                  }}
-                  title={item.label}
-                >
-                  {truncatedLabel}
-                </div>
+                {truncatedLabel}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

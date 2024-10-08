@@ -33,15 +33,6 @@ export const ComplianceReportViewChart = ({
   previousData,
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
-  const [recommendationObject, setRecommendationObject] = useState({});
-
-  useEffect(() => {
-    complianceReportSettingData.forEach((item) => {
-      if (item.hasOwnProperty("type") && item.type === "Recommendation") {
-        setRecommendationObject(item);
-      }
-    });
-  }, [complianceReportSettingData]);
 
   return (
     <div>
@@ -54,8 +45,8 @@ export const ComplianceReportViewChart = ({
             background: "white",
             padding: "24px",
             marginBottom: "20px",
-            marginLeft:"20px" ,
-            marginRight:"20px" , 
+            marginLeft: "20px",
+            marginRight: "20px",
             borderBottomRightRadius: "8px",
             borderBottomLeftRadius: "8px",
           }}
@@ -66,7 +57,7 @@ export const ComplianceReportViewChart = ({
             placement="bottomLeft"
             onChange={handleMonthChange}
             options={monthFilterData}
-            style={{ border: "none" , marginLeft:"5px" , marginRight:"5px" }}
+            style={{ border: "none", marginLeft: "5px", marginRight: "5px" }}
             value={selectedComplianceMonth}
           />
           <Button
@@ -82,7 +73,15 @@ export const ComplianceReportViewChart = ({
             iconPosition="end"
             onClick={() => toPDF()}
           >
-            Download Report
+            <span
+              style={{
+                fontFamily: "Graphie-SemiBold",
+                fontWeight: "600",
+                fontSize: "14px",
+              }}
+            >
+              Download Report
+            </span>
           </Button>
         </div>
       )}
@@ -100,6 +99,7 @@ export const ComplianceReportViewChart = ({
                   color: "#818181",
                   textAlign: "left",
                   marginBottom: "0px",
+                  fontFamily: "Graphie-SemiBold",
                 }}
               >
                 {item.title}
@@ -147,6 +147,7 @@ export const ComplianceReportViewChart = ({
                                 fontWeight: "400",
                                 color: "#6d7175",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-Thin",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column)}
@@ -169,6 +170,7 @@ export const ComplianceReportViewChart = ({
                                 fontWeight: "600",
                                 color: "#202223",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnValueForTextChart(subItem.column)}
@@ -218,6 +220,7 @@ export const ComplianceReportViewChart = ({
                                     fontSize: "12px",
                                     color: "#6d7175",
                                     lineHeight: "16.8px",
+                                    fontFamily: "Graphie-Thin",
                                   }}
                                 >
                                   vs last Month
@@ -266,6 +269,7 @@ export const ComplianceReportViewChart = ({
                                 fontWeight: "400",
                                 color: "#6d7175",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-Thin",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
@@ -278,6 +282,7 @@ export const ComplianceReportViewChart = ({
                                 fontWeight: "600",
                                 color: "#202223",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnValueForTextChart(subItem.column1)}
@@ -295,6 +300,7 @@ export const ComplianceReportViewChart = ({
                                 background: hexToRgba(subItem.color, "0.2"),
                                 padding: "6px 12px",
                                 color: subItem.color,
+                                fontFamily: "Graphie-Light",
                               }}
                             >
                               {getColumnValueForTextChart(subItem.column2)}
@@ -341,6 +347,7 @@ export const ComplianceReportViewChart = ({
                               top: "20px",
                               left: "20px",
                               width: "90%",
+                              fontFamily: "Graphie-Regular",
                             }}
                           >
                             {subItem.heading}
@@ -381,6 +388,7 @@ export const ComplianceReportViewChart = ({
                                     color: "#202223",
                                     fontSize: "20px",
                                     fontWeight: "600",
+                                    fontFamily: "Graphie-SemiBold",
                                   }}
                                 >
                                   {getColumnTitleForTextChart(column)}
@@ -391,6 +399,7 @@ export const ComplianceReportViewChart = ({
                                   fontSize: "45px",
                                   fontWeight: "700",
                                   color: "#202223",
+                                  fontFamily: "Graphie-Bold",
                                 }}
                               >
                                 {getColumnPercentage(
@@ -454,40 +463,48 @@ export const ComplianceReportViewChart = ({
                       </div>
                     );
                   }
+                  if (subItem.type === "Recommendation Chart") {
+                    return (
+                      <div
+                        style={{
+                          width: subItem.size.width,
+                          height: subItem.size.height,
+                          position: "absolute",
+                          left: subItem.position.x,
+                          top: subItem.position.y,
+                          background: "white",
+                          border: "1px solid #E3E3E3",
+                          borderRadius: "8px",
+                          padding: "10px",
+                          marginBottom: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            alignItems: "center",
+                            textAlign: "left",
+                            fontWeight: "400",
+                            fontSize: "16px",
+                            fontFamily: "Graphie-Book",
+                            color: "#202223",
+                          }}
+                        >
+                          {getColumnValueForTextChart(subItem.column)}
+                        </div>
+                      </div>
+                    );
+                  }
                 })}
               </div>
             </div>
           );
         })}
-        <div>
-          <p
-            style={{
-              fontSize: "20px",
-              fontWeight: "600",
-              color: "#818181",
-              textAlign: "left",
-              marginBottom: "0px",
-            }}
-          >
-            {recommendationObject.title}
-          </p>
-          <div
-            style={{
-              background: "white",
-              border: "1px solid #E3E3E3",
-              borderRadius: "8px",
-              textAlign: "left",
-              fontWeight: 400,
-              fontSize: "16px",
-              color: "#202223",
-              minHeight: "69px",
-              padding: "8px",
-              marginTop: "10px",
-            }}
-          >
-            {getColumnValueForTextChart(recommendationObject.column)}
-          </div>
-        </div>
       </div>
     </div>
   );

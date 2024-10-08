@@ -1,7 +1,37 @@
 @font-face {
   font-family: "Graphie-Regular";
-  src: url("https://db.onlinewebfonts.com/t/a5b0e20f1b3c4884638d19a0b5d43074.ttf")
+  src: url("../public/assets/fonts/graphie/Graphie-Regular.ttf")
     format("truetype");
+}
+
+@font-face {
+  font-family: "Graphie-Bold";
+  src: url("../public/assets/fonts/graphie/fonnts.com-Graphie_Bold.otf")
+    format("opentype");
+}
+
+@font-face {
+  font-family: "Graphie-Book";
+  src: url("../public/assets/fonts/graphie/fonnts.com-Graphie_Book.otf")
+    format("opentype");
+}
+
+@font-face {
+  font-family: "Graphie-Light";
+  src: url("../public/assets/fonts/graphie/fonnts.com-Graphie_Light.otf")
+    format("opentype");
+}
+
+@font-face {
+  font-family: "Graphie-Thin";
+  src: url("../public/assets/fonts/graphie/fonnts.com-Graphie_Thin.otf")
+    format("opentype");
+}
+
+@font-face {
+  font-family: "Graphie-SemiBold";
+  src: url("../public/assets/fonts/graphie/fonnts.com-Graphie_SemiBold.otf")
+    format("opentype");
 }
 
 body,

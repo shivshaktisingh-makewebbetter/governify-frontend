@@ -9,7 +9,6 @@ import { EmptyReports } from "../common/EmptyReports";
 import {
   ChartViewIcon,
   ComplianceReportIcon,
-  ExportReportViewIcon,
   ListReportIcon,
   ServiceReportIcon,
 } from "../../assets/image";
@@ -45,7 +44,8 @@ export const Report = () => {
   });
   const [finalData, setFinalData] = useState({});
   const [selectedComplianceMonth, setSelectedComplianceMonth] = useState("");
-  const [noDataCompliance, setNoDataCompliance] = useState(false);
+  const [noDataComplianceList, setNoDataComplianceList] = useState(false);
+  const [noDataComplianceChart, setNoDataComplianceChart] = useState(false);
   const [noDataService, setNoDataService] = useState(false);
 
   const [nameValueService, setNameValueService] = useState("");
@@ -96,12 +96,31 @@ export const Report = () => {
     return monthNames[monthIndex];
   };
 
-  const getLatestItem = (arr) => {
+  const getLatestItem = (arr, dateFilter) => {
     return arr.reduce((latest, current) => {
-      return new Date(current.created_at) > new Date(latest.created_at)
-        ? current
-        : latest;
+      // Find the date in the current item's column_values array
+      const currentDate = current.column_values.find(
+        (col) => col.id === dateFilter
+      )?.text;
+      // Find the date in the latest item's column_values array
+      const latestDate = latest.column_values.find(
+        (col) => col.id === dateFilter
+      )?.text;
+
+      // Compare the two dates
+      return new Date(currentDate) > new Date(latestDate) ? current : latest;
     });
+  };
+
+  const getDateFromLatestItem = (latestItem, dateFilter) => {
+    let dateString = "";
+    latestItem.column_values.forEach((item) => {
+      if (item.id === dateFilter) {
+        dateString = item.text;
+      }
+    });
+
+    return dateString;
   };
 
   const getPreviousItem = (arr, currentData) => {
@@ -119,11 +138,17 @@ export const Report = () => {
     return currentIndex > 0 ? sortedArr[currentIndex - 1] : null;
   };
 
-
-
   const fetchData = async () => {
     setLoading(true);
+    let noDataTempServiceChart = false;
+    let noDataTempComplianceChart = false;
+    let noDataTempComplianceList = false;
     const tempData = [];
+    const tempDataService = [];
+    const tempComplianceTableComlumns = [];
+    const complianceTableDataSource = [];
+    const tempMonthFilter = [];
+    const tempMonthFilterData = [];
     try {
       const response = await fetcher(
         `newonboardify/customer/allProfileWithServicesByUser`
@@ -136,179 +161,92 @@ export const Report = () => {
         `governify/customer/getServiceReport`
       );
 
+      const complianceTableData = JSON.parse(
+        response.response[0].governify_table_settings
+      );
+      const complianceChartData = JSON.parse(
+        response.response[0].governify_compliance_report_view
+      );
+
+      const complianceFilterKeyData = JSON.parse(
+        response.response[0].governify_compliance_filter_key
+      );
+
+      const serviceFilterKeyData = JSON.parse(
+        response.response[0].governify_service_filter_key
+      );
+
+      const serviceChartData = JSON.parse(
+        response.response[0].governify_service_report_view
+      );
+
       if (!complianceResponse.status) {
-        setNoData(true);
-        setNoDataCompliance(true);
-        setNoDataService(true);
+        noDataTempComplianceChart = true;
+        noDataTempComplianceList = true;
+
+        // setNoDataComplianceChart(true);
+      }
+
+      if (!serviceResponse.status) {
+        noDataTempServiceChart = true;
+
+        // setNoDataService(true);
+      }
+
+      if (complianceTableData === null) {
+        noDataTempComplianceList = true;
+        // setNoDataComplianceList(true);
+      }
+
+      if (complianceChartData === null) {
+        noDataTempComplianceChart = true;
+        // setNoDataComplianceChart(true);
+      }
+
+      if (serviceChartData === null) {
+        noDataTempServiceChart = true;
+        // setNoDataService(true);
       }
 
       if (
-        JSON.parse(response.response[0].governify_compliance_report) === null ||
-        JSON.parse(response.response[0].governify_compliance_report_view) ===
-          null
+        complianceFilterKeyData.key === null ||
+        complianceFilterKeyData.value === null ||
+        complianceFilterKeyData.date_key === null
       ) {
-        setNoDataCompliance(true);
+        noDataTempComplianceChart = true;
+        noDataTempComplianceList = true;
       }
 
-      if (
-        JSON.parse(response.response[0].governify_service_report) === null ||
-        JSON.parse(response.response[0].governify_service_report_view) === null
-      ) {
-        setNoDataService(true);
-      }
-
-      if (complianceResponse.status) {
-        setAllColumnTitle(complianceResponse.response.data.boards[0].columns);
-
-        complianceResponse.response.data.boards[0].items_page.items.forEach(
-          (item) => {
-            if (
-              JSON.parse(response.response[0].governify_compliance_filter_key)
-                .key === "name"
-            ) {
-              if (
-                item.name.toLowerCase() ===
-                JSON.parse(
-                  response.response[0].governify_compliance_filter_key
-                ).value.toLowerCase()
-              ) {
-                tempData.push(item);
-              }
-            } else {
-              item.column_values.forEach((subItem) => {
-                if (
-                  subItem.id ===
-                    JSON.parse(
-                      response.response[0].governify_compliance_filter_key
-                    ).key &&
-                  subItem.text.toLowerCase() ===
-                    JSON.parse(
-                      response.response[0].governify_compliance_filter_key
-                    ).value.toLowerCase()
-                ) {
-                  tempData.push(item);
+      //////compliance table data preparation
+      if (complianceResponse.status && complianceTableData !== null) {
+        ///building compliance table Headers
+        JSON.parse(response.response[0].governify_table_settings).forEach(
+          (item, index) => {
+            complianceResponse.response.data.boards[0].columns.forEach(
+              (subItem) => {
+                if (item === subItem.id) {
+                  tempComplianceTableComlumns.push({
+                    title: <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'Graphie-SemiBold' }}>{subItem.title}</span> ,
+                    dataIndex: subItem.id,
+                    key: subItem.id,
+                    width: 150,
+                    ...(index === 0 && { fixed: "left" }), // conditionally apply fixed: 'right' if index is 0
+                  });
                 }
-              });
-            }
+              }
+            );
           }
         );
 
-        if(tempData.length === 0){
+        ///building table dataSource
+        const filterKey = complianceFilterKeyData.key;
+        const filterValue = complianceFilterKeyData.value.toLowerCase();
 
-          setFinalData([]);
-          setSelectedComplianceMonth('');
-          setCurrentData({});
-          setPreviousData({});
-          return;
-        }
-    
-
-        const latestItem = getLatestItem(tempData);
-        let latestMonthData = getMonthNameWithYear(latestItem.created_at);
-        let previousMonthData = getPreviousItem(tempData, {
-          created_at: latestItem.created_at,
-        });
-        setFinalData(tempData);
-        setSelectedComplianceMonth(latestMonthData.value);
-        setCurrentData(latestItem.column_values);
-        if (previousMonthData === null) {
-          setPreviousData([]);
-        } else {
-          setPreviousData(previousMonthData.column_values);
-        }
-      }
-
-      if (serviceResponse.status) {
-        if (
-          JSON.parse(response.response[0].governify_service_filter_key).key ===
-          "name"
-        ) {
-          serviceResponse.response.data.boards[0].items_page.items.forEach(
-            (item) => {
-              if (
-                item.name.toLowerCase() ===
-                JSON.parse(
-                  response.response[0].governify_service_filter_key
-                ).value.toLowerCase()
-              ) {
-                setCurrentDataService(item.column_values);
-                setNameValueService(item.name);
-              }
-            }
-          );
-        } else {
-          serviceResponse.response.data.boards[0].items_page.items.forEach(
-            (item) => {
-              item.column_values.forEach((subItem, subIndex) => {
-                if (subItem.text) {
-                  if (
-                    subItem.id ===
-                      JSON.parse(
-                        response.response[0].governify_service_filter_key
-                      ).key &&
-                    subItem.text.toLowerCase() ===
-                      JSON.parse(
-                        response.response[0].governify_service_filter_key
-                      ).value.toLowerCase()
-                  ) {
-                    setCurrentDataService(item.column_values);
-                    setNameValueService(item.name);
-                  }
-                }
-              });
-            }
-          );
-        }
-
-        setAllColumnTitleService(
-          serviceResponse.response.data.boards[0].columns
-        );
-      }
-
-      if (response.status) {
-        if (response.response.length === 0) {
-          setNoData(false);
-        } else {
-          let tempDataSource = [];
-          let tempTableColumns = [];
-          let tempMonthFilterData = [];
-          let tempMonthFilter = [];
-
-          // Building table columns
-          JSON.parse(response.response[0].governify_table_settings).forEach(
-            (item, index) => {
-              complianceResponse.response.data.boards[0].columns.forEach(
-                (subItem) => {
-                  if (item === subItem.id) {
-                    tempTableColumns.push({
-                      title: subItem.title,
-                      dataIndex: subItem.id,
-                      key: subItem.id,
-                      width: 150,
-                      ...(index === 0 && { fixed: "left" }), // conditionally apply fixed: 'right' if index is 0
-                    });
-                  }
-                }
-              );
-            }
-          );
-
-          const filterKey = JSON.parse(
-            response.response[0].governify_compliance_filter_key
-          ).value.toLowerCase();
-
-          if (
-            JSON.parse(response.response[0].governify_compliance_filter_key)
-              .key === "name"
-          ) {
+        if (filterKey !== null && filterValue !== null) {
+          if (filterKey === "name") {
             complianceResponse.response.data.boards[0].items_page.items.forEach(
               (item, index) => {
-                if (
-                  item.name.toLowerCase() ===
-                  JSON.parse(
-                    response.response[0].governify_compliance_filter_key
-                  ).value.toLowerCase()
-                ) {
+                if (item.name.toLowerCase() === filterValue) {
                   let obj = { key: index };
                   item.column_values.forEach((subItem) => {
                     if (
@@ -316,19 +254,20 @@ export const Report = () => {
                         response.response[0].governify_table_settings
                       ).includes(subItem.id)
                     ) {
+             
                       obj[subItem.id] = subItem.text;
                     }
                   });
 
-                  tempDataSource.push(obj);
+                  complianceTableDataSource.push(obj);
                 }
               }
             );
           } else {
             const tableParentColumn = [];
-            const complianceFilterKey = JSON.parse(
-              response.response[0].governify_compliance_filter_key
-            );
+            // const complianceFilterKey = JSON.parse(
+            //   response.response[0].governify_compliance_filter_key
+            // );
             const tableSettings = JSON.parse(
               response.response[0].governify_table_settings
             );
@@ -336,18 +275,14 @@ export const Report = () => {
               complianceResponse.response.data.boards[0].items_page.items;
 
             boards.forEach((item, index) => {
-              let obj = { key: index };
-
               item.column_values.forEach((subItem) => {
                 if (subItem.text) {
                   // Ensure subItem.text is not null or undefined
-                  const isMatchingKey = subItem.id === complianceFilterKey.key;
+                  const isMatchingKey = subItem.id === filterKey;
                   const isMatchingValue =
-                    subItem.text.toLowerCase() ===
-                    complianceFilterKey.value.toLowerCase();
+                    subItem.text.toLowerCase() === filterValue;
                   if (isMatchingKey && isMatchingValue) {
                     tableParentColumn.push(item);
-                    // obj[subItem.id] = subItem.text;
                   }
                 }
               });
@@ -361,49 +296,228 @@ export const Report = () => {
                     obj[subItem.id] = subItem.text;
                   }
                 });
-                tempDataSource.push(obj);
+                complianceTableDataSource.push(obj);
               });
             }
           }
+        } else {
+          complianceResponse.response.data.boards[0].items_page.items.forEach(
+            (item, index) => {
+              let obj = { key: index };
+              item.column_values.forEach((subItem) => {
+                if (
+                  JSON.parse(
+                    response.response[0].governify_table_settings
+                  ).includes(subItem.id)
+                ) {
+                  obj[subItem.id] = subItem.text;
+                }
+              });
 
+              complianceTableDataSource.push(obj);
+            }
+          );
+        }
+        if (complianceTableDataSource.length === 0) {
+          noDataTempComplianceList = true;
+        }
+
+        setAllTableColumns(tempComplianceTableComlumns);
+        setDataSource(complianceTableDataSource);
+      }
+
+      ////compliance Chart DataPreparation
+      if (complianceResponse.status && complianceChartData !== null) {
+        setComplianceReportViewData(complianceChartData);
+        setComplianceReportSettingData(
+          JSON.parse(response.response[0].governify_service_report)
+        );
+        setAllColumnTitle(complianceResponse.response.data.boards[0].columns);
+        const filterKey = complianceFilterKeyData.key;
+        const filterValue = complianceFilterKeyData.value.toLowerCase();
+        const dateFilter = complianceFilterKeyData.date_key;
+
+        if (filterKey !== null && filterValue !== null) {
           complianceResponse.response.data.boards[0].items_page.items.forEach(
             (item) => {
-              if (item.name.toLowerCase() === filterKey) {
-                let monthData = getMonthNameWithYear(item.created_at);
-                if (!tempMonthFilter.includes(monthData.value)) {
-                  tempMonthFilter.push(monthData.value);
-                  tempMonthFilterData.push({
-                    label: monthData.label,
-                    value: monthData.value,
-                  });
+              if (filterKey === "name") {
+                if (item.name.toLowerCase() === filterValue) {
+                  tempData.push(item);
                 }
+              } else {
+                item.column_values.forEach((subItem) => {
+                  if (
+                    subItem.id === filterKey &&
+                    subItem.text.toLowerCase() === filterValue
+                  ) {
+                    tempData.push(item);
+                  }
+                });
               }
             }
           );
 
-          setMonthFilterData(tempMonthFilterData);
-          setDataSource(tempDataSource);
-          setComplianceReportSettingData(
-            JSON.parse(response.response[0].governify_compliance_report)
-          );
-
-          setComplianceReportViewData(
-            JSON.parse(response.response[0].governify_compliance_report_view)
-          );
-          setServiceReportSettingData(
-            JSON.parse(response.response[0].governify_service_report)
-          );
-          setServiceReportViewData(
-            JSON.parse(response.response[0].governify_service_report_view)
-          );
-          setAllTableColumns(tempTableColumns);
+          if (tempData.length === 0) {
+            setFinalData([]);
+            setSelectedComplianceMonth("");
+            setCurrentData({});
+            setPreviousData({});
+            noDataTempComplianceChart = true;
+          } else {
+            if (dateFilter === null) {
+              setFinalData([]);
+              setSelectedComplianceMonth("");
+              setCurrentData({});
+              setPreviousData({});
+              noDataTempComplianceChart = true;
+            } else {
+              const latestItem = getLatestItem(tempData, dateFilter);
+              const dateFromLatestItem = getDateFromLatestItem(
+                latestItem,
+                dateFilter
+              );
+              let latestMonthData = getMonthNameWithYear(dateFromLatestItem);
+              let previousMonthData = getPreviousItem(tempData, {
+                created_at: dateFromLatestItem,
+              });
+              setFinalData(tempData);
+              setSelectedComplianceMonth(latestMonthData.value);
+              setCurrentData(latestItem.column_values);
+              if (previousMonthData === null) {
+                setPreviousData([]);
+              } else {
+                setPreviousData(previousMonthData.column_values);
+              }
+            }
+          }
+        } else {
+          setFinalData([]);
+          setSelectedComplianceMonth("");
+          setCurrentData({});
+          setPreviousData({});
+          noDataTempComplianceChart = true;
         }
-      } else {
-        setNoData(false);
+      }
+
+      ////compliance Month Filter Data Preparation
+      if (complianceResponse.status && complianceChartData !== null) {
+        const tempCollectionOfMontFilter = [];
+        const filterKey = complianceFilterKeyData.key;
+        const filterValue = complianceFilterKeyData.value.toLowerCase();
+        const dateFilter = complianceFilterKeyData.date_key;
+        if (filterKey !== null && filterValue !== null) {
+          if (filterKey === "name") {
+            complianceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
+                if (item.name.toLowerCase() === filterValue) {
+                  tempCollectionOfMontFilter.push(item);
+                }
+              }
+            );
+          } else {
+            complianceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
+                item.column_values.forEach((subItem) => {
+                  if (
+                    subItem.id === filterKey &&
+                    subItem.text === filterValue
+                  ) {
+                    tempCollectionOfMontFilter.push(item);
+                  }
+                });
+              }
+            );
+          }
+
+          if (tempCollectionOfMontFilter.length > 0) {
+            tempCollectionOfMontFilter.forEach((item) => {
+              item.column_values.forEach((subItem) => {
+                if (subItem.id === dateFilter) {
+                  let monthData = getMonthNameWithYear(subItem.text);
+                  if (!tempMonthFilter.includes(monthData.value)) {
+                    tempMonthFilter.push(monthData.value);
+                    tempMonthFilterData.push({
+                      label: <span style={{fontSize:"16px" , fontWeight:"600" , fontFamily:"Graphie-Book"}}>{monthData.label}</span>,
+                      value: monthData.value,
+                    });
+                  }
+                }
+              });
+            });
+          }
+        } else {
+          noDataTempComplianceChart = true;
+        }
+
+        setMonthFilterData(tempMonthFilterData);
+      }
+
+      /////Service Chart Data Preparation
+      if (serviceResponse.status && serviceChartData !== null) {
+        setServiceReportSettingData(
+          JSON.parse(response.response[0].governify_service_report)
+        );
+        setServiceReportViewData(serviceChartData);
+        const serviceFilterKey = serviceFilterKeyData.key;
+        const serviceFilterValue = serviceFilterKeyData.value.toLowerCase();
+        const serviceDateFilter = serviceFilterKeyData.date_key;
+        setAllColumnTitleService(
+          serviceResponse.response.data.boards[0].columns
+        );
+
+        if (serviceFilterKey !== null && serviceFilterValue !== null) {
+          if (serviceFilterKey === "name") {
+            serviceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
+                if (item.name.toLowerCase() === serviceFilterValue) {
+                  tempDataService.push(item);
+                }
+              }
+            );
+          } else {
+            serviceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
+                item.column_values.forEach((subItem, subIndex) => {
+                  if (subItem.text) {
+                    if (
+                      subItem.id === serviceFilterKey &&
+                      subItem.text.toLowerCase() === serviceFilterValue
+                    ) {
+                      tempDataService.push(item);
+                    }
+                  }
+                });
+              }
+            );
+          }
+
+          if (tempDataService.length > 0) {
+            const latestItem = getLatestItem(
+              tempDataService,
+              serviceDateFilter
+            );
+            setCurrentDataService(latestItem.column_values);
+            setNameValueService(latestItem.name);
+          } else {
+            noDataTempServiceChart = true;
+          }
+        } else {
+          noDataTempServiceChart = true;
+        }
       }
     } catch (err) {
       console.error("Error fetching data", err);
     } finally {
+      if (noDataTempServiceChart) {
+        setNoDataService(true);
+      }
+      if (noDataTempComplianceChart) {
+        setNoDataComplianceChart(true);
+      }
+      if (noDataTempComplianceList) {
+        setNoDataComplianceList(true);
+        setActiveView("chart");
+      }
       setLoading(false);
     }
   };
@@ -843,6 +957,7 @@ export const Report = () => {
             textAlign: "left",
             marginLeft: "20px",
             marginRight: "20px",
+            fontFamily:"Graphie-SemiBold"
           }}
         >
           Reports
@@ -870,7 +985,10 @@ export const Report = () => {
             icon={<ServiceReportIcon activeReport={activeReport} />}
             iconPosition="start"
           >
-            Service Reports
+            <span style={{ fontFamily: "Graphie-SemiBold" }}>
+              {" "}
+              Service Reports
+            </span>
           </Button>
           <Button
             style={{
@@ -883,13 +1001,17 @@ export const Report = () => {
               border: "none",
               lineHeight: "22.4px",
               height: "40px",
-              fontFamily: "Graphie-Regular",
+              // fontFamily: "Graphie-Regular",
+              fontFamily: "Graphie-Bold",
             }}
             onClick={() => handleButtonClick("compliance")}
             icon={<ComplianceReportIcon activeReport={activeReport} />}
             iconPosition="start"
           >
-            Compliance Reports
+            <span style={{ fontFamily: "Graphie-SemiBold" }}>
+              {" "}
+              Compliance Reports
+            </span>
           </Button>
         </div>
 
@@ -927,7 +1049,7 @@ export const Report = () => {
                 borderRadius: "8px",
               }}
             >
-              {!noDataCompliance && (
+              {!(noDataComplianceList || noDataComplianceChart) && (
                 <Button
                   style={{
                     marginRight: "16px",
@@ -950,10 +1072,12 @@ export const Report = () => {
                     />
                   }
                 >
+                       <span style={{ fontFamily: "Graphie-SemiBold" , fontWeight:"600" , fontSize:"14px" }}>
                   List View
+                  </span>
                 </Button>
               )}
-              {!noDataCompliance && (
+              {!(noDataComplianceList || noDataComplianceChart) && (
                 <Button
                   style={{
                     border: "none",
@@ -983,7 +1107,7 @@ export const Report = () => {
           </div>
         )}
 
-        {activeReport === "compliance" && !noDataCompliance && (
+        {activeReport === "compliance" && !noDataComplianceList && (
           <div>
             {activeView === "list" && (
               <ComplianceReportViewList
@@ -997,7 +1121,11 @@ export const Report = () => {
                 rowSelection={rowSelection}
               />
             )}
+          </div>
+        )}
 
+        {activeReport === "compliance" && !noDataComplianceChart && (
+          <div>
             {activeView === "chart" && (
               <ComplianceReportViewChart
                 activeView={activeView}
@@ -1026,10 +1154,11 @@ export const Report = () => {
             )}
           </div>
         )}
-
-        {noDataCompliance && activeReport === "compliance" && (
-          <EmptyReports activeReport={activeReport} />
-        )}
+        {noDataComplianceChart &&
+          noDataComplianceList &&
+          activeReport === "compliance" && (
+            <EmptyReports activeReport={activeReport} />
+          )}
         {noDataService && activeReport === "service" && (
           <EmptyReports activeReport={activeReport} />
         )}
@@ -1037,7 +1166,6 @@ export const Report = () => {
         {activeReport === "service" && !noDataService && (
           <ServiceReportViewChart
             activeReport={activeReport}
-            noData={noData}
             noDataService={noDataService}
             loading={loading}
             setLoading={setLoading}

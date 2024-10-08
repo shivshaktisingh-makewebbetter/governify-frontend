@@ -6,7 +6,7 @@ import { Button } from "antd";
 import { usePDF } from "react-to-pdf";
 
 export const ServiceReportViewChart = ({
-  noData,
+  noDataService,
   activeReport,
   getPieChartDataSet,
   getPieChartBg,
@@ -51,7 +51,7 @@ export const ServiceReportViewChart = ({
           >
             Service Reports
           </span>{" "}
-          {!noData && (
+          {!noDataService && (
             <Button
               style={{
                 background: "#5ac063",
@@ -65,7 +65,9 @@ export const ServiceReportViewChart = ({
               iconPosition="end"
               onClick={() => toPDF()}
             >
-              Download Report
+              <span style={{ fontFamily: "Graphie-SemiBold" , fontWeight:"600" , fontSize:"14px" }}>
+            Download Report
+            </span>
             </Button>
           )}
         </div>
@@ -82,6 +84,7 @@ export const ServiceReportViewChart = ({
                   color: "#818181",
                   textAlign: "left",
                   marginBottom: "0px",
+                     fontFamily:"Graphie-SemiBold"
                 }}
               >
                 {item.title}
@@ -125,6 +128,7 @@ export const ServiceReportViewChart = ({
                                 fontWeight: "400",
                                 color: "#6d7175",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-Thin",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
@@ -137,6 +141,7 @@ export const ServiceReportViewChart = ({
                                 fontWeight: "600",
                                 color: "#202223",
                                 marginBottom: "6px",
+                                fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnValueForTextChart(subItem.column1)}
@@ -154,6 +159,7 @@ export const ServiceReportViewChart = ({
                                 background: hexToRgba(subItem.color, "0.2"),
                                 padding: "6px 12px",
                                 color: subItem.color,
+                                fontFamily: "Graphie-Light",
                               }}
                             >
                               {getColumnValueForTextChart(subItem.column2)}

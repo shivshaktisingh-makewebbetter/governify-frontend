@@ -120,6 +120,7 @@ export const PieChart = ({
             lineHeight: "33.6px",
             color: "#202223",
             textAlign: "left",
+            fontFamily:"Graphie-SemiBold"
           }}
         >
           {title}
@@ -166,6 +167,7 @@ export const PieChart = ({
                     fontSize: "14px",
                     fontWeight: "400",
                     color: "#6d7175",
+                    fontFamily:"Graphie-Thin"
                   }}
                   title={item}
                 >
