@@ -155,7 +155,7 @@ export const BarChartVertical = ({
             lineHeight: "33.6px",
             color: "#202223",
             textAlign: "left",
-            fontFamily: "Graphie-SemiBold",
+            fontFamily: "Graphie-Regular",
           }}
         >
           {title}
@@ -203,13 +203,13 @@ export const BarChartVertical = ({
               <div
                 style={{
                   fontSize: "14px",
-                  fontWeight: "400",
+                  fontWeight: "600",
                   color: "#6d7175",
                   fontFamily: "Graphie-Thin",
                 }}
                 title={item.label}
               >
-                {truncatedLabel}
+                {item.label}
               </div>
             </div>
           );
