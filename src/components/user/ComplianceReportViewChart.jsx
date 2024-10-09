@@ -32,9 +32,11 @@ export const ComplianceReportViewChart = ({
   handleMonthChange,
   selectedComplianceMonth,
   previousData,
+  getTooltipData
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
 
+ 
   return (
     <div>
       {activeReport === "compliance" && !noData && activeView === "chart" && (
@@ -458,6 +460,7 @@ export const ComplianceReportViewChart = ({
                             max={getMaxForVerticalBarChart(subItem)}
                             title={subItem.heading}
                             description={subItem.description}
+                            toolTipData={getTooltipData(subItem)}
                           />
                         ) : (
                           <BarChartVertical
@@ -466,6 +469,7 @@ export const ComplianceReportViewChart = ({
                             max={getMaxForVerticalBarChart(subItem)}
                             title={subItem.heading}
                             description={subItem.description}
+                            toolTipData={getTooltipData(subItem)}
                           />
                         )}
                       </div>

@@ -430,7 +430,6 @@ export const Report = () => {
               complianceTempNameValue.currentName = latestItem.name;
               setFinalData(tempData);
               setSelectedComplianceMonth(latestMonthData.value);
-              console.log(latestItem);
               setCurrentData(latestItem.column_values);
 
               if (previousMonthData === null) {
@@ -976,24 +975,62 @@ export const Report = () => {
     });
   };
 
-  const getPreviousDate = (tempData , dateFilter) =>{
-    let tempPreviousDate ;
-     tempData[0].column_values.forEach((item)=>{
-        if(item.id === dateFilter){
-          tempPreviousDate = item.text;
-        }
-     })
-     return tempPreviousDate;
-  }
+  const getPreviousDate = (tempData, dateFilter) => {
+    let tempPreviousDate;
+    tempData[0].column_values.forEach((item) => {
+      if (item.id === dateFilter) {
+        tempPreviousDate = item.text;
+      }
+    });
+    return tempPreviousDate;
+  };
+
+  const getKeyFromAllColumn = (key) => {
+    let tempValue;
+    allColumnTitle.forEach((item) => {
+      if (item.id === key) {
+        tempValue = item.title;
+      }
+    });
+    return tempValue;
+  };
+
+  const getTooltipData = (tempData) => {
+    let tempCurrentArr = [];
+    let tempPreviousArr = [];
+
+    currentData.forEach((item) => {
+      if (tempData.selectedColumns.includes(item.id)) {
+        tempCurrentArr.push({
+          key: getKeyFromAllColumn(item.id),
+          value: item.text,
+        });
+      }
+    });
+
+    previousData.forEach((item) => {
+      if (tempData.selectedColumns.includes(item.id)) {
+        tempPreviousArr.push({ key: getKeyFromAllColumn(item.id), value: item.text });
+      }
+    });
+    return { tempCurrentArr, tempPreviousArr };
+  };
 
   const handleMonthChange = (e) => {
     let newCurrentData = getItemsByMonth(finalData, e);
 
-   let newPreviousDate = getPreviousDate(newCurrentData ,  complianceReportFilterData.date_key );
- 
-    let previousMonthData = getPreviousItem(finalData, complianceReportFilterData.date_key ,{
-      created_at: newPreviousDate,
-    });
+    let newPreviousDate = getPreviousDate(
+      newCurrentData,
+      complianceReportFilterData.date_key
+    );
+
+    let previousMonthData = getPreviousItem(
+      finalData,
+      complianceReportFilterData.date_key,
+      {
+        created_at: newPreviousDate,
+      }
+    );
 
     setCurrentData(newCurrentData[0].column_values);
     if (previousMonthData === null) {
@@ -1243,6 +1280,7 @@ export const Report = () => {
                 handleMonthChange={handleMonthChange}
                 selectedComplianceMonth={selectedComplianceMonth}
                 previousData={previousData}
+                getTooltipData={getTooltipData}
               />
             )}
           </div>
