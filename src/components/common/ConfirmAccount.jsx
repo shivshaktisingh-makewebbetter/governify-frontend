@@ -1,32 +1,33 @@
-import {
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  LockOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
-import { Input, Modal } from "antd";
+import { Modal } from "antd";
 import React, { useState } from "react";
 import { Loader } from "./Loader";
 import { fetcher } from "../../utils/helper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Credentials } from "../../utils/Icons";
+import { Mail, Smartphone } from "react-feather";
+import MobileVerification from "../PortalCredentials/child/MobileVerification";
+import TwoFactorAuthentication from "../PortalCredentials/child/TwoFactorAuthentication";
 
 const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [error,setError] = useState(false);
+  const [error, setError] = useState(false);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const [openOtpModal, setOpenOtpModal] = useState(false);
+  const [openTwoFAModal, setOpenTwoFAModal] = useState(false);
+  const [verificationType, setVerificationType] = useState("");
+  const [recipient, setRecipient] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async() => {
-    if(password.trim() === "") {
+  const handleSubmit = async () => {
+    if (password.trim() === "") {
       setError(true);
       return;
     }
     let url = "commom-login";
     let method = "POST";
     let payload = JSON.stringify({
-      email: sessionStorage.getItem('userEmail'),
+      email: sessionStorage.getItem("userEmail"),
       password: password,
       domain: "governify",
     });
@@ -35,16 +36,13 @@ const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
       setLoading(true);
       const response = await fetcher(url, method, payload);
       if (response.status) {
-        // toast.success("Logged In Successfull.");
-        // sessionStorage.setItem("token", response.token);
-        // sessionStorage.setItem("role", response.role);
-        toast.success('Account verified successfully')
+        toast.success("Account verified successfully");
         setTimeout(() => {
           setShowCredentials(false);
-          navigate('/portals')
-        },1000)
+          navigate("/portals");
+        }, 1000);
       } else {
-        toast.error('Password is incorrect.');
+        toast.error("Password is incorrect.");
       }
     } catch (err) {
       console.log(err, "error");
@@ -61,86 +59,126 @@ const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
         open={showCredentials}
         centered
         footer={null}
-        closeIcon={null}
         zIndex={99}
         onCancel={() => setShowCredentials(false)}
       >
         <div
-          className="text-center d-flex flex-column pt-3 pb-2"
+          className="text-center d-flex flex-column p-4"
           style={{ gap: "20px" }}
         >
-          <div
-            className="text-center d-flex flex-column"
-            style={{ gap: "10px" }}
-          >
-            <div className="fw-bold fs-4">Enter your account password</div>
-            <div className="fs-16" style={{ color: "#928f8f" }}>
-              Please enter your account password to access your Portal
-              Credentials Management page
-            </div>
-          </div>
-          <div
-            className="text-center d-flex flex-column"
-            style={{ gap: "5px" }}
-          >
-            <div className="fs-16 text-start" style={{ color: "#202223" }}>
-              Email address
-            </div>
-            <Input
-              value={sessionStorage.getItem("userEmail")}
-              disabled
-              prefix={<MailOutlined className="fs-20" />}
-              className="py-2 px-3"
-              autoComplete="off"
-            />
-          </div>
-
-          <div
-            className="text-center d-flex flex-column"
-            style={{ gap: "5px" }}
-          >
-            <div className="fs-16 text-start" style={{ color: "#202223" }}>
-              Password
-            </div>
-            <Input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              type={showPassword ? "text" : "password"}
-              status={error ? 'error' : ''}
-              prefix={<LockOutlined className="fs-20" />}
-              suffix={
-                showPassword ? (
-                  <EyeInvisibleOutlined
-                    className="fs-20"
-                    onClick={() => setShowPassword(false)}
-                  />
-                ) : (
-                  <EyeOutlined
-                    className="fs-20"
-                    onClick={() => setShowPassword(true)}
-                  />
-                )
-              }
-              className="py-2 px-3"
-            />
-          </div>
-          <div className="text-end">
-            <span style={{ color: "#008080" }} className="fs-16 fw-semibold">
-              Forgot Password?
-            </span>
-          </div>
           <div>
-            <button
-              style={{ background: "#00BF63", color: "#fff" }}
-              className="w-100 py-2 border-0 rounded font-semibold fs-16"
-              onClick={() => handleSubmit()}
+            <Credentials width={56} height={56} fill="#00BF63" />
+          </div>
+          <div className="d-flex flex-column" style={{ gap: "5px" }}>
+            <div className="fs-24 fw-bold" style={{ color: "#202223" }}>
+              Two-Factor Authentication
+            </div>
+            <div className="fs-16" style={{ color: "#6D7175" }}>
+              Select a Verification method to access the Portal Credentials
+              Management page.
+            </div>
+            <div
+              style={{
+                border: "1px solid #DFDFDF",
+                padding: "18px",
+                gap: "10px",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+              className="d-flex mt-2 align-items-center"
+              onClick={() => {
+                setShowCredentials(false);
+                setOpenTwoFAModal(true);
+                setVerificationType("email");
+                setRecipient(sessionStorage.getItem("userEmail"));
+              }}
             >
-              Submit
-            </button>
+              <Mail
+                style={{ color: "#00BF63", width: "32px", height: "24px" }}
+              />
+              <div
+                className="d-flex flex-column text-start"
+                style={{ gap: "5px" }}
+              >
+                <div className="fs-18 fw-semibold" style={{ color: "#202223" }}>
+                  via Email
+                </div>
+                <div style={{ color: "#6D7175" }}>
+                  Get a code at {sessionStorage.getItem("userEmail")
+                    ? sessionStorage.getItem("userEmail").slice(0, 3) +
+                      "***************" +
+                      sessionStorage
+                        .getItem("userEmail")
+                        .slice(
+                          sessionStorage.getItem("userEmail").length - 9,
+                          sessionStorage.getItem("userEmail").length
+                        )
+                    : ""}
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                border: "1px solid #DFDFDF",
+                padding: "18px",
+                gap: "10px",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+              className="d-flex mt-2 align-items-center"
+              onClick={() => {
+                setShowCredentials(false);
+                setOpenTwoFAModal(true);
+                setVerificationType("sms");
+                setRecipient(sessionStorage.getItem("phoneNumber"));
+              }}
+            >
+              <Smartphone
+                style={{ color: "#00BF63", width: "32px", height: "24px" }}
+              />
+              <div
+                className="d-flex flex-column text-start"
+                style={{ gap: "5px" }}
+              >
+                <div className="fs-18 fw-semibold" style={{ color: "#202223" }}>
+                  via Mobile Number
+                </div>
+                <div style={{ color: "#6D7175" }}>
+                  Get a code at{" "}
+                  {sessionStorage.getItem("phoneNumber")
+                    ? sessionStorage.getItem("phoneNumber").slice(0, 3) +
+                      "********" +
+                      sessionStorage
+                        .getItem("phoneNumber")
+                        .slice(
+                          sessionStorage.getItem("phoneNumber").length - 2,
+                          sessionStorage.getItem("phoneNumber").length
+                        )
+                    : ""}
+                </div>
+              </div>
+              {/* <div
+                className="fs-s"
+                style={{ color: "#EF4444", marginLeft: "auto" }}
+              >
+                Unverified
+              </div> */}
+            </div>
           </div>
         </div>
       </Modal>
+      <MobileVerification
+        setOpenOtpModal={setOpenOtpModal}
+        open={openOtpModal}
+      />
+      <TwoFactorAuthentication
+        setOpenTwoFAModal={setOpenTwoFAModal}
+        setShowCredentials={setShowCredentials}
+        open={openTwoFAModal}
+        verificationType={verificationType}
+        setVerificationType={setVerificationType}
+        recipient={recipient}
+      />
     </>
   );
 };

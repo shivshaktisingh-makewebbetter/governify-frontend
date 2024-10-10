@@ -9,20 +9,27 @@ export const CreateServices = ({
   setLoading,
   loading,
   setModalOpen,
+  portals,
 }) => {
   const settingsData = JSON.parse(sessionStorage.getItem("settings"));
   const [categoryListig, setCategoryListing] = useState([]);
+  const [portalOption, setPortalOption] = useState([]);
   const [serviceData, setServiceData] = useState({
     title: "",
     description: "",
     image: "",
     image_name: "",
     service_categorie_id: "",
+    portal_credentials_id: "",
   });
 
   const handleCategoryChange = (e) => {
     setServiceData({ ...serviceData, service_categorie_id: e });
   };
+
+  const handlePortalChange = (value) => {
+    setServiceData({...serviceData, portal_credentials_id: value})
+  }
 
   const handleCreateServices = async () => {
     let method = "POST";
@@ -41,6 +48,7 @@ export const CreateServices = ({
           image: "",
           image_name: "",
           service_categorie_id: "",
+          portal_credentials_id: ""
         });
       } else {
         toast.error(response.message);
@@ -86,6 +94,29 @@ export const CreateServices = ({
     getAllCategories();
   }, []);
 
+  useEffect(() => {
+    if (portals.length) {
+      let option = [];
+      portals.map((item) => {
+        option.push({
+          label: (
+            <div className="countryOption ff-ws">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `<img width="20px" src='${item.file_location}' />`,
+                }}
+                className="tw-max-w-[20px] tw-h-[20px]"
+              ></span>
+              {" " + item.title}
+            </div>
+          ),
+          value: item.id,
+        });
+      });
+      setPortalOption(option);
+    }
+  }, [portals]);
+
   return (
     <>
       <div
@@ -93,10 +124,7 @@ export const CreateServices = ({
         style={{ maxWidth: "550px", width: "100%", marginTop: "25px" }}
       >
         <div>
-          <div
-            className="text-white"
-            style={{ backgroundColor: '#59C080' }}
-          >
+          <div className="text-white" style={{ backgroundColor: "#59C080" }}>
             <p className="p-2 m-0 fs-5">
               <strong>Create Services</strong>
             </p>
@@ -136,6 +164,19 @@ export const CreateServices = ({
                 placement="bottomLeft"
                 onChange={handleCategoryChange}
                 options={categoryListig}
+              />
+            </div>
+
+            <div className="mt-10">
+              <Select
+                // showSearch
+                placeholder="Select Portal (Optional)"
+                style={{ width: "100%" }}
+                popupMatchSelectWidth={false}
+                placement="bottomLeft"
+                onChange={handlePortalChange}
+                // value={serviceData.portal_credentials_id}
+                options={portalOption}
               />
             </div>
 

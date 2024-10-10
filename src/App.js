@@ -11,12 +11,12 @@ import { userSettingData } from "./utils/tools";
 import RoleWrapper from "./components/wrapper/RoleWrapper";
 import { AdminSettings } from "./components/admin/AdminSettings";
 import Home from "./components/Home";
-import {Adminhome} from "./components/admin/Adminhome";
-import {Category} from "./components/admin/Category";
-import {Services} from "./components/admin/Services";
-import {Forms} from "./components/admin/Forms";
-import 'react-quill/dist/quill.snow.css';
-import 'react-toastify/dist/ReactToastify.css';
+import { Adminhome } from "./components/admin/Adminhome";
+import { Category } from "./components/admin/Category";
+import { Services } from "./components/admin/Services";
+import { Forms } from "./components/admin/Forms";
+import "react-quill/dist/quill.snow.css";
+import "react-toastify/dist/ReactToastify.css";
 import Login from "./components/signin/Login";
 import Register from "./components/signup/Register";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
@@ -24,24 +24,21 @@ import VerifyUser from "./components/verifypassword/VerifyUser";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { Intercom } from "./components/wrapper/Intercom";
 import CredentialManagement from "./components/PortalCredentials/CredentialManagement";
+import Portals from "./components/admin/portal/Portals";
 
 function App() {
-  const token = sessionStorage.getItem('token');
-  const settingsData =
-    JSON.parse(sessionStorage.getItem("settings")) ||
-    {
-      image:
-        "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
-      site_bg: "#ffffff",
-      button_bg: "#5ac063",
-      banner_bg: "#5ac063",
-      banner_content:
-        "Hire an attitude, not just experience and qualification. Greg Savage.",
-      header_bg: "#f7f7f7",
-      head_title_color: "#5ac063"
-    };
-
-   
+  const token = sessionStorage.getItem("token");
+  const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
+    image:
+      "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
+    site_bg: "#ffffff",
+    button_bg: "#5ac063",
+    banner_bg: "#5ac063",
+    banner_content:
+      "Hire an attitude, not just experience and qualification. Greg Savage.",
+    header_bg: "#f7f7f7",
+    head_title_color: "#5ac063",
+  };
 
   useEffect(() => {
     userSettingData();
@@ -64,15 +61,15 @@ function App() {
                 <RoleWrapper>
                   <Home />
                 </RoleWrapper>
-              )
+              ),
             },
             {
               path: "track-request",
-              element: <TrackRequest />
+              element: <TrackRequest />,
             },
             {
               path: "portals",
-              element: <CredentialManagement />
+              element: <CredentialManagement />,
             },
             {
               path: "admin",
@@ -80,51 +77,51 @@ function App() {
               children: [
                 {
                   path: "",
-                  element: <Adminhome />
+                  element: <Adminhome />,
                 },
                 {
                   path: "categories",
-                  element: <Category />
+                  element: <Category />,
                 },
                 {
                   path: "services",
-                  element: <Services />
+                  element: <Services />,
                 },
                 {
                   path: "forms",
-                  element: <Forms />
+                  element: <Forms />,
                 },
                 {
                   path: "settings",
-                  element: <AdminSettings />
-                }
-              ]
-            }
-          ]
+                  element: <AdminSettings />,
+                },
+                { path: "portals", element: <Portals /> },
+              ],
+            },
+          ],
         },
         {
           path: "signup",
-          element: <Register/>
-        } ,
+          element: <Register />,
+        },
         {
           path: "signin",
-          element: <Login/>
-        } ,
+          element: <Login />,
+        },
         {
           path: "forget-password",
-          element: <ForgotPassword/>
-        } ,
+          element: <ForgotPassword />,
+        },
         {
           path: "governify/verify",
-          element: <VerifyUser/>
-        } ,
+          element: <VerifyUser />,
+        },
         {
           path: "reset-password",
-          element: <ResetPassword/>
-        }
-
-      ]
-    }
+          element: <ResetPassword />,
+        },
+      ],
+    },
   ]);
 
   return (
@@ -132,10 +129,10 @@ function App() {
       theme={{
         components: {
           Table: {
-            headerBg: '#59C080',
-            headerColor: "#fff"
-          }
-        }
+            headerBg: "#59C080",
+            headerColor: "#fff",
+          },
+        },
       }}
     >
       <RouterProvider router={router} />

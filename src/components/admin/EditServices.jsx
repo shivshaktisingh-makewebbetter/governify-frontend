@@ -10,8 +10,10 @@ export const EditServices = ({
   setLoading,
   loading,
   setEditModalOpen,
+  portals
 }) => {
   const settingsData = JSON.parse(sessionStorage.getItem("settings"));
+  const [portalOption, setPortalOption] = useState([]);
   const [serviceData, setServiceData] = useState({
     title: data.title,
     description: data.description,
@@ -19,6 +21,8 @@ export const EditServices = ({
     image_name: data.image,
     // form:data.form.id ,
     service_categorie_id: data?.service_categorie?.id,
+    portal_credentials_id: data?.portal_credentials_id
+
   });
   const [categoryListig, setCategoryListing] = useState([]);
 
@@ -88,6 +92,33 @@ export const EditServices = ({
     setServiceData({ ...serviceData, service_categorie_id: e });
   };
 
+  const handlePortalChange = (value) => {
+    setServiceData({...serviceData, portal_credentials_id: value});
+  }
+
+  useEffect(() => {
+    if (portals.length) {
+      let option = [];
+      portals.map((item) => {
+        option.push({
+          label: (
+            <div className="countryOption ff-ws">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `<img width="20px" src='${item.file_location}' />`,
+                }}
+                className="tw-max-w-[20px] tw-h-[20px]"
+              ></span>
+              {" " + item.title}
+            </div>
+          ),
+          value: item.id,
+        });
+      });
+      setPortalOption(option);
+    }
+  }, [portals]);
+
   useEffect(() => {
     getAllCategories();
   }, []);
@@ -141,6 +172,18 @@ export const EditServices = ({
                 onChange={handleCategoryChange}
                 options={categoryListig}
                 value={serviceData.service_categorie_id}
+              />
+            </div>
+            <div className="mt-10">
+              <Select
+                showSearch
+                placeholder="Select Portal (Optional)"
+                style={{ width: "100%" }}
+                popupMatchSelectWidth={false}
+                placement="bottomLeft"
+                onChange={handlePortalChange}
+                options={portalOption}
+                value={serviceData.portal_credentials_id}
               />
             </div>
             <div

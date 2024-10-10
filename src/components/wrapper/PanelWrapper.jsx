@@ -33,6 +33,7 @@ const PanelWrapper = () => {
         sessionStorage.setItem("userName", response.data.name);
         sessionStorage.setItem("userEmail", response.data.email);
         sessionStorage.setItem("userId", response.data.user_id);
+        sessionStorage.setItem("phoneNumber", response.data.phone);
         sessionStorage.setItem("createdAt", response.data.created_at);
         setUser(response.data.name);
       }
@@ -130,7 +131,6 @@ const PanelWrapper = () => {
       }
     };
   }, [token, role, location]);
-
 
   return (
     <>

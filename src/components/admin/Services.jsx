@@ -20,6 +20,7 @@ export const Services = () => {
   const [editData, setEditData] = useState({});
   const [deleteFormData, setDeleteFormData] = useState({});
   const [swapModal, setSwapModal] = useState(false);
+  const [portal, setPortal] = useState([]);
 
   const navigate = useNavigate();
 
@@ -144,6 +145,20 @@ export const Services = () => {
   };
 
   useEffect(() => {
+    const fetchPortals = async () => {
+      try {
+        const response = await fetcher('governify/admin/getPortalDetails', 'GET');
+        if(response.status) {
+          setPortal(response.response);
+        }
+      } catch (error) {
+        console.log('error');
+      }
+    }
+    fetchPortals();
+  },[])
+
+  useEffect(() => {
     if (showSkeleton) {
       getForms();
     }
@@ -218,6 +233,7 @@ export const Services = () => {
           setLoading={setLoading}
           loading={loading}
           setModalOpen={setModalOpen}
+          portals={portal}
         />
       </Modal>
       <Modal
@@ -233,6 +249,7 @@ export const Services = () => {
           setLoading={setLoading}
           loading={loading}
           setEditModalOpen={setEditModalOpen}
+          portals={portal}
         />
       </Modal>
 

@@ -1,4 +1,4 @@
-import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
+import { HomeOutlined, MenuOutlined, ProductOutlined, SettingOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import React from "react";
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,32 @@ const AdminMenu = ({ logoutFunction }) => {
   const location = useLocation();
 
   const items = [
+    {
+      label: (
+        <a
+          href="/admin"
+          className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
+        >
+          <HomeOutlined
+            className={`fs-18`}
+            style={{
+              color:
+                location.pathname === "/admin" ? "#59C080" : "#454545",
+            }}
+          />
+          <span
+            className="fs-6 ff-ws"
+            style={{
+              color:
+                location.pathname === "/admin" ? "#59C080" : "#454545",
+            }}
+          >
+            Home
+          </span>
+        </a>
+      ),
+      key: "settings",
+    },
     {
       label: (
         <a
@@ -33,6 +59,32 @@ const AdminMenu = ({ logoutFunction }) => {
         </a>
       ),
       key: "settings",
+    },
+    {
+      label: (
+        <a
+          href="/admin/portals"
+          className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
+        >
+          <ProductOutlined
+            className={`fs-18`}
+            style={{
+              color:
+                location.pathname === "/admin/portals" ? "#59C080" : "#454545",
+            }}
+          />
+          <span
+            className="fs-6 ff-ws"
+            style={{
+              color:
+                location.pathname === "/admin/portals" ? "#59C080" : "#454545",
+            }}
+          >
+            Portals
+          </span>
+        </a>
+      ),
+      key: "portals",
     },
     {
       label: (

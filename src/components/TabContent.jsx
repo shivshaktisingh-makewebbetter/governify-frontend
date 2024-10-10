@@ -1,37 +1,45 @@
 import { Button, Modal, Typography } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
+import CustomerFormDrawer from "./user/CustomerFormDrawer";
+import { fetcher } from "../utils/helper";
 
-export const TabContent = ({ details, categoryName , categoryId }) => {
+export const TabContent = ({ details, categoryName, categoryId }) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState();
   const [serviceTitle, setServiceTitle] = useState("");
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [selectedFormId , setSelectedFormId] = useState('');
-  const [selectedServiceId , setSelectedServiceId] = useState('');
-  
+  const [selectedFormId, setSelectedFormId] = useState("");
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const [selectedPortalId, setSelectedPortalId] = useState(null);
+  const [portalCredentials, setPortalCredentials] = useState([]);
+  const [portalImageAndLogo, setPortalImageAndLogo] = useState([]);
+
   const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
-    image: "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
+    image:
+      "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
     site_bg: "#ffffff",
     button_bg: "#5ac063",
     banner_bg: "#5ac063",
-    banner_content: "Hire an attitude, not just experience and qualification. Greg Savage.",
+    banner_content:
+      "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
-    form_description: "Please fill out the form to proceed with the needed action to provide you with this service",
+    form_description:
+      "Please fill out the form to proceed with the needed action to provide you with this service",
   };
 
-  const handleModalForm = (formData, title , serviceId) => {
-   
+  const handleModalForm = (formData, title, serviceId, portalId) => {
     const formDetails = Object.entries(formData)[0][1];
     setFormData(formDetails);
     setSelectedFormId(formDetails.id);
     setServiceTitle(title);
     setSelectedServiceId(serviceId);
+    setSelectedPortalId(portalId);
     setOpen(true);
   };
 
@@ -63,6 +71,40 @@ export const TabContent = ({ details, categoryName , categoryId }) => {
     color: "#ffffff",
   };
 
+  const fetchPortals = async () => {
+    const url = "governify/customer/getPortalDetails";
+    const method = "GET";
+    try {
+      const response = await fetcher(url, method);
+      if (response.status) {
+        setPortalImageAndLogo(response.response);
+      }
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
+  const fetchPortalCredentials = async () => {
+    let url = "governify/customer/getPortalCredentials";
+    const method = "GET";
+    try {
+      const response = await fetcher(url, method);
+      if (response.status) {
+        setPortalCredentials(response.response);
+      } else {
+        setPortalCredentials([]);
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    fetchPortals();
+    fetchPortalCredentials();
+  }, []);
+
   return (
     <div key={uuidv4()}>
       <div className="service-parent-div">
@@ -75,7 +117,6 @@ export const TabContent = ({ details, categoryName , categoryId }) => {
               : description;
           const imageLink = item.service_request.file_location;
           const title = item.service_request.title;
-        
 
           return (
             <div className="service-repetitive-div" key={uuidv4()}>
@@ -108,24 +149,30 @@ export const TabContent = ({ details, categoryName , categoryId }) => {
                 key={title}
                 className="tabcontent-create-request-btn"
                 style={buttonStyle}
-                icon={<PlusOutlined style={{ color: settingsData.button_bg }} />}
+                icon={
+                  <PlusOutlined style={{ color: settingsData.button_bg }} />
+                }
                 onClick={() =>
                   handleModalForm(
                     item.service_forms,
-                    item.service_request.title , 
-                    item.service_request.id
+                    item.service_request.title,
+                    item.service_request.id,
+                    item.service_request.portal_credentials_id
                   )
                 }
                 disabled={Object.keys(item.service_forms).length === 0}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor;
+                  e.currentTarget.style.backgroundColor =
+                    buttonHoverStyle.backgroundColor;
                   e.currentTarget.style.color = buttonHoverStyle.color;
-                  e.currentTarget.querySelector(".anticon").style.color = buttonHoverStyle.color;
+                  e.currentTarget.querySelector(".anticon").style.color =
+                    buttonHoverStyle.color;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = "transparent";
                   e.currentTarget.style.color = settingsData.button_bg;
-                  e.currentTarget.querySelector(".anticon").style.color = settingsData.button_bg;
+                  e.currentTarget.querySelector(".anticon").style.color =
+                    settingsData.button_bg;
                 }}
               >
                 Create a Request
@@ -136,7 +183,7 @@ export const TabContent = ({ details, categoryName , categoryId }) => {
       </div>
       <ToastContainer position="bottom-right" />
 
-      {open && (
+      {/* {open && (
         <Modal
           open={open}
           centered
@@ -157,6 +204,27 @@ export const TabContent = ({ details, categoryName , categoryId }) => {
             selectedServiceId={selectedServiceId}
           />
         </Modal>
+      )} */}
+
+      {open && (
+        <CustomerFormDrawer
+          open={open}
+          formData={formData}
+          serviceTitle={serviceTitle}
+          portalId={selectedPortalId}
+          portalImageAndLogo={portalImageAndLogo.filter((item) => item.id === selectedPortalId)}
+          fetchPortalCredentials={fetchPortalCredentials}
+          portalCredentials={portalCredentials.filter((item) => item?.portal_credential_id === selectedPortalId)}
+          setOpen={setOpen}
+          categoryName={categoryName}
+          key={uuidv4()}
+          handleOpen={handleOpen}
+          formSubmitted={formSubmitted}
+          setFormSubmitted={setFormSubmitted}
+          categoryId={categoryId}
+          selectedFormId={selectedFormId}
+          selectedServiceId={selectedServiceId}
+        />
       )}
     </div>
   );

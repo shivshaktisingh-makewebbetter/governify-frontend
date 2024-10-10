@@ -1,999 +1,248 @@
 export const countryList = [
-    {
-      code: "AF",
-      name: "Afghanistan",
-    },
-    {
-      code: "AX",
-      name: "Åland Islands",
-    },
-    {
-      code: "AL",
-      name: "Albania",
-    },
-    {
-      code: "DZ",
-      name: "Algeria",
-    },
-    {
-      code: "AS",
-      name: "American Samoa",
-    },
-    {
-      code: "AD",
-      name: "Andorra",
-    },
-    {
-      code: "AO",
-      name: "Angola",
-    },
-    {
-      code: "AI",
-      name: "Anguilla",
-    },
-    {
-      code: "AQ",
-      name: "Antarctica",
-    },
-    {
-      code: "AG",
-      name: "Antigua and Barbuda",
-    },
-    {
-      code: "AR",
-      name: "Argentina",
-    },
-    {
-      code: "AM",
-      name: "Armenia",
-    },
-    {
-      code: "AW",
-      name: "Aruba",
-    },
-    {
-      code: "AU",
-      name: "Australia",
-    },
-    {
-      code: "AT",
-      name: "Austria",
-    },
-    {
-      code: "AZ",
-      name: "Azerbaijan",
-    },
-    {
-      code: "BS",
-      name: "Bahamas",
-    },
-    {
-      code: "BH",
-      name: "Bahrain",
-    },
-    {
-      code: "BD",
-      name: "Bangladesh",
-    },
-    {
-      code: "BB",
-      name: "Barbados",
-    },
-    {
-      code: "BY",
-      name: "Belarus",
-    },
-    {
-      code: "BE",
-      name: "Belgium",
-    },
-    {
-      code: "BZ",
-      name: "Belize",
-    },
-    {
-      code: "BJ",
-      name: "Benin",
-    },
-    {
-      code: "BM",
-      name: "Bermuda",
-    },
-    {
-      code: "BT",
-      name: "Bhutan",
-    },
-    {
-      code: "BO",
-      name: "Bolivia, Plurinational State of",
-    },
-    {
-      code: "BQ",
-      name: "Bonaire, Sint Eustatius and Saba",
-    },
-    {
-      code: "BA",
-      name: "Bosnia and Herzegovina",
-    },
-    {
-      code: "BW",
-      name: "Botswana",
-    },
-    {
-      code: "BV",
-      name: "Bouvet Island",
-    },
-    {
-      code: "BR",
-      name: "Brazil",
-    },
-    {
-      code: "IO",
-      name: "British Indian Ocean Territory",
-    },
-    {
-      code: "BN",
-      name: "Brunei Darussalam",
-    },
-    {
-      code: "BG",
-      name: "Bulgaria",
-    },
-    {
-      code: "BF",
-      name: "Burkina Faso",
-    },
-    {
-      code: "BI",
-      name: "Burundi",
-    },
-    {
-      code: "CV",
-      name: "Cabo Verde",
-    },
-    {
-      code: "KH",
-      name: "Cambodia",
-    },
-    {
-      code: "CM",
-      name: "Cameroon",
-    },
-    {
-      code: "CA",
-      name: "Canada",
-    },
-    {
-      code: "KY",
-      name: "Cayman Islands",
-    },
-    {
-      code: "CF",
-      name: "Central African Republic",
-    },
-    {
-      code: "TD",
-      name: "Chad",
-    },
-    {
-      code: "CL",
-      name: "Chile",
-    },
-    {
-      code: "CN",
-      name: "China",
-    },
-    {
-      code: "CX",
-      name: "Christmas Island",
-    },
-    {
-      code: "CC",
-      name: "Cocos (Keeling) Islands",
-    },
-    {
-      code: "CO",
-      name: "Colombia",
-    },
-    {
-      code: "KM",
-      name: "Comoros",
-    },
-    {
-      code: "CG",
-      name: "Congo",
-    },
-    {
-      code: "CD",
-      name: "Congo, Democratic Republic of the",
-    },
-    {
-      code: "CK",
-      name: "Cook Islands",
-    },
-    {
-      code: "CR",
-      name: "Costa Rica",
-    },
-    {
-      code: "HR",
-      name: "Croatia",
-    },
-    {
-      code: "CU",
-      name: "Cuba",
-    },
-    {
-      code: "CW",
-      name: "Curaçao",
-    },
-    {
-      code: "CY",
-      name: "Cyprus",
-    },
-    {
-      code: "CZ",
-      name: "Czechia",
-    },
-    {
-      code: "CI",
-      name: "Côte d'Ivoire",
-    },
-    {
-      code: "DK",
-      name: "Denmark",
-    },
-    {
-      code: "DJ",
-      name: "Djibouti",
-    },
-    {
-      code: "DM",
-      name: "Dominica",
-    },
-    {
-      code: "DO",
-      name: "Dominican Republic",
-    },
-    {
-      code: "EC",
-      name: "Ecuador",
-    },
-    {
-      code: "EG",
-      name: "Egypt",
-    },
-    {
-      code: "SV",
-      name: "El Salvador",
-    },
-    {
-      code: "GQ",
-      name: "Equatorial Guinea",
-    },
-    {
-      code: "ER",
-      name: "Eritrea",
-    },
-    {
-      code: "EE",
-      name: "Estonia",
-    },
-    {
-      code: "SZ",
-      name: "Eswatini",
-    },
-    {
-      code: "ET",
-      name: "Ethiopia",
-    },
-    {
-      code: "FK",
-      name: "Falkland Islands (Malvinas)",
-    },
-    {
-      code: "FO",
-      name: "Faroe Islands",
-    },
-    {
-      code: "FJ",
-      name: "Fiji",
-    },
-    {
-      code: "FI",
-      name: "Finland",
-    },
-    {
-      code: "FR",
-      name: "France",
-    },
-    {
-      code: "GF",
-      name: "French Guiana",
-    },
-    {
-      code: "PF",
-      name: "French Polynesia",
-    },
-    {
-      code: "TF",
-      name: "French Southern Territories",
-    },
-    {
-      code: "GA",
-      name: "Gabon",
-    },
-    {
-      code: "GM",
-      name: "Gambia",
-    },
-    {
-      code: "GE",
-      name: "Georgia",
-    },
-    {
-      code: "DE",
-      name: "Germany",
-    },
-    {
-      code: "GH",
-      name: "Ghana",
-    },
-    {
-      code: "GI",
-      name: "Gibraltar",
-    },
-    {
-      code: "GR",
-      name: "Greece",
-    },
-    {
-      code: "GL",
-      name: "Greenland",
-    },
-    {
-      code: "GD",
-      name: "Grenada",
-    },
-    {
-      code: "GP",
-      name: "Guadeloupe",
-    },
-    {
-      code: "GU",
-      name: "Guam",
-    },
-    {
-      code: "GT",
-      name: "Guatemala",
-    },
-    {
-      code: "GG",
-      name: "Guernsey",
-    },
-    {
-      code: "GN",
-      name: "Guinea",
-    },
-    {
-      code: "GW",
-      name: "Guinea-Bissau",
-    },
-    {
-      code: "GY",
-      name: "Guyana",
-    },
-    {
-      code: "HT",
-      name: "Haiti",
-    },
-    {
-      code: "HM",
-      name: "Heard Island and McDonald Islands",
-    },
-    {
-      code: "VA",
-      name: "Holy See",
-    },
-    {
-      code: "HN",
-      name: "Honduras",
-    },
-    {
-      code: "HK",
-      name: "Hong Kong",
-    },
-    {
-      code: "HU",
-      name: "Hungary",
-    },
-    {
-      code: "IS",
-      name: "Iceland",
-    },
-    {
-      code: "IN",
-      name: "India",
-    },
-    {
-      code: "ID",
-      name: "Indonesia",
-    },
-    {
-      code: "IR",
-      name: "Iran, Islamic Republic of",
-    },
-    {
-      code: "IQ",
-      name: "Iraq",
-    },
-    {
-      code: "IE",
-      name: "Ireland",
-    },
-    {
-      code: "IM",
-      name: "Isle of Man",
-    },
-    {
-      code: "IL",
-      name: "Israel",
-    },
-    {
-      code: "IT",
-      name: "Italy",
-    },
-    {
-      code: "JM",
-      name: "Jamaica",
-    },
-    {
-      code: "JP",
-      name: "Japan",
-    },
-    {
-      code: "JE",
-      name: "Jersey",
-    },
-    {
-      code: "JO",
-      name: "Jordan",
-    },
-    {
-      code: "KZ",
-      name: "Kazakhstan",
-    },
-    {
-      code: "KE",
-      name: "Kenya",
-    },
-    {
-      code: "KI",
-      name: "Kiribati",
-    },
-    {
-      code: "KP",
-      name: "Korea, Democratic People's Republic of",
-    },
-    {
-      code: "KR",
-      name: "Korea, Republic of",
-    },
-    {
-      code: "KW",
-      name: "Kuwait",
-    },
-    {
-      code: "KG",
-      name: "Kyrgyzstan",
-    },
-    {
-      code: "LA",
-      name: "Lao People's Democratic Republic",
-    },
-    {
-      code: "LV",
-      name: "Latvia",
-    },
-    {
-      code: "LB",
-      name: "Lebanon",
-    },
-    {
-      code: "LS",
-      name: "Lesotho",
-    },
-    {
-      code: "LR",
-      name: "Liberia",
-    },
-    {
-      code: "LY",
-      name: "Libya",
-    },
-    {
-      code: "LI",
-      name: "Liechtenstein",
-    },
-    {
-      code: "LT",
-      name: "Lithuania",
-    },
-    {
-      code: "LU",
-      name: "Luxembourg",
-    },
-    {
-      code: "MO",
-      name: "Macao",
-    },
-    {
-      code: "MG",
-      name: "Madagascar",
-    },
-    {
-      code: "MW",
-      name: "Malawi",
-    },
-    {
-      code: "MY",
-      name: "Malaysia",
-    },
-    {
-      code: "MV",
-      name: "Maldives",
-    },
-    {
-      code: "ML",
-      name: "Mali",
-    },
-    {
-      code: "MT",
-      name: "Malta",
-    },
-    {
-      code: "MH",
-      name: "Marshall Islands",
-    },
-    {
-      code: "MQ",
-      name: "Martinique",
-    },
-    {
-      code: "MR",
-      name: "Mauritania",
-    },
-    {
-      code: "MU",
-      name: "Mauritius",
-    },
-    {
-      code: "YT",
-      name: "Mayotte",
-    },
-    {
-      code: "MX",
-      name: "Mexico",
-    },
-    {
-      code: "FM",
-      name: "Micronesia, Federated States of",
-    },
-    {
-      code: "MD",
-      name: "Moldova, Republic of",
-    },
-    {
-      code: "MC",
-      name: "Monaco",
-    },
-    {
-      code: "MN",
-      name: "Mongolia",
-    },
-    {
-      code: "ME",
-      name: "Montenegro",
-    },
-    {
-      code: "MS",
-      name: "Montserrat",
-    },
-    {
-      code: "MA",
-      name: "Morocco",
-    },
-    {
-      code: "MZ",
-      name: "Mozambique",
-    },
-    {
-      code: "MM",
-      name: "Myanmar",
-    },
-    {
-      code: "NA",
-      name: "Namibia",
-    },
-    {
-      code: "NR",
-      name: "Nauru",
-    },
-    {
-      code: "NP",
-      name: "Nepal",
-    },
-    {
-      code: "NL",
-      name: "Netherlands",
-    },
-    {
-      code: "NC",
-      name: "New Caledonia",
-    },
-    {
-      code: "NZ",
-      name: "New Zealand",
-    },
-    {
-      code: "NI",
-      name: "Nicaragua",
-    },
-    {
-      code: "NE",
-      name: "Niger",
-    },
-    {
-      code: "NG",
-      name: "Nigeria",
-    },
-    {
-      code: "NU",
-      name: "Niue",
-    },
-    {
-      code: "NF",
-      name: "Norfolk Island",
-    },
-    {
-      code: "MK",
-      name: "North Macedonia",
-    },
-    {
-      code: "MP",
-      name: "Northern Mariana Islands",
-    },
-    {
-      code: "NO",
-      name: "Norway",
-    },
-    {
-      code: "OM",
-      name: "Oman",
-    },
-    {
-      code: "PK",
-      name: "Pakistan",
-    },
-    {
-      code: "PW",
-      name: "Palau",
-    },
-    {
-      code: "PS",
-      name: "Palestine, State of",
-    },
-    {
-      code: "PA",
-      name: "Panama",
-    },
-    {
-      code: "PG",
-      name: "Papua New Guinea",
-    },
-    {
-      code: "PY",
-      name: "Paraguay",
-    },
-    {
-      code: "PE",
-      name: "Peru",
-    },
-    {
-      code: "PH",
-      name: "Philippines",
-    },
-    {
-      code: "PN",
-      name: "Pitcairn",
-    },
-    {
-      code: "PL",
-      name: "Poland",
-    },
-    {
-      code: "PT",
-      name: "Portugal",
-    },
-    {
-      code: "PR",
-      name: "Puerto Rico",
-    },
-    {
-      code: "QA",
-      name: "Qatar",
-    },
-    {
-      code: "RO",
-      name: "Romania",
-    },
-    {
-      code: "RU",
-      name: "Russian Federation",
-    },
-    {
-      code: "RW",
-      name: "Rwanda",
-    },
-    {
-      code: "RE",
-      name: "Réunion",
-    },
-    {
-      code: "BL",
-      name: "Saint Barthélemy",
-    },
-    {
-      code: "SH",
-      name: "Saint Helena, Ascension and Tristan da Cunha",
-    },
-    {
-      code: "KN",
-      name: "Saint Kitts and Nevis",
-    },
-    {
-      code: "LC",
-      name: "Saint Lucia",
-    },
-    {
-      code: "MF",
-      name: "Saint Martin (French part)",
-    },
-    {
-      code: "PM",
-      name: "Saint Pierre and Miquelon",
-    },
-    {
-      code: "VC",
-      name: "Saint Vincent and the Grenadines",
-    },
-    {
-      code: "WS",
-      name: "Samoa",
-    },
-    {
-      code: "SM",
-      name: "San Marino",
-    },
-    {
-      code: "ST",
-      name: "Sao Tome and Principe",
-    },
-    {
-      code: "SA",
-      name: "Saudi Arabia",
-    },
-    {
-      code: "SN",
-      name: "Senegal",
-    },
-    {
-      code: "RS",
-      name: "Serbia",
-    },
-    {
-      code: "SC",
-      name: "Seychelles",
-    },
-    {
-      code: "SL",
-      name: "Sierra Leone",
-    },
-    {
-      code: "SG",
-      name: "Singapore",
-    },
-    {
-      code: "SX",
-      name: "Sint Maarten (Dutch part)",
-    },
-    {
-      code: "SK",
-      name: "Slovakia",
-    },
-    {
-      code: "SI",
-      name: "Slovenia",
-    },
-    {
-      code: "SB",
-      name: "Solomon Islands",
-    },
-    {
-      code: "SO",
-      name: "Somalia",
-    },
-    {
-      code: "ZA",
-      name: "South Africa",
-    },
-    {
-      code: "GS",
-      name: "South Georgia and the South Sandwich Islands",
-    },
-    {
-      code: "SS",
-      name: "South Sudan",
-    },
-    {
-      code: "ES",
-      name: "Spain",
-    },
-    {
-      code: "LK",
-      name: "Sri Lanka",
-    },
-    {
-      code: "SD",
-      name: "Sudan",
-    },
-    {
-      code: "SR",
-      name: "Suriname",
-    },
-    {
-      code: "SJ",
-      name: "Svalbard and Jan Mayen",
-    },
-    {
-      code: "SE",
-      name: "Sweden",
-    },
-    {
-      code: "CH",
-      name: "Switzerland",
-    },
-    {
-      code: "SY",
-      name: "Syrian Arab Republic",
-    },
-    {
-      code: "TW",
-      name: "Taiwan, Province of China",
-    },
-    {
-      code: "TJ",
-      name: "Tajikistan",
-    },
-    {
-      code: "TZ",
-      name: "Tanzania, United Republic of",
-    },
-    {
-      code: "TH",
-      name: "Thailand",
-    },
-    {
-      code: "TL",
-      name: "Timor-Leste",
-    },
-    {
-      code: "TG",
-      name: "Togo",
-    },
-    {
-      code: "TK",
-      name: "Tokelau",
-    },
-    {
-      code: "TO",
-      name: "Tonga",
-    },
-    {
-      code: "TT",
-      name: "Trinidad and Tobago",
-    },
-    {
-      code: "TN",
-      name: "Tunisia",
-    },
-    {
-      code: "TR",
-      name: "Turkey",
-    },
-    {
-      code: "TM",
-      name: "Turkmenistan",
-    },
-    {
-      code: "TC",
-      name: "Turks and Caicos Islands",
-    },
-    {
-      code: "TV",
-      name: "Tuvalu",
-    },
-    {
-      code: "UG",
-      name: "Uganda",
-    },
-    {
-      code: "UA",
-      name: "Ukraine",
-    },
-    {
-      code: "AE",
-      name: "United Arab Emirates",
-    },
-    {
-      code: "GB",
-      name: "United Kingdom",
-    },
-    {
-      code: "UM",
-      name: "United States Minor Outlying Islands",
-    },
-    {
-      code: "US",
-      name: "United States",
-    },
-    {
-      code: "UY",
-      name: "Uruguay",
-    },
-    {
-      code: "UZ",
-      name: "Uzbekistan",
-    },
-    {
-      code: "VU",
-      name: "Vanuatu",
-    },
-    {
-      code: "VE",
-      name: "Venezuela, Bolivarian Republic of",
-    },
-    {
-      code: "VN",
-      name: "Viet Nam",
-    },
-    {
-      code: "VG",
-      name: "Virgin Islands, British",
-    },
-    {
-      code: "VI",
-      name: "Virgin Islands, U.S.",
-    },
-    {
-      code: "WF",
-      name: "Wallis and Futuna",
-    },
-    {
-      code: "EH",
-      name: "Western Sahara",
-    },
-    {
-      code: "YE",
-      name: "Yemen",
-    },
-    {
-      code: "ZM",
-      name: "Zambia",
-    },
-    {
-      code: "ZW",
-      name: "Zimbabwe",
-    },
-  ];
-  
+  {
+    code: "SA",
+    name: "Saudi Arabia",
+  },
+  {
+    code: "AE",
+    name: "United Arab Emirates",
+  },
+  {
+    code: "AQ",
+    name: "Rest of Gulf",
+  },
+];
+
+export const countryCode = [
+  { countryCodes: ["+93"], country: "AF" },
+  { countryCodes: ["+355"], country: "AL" },
+  { countryCodes: ["+213"], country: "DZ" },
+  { countryCodes: ["+1-684"], country: "AS" },
+  { countryCodes: ["+376"], country: "AD" },
+  { countryCodes: ["+244"], country: "AO" },
+  { countryCodes: ["+1-264"], country: "AI" },
+  { countryCodes: ["+672"], country: "AQ" },
+  { countryCodes: ["+54"], country: "AR" },
+  { countryCodes: ["+374"], country: "AM" },
+  { countryCodes: ["+297"], country: "AW" },
+  { countryCodes: ["+61"], country: "AU" },
+  { countryCodes: ["+43"], country: "AT" },
+  { countryCodes: ["+994"], country: "AZ" },
+  { countryCodes: ["+1-242"], country: "BS" },
+  { countryCodes: ["+973"], country: "BH" },
+  { countryCodes: ["+880"], country: "BD" },
+  { countryCodes: ["+1-246"], country: "BB" },
+  { countryCodes: ["+375"], country: "BY" },
+  { countryCodes: ["+32"], country: "BE" },
+  { countryCodes: ["+501"], country: "BZ" },
+  { countryCodes: ["+229"], country: "BJ" },
+  { countryCodes: ["+1-441"], country: "BM" },
+  { countryCodes: ["+975"], country: "BT" },
+  { countryCodes: ["+591"], country: "BO" },
+  { countryCodes: ["+387"], country: "BA" },
+  { countryCodes: ["+267"], country: "BW" },
+  { countryCodes: ["+55"], country: "BR" },
+  { countryCodes: ["+246"], country: "IO" },
+  { countryCodes: ["+359"], country: "BG" },
+  { countryCodes: ["+226"], country: "BF" },
+  { countryCodes: ["+257"], country: "BI" },
+  { countryCodes: ["+855"], country: "KH" },
+  { countryCodes: ["+237"], country: "CM" },
+  { countryCodes: ["+1"], country: "CA" },
+  { countryCodes: ["+238"], country: "CV" },
+  { countryCodes: ["+1-345"], country: "KY" },
+  { countryCodes: ["+236"], country: "CF" },
+  { countryCodes: ["+235"], country: "TD" },
+  { countryCodes: ["+56"], country: "CL" },
+  { countryCodes: ["+86"], country: "CN" },
+  { countryCodes: ["+61"], country: "CX" },
+  { countryCodes: ["+61"], country: "CC" },
+  { countryCodes: ["+57"], country: "CO" },
+  { countryCodes: ["+269"], country: "KM" },
+  { countryCodes: ["+242"], country: "CG" },
+  { countryCodes: ["+682"], country: "CK" },
+  { countryCodes: ["+506"], country: "CR" },
+  { countryCodes: ["+225"], country: "CI" },
+  { countryCodes: ["+385"], country: "HR" },
+  { countryCodes: ["+53"], country: "CU" },
+  { countryCodes: ["+357"], country: "CY" },
+  { countryCodes: ["+420"], country: "CZ" },
+  { countryCodes: ["+45"], country: "DK" },
+  { countryCodes: ["+253"], country: "DJ" },
+  { countryCodes: ["+1-767"], country: "DM" },
+  { countryCodes: ["+1-809"], country: "DO" },
+  { countryCodes: ["+1-829"], country: "DO" },
+  { countryCodes: ["+1-849"], country: "DO" },
+  { countryCodes: ["+593"], country: "EC" },
+  { countryCodes: ["+20"], country: "EG" },
+  { countryCodes: ["+503"], country: "SV" },
+  { countryCodes: ["+240"], country: "GQ" },
+  { countryCodes: ["+291"], country: "ER" },
+  { countryCodes: ["+372"], country: "EE" },
+  { countryCodes: ["+251"], country: "ET" },
+  { countryCodes: ["+500"], country: "FK" },
+  { countryCodes: ["+298"], country: "FO" },
+  { countryCodes: ["+679"], country: "FJ" },
+  { countryCodes: ["+358"], country: "FI" },
+  { countryCodes: ["+33"], country: "FR" },
+  { countryCodes: ["+594"], country: "GF" },
+  { countryCodes: ["+689"], country: "PF" },
+  { countryCodes: ["+241"], country: "GA" },
+  { countryCodes: ["+220"], country: "GM" },
+  { countryCodes: ["+995"], country: "GE" },
+  { countryCodes: ["+49"], country: "DE" },
+  { countryCodes: ["+233"], country: "GH" },
+  { countryCodes: ["+350"], country: "GI" },
+  { countryCodes: ["+30"], country: "GR" },
+  { countryCodes: ["+299"], country: "GL" },
+  { countryCodes: ["+1-473"], country: "GD" },
+  { countryCodes: ["+590"], country: "GP" },
+  { countryCodes: ["+1-671"], country: "GU" },
+  { countryCodes: ["+502"], country: "GT" },
+  { countryCodes: ["+224"], country: "GN" },
+  { countryCodes: ["+245"], country: "GW" },
+  { countryCodes: ["+592"], country: "GY" },
+  { countryCodes: ["+509"], country: "HT" },
+  { countryCodes: ["+504"], country: "HN" },
+  { countryCodes: ["+852"], country: "HK" },
+  { countryCodes: ["+36"], country: "HU" },
+  { countryCodes: ["+354"], country: "IS" },
+  { countryCodes: ["+91"], country: "IN" },
+  { countryCodes: ["+62"], country: "ID" },
+  { countryCodes: ["+98"], country: "IR" },
+  { countryCodes: ["+964"], country: "IQ" },
+  { countryCodes: ["+353"], country: "IE" },
+  { countryCodes: ["+972"], country: "IL" },
+  { countryCodes: ["+39"], country: "IT" },
+  { countryCodes: ["+1-876"], country: "JM" },
+  { countryCodes: ["+81"], country: "JP" },
+  { countryCodes: ["+962"], country: "JO" },
+  { countryCodes: ["+7"], country: "KZ" },
+  { countryCodes: ["+254"], country: "KE" },
+  { countryCodes: ["+686"], country: "KI" },
+  { countryCodes: ["+383"], country: "XK" },
+  { countryCodes: ["+965"], country: "KW" },
+  { countryCodes: ["+996"], country: "KG" },
+  { countryCodes: ["+856"], country: "LA" },
+  { countryCodes: ["+371"], country: "LV" },
+  { countryCodes: ["+961"], country: "LB" },
+  { countryCodes: ["+266"], country: "LS" },
+  { countryCodes: ["+231"], country: "LR" },
+  { countryCodes: ["+218"], country: "LY" },
+  { countryCodes: ["+423"], country: "LI" },
+  { countryCodes: ["+370"], country: "LT" },
+  { countryCodes: ["+352"], country: "LU" },
+  { countryCodes: ["+853"], country: "MO" },
+  { countryCodes: ["+389"], country: "MK" },
+  { countryCodes: ["+261"], country: "MG" },
+  { countryCodes: ["+265"], country: "MW" },
+  { countryCodes: ["+60"], country: "MY" },
+  { countryCodes: ["+960"], country: "MV" },
+  { countryCodes: ["+223"], country: "ML" },
+  { countryCodes: ["+356"], country: "MT" },
+  { countryCodes: ["+692"], country: "MH" },
+  { countryCodes: ["+596"], country: "MQ" },
+  { countryCodes: ["+222"], country: "MR" },
+  { countryCodes: ["+230"], country: "MU" },
+  { countryCodes: ["+262"], country: "YT" },
+  { countryCodes: ["+52"], country: "MX" },
+  { countryCodes: ["+691"], country: "FM" },
+  { countryCodes: ["+373"], country: "MD" },
+  { countryCodes: ["+377"], country: "MC" },
+  { countryCodes: ["+976"], country: "MN" },
+  { countryCodes: ["+382"], country: "ME" },
+  { countryCodes: ["+1-664"], country: "MS" },
+  { countryCodes: ["+212"], country: "MA" },
+  { countryCodes: ["+258"], country: "MZ" },
+  { countryCodes: ["+95"], country: "MM" },
+  { countryCodes: ["+264"], country: "NA" },
+  { countryCodes: ["+674"], country: "NR" },
+  { countryCodes: ["+977"], country: "NP" },
+  { countryCodes: ["+31"], country: "NL" },
+  { countryCodes: ["+599"], country: "AN" },
+  { countryCodes: ["+687"], country: "NC" },
+  { countryCodes: ["+64"], country: "NZ" },
+  { countryCodes: ["+505"], country: "NI" },
+  { countryCodes: ["+227"], country: "NE" },
+  { countryCodes: ["+234"], country: "NG" },
+  { countryCodes: ["+683"], country: "NU" },
+  { countryCodes: ["+850"], country: "KP" },
+  { countryCodes: ["+47"], country: "NO" },
+  { countryCodes: ["+968"], country: "OM" },
+  { countryCodes: ["+92"], country: "PK" },
+  { countryCodes: ["+680"], country: "PW" },
+  { countryCodes: ["+970"], country: "PS" },
+  { countryCodes: ["+507"], country: "PA" },
+  { countryCodes: ["+675"], country: "PG" },
+  { countryCodes: ["+595"], country: "PY" },
+  { countryCodes: ["+51"], country: "PE" },
+  { countryCodes: ["+63"], country: "PH" },
+  { countryCodes: ["+48"], country: "PL" },
+  { countryCodes: ["+351"], country: "PT" },
+  { countryCodes: ["+1-787"], country: "PR" },
+  { countryCodes: ["+1-939"], country: "PR" },
+  { countryCodes: ["+974"], country: "QA" },
+  { countryCodes: ["+40"], country: "RO" },
+  { countryCodes: ["+7"], country: "RU" },
+  { countryCodes: ["+250"], country: "RW" },
+  { countryCodes: ["+590"], country: "BL" },
+  { countryCodes: ["+290"], country: "SH" },
+  { countryCodes: ["+1-869"], country: "KN" },
+  { countryCodes: ["+1-758"], country: "LC" },
+  { countryCodes: ["+590"], country: "MF" },
+  { countryCodes: ["+508"], country: "PM" },
+  { countryCodes: ["+1-784"], country: "VC" },
+  { countryCodes: ["+685"], country: "WS" },
+  { countryCodes: ["+378"], country: "SM" },
+  { countryCodes: ["+239"], country: "ST" },
+  { countryCodes: ["+966"], country: "SA" },
+  { countryCodes: ["+221"], country: "SN" },
+  { countryCodes: ["+381"], country: "RS" },
+  { countryCodes: ["+248"], country: "SC" },
+  { countryCodes: ["+232"], country: "SL" },
+  { countryCodes: ["+65"], country: "SG" },
+  { countryCodes: ["+421"], country: "SK" },
+  { countryCodes: ["+386"], country: "SI" },
+  { countryCodes: ["+677"], country: "SB" },
+  { countryCodes: ["+252"], country: "SO" },
+  { countryCodes: ["+27"], country: "ZA" },
+  { countryCodes: ["+82"], country: "KR" },
+  { countryCodes: ["+211"], country: "SS" },
+  { countryCodes: ["+34"], country: "ES" },
+  { countryCodes: ["+94"], country: "LK" },
+  { countryCodes: ["+249"], country: "SD" },
+  { countryCodes: ["+597"], country: "SR" },
+  { countryCodes: ["+268"], country: "SZ" },
+  { countryCodes: ["+46"], country: "SE" },
+  { countryCodes: ["+41"], country: "CH" },
+  { countryCodes: ["+963"], country: "SY" },
+  { countryCodes: ["+886"], country: "TW" },
+  { countryCodes: ["+992"], country: "TJ" },
+  { countryCodes: ["+255"], country: "TZ" },
+  { countryCodes: ["+66"], country: "TH" },
+  { countryCodes: ["+670"], country: "TL" },
+  { countryCodes: ["+228"], country: "TG" },
+  { countryCodes: ["+690"], country: "TK" },
+  { countryCodes: ["+676"], country: "TO" },
+  { countryCodes: ["+1-868"], country: "TT" },
+  { countryCodes: ["+216"], country: "TN" },
+  { countryCodes: ["+90"], country: "TR" },
+  { countryCodes: ["+993"], country: "TM" },
+  { countryCodes: ["+1-649"], country: "TC" },
+  { countryCodes: ["+688"], country: "TV" },
+  { countryCodes: ["+256"], country: "UG" },
+  { countryCodes: ["+380"], country: "UA" },
+  { countryCodes: ["+971"], country: "AE" },
+  { countryCodes: ["+44"], country: "GB" },
+  { countryCodes: ["+1"], country: "US" },
+  { countryCodes: ["+598"], country: "UY" },
+  { countryCodes: ["+998"], country: "UZ" },
+  { countryCodes: ["+678"], country: "VU" },
+  { countryCodes: ["+379"], country: "VA" },
+  { countryCodes: ["+58"], country: "VE" },
+  { countryCodes: ["+84"], country: "VN" },
+  { countryCodes: ["+681"], country: "WF" },
+  { countryCodes: ["+967"], country: "YE" },
+  { countryCodes: ["+260"], country: "ZM" },
+  { countryCodes: ["+263"], country: "ZW" },
+];

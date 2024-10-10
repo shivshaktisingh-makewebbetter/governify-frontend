@@ -84,22 +84,23 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
       label: (
         <div
           className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-          onClick={() => setShowCredentials(true)}
+          onClick={() => {
+            if (location.pathname === "/portals") {
+              return;
+            } else {
+              setShowCredentials(true);
+            }
+          }}
         >
           <Credentials
-            fill={
-              location.pathname === "/portals"
-                ? "#59C080"
-                : "#454545"
-            }
+            fill={location.pathname === "/portals" ? "#59C080" : "#454545"}
+            width="20px"
+            height="20px"
           />
           <span
             className="fs-6 ff-ws"
             style={{
-              color:
-                location.pathname === "/portals"
-                  ? "#59C080"
-                  : "#454545",
+              color: location.pathname === "/portals" ? "#59C080" : "#454545",
             }}
           >
             Credentials Management
