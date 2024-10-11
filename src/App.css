@@ -36,7 +36,7 @@
 
 body,
 * {
-  font-family: "Hind", sans-serif;
+  font-family: "Graphie-Regular", sans-serif;
   box-sizing: border-box;
 }
 .header-icons {
@@ -111,6 +111,10 @@ body,
 .track-card.bg-light-default > .track-profession {
   color: grey;
 }
+
+.email-inp input {
+  font-family: "Graphie-Regular";
+}
 .secondry-heading {
   font-size: 19px;
 }
@@ -144,6 +148,88 @@ body,
   opacity: 1;
   transform: translateX(0);
 }
+
+.otpInput {
+  border: 1px solid #c9cccf;
+  border-radius: 8px;
+}
+
+.otpInput::-webkit-inner-spin-button,
+.otpInput::-webkit-outer-spin-button,
+.phone-input::-webkit-inner-spin-button,
+.phone-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.cancel-btn {
+  padding: 0 !important;
+  line-height: 1;
+}
+
+.cancel-btn:hover {
+  background-color: #ffffff !important;
+}
+
+.form-btn {
+  padding: 7px !important;
+  height: auto;
+}
+
+.edit-portal-credentials {
+  position: fixed !important;
+  /* width: auto; */
+  transition: all 0.3s;
+  z-index: 199;
+  top: 25px;
+  min-height: 100vh;
+}
+
+.edit-portal-credentials__active {
+  transition: all 0.3s;
+  transform: translateX(0);
+}
+
+.edit-portal-credentials__unactive {
+  transition: all 0.3s;
+  transform: translateX(520px);
+}
+
+.custom-form-drawer .ant-drawer-footer {
+  z-index: 501;
+}
+
+.overflow-disable .ant-drawer-body {
+  overflow-y: hidden;
+}
+
+.mobile-inp-field {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 3px 5px;
+  display: flex;
+}
+
+.mobile-inp-field .country-select .ant-select-selector {
+  padding: 0 7px 0 5px !important;
+  border: none;
+}
+
+.mobile-inp-field .country-select .ant-select-selector:active {
+  border: none !important;
+}
+
+.mobile-inp-field .phone-input {
+  padding: 0 5px !important;
+  border: none;
+}
+
+.mobile-inp-field .phone-input:active {
+  border: none !important;
+}
+
 .fs-s {
   font-size: 14px;
 }
@@ -242,12 +328,24 @@ body,
   font-size: 18px;
 }
 
+.fs-24 {
+  font-size: 24px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
 .fs-36 {
   font-size: 36px;
 }
 
 .fs-16 {
   font-size: 16px;
+}
+
+.fs-24 {
+  font-size: 24px;
 }
 
 #iframe-signup > iframe {
@@ -691,6 +789,12 @@ body,
   /* color: #928f8f !important;
   border-color: #928f8f !important;
   background: transparent; */
+}
+
+.custom-cred-card {
+  flex: 0 0 100%;
+  max-width: calc(33.33% - 16px);
+  justify-content: space-between;
 }
 
 .governify-tab-headers > span > span > svg {

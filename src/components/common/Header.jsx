@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import { Button, Drawer, Flex, Typography } from "antd";
-import {
-  CloseOutlined,
-  HomeOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  SearchOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { Typography } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { getRole } from "../../utils/helper";
-import { ReportIcon } from "../../assets/image";
+import CustomerMenu from "./CustomerMenu";
+import AdminMenu from "./AdminMenu";
+import ConfirmAccount from "./ConfirmAccount";
+import { ToastContainer } from "react-toastify";
 
 const Header = ({ user }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
@@ -25,8 +20,8 @@ const Header = ({ user }) => {
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
   };
-  const location = useLocation();
   const navigate = useNavigate();
+  const [showCredentials, setShowCredentials] = useState(false);
   const [trackRequestHovered, setTrackRequestHovered] = useState(false);
   const [homeBUttonHovered, setHomeButtonHovered] = useState(false);
   const [settingButtonHovered, setSettingButtonHovered] = useState(false);
@@ -142,106 +137,16 @@ const Header = ({ user }) => {
                 <span className="onboardify-welcome">Welcome</span>{" "}
                 <span className="onboardify-welcome-text-hani">{user}</span>
               </Typography>
-              <div className="governify-header-buttons">
-                {role === "customer" ? (
-                  location.pathname === "/track-request" ? (
-                    <Button
-                      className="governify-secondary-btn border-radius-10"
-                      style={{
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                        border: homeBUttonHovered
-                          ? `1px solid #928f8f`
-                          : `1px solid ${data.button_bg}`,
-                        color: homeBUttonHovered ? `#928f8f` : data.button_bg,
-                        background: "transparent",
-                      }}
-                      onClick={navigateToReport}
-                      onMouseEnter={() => handleHoverHome(true)}
-                      onMouseLeave={() => handleHoverHome(false)}
-                    >
-                      <span className="font-family-montse fs-12 fw-700">
-                        Report
-                      </span>
-                      <ReportIcon className="fs_20 fw-700" />
-                    </Button>
-                  ) : (
-                    <Button
-                      className="governify-secondary-btn fs_12 fw-700 border-radius-10"
-                      style={{
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                        border: trackRequestHovered
-                          ? `1px solid #928f8f`
-                          : `1px solid ${data.button_bg}`,
-                        color: trackRequestHovered ? `#928f8f` : data.button_bg,
-                        background: "transparent",
-                      }}
-                      onClick={navigateToTrackRequest}
-                      onMouseEnter={() => handleHover(true)}
-                      onMouseLeave={() => handleHover(false)}
-                    >
-                      <span className="font-family-montse fs-12 fw-700">
-                        Track a Request
-                      </span>
-                      <SearchOutlined className="fs_20 fw-700" />
-                    </Button>
-                  )
-                ) : (
-                  <Button
-                    className="governify-secondary-btn fs_12 fw-700 border-radius-10"
-                    style={{
-                      display: "flex",
-                      gap: "5px",
-                      alignItems: "center",
-                      border: settingButtonHovered
-                        ? `1px solid #928f8f`
-                        : `1px solid ${data.button_bg}`,
-                      color: settingButtonHovered ? `#928f8f` : data.button_bg,
-                      background: "transparent",
-                    }}
-                    onClick={navigateToSettings}
-                    onMouseEnter={() => handleHoverSetting(true)}
-                    onMouseLeave={() => handleHoverSetting(false)}
-                  >
-                    <span className="font-family-montse fs-12 fw-700">
-                      Settings
-                    </span>
-                    <SettingOutlined className="fs_20 fw-700" />
-                  </Button>
-                )}
-
-                <Button
-                  type="primaary"
-                  className="governify-primary-btn border-radius-10"
-                  style={{
-                    display: "flex",
-                    gap: "5px",
-                    alignItems: "center",
-                    background: data.button_bg,
-                    color: "#fff",
-                  }}
-                  onClick={logoutFunction}
-                >
-                  <span className="font-family-montse fs-12 fw-700">
-                    Log out
-                  </span>
-                  <LogoutOutlined className="fs_20" />
-                </Button>
+              <div className="lh-1">
+                {role === "customer" ? <CustomerMenu logoutFunction={logoutFunction} setShowCredentials={setShowCredentials} /> : <AdminMenu logoutFunction={logoutFunction} />}
               </div>
-            </div>
-            <div className="d-block  d-md-none d-lg-none d-xl-none d-xxl-none lh-1">
-              <MenuOutlined
-                style={{ color: "#000000", fontSize: "20px" }}
-                onClick={() => setOpenDrawer(true)}
-              />
             </div>
           </div>
         </div>
       </header>
-      <Drawer
+      <ConfirmAccount showCredentials={showCredentials} setShowCredentials={setShowCredentials} />
+      <ToastContainer position="bottom-right" />
+      {/* <Drawer
         title={
           <Flex justify="space-between">
             <span>Welcome, {sessionStorage.getItem("userName")}</span>{" "}
@@ -329,7 +234,7 @@ const Header = ({ user }) => {
             <span className="font-family-montse fs-12 fw-700">Log out</span>
           </Button>
         </Flex>
-      </Drawer>
+      </Drawer> */}
     </>
   );
 };
