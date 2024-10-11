@@ -25,6 +25,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 import { Intercom } from "./components/wrapper/Intercom";
 import CredentialManagement from "./components/PortalCredentials/CredentialManagement";
 import Portals from "./components/admin/portal/Portals";
+import { Report } from "./components/user/Report";
 
 function App() {
   const token = sessionStorage.getItem("token");
@@ -38,7 +39,7 @@ function App() {
       "Hire an attitude, not just experience and qualification. Greg Savage.",
     header_bg: "#f7f7f7",
     head_title_color: "#5ac063",
-  };
+  };   
 
   useEffect(() => {
     userSettingData();
@@ -70,6 +71,10 @@ function App() {
             {
               path: "portals",
               element: <CredentialManagement />,
+            },
+            {
+              path: "report",
+              element: <Report />
             },
             {
               path: "admin",

@@ -137,7 +137,10 @@ const PanelWrapper = () => {
       <Header user={user} />
       <div
         className="container d-flex flex-column h-100 text-center"
-        style={{ background: data.site_bg }}
+        style={{
+          background:
+            location.pathname === "/report" ? "#F6F6FB" : data.site_bg,
+        }}
       >
         <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
           <Outlet />

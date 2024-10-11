@@ -12,6 +12,7 @@ const AdditionalNoteArea = ({item, index, handleInputChange, formErrorFields}) =
           minRows: 3,
           maxRows: 5,
         }}
+        style={{fontFamily: "Graphie-regular" }}
         value={item.value}
         status={formErrorFields.includes(item.label) ? "error" : ""}
       />

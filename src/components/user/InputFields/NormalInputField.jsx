@@ -14,6 +14,7 @@ const NormalInputField = ({ item, index, handleInputChange, formErrorFields }) =
       className="py-2 px-3"
       autoComplete="off"
       onChange={(e) => handleInputChange(e, index)}
+      style={{fontFamily: "Graphie-regular" }}
       status={formErrorFields.includes(item.label) ? "error" : ""}
       // prefix={<MailOutlined className="fs-18" style={{ color: "#5C5F62" }} />}
     />

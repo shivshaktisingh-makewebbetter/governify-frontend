@@ -65,6 +65,7 @@ const MobileNumberField = ({ setPhoneNumber, formErrorFields, phoneNumber, phone
           type="number"
           className="phone-input"
           value={phoneNumber}
+          style={{fontFamily: "Graphie-regular" }}
           onChange={(value) => changeNumber(value)}
         />
       </div>

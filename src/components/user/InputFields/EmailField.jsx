@@ -11,11 +11,12 @@ const EmailField = ({email, setEmail, formErrorFields, emailErrorMessage}) => {
       <Input
         value={email}
         placeholder="Enter your email"
-        className="py-2 px-3"
+        className="py-2 px-3 email-inp" 
         autoComplete="off"
         onChange={(e) => setEmail(e.target.value)}
         prefix={<MailOutlined className="fs-18" style={{ color: "#5C5F62" }} />}
         status={formErrorFields.includes('email') ? "error" : ""}
+        style={{fontFamily: "Graphie-regular"}}
       />
       {formErrorFields.includes('email') && <span style={{ color: "#FD5749", marginTop: '5px' }} className="fs-s">{emailErrorMessage}</span>}
     </div>

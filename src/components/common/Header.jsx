@@ -39,6 +39,10 @@ const Header = ({ user }) => {
     navigate("track-request");
   };
 
+  const navigateToReport = () => {
+    navigate("report");
+  };
+
   const navigateToHome = () => {
     navigate("/");
   };

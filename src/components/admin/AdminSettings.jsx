@@ -280,7 +280,6 @@ export const AdminSettings = () => {
           head_title_color: uiSettings.head_title_color,
           trackRequestData: uiSettings.trackRequestData,
         });
-        console.log(uiSettings , 'response')
         setColumnSelectedData({
           head: uiSettings?.selectedColumn?.head || '',
           mid: uiSettings?.selectedColumn?.mid || '',
