@@ -3,11 +3,13 @@ import { Popover } from "antd";
 import React, { useState } from "react";
 import { Edit, Trash2 } from "react-feather";
 import DeletePortalModal from "../../PortalCredentials/child/DeletePortalModal";
+import ConfirmAccount from "../../common/ConfirmAccount";
 // import EditCredentials from "./EditCredentials";
 
-const Credential = ({ item, logoAndName,setType, fetchPortalCredentials }) => {
+const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [showCredentials, setShowCredentials] = useState(false);
   return (
     <>
       <div
@@ -79,7 +81,16 @@ const Credential = ({ item, logoAndName,setType, fetchPortalCredentials }) => {
             </div>
           </Popover>
           <Popover content="Edit">
-            <div onClick={() => setType('edit')}>
+            <div
+              onClick={() => {
+                console.log(localStorage.getItem("verified") === "true");
+                if (localStorage.getItem("verified") == "true") {
+                  setType("edit");
+                } else {
+                  setShowCredentials(true);
+                }
+              }}
+            >
               <span
                 style={{
                   background: "#EEEEEE",
@@ -142,6 +153,7 @@ const Credential = ({ item, logoAndName,setType, fetchPortalCredentials }) => {
           fetchPortalCredentials={fetchPortalCredentials}
         />
       )} */}
+      <ConfirmAccount showCredentials={showCredentials} credtype="edit" setShowCredentials={setShowCredentials} setType={setType} />
     </>
   );
 };

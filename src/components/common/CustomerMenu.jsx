@@ -6,16 +6,17 @@ import {
 import { Dropdown } from "antd";
 import React from "react";
 import { CheckListIcon, Credentials, Logout } from "../../utils/Icons";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const items = [
     {
-      key: 'navigation',
-      type: 'group',
-      label: 'Navigation',
+      key: "navigation",
+      type: "group",
+      label: "Navigation",
       children: [
         {
           label: (
@@ -25,11 +26,15 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
             >
               <PlusOutlined
                 className={`fs-18`}
-                style={{ color: location.pathname === "/" ? "#59C080" : "#454545" }}
+                style={{
+                  color: location.pathname === "/" ? "#59C080" : "#454545",
+                }}
               />
               <span
                 className="fs-6 ff-ws"
-                style={{ color: location.pathname === "/" ? "#59C080" : "#454545" }}
+                style={{
+                  color: location.pathname === "/" ? "#59C080" : "#454545",
+                }}
               >
                 Service Request
               </span>
@@ -52,7 +57,9 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
                 className="fs-6 ff-ws"
                 style={{
                   color:
-                    location.pathname === "/track-request" ? "#59C080" : "#454545",
+                    location.pathname === "/track-request"
+                      ? "#59C080"
+                      : "#454545",
                 }}
               >
                 Request tracking
@@ -70,13 +77,15 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
               <FileTextOutlined
                 className={`fs-18`}
                 style={{
-                  color: location.pathname === "/reports" ? "#59C080" : "#454545",
+                  color:
+                    location.pathname === "/report" ? "#59C080" : "#454545",
                 }}
               />
               <span
                 className="fs-6 ff-ws"
                 style={{
-                  color: location.pathname === "/reports" ? "#59C080" : "#454545",
+                  color:
+                    location.pathname === "/report" ? "#59C080" : "#454545",
                 }}
               >
                 Insights and Reports
@@ -88,12 +97,12 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
       ],
     },
     {
-      type: 'divider',
+      type: "divider",
     },
     {
-      key: 'setting',
-      type: 'group',
-      label: 'Settings',
+      key: "setting",
+      type: "group",
+      label: "Settings",
       children: [
         {
           label: (
@@ -103,7 +112,11 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
                 if (location.pathname === "/portals") {
                   return;
                 } else {
-                  setShowCredentials(true);
+                  if (localStorage.getItem("verified") == "true") {
+                    navigate("/portals");
+                  } else {
+                    setShowCredentials(true);
+                  }
                 }
               }}
             >
@@ -115,7 +128,8 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
               <span
                 className="fs-6 ff-ws"
                 style={{
-                  color: location.pathname === "/portals" ? "#59C080" : "#454545",
+                  color:
+                    location.pathname === "/portals" ? "#59C080" : "#454545",
                 }}
               >
                 Credentials Management
@@ -140,117 +154,6 @@ const CustomerMenu = ({ logoutFunction, setShowCredentials }) => {
         },
       ],
     },
-    // {
-    //   label: (
-    //     <a
-    //       href="/"
-    //       className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-    //     >
-    //       <PlusOutlined
-    //         className={`fs-18`}
-    //         style={{ color: location.pathname === "/" ? "#59C080" : "#454545" }}
-    //       />
-    //       <span
-    //         className="fs-6 ff-ws"
-    //         style={{ color: location.pathname === "/" ? "#59C080" : "#454545" }}
-    //       >
-    //         Service Request
-    //       </span>
-    //     </a>
-    //   ),
-    //   key: "home",
-    // },
-    // {
-    //   label: (
-    //     <a
-    //       href="/track-request"
-    //       className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-    //     >
-    //       <CheckListIcon
-    //         fill={
-    //           location.pathname === "/track-request" ? "#59C080" : "#454545"
-    //         }
-    //       />
-    //       <span
-    //         className="fs-6 ff-ws"
-    //         style={{
-    //           color:
-    //             location.pathname === "/track-request" ? "#59C080" : "#454545",
-    //         }}
-    //       >
-    //         Request tracking
-    //       </span>
-    //     </a>
-    //   ),
-    //   key: "track-request",
-    // },
-    // {
-    //   label: (
-    //     <a
-    //       href="/report"
-    //       className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-    //     >
-    //       <FileTextOutlined
-    //         className={`fs-18`}
-    //         style={{
-    //           color: location.pathname === "/reports" ? "#59C080" : "#454545",
-    //         }}
-    //       />
-    //       <span
-    //         className="fs-6 ff-ws"
-    //         style={{
-    //           color: location.pathname === "/reports" ? "#59C080" : "#454545",
-    //         }}
-    //       >
-    //         Insights and Reports
-    //       </span>
-    //     </a>
-    //   ),
-    //   key: "report",
-    // },
-    // {
-    //   label: (
-    //     <div
-    //       className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-    //       onClick={() => {
-    //         if (location.pathname === "/portals") {
-    //           return;
-    //         } else {
-    //           setShowCredentials(true);
-    //         }
-    //       }}
-    //     >
-    //       <Credentials
-    //         fill={location.pathname === "/portals" ? "#59C080" : "#454545"}
-    //         width="20px"
-    //         height="20px"
-    //       />
-    //       <span
-    //         className="fs-6 ff-ws"
-    //         style={{
-    //           color: location.pathname === "/portals" ? "#59C080" : "#454545",
-    //         }}
-    //       >
-    //         Credentials Management
-    //       </span>
-    //     </div>
-    //   ),
-    //   key: "portal-credentials",
-    // },
-    // {
-    //   label: (
-    //     <div
-    //       className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
-    //       onClick={() => logoutFunction()}
-    //     >
-    //       <Logout />
-    //       <span className="fs-6 ff-ws" style={{ color: "#EF4444" }}>
-    //         Logout
-    //       </span>
-    //     </div>
-    //   ),
-    //   key: "logout",
-    // },
   ];
 
   return (

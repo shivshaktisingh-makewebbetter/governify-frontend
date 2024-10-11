@@ -258,6 +258,7 @@ const EditCredentials = ({
               disabled
               options={portalOption}
               placeholder="Select Portal..."
+              style={{height: "40px"}}
             />
           </div>
           <div

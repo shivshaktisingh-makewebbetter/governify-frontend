@@ -233,7 +233,7 @@ const AddPortal = ({
               options={portalOption}
               onChange={(value) => handleChange("portal", value)}
               placeholder="Select Portal"
-              style={{ background: errorSchema.portal ? "#FFF4F4" : "" }}
+              style={{ background: errorSchema.portal ? "#FFF4F4" : "", height: "40px" }}
               status={errorSchema.portal ? "error" : ""}
             />
             {errorSchema.portal && (

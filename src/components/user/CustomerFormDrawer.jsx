@@ -14,6 +14,7 @@ import { Loader } from "../common/Loader";
 import AddCredentials from "./InputFields/AddCredentials";
 import NormalInputField from "./InputFields/NormalInputField";
 import axios from "axios";
+import ConfirmAccount from "../common/ConfirmAccount";
 
 const CustomerFormDrawer = ({
   open,
@@ -45,6 +46,8 @@ const CustomerFormDrawer = ({
     form_description:
       "Please fill out the form to proceed with the needed action to provide you with this service",
   };
+
+  const [showCredentials, setShowCredentials] = useState(false);
 
   const [formDetails, setFormDetails] = useState([]);
   const [formErrorFields, setFormErrorFields] = useState([]);
@@ -97,35 +100,57 @@ const CustomerFormDrawer = ({
   }
 
   const setFormData = (value) => {
-    if(formData.form_data) {
+    if (formData.form_data) {
       let form = [];
       formData.form_data.map((item) => {
-        if(item.type === 'image') {
+        if (item.type === "image") {
           // if(item.subLabel.includes("\n")) {
           let fields = item.subLabel.split("\n");
           fields.map((document) => {
-            form.push({label: document, required: item.required, subLabel: item.label, type: item.type, value: undefined});
-          })
-        // } else {
-        //   form.push({label: item.subLabel, required: item.required, type: item.type, value: undefined});
-        // }
-        } else if(item.type.toLowerCase() === 'checkbox') {
-          form.push({label: item.label, required: item.required, subLabel: item.subLabel, singleSelect: item.singleSelect, type: item.type, value: undefined});
+            form.push({
+              label: document,
+              required: item.required,
+              subLabel: item.label,
+              type: item.type,
+              value: undefined,
+            });
+          });
+          // } else {
+          //   form.push({label: item.subLabel, required: item.required, type: item.type, value: undefined});
+          // }
+        } else if (item.type.toLowerCase() === "checkbox") {
+          form.push({
+            label: item.label,
+            required: item.required,
+            subLabel: item.subLabel,
+            singleSelect: item.singleSelect,
+            type: item.type,
+            value: undefined,
+          });
           setSingleSelect({ enable: item.singleSelect, value: "" });
-        } else if(item.type === "textArea" && (item.label.toLowerCase() === "misa portal username" ||item.label.toLowerCase() === "misa portal password")) {
-
+        } else if (
+          item.type === "textArea" &&
+          (item.label.toLowerCase() === "misa portal username" ||
+            item.label.toLowerCase() === "misa portal password")
+        ) {
           return;
         } else {
-          form.push({label: item.label, required: item.required, subLabel: item.subLabel, type: item.type, value: item.value || undefined});
+          form.push({
+            label: item.label,
+            required: item.required,
+            subLabel: item.subLabel,
+            type: item.type,
+            value: item.value || undefined,
+          });
         }
-      })
+      });
       setFormDetails(form);
     }
-  }
-  
+  };
+
   useEffect(() => {
     setFormData(1);
-  },[])
+  }, []);
 
   const getCheckBoxOptions = (options) => {
     const tempData = options.map((item) => ({
@@ -175,64 +200,64 @@ const CustomerFormDrawer = ({
     const updatedFields = [...formDetails];
     updatedFields[index].value = value[0];
     setFormDetails(updatedFields);
-  }
+  };
 
   const removeImage = (value, index) => {
     const updatedFields = [...formDetails];
     updatedFields[index].value = value;
     setFormDetails(updatedFields);
-  }
+  };
 
   const validateForm = () => {
     let valid = true;
     let errorObj = [];
     const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
-    console.log('portalCred', portalCred);
-    if(portalCredentials.length === 0 && portalCred === "") {
+    console.log("portalCred", portalCred);
+    if (portalCredentials.length === 0 && portalCred === "") {
       valid = false;
       errorObj.push("portal");
     } else {
       valid = true;
     }
-    if(email === '') {
+    if (email === "") {
       valid = false;
       errorObj.push("email");
-      setEmailErrorMessage("this field is required.")
-    } else if(!emailRegex.test(email)) {
+      setEmailErrorMessage("this field is required.");
+    } else if (!emailRegex.test(email)) {
       valid = false;
       errorObj.push("email");
-      setEmailErrorMessage("Please enter a valid email address.")
+      setEmailErrorMessage("Please enter a valid email address.");
     } else {
-      if(valid){
+      if (valid) {
         valid = true;
       }
       setEmailErrorMessage("");
     }
-    if(phoneNumber === "") {
+    if (phoneNumber === "") {
       valid = false;
       errorObj.push("phoneNumber");
     } else {
-      if(valid) {
+      if (valid) {
         valid = true;
       }
     }
     formDetails.forEach((item) => {
-      if(item.value) {
-        if(valid) {
+      if (item.value) {
+        if (valid) {
           valid = true;
         }
       } else {
-        if(item.required) {
+        if (item.required) {
           errorObj.push(item.label);
           valid = false;
         }
       }
-    })
+    });
 
     setFormErrorFields(errorObj);
 
     return { valid };
-  }
+  };
 
   const saveDataForFutureUse = async (id) => {
     let method = "POST";
@@ -251,6 +276,56 @@ const CustomerFormDrawer = ({
     } finally {
     }
   };
+
+  useEffect(() => {
+    function getBrowserInfo() {
+      let userAgent = navigator.userAgent;
+      let browserName, fullVersion;
+
+      if (userAgent.indexOf("Firefox") > -1) {
+        browserName = "Mozilla Firefox";
+        fullVersion = userAgent.substring(userAgent.indexOf("Firefox") + 8);
+      } else if (
+        userAgent.indexOf("Chrome") > -1 &&
+        userAgent.indexOf("Edg") === -1
+      ) {
+        browserName = "Google Chrome";
+        fullVersion = userAgent
+          .substring(userAgent.indexOf("Chrome") + 7)
+          .split(" ")[0];
+      } else if (
+        userAgent.indexOf("Safari") > -1 &&
+        userAgent.indexOf("Chrome") === -1
+      ) {
+        browserName = "Apple Safari";
+        fullVersion = userAgent
+          .substring(userAgent.indexOf("Version") + 8)
+          .split(" ")[0];
+      } else if (userAgent.indexOf("Edg") > -1) {
+        browserName = "Microsoft Edge";
+        fullVersion = userAgent
+          .substring(userAgent.indexOf("Edg") + 4)
+          .split(" ")[0];
+      } else if (userAgent.indexOf("Trident") > -1) {
+        browserName = "Internet Explorer";
+        fullVersion = userAgent
+          .substring(userAgent.indexOf("rv:") + 3)
+          .split(" ")[0];
+      } else {
+        browserName = "Unknown Browser";
+        fullVersion = "Unknown Version";
+      }
+
+      return {
+        browser: browserName,
+        version: fullVersion,
+      };
+    }
+
+    let browserInfo = getBrowserInfo();
+    console.log("Browser:", browserInfo.browser);
+    console.log("Version:", browserInfo.version);
+  }, []);
 
   const uploadImage = async (image, idForImage) => {
     let formData = new FormData();
@@ -324,17 +399,26 @@ const CustomerFormDrawer = ({
       uploadImage(image, idForImage)
     );
     const results = await Promise.all(uploadPromises);
-    
+
     return results.every((result) => result === true);
   };
 
   const handleSubmit = async () => {
     let complete = false;
     let cred = {};
-    if(portalCredentials.length) {
-      cred = {portal_name: portalImageAndLogo[0].title, portal_username: portalCredentials[0].username, portal_password: portalCredentials[0].password};
+    if (portalCredentials.length) {
+      cred = {
+        portal_name: portalImageAndLogo[0].title,
+        portal_username: portalCredentials[0].username,
+        portal_password: portalCredentials[0].password,
+      };
     }
-    let tempFormData = [portalCredentials.length ? cred: {credentials: portalCred} , {email: email},{phoneCode: phoneCode},{phoneNumber: phoneNumber}];
+    let tempFormData = [
+      portalCredentials.length ? cred : { credentials: portalCred },
+      { email: email },
+      { phoneCode: phoneCode },
+      { phoneNumber: phoneNumber },
+    ];
     formDetails.forEach((item) => {
       if (item.type !== "image") {
         if (item.required && (item.value === "" || item.value === undefined)) {
@@ -371,7 +455,7 @@ const CustomerFormDrawer = ({
 
   const handleSubmitAll = async () => {
     const { valid } = validateForm();
-    if(!valid) {
+    if (!valid) {
       return;
     }
 
@@ -391,18 +475,18 @@ const CustomerFormDrawer = ({
         formDetails.forEach((item) => {
           if (item.type === "image" || item.type === "Document") {
             if (item.value !== undefined) {
-                tempImageData.push({
-                  file: item.value.file,
-                  file_name: item.value.file_name, // Ensure the property name is correct
-                  item_id: 'id',
-                });
+              tempImageData.push({
+                file: item.value.file,
+                file_name: item.value.file_name, // Ensure the property name is correct
+                item_id: "id",
+              });
             }
           }
         });
         if (tempImageData.length > 0) {
           const response2 = await uploadAllImage(tempImageData, id);
           if (response2) {
-            toast.success('form Submitted Successfully!')
+            toast.success("form Submitted Successfully!");
             setTimeout(() => {
               setFormSubmitted(true);
               setLoading(false);
@@ -430,7 +514,7 @@ const CustomerFormDrawer = ({
         setLoading(false);
       }, 1000);
     }
-  }
+  };
 
   const parseCredentials = (input) => {
     const result = {};
@@ -445,7 +529,6 @@ const CustomerFormDrawer = ({
   };
 
   const fetchPreviousData = async () => {
-
     let userId = sessionStorage.getItem("userId");
     let tempObject = {};
     try {
@@ -464,7 +547,6 @@ const CustomerFormDrawer = ({
         let required = false;
         let singleSelect = false;
         formData.form_data.forEach((item) => {
-
           if (item.type === "image" || item.type === "Document") {
             flag = true;
             required = item.required;
@@ -475,25 +557,24 @@ const CustomerFormDrawer = ({
             item.value = tempObject[item.label];
           }
         });
-        if("email" in tempObject){
+        if ("email" in tempObject) {
           setEmail(tempObject["email"]);
-        } 
-        if("phoneCode" in tempObject) {
+        }
+        if ("phoneCode" in tempObject) {
           setPhoneCode(tempObject["phoneCode"]);
         }
-        if("phoneNumber" in tempObject) {
+        if ("phoneNumber" in tempObject) {
           setPhoneNumber(tempObject["phoneNumber"]);
         }
         setIsUploadEnable({ enable: flag, required: required });
         setSingleSelect({ enable: singleSelect, value: "" });
 
         setFormData();
-      }else{
+      } else {
         let flag = false;
         let required = false;
         let singleSelect = false;
         formData.form_data.forEach((item) => {
-
           if (item.type === "image" || item.type === "Document") {
             flag = true;
             required = item.required;
@@ -512,9 +593,8 @@ const CustomerFormDrawer = ({
   };
 
   useEffect(() => {
-
-      fetchPreviousData();
-  },[])
+    fetchPreviousData();
+  }, []);
 
   // edit and add credentials functionality...
 
@@ -585,7 +665,6 @@ const CustomerFormDrawer = ({
       setLoading(false);
     }
   };
-
 
   return (
     <>
@@ -726,7 +805,14 @@ const CustomerFormDrawer = ({
                     }}
                     type="default"
                     className="form-btn"
-                    onClick={() => setType("add")}
+                    onClick={() => {
+                      console.log(localStorage.getItem("verified") == "true");
+                      if (localStorage.getItem("verified") == "true") {
+                        setType("add");
+                      } else {
+                        setShowCredentials(true);
+                      }
+                    }}
                   >
                     Add portal credentials
                   </Button>
@@ -738,7 +824,7 @@ const CustomerFormDrawer = ({
                     border: "1px solid #008080",
                     color: portalCred !== "" ? "#ffffff" : "#008080",
                     maxWidth: "215px",
-                    background: portalCred !== "" ? "#008080" : "#ffffff"
+                    background: portalCred !== "" ? "#008080" : "#ffffff",
                   }}
                   type="default"
                   className="form-btn"
@@ -756,15 +842,30 @@ const CustomerFormDrawer = ({
                 fetchPortalCredentials={fetchPortalCredentials}
               />
             )}
-            {formErrorFields.includes('portal') && <span style={{ color: "#FD5749" }} className="fs-s">This field is required.</span>}
+            {formErrorFields.includes("portal") && (
+              <span style={{ color: "#FD5749" }} className="fs-s">
+                This field is required.
+              </span>
+            )}
             <div className="d-flex mt-2 flex-column" style={{ gap: "5px" }}>
               <div className="fs-16" style={{ color: "#202223" }}>
                 Mobile Number
               </div>
-              <MobileNumberField setPhoneNumber={setPhoneNumber} formErrorFields={formErrorFields} phoneNumber={phoneNumber} phoneCode={phoneCode} setPhoneCode={setPhoneCode} />
+              <MobileNumberField
+                setPhoneNumber={setPhoneNumber}
+                formErrorFields={formErrorFields}
+                phoneNumber={phoneNumber}
+                phoneCode={phoneCode}
+                setPhoneCode={setPhoneCode}
+              />
             </div>
             <div className="d-flex mt-1 flex-column" style={{ gap: "5px" }}>
-              <EmailField email={email} setEmail={setEmail} formErrorFields={formErrorFields} emailErrorMessage={emailErrorMessage} />
+              <EmailField
+                email={email}
+                setEmail={setEmail}
+                formErrorFields={formErrorFields}
+                emailErrorMessage={emailErrorMessage}
+              />
             </div>
             <Flex vertical gap={15} style={{ paddingBottom: "20px" }}>
               {formDetails.map((item, index) => {
@@ -777,7 +878,12 @@ const CustomerFormDrawer = ({
                       <div className="fs-16" style={{ color: "#202223" }}>
                         {item.label}
                       </div>
-                      <AdditionalNoteArea item={item} index={index} handleInputChange={handleInputChange} formErrorFields={formErrorFields} />
+                      <AdditionalNoteArea
+                        item={item}
+                        index={index}
+                        handleInputChange={handleInputChange}
+                        formErrorFields={formErrorFields}
+                      />
                     </div>
                   );
                 } else if (
@@ -791,21 +897,32 @@ const CustomerFormDrawer = ({
                       <div className="fs-16" style={{ color: "#202223" }}>
                         {item.label}
                       </div>
-                      <NormalInputField item={item} index={index} handleInputChange={handleInputChange} formErrorFields={formErrorFields} />
+                      <NormalInputField
+                        item={item}
+                        index={index}
+                        handleInputChange={handleInputChange}
+                        formErrorFields={formErrorFields}
+                      />
                     </div>
                   );
                 } else if (item.type === "image") {
-                    return (
-                      <div
-                        className="d-flex mt-2 flex-column"
-                        style={{ gap: "5px" }}
-                      >
-                        <div className="fs-16" style={{ color: "#202223" }}>
-                          {item.label}
-                        </div>
-                        <FileInput item={item} index={index} handleImageUpload={handleImageUpload} removeImage={removeImage} formErrorFields={formErrorFields} />
+                  return (
+                    <div
+                      className="d-flex mt-2 flex-column"
+                      style={{ gap: "5px" }}
+                    >
+                      <div className="fs-16" style={{ color: "#202223" }}>
+                        {item.label}
                       </div>
-                    );
+                      <FileInput
+                        item={item}
+                        index={index}
+                        handleImageUpload={handleImageUpload}
+                        removeImage={removeImage}
+                        formErrorFields={formErrorFields}
+                      />
+                    </div>
+                  );
                 } else if (item.type === "CheckBox") {
                   const data = item;
                   const options = getCheckBoxOptions(data.subLabel.split(","));
@@ -813,34 +930,50 @@ const CustomerFormDrawer = ({
                     return (
                       <div
                         key={data.key}
-                        style={{
-                          // background: "#0000000A",
-                          // padding: "10px",
-                          // borderRadius: "10px",
-                        }}
+                        style={
+                          {
+                            // background: "#0000000A",
+                            // padding: "10px",
+                            // borderRadius: "10px",
+                          }
+                        }
                       >
                         <div style={{ color: "#2C2E38", fontSize: "16px" }}>
                           {data.label} {item.required && ""}
                         </div>
                         <Checkbox.Group
-                          style={{ fontSize: "16px", borderRadius: "4px", padding: "5px 0", width: "100%" }}
+                          style={{
+                            fontSize: "16px",
+                            borderRadius: "4px",
+                            padding: "5px 0",
+                            width: "100%",
+                          }}
                           options={options}
                           onChange={(e) => onChangeCheckBox(e, index)}
                           value={isSingleSelectEnable.value}
                           key={data.key}
                         />
-                        {formErrorFields.includes(item.label) && <span style={{ color: "#FD5749", marginTop: '5px' }} className="fs-s">This field is required.</span>}
+                        {formErrorFields.includes(item.label) && (
+                          <span
+                            style={{ color: "#FD5749", marginTop: "5px" }}
+                            className="fs-s"
+                          >
+                            This field is required.
+                          </span>
+                        )}
                       </div>
                     );
                   } else {
                     return (
                       <div
                         key={data.key}
-                        style={{
-                          // background: "#0000000A",
-                          // padding: "10px 10px 0 0",
-                          // borderRadius: "10px",
-                        }}
+                        style={
+                          {
+                            // background: "#0000000A",
+                            // padding: "10px 10px 0 0",
+                            // borderRadius: "10px",
+                          }
+                        }
                       >
                         <div style={{ color: "#2C2E38", fontSize: "16px" }}>
                           {data.label} {item.required && ""}
@@ -857,7 +990,14 @@ const CustomerFormDrawer = ({
                           className="mt-1"
                           onChange={(e) => onChangeCheckBox(e, index)}
                         />
-                        {formErrorFields.includes(item.label) && <span style={{ color: "#FD5749", marginTop: '5px' }} className="fs-s">This field is required.</span>}
+                        {formErrorFields.includes(item.label) && (
+                          <span
+                            style={{ color: "#FD5749", marginTop: "5px" }}
+                            className="fs-s"
+                          >
+                            This field is required.
+                          </span>
+                        )}
                       </div>
                     );
                   }
@@ -887,6 +1027,13 @@ const CustomerFormDrawer = ({
           setEditCredFormData={setAddAndEditCredFormData}
         />
       </Drawer>
+
+      <ConfirmAccount
+        showCredentials={showCredentials}
+        setShowCredentials={setShowCredentials}
+        credtype="add"
+        setType={setType}
+      />
     </>
   );
 };

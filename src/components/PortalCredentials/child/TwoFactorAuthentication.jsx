@@ -12,6 +12,8 @@ const TwoFactorAuthentication = ({
   setOpenTwoFAModal,
   setShowCredentials,
   verificationType,
+  setType = null,
+  credtype = null,
   setVerificationType,
   recipient,
 }) => {
@@ -19,7 +21,7 @@ const TwoFactorAuthentication = ({
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingConfirm, setLoadingConfirm] = useState(false);
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
@@ -62,7 +64,7 @@ const TwoFactorAuthentication = ({
     } else {
       setError(false);
     }
-    setLoading(true);
+    setLoadingConfirm(true);
     try {
       const res = await fetcher(
         "governify/customer/verifyOTP",
@@ -77,10 +79,21 @@ const TwoFactorAuthentication = ({
         setError(false);
         sessionStorage.removeItem('otp');
         toast.success(res.message);
-        setTimeout(() => {
-          setOpenTwoFAModal(false);
-          navigate('/portals');
-        },2000)
+        localStorage.setItem('verified', true);
+        if(setType) {
+          setTimeout(() => {
+            setOpenTwoFAModal(false);
+            setShowCredentials(false);
+            setOtp("");
+            setType(credtype);
+          },2000)
+        } else {
+
+          setTimeout(() => {
+            setOpenTwoFAModal(false);
+            navigate('/portals');
+          },2000)
+        }
       } else {
         setErrMsg(
           "This is a wrong or expired code. Try to resend another code."
@@ -90,14 +103,14 @@ const TwoFactorAuthentication = ({
     } catch (error) {
       console.log("error");
     } finally {
-      setLoading(false);
+      setLoadingConfirm(false);
     }
   };
 
   const sendVerificationAgain = async () => {
     setErrMsg('');
     setError(false);
-    setLoading(true);
+    setLoadingConfirm(true);
     
     try {
       const res = await fetcher(
@@ -115,7 +128,7 @@ const TwoFactorAuthentication = ({
     } catch (error) {
       
     } finally {
-      setLoading(false);
+      setLoadingConfirm(false);
     }
   };
 
@@ -143,7 +156,8 @@ const TwoFactorAuthentication = ({
 
   return (
     <>
-      {loading && <Loader />}
+      {/* {loadingConfirm && <Loader />} */}
+      {/* <Loader /> */}
       <Modal
         open={open}
         centered
@@ -154,6 +168,7 @@ const TwoFactorAuthentication = ({
         footer={null}
         zIndex={99}
       >
+         {loadingConfirm && <Loader />}
         <div
           className="d-flex flex-column align-items-center text-center pt-4 pb-2 px-2"
           style={{ gap: "20px" }}

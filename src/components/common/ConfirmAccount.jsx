@@ -9,10 +9,10 @@ import { Mail, Smartphone } from "react-feather";
 import MobileVerification from "../PortalCredentials/child/MobileVerification";
 import TwoFactorAuthentication from "../PortalCredentials/child/TwoFactorAuthentication";
 
-const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
+const ConfirmAccount = ({ showCredentials,credtype = null, setShowCredentials, setType = null }) => {
   const [error, setError] = useState(false);
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingVerify, setLoadingVerify] = useState(false);
   const [openOtpModal, setOpenOtpModal] = useState(false);
   const [openTwoFAModal, setOpenTwoFAModal] = useState(false);
   const [verificationType, setVerificationType] = useState("");
@@ -33,7 +33,7 @@ const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
     });
 
     try {
-      setLoading(true);
+      setLoadingVerify(true);
       const response = await fetcher(url, method, payload);
       if (response.status) {
         toast.success("Account verified successfully");
@@ -48,13 +48,13 @@ const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
       console.log(err, "error");
       toast.error(err.message);
     } finally {
-      setLoading(false);
+      setLoadingVerify(false);
     }
   };
 
   return (
     <>
-      {loading && <Loader />}
+      {loadingVerify && <Loader />}
       <Modal
         open={showCredentials}
         centered
@@ -177,6 +177,8 @@ const ConfirmAccount = ({ showCredentials, setShowCredentials }) => {
         open={openTwoFAModal}
         verificationType={verificationType}
         setVerificationType={setVerificationType}
+        setType={setType}
+        credtype={credtype}
         recipient={recipient}
       />
     </>
