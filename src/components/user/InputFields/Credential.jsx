@@ -39,13 +39,13 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
           </div>
           <div className="d-flex flex-column text-start" style={{ gap: "5px" }}>
             <span className="fs-18 fw-semibold" style={{ color: "#202223" }}>
-              {/* {item.username.length > 12 ? (
-              <Popover content={item.username}>
-                {item.username.slice(0, 12)}...
-              </Popover>
-            ) : ( */}
-              {item.username}
-              {/* )} */}
+              {item.username.length > 15 ? (
+                <Popover content={item.username}>
+                  {item.username.slice(0, 15)}...
+                </Popover>
+              ) : (
+                item.username
+              )}
             </span>
             <span>{showPassword ? item.password : "******************"}</span>
           </div>
@@ -95,7 +95,7 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
                 style={{
                   background: "#EEEEEE",
                   borderRadius: "8px",
-                  padding: "5px 8px",
+                  padding: "9px 9px 11px",
                   cursor: "pointer",
                 }}
               >
@@ -119,7 +119,7 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
                 style={{
                   background: "#FDE9E9",
                   borderRadius: "8px",
-                  padding: "5px 8px",
+                  padding: "9px 9px 11px",
                   cursor: "pointer",
                 }}
               >
@@ -153,7 +153,12 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
           fetchPortalCredentials={fetchPortalCredentials}
         />
       )} */}
-      <ConfirmAccount showCredentials={showCredentials} credtype="edit" setShowCredentials={setShowCredentials} setType={setType} />
+      <ConfirmAccount
+        showCredentials={showCredentials}
+        credtype="edit"
+        setShowCredentials={setShowCredentials}
+        setType={setType}
+      />
     </>
   );
 };

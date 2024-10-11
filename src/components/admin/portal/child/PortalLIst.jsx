@@ -44,7 +44,7 @@ const PortalLIst = ({ data, editPortalData, setEditPortalData, setOpenDeleteModa
                 style={{
                   background: "#EEEEEE",
                   borderRadius: "8px",
-                  padding: "5px 8px",
+                  padding: "6px 9px 10px",
                   cursor: "pointer",
                 }}
               >
@@ -69,7 +69,7 @@ const PortalLIst = ({ data, editPortalData, setEditPortalData, setOpenDeleteModa
                 style={{
                   background: "#FDE9E9",
                   borderRadius: "8px",
-                  padding: "5px 8px",
+                  padding: "6px 9px 10px",
                   cursor: "pointer",
                 }}
               >

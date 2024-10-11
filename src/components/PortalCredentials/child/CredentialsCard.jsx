@@ -101,7 +101,7 @@ const CredentialsCard = ({ item, logoAndName, usedPortals, portals, fetchPortalC
                     style={{
                       background: "#EEEEEE",
                       borderRadius: "8px",
-                      padding: "5px 8px",
+                      padding: "8px 9px 9px",
                       cursor: "pointer",
                     }}
                   >
@@ -125,7 +125,7 @@ const CredentialsCard = ({ item, logoAndName, usedPortals, portals, fetchPortalC
                     style={{
                       background: "#FDE9E9",
                       borderRadius: "8px",
-                      padding: "5px 8px",
+                      padding: "8px 9px 9px",
                       cursor: "pointer",
                     }}
                   >

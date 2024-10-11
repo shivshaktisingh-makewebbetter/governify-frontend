@@ -90,7 +90,7 @@ const ImageField = ({ image, setImage, error }) => {
                   style={{
                     background: "#EF4444",
                     borderRadius: "8px",
-                    padding: "5px 8px",
+                    padding: "5px 8px 8px",
                     cursor: "pointer",
                   }}
                 >

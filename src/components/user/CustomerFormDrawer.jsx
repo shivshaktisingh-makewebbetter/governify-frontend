@@ -60,8 +60,6 @@ const CustomerFormDrawer = ({
     required: false,
   });
 
-  // console.log('portal', portalCredentials,portalImageAndLogo);
-
   const [loading, setLoading] = useState(false);
   const [portalCred, setPortalCred] = useState("");
 
@@ -130,8 +128,8 @@ const CustomerFormDrawer = ({
           setSingleSelect({ enable: item.singleSelect, value: "" });
         } else if (
           item.type === "textArea" &&
-          (item.label.toLowerCase() === "misa portal username" ||
-            item.label.toLowerCase() === "misa portal password")
+          (item.label.toLowerCase().includes("portal username") ||
+            item.label.toLowerCase().includes("portal password"))
         ) {
           return;
         } else {

@@ -161,7 +161,7 @@ const AddAndEditPortalDrawer = ({
           setOpenAddPortalDrawer(false);
         }, 2500);
       } else {
-        toast.error("Something went wrong!");
+        toast.error(res.message);
       }
     } catch (error) {
       toast.error("Something went wrong!");

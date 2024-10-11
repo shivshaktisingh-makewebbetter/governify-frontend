@@ -2,7 +2,7 @@ import { HomeOutlined, MenuOutlined, ProductOutlined, SettingOutlined } from "@a
 import { Dropdown } from "antd";
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { Logout } from "../../utils/Icons";
+import { Credentials, Logout } from "../../utils/Icons";
 
 const AdminMenu = ({ logoutFunction }) => {
   const location = useLocation();
@@ -66,12 +66,15 @@ const AdminMenu = ({ logoutFunction }) => {
           href="/admin/portals"
           className={`d-flex align-items-center gap-2 text-decoration-none p-1 fs-s`}
         >
-          <ProductOutlined
-            className={`fs-18`}
-            style={{
-              color:
-                location.pathname === "/admin/portals" ? "#59C080" : "#454545",
-            }}
+          <Credentials
+            // className={`fs-18`}
+            // style={{
+            //   color:
+            //     location.pathname === "/admin/portals" ? "#59C080" : "#454545",
+            // }}
+            fill={location.pathname === "/admin/portals" ? "#59C080" : "#454545"}
+            width="20px"
+            height="20px"
           />
           <span
             className="fs-6 ff-ws"
