@@ -720,16 +720,6 @@ export const Report = () => {
     return hexColor;
   };
 
-  const getBorderColorForBarChart = (subItem, item) => {
-    let hexColor = "#d20e0e";
-    subItem.selectedColor.forEach((detail) => {
-      if (detail.key === item) {
-        hexColor = detail.value;
-      }
-    });
-    hexColor = hexToRgba(hexColor, "1");
-    return hexColor;
-  };
 
   const getDataSetForVerticalBarChart = (subItem) => {
     let tempData = [];
@@ -738,7 +728,7 @@ export const Report = () => {
         label: getColumnTitleForTextChart(item),
         data: [getColumnValueForTextChart(item)],
         backgroundColor: getBgColorForBarChart(subItem, item),
-        borderColor: getBorderColorForBarChart(subItem, item),
+        borderColor: "transparent",
         borderRadius: {
           topLeft: 5, // Set the top-left corner radius
           topRight: 5, // Set the top-right corner radius
@@ -761,7 +751,7 @@ export const Report = () => {
         label: getColumnTitleForTextChart(item),
         data: [getColumnValueForTextChart(item)],
         backgroundColor: getBgColorForBarChart(subItem, item),
-        borderColor: getBorderColorForBarChart(subItem, item),
+        borderColor: "transparent",
         borderRadius: {
           topLeft: 0, // Set the top-left corner radius
           topRight: 5, // Set the top-right corner radius
@@ -1311,6 +1301,7 @@ export const Report = () => {
             serviceReportViewData={serviceReportViewData}
             getColumnTitleForTextChart={getColumnTitleForTextChart}
             getColumnValueForTextChart={getColumnValueForTextChart}
+            getTooltipData={getTooltipData}
           />
         )}
       </div>

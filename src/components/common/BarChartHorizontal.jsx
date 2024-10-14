@@ -188,7 +188,7 @@ export const BarChartHorizontal = ({
             justifyContent: "start",
             alignItems: "center",
             position: "absolute",
-            top: "20px",
+            top: "16px",
             left: "20px",
           }}
         >
@@ -214,7 +214,7 @@ export const BarChartHorizontal = ({
             width: "100%",
             height: "80%",
             position: "absolute",
-            top: "30px",
+            top: "40px",
           }}
         >
           <Bar data={data} options={options} />
@@ -227,7 +227,7 @@ export const BarChartHorizontal = ({
             justifyContent: "center",
             width: "100%",
             position: "absolute",
-            bottom: "10px",
+            bottom: "0px",
           }}
         >
           {dataset.map((item, index) => {

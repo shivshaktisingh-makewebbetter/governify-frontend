@@ -21,6 +21,7 @@ export const BarChartVertical = ({
 
   const options = {
     responsive: true,
+
     plugins: {
       beforeDraw: function (chart) {
         const ctx = chart.ctx;
@@ -179,50 +180,6 @@ export const BarChartVertical = ({
           },
         },
 
-        // yAlign: "bottom",
-        // xAlign: "center",
-        // displayColors: false,
-        // backgroundColor: "#ffffff",
-        // titleFont: {
-        //   size: 12,
-        //   weight: "400",
-        // },
-        // titleColor: "#6d7175",
-        // bodyFont: {
-        //   size: 16,
-        //   weight: "400",
-        //   color: "#202223",
-        // },
-        // bodyColor: "#000000",
-        // padding: {
-        //   top: 12,
-        //   bottom: 12,
-        //   left: 20,
-        //   right: 20,
-        // },
-        // cornerRadius: 8,
-        // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-        // // callbacks: {
-        // //   label: function (tooltipItem) {
-        // //     const label = tooltipItem.dataset.label || "";
-        // //     const value = tooltipItem.raw || 0;
-        // //     return [`${label}`, `${value}`];
-        // //   },
-        // // },
-        // callbacks: {
-        //   label: function (tooltipItem) {
-        //     const label = tooltipItem.dataset.label || "";
-        //     const value = tooltipItem.raw || 0;
-        //     const icon =   <RiseOutlined color={"#22c55e"} />; // Example Unicode icon
-
-        //     // Return label with icon
-        //     return [`${icon} ${label}`, `${value}`];
-        //   },
-        // },
-        // bodyAlign: "center",
-        // titleAlign: "center",
-        // borderColor: "#ccc",
-        // borderWidth: 0.3,
       },
       datalabels: {
         anchor: "end",

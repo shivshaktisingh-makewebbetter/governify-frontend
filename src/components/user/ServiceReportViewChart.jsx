@@ -19,6 +19,7 @@ export const ServiceReportViewChart = ({
   serviceReportViewData,
   getColumnTitleForTextChart,
   getColumnValueForTextChart,
+  getTooltipData
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "service.pdf" });
 
@@ -197,6 +198,7 @@ export const ServiceReportViewChart = ({
                             max={getMaxForVerticalBarChart(subItem)}
                             title={subItem.heading}
                             description={subItem.description}
+                            toolTipData={getTooltipData(subItem)}
                           />
                         ) : (
                           <BarChartVertical
@@ -205,6 +207,7 @@ export const ServiceReportViewChart = ({
                             max={getMaxForVerticalBarChart(subItem)}
                             title={subItem.heading}
                             description={subItem.description}
+                            toolTipData={getTooltipData(subItem)}
                           />
                         )}
                       </div>

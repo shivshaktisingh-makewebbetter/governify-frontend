@@ -32,11 +32,10 @@ export const ComplianceReportViewChart = ({
   handleMonthChange,
   selectedComplianceMonth,
   previousData,
-  getTooltipData
+  getTooltipData,
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
 
- 
   return (
     <div>
       {activeReport === "compliance" && !noData && activeView === "chart" && (
@@ -147,10 +146,9 @@ export const ComplianceReportViewChart = ({
                                 width: "100%",
                                 textAlign: "left",
                                 fontSize: "14px",
-                                fontWeight: "600",
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-Thin",
+                                fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column)}
@@ -269,10 +267,10 @@ export const ComplianceReportViewChart = ({
                                 width: "100%",
                                 textAlign: "left",
                                 fontSize: "14px",
-                                fontWeight: "600",
+
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-Thin",
+                                fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
