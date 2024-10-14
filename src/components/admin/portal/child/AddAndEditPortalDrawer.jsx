@@ -231,7 +231,7 @@ const AddAndEditPortalDrawer = ({
               }}
               onClick={() => handleSubmit()}
             >
-              Add Portal
+              {type === "add" ? "Add" : "Edit"} Portal
             </button>
           </div>
         }
