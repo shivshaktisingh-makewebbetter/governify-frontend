@@ -132,12 +132,12 @@ const Header = ({ user }) => {
                 </span>
               </a>
             </div>
-            <div className="governify-header-major-div-buttons d-none  d-md-flex d-lg-flex d-xl-flex d-xxl-flex">
-              <Typography>
+            <div className="governify-header-major-div-buttons d-md-flex d-lg-flex d-xl-flex d-xxl-flex">
+              <Typography className="d-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex" style={{gap: "5px"}}>
                 <span className="onboardify-welcome">Welcome</span>{" "}
                 <span className="onboardify-welcome-text-hani">{user}</span>
               </Typography>
-              <div className="lh-1">
+              <div className="lh-1" style={{marginLeft: 'auto'}}>
                 {role === "customer" ? <CustomerMenu logoutFunction={logoutFunction} setShowCredentials={setShowCredentials} /> : <AdminMenu logoutFunction={logoutFunction} />}
               </div>
             </div>
