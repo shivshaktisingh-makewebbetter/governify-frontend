@@ -797,6 +797,16 @@ body,
   justify-content: space-between;
 }
 
+.custom-breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.more-action-btn {
+  display: none;
+}
+
 .governify-tab-headers > span > span > svg {
   color: #5ac063;
   font-size: 20px;
@@ -1192,6 +1202,10 @@ body,
   font-size: 16px;
 }
 
+.cred-grp-btn {
+  display: flex;
+}
+
 /* Custom CSS */
 .form-check-label {
   font-weight: bold;
@@ -1222,7 +1236,30 @@ body,
   background: #ffffff;
 }
 
+@media (max-width: 1400px) {
+  .custom-cred-card {
+    max-width: calc(50% - 16px);
+  }
+}
+
+@media (max-width: 991px) {
+  .custom-cred-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .cred-grp-btn {
+    display: none;
+  }
+  .more-action-btn {
+    display: block;
+  }
+}
+
 @media (max-width: 1000px) {
+
+  
   /* 	
 	.governify-header-major-div-logo{
 		width:35%;
@@ -1270,7 +1307,19 @@ body,
   }
 }
 
+@media (max-width: 767px) {
+  .custom-breadcrumbs {
+    flex-direction: column;
+    align-items: start;
+    gap: 25px;
+  }
+  .breadcrumb-heading {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 777px) {
+
   .governify-option-list {
     display: flex;
     justify-content: space-around;

@@ -73,10 +73,10 @@ const CredentialManagement = () => {
           subheading="Manage and securely your credentials for multiple portals, ensuring easy access and efficient control."
           forHome={false}
         />
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="d-flex">
+        <div className="custom-breadcrumbs">
+          <div className="d-flex align-items-end">
             <span>
-              <a href="/" style={{ color: "#6c757d" }}>
+              <a href="/" style={{ color: "#6c757d" }} className="breadcrumb-heading">
                 Home
               </a>
             </span>
@@ -89,11 +89,12 @@ const CredentialManagement = () => {
                 height="12px"
                 fill="#6c757d"
                 aria-hidden="true"
+                // className="breadcrumb-heading"
               >
                 <path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"></path>
               </svg>
             </span>
-            <span style={{ color: "#0D6EFD", marginLeft: "2px" }}>
+            <span style={{ color: "#0D6EFD", marginLeft: "2px" }} className="breadcrumb-heading">
               Portal Credentials Management
             </span>
           </div>

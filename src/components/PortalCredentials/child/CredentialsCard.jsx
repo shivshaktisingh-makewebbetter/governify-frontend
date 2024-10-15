@@ -1,14 +1,43 @@
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { Popover } from "antd";
+import { EyeFilled, EyeInvisibleFilled, MoreOutlined } from "@ant-design/icons";
+import { Dropdown, Popover } from "antd";
 import React, { useState } from "react";
 import { Edit, Trash2 } from "react-feather";
 import DeletePortalModal from "./DeletePortalModal";
 import EditPortalCredentials from "./EditPortalCredentials";
+import { useMediaQuery } from "react-responsive";
 
-const CredentialsCard = ({ item, logoAndName, usedPortals, portals, fetchPortalCredentials }) => {
+const CredentialsCard = ({
+  item,
+  logoAndName,
+  usedPortals,
+  portals,
+  fetchPortalCredentials,
+}) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 468px)" });
+
+  let DrawerWidth = "520px";
+  if (isSmallScreen) {
+    DrawerWidth = "468px";
+  }
+
+  const items = [
+    {
+      label: <span onClick={() => setShowPassword(!showPassword)}>View</span>,
+      key: "view",
+    },
+    {
+      label: <span onClick={() => setOpenDrawer(true)}>Edit</span>,
+      key: "edit",
+    },
+    {
+      label: <span onClick={() => setOpenDeleteModal(true)}>Delete</span>,
+      key: "delete",
+    },
+  ];
 
   return (
     <>
@@ -52,20 +81,21 @@ const CredentialsCard = ({ item, logoAndName, usedPortals, portals, fetchPortalC
                 >
                   {item.username.length > 12 ? (
                     <Popover content={item.username}>
-                      {item.username.slice(0, 12)}...
+                      {DrawerWidth == '468px' ? item.username.slice(0, 9) :item.username.slice(0, 12)}...
                     </Popover>
                   ) : (
                     item.username
                   )}
                 </span>
                 <span>
-                  {showPassword
-                    ? item.password
-                    : "******************"}
+                  {showPassword ? item.password : DrawerWidth == '468px' ? "*************" : "******************"}
                 </span>
               </div>
             </div>
-            <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+            <div
+              className=" align-items-center cred-grp-btn"
+              style={{ gap: "10px" }}
+            >
               <Popover content={"View"}>
                 <div>
                   {showPassword ? (
@@ -139,6 +169,27 @@ const CredentialsCard = ({ item, logoAndName, usedPortals, portals, fetchPortalC
                   </span>
                 </div>
               </Popover>
+            </div>
+            <div className="more-action-btn">
+              <Dropdown
+                menu={{ items }}
+                trigger={["click"]}
+                placement="bottomRight"
+                className=""
+              >
+                <MoreOutlined
+                  style={{
+                    color: "",
+                    fontSize: "24px",
+                    fontWeight: "700",
+                    background: "#EEEEEE",
+                    borderRadius: "8px",
+                    padding: "8px 9px 9px",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => e.preventDefault()}
+                />
+              </Dropdown>
             </div>
           </div>
         </div>

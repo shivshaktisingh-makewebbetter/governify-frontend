@@ -11,8 +11,9 @@ const AddPortalButton = ({setOpenAddPortalDrawer}) => {
         borderRadius: "8px",
         gap: "5px",
         padding: "10px 20px",
+        marginLeft: 'auto'
       }}
-      className={`border-0 d-flex align-items-center justify-content-center`}
+      className={`border-0 d-flex align-items-center justify-content-center add-portal-btn`}
       onClick={() => setOpenAddPortalDrawer(true)}
     >
       <PlusOutlined className="fs-semibold fs-16" />
