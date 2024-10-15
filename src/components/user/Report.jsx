@@ -1302,6 +1302,11 @@ export const Report = () => {
             getColumnTitleForTextChart={getColumnTitleForTextChart}
             getColumnValueForTextChart={getColumnValueForTextChart}
             getTooltipData={getTooltipData}
+            previousData={previousData}
+            getPreviousMonthChange={getPreviousMonthChange}
+            getBgSquareColor={getBgSquareColor}
+            getColumnPercentage={getColumnPercentage}
+            getDescriptionForColumn={getDescriptionForColumn}
           />
         )}
       </div>
