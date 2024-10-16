@@ -4,12 +4,11 @@ import {
   InfoCircleOutlined,
   RiseOutlined,
 } from "@ant-design/icons";
-import { Button, Dropdown, Select, Space, Tooltip } from "antd";
+import { Button, Dropdown, Space, Tooltip } from "antd";
 import { BarChartHorizontal } from "../common/BarChartHorizontal";
 import { BarChartVertical } from "../common/BarChartVertical";
 import { usePDF } from "react-to-pdf";
 import { ExportReportViewIcon } from "../../assets/image";
-import { useEffect, useState } from "react";
 import { CustomTooltip } from "../common/CustomTooltip";
 
 export const ComplianceReportViewChart = ({
@@ -273,10 +272,9 @@ export const ComplianceReportViewChart = ({
                                 width: "100%",
                                 textAlign: "left",
                                 fontSize: "14px",
-
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                // fontFamily: "Graphie-SemiBold",
+                               
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
