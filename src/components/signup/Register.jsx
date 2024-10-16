@@ -173,7 +173,7 @@ const Register = () => {
           </div>
           <div className="form-container mx-auto" style={{ maxWidth: "440px" }}>
             <div>
-              <img src="/1.png" alt="TASC logo" style={{ maxWidth: "220px" }} />
+              <img src="/newlogo.svg" alt="TASC logo" style={{ maxWidth: "220px" }} />
               <div
                 className="fs-24 ff-ws mb-3 text-inc-tundora"
                 style={{ fontWeight: 600, color: "#434343" }}
