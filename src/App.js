@@ -32,7 +32,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Intercom />,
+      // element: <Intercom />,
       errorElement: <ErrorPage />,
       children: [
         {

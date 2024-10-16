@@ -72,7 +72,7 @@ const ForgotPassword = () => {
               <div>
                 <div>
                   <img
-                    src="/1.png"
+                    src="/newlogo.svg"
                     alt="TASC logo"
                     style={{ maxWidth: "220px" }}
                   />

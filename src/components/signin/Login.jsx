@@ -163,7 +163,7 @@ const Login = () => {
                 <div>
                   {/* <span className="inc-tasc-gradient-btn">TASC</span><span className="fs-48 ff-ws"> 360</span> */}
                   <img
-                    src="/1.png"
+                    src="/newlogo.svg"
                     alt="TASC logo"
                     style={{ maxWidth: "220px" }}
                   />
