@@ -16,7 +16,7 @@ const DeletPortalModal = ({open, setOpenDeleteModal, editPortalData, setEditPort
   } else if (isMediumScreen) {
     modalWidth = "650px";
   } else if (isSmallScreen) {
-    modalWidth = "320px";
+    modalWidth = "95%";
   }
   return (
     <Modal

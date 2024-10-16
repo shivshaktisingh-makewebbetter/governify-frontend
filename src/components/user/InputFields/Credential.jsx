@@ -1,5 +1,5 @@
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { Popover } from "antd";
+import { EyeFilled, EyeInvisibleFilled, MoreOutlined } from "@ant-design/icons";
+import { Dropdown, Popover } from "antd";
 import React, { useState } from "react";
 import { Edit, Trash2 } from "react-feather";
 import DeletePortalModal from "../../PortalCredentials/child/DeletePortalModal";
@@ -10,6 +10,34 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [showCredentials, setShowCredentials] = useState(false);
+
+  const items = [
+    {
+      label: <span onClick={() => setShowPassword(!showPassword)}>View</span>,
+      key: "view",
+    },
+    {
+      label: (
+        <span
+          onClick={() => {
+            if (localStorage.getItem("verified") == "true") {
+              setType("edit");
+            } else {
+              setShowCredentials(true);
+            }
+          }}
+        >
+          Edit
+        </span>
+      ),
+      key: "edit",
+    },
+    {
+      label: <span onClick={() => setOpenDeleteModal(true)}>Delete</span>,
+      key: "delete",
+    },
+  ];
+
   return (
     <>
       <div
@@ -50,7 +78,10 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
             <span>{showPassword ? item.password : "******************"}</span>
           </div>
         </div>
-        <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+        <div
+          className="align-items-center cred-grp-btn"
+          style={{ gap: "10px" }}
+        >
           <Popover content={"View"}>
             <div>
               {showPassword ? (
@@ -133,6 +164,27 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
               </span>
             </div>
           </Popover>
+        </div>
+        <div className="more-action-btn">
+          <Dropdown
+            menu={{ items }}
+            trigger={["click"]}
+            placement="bottomRight"
+            className=""
+          >
+            <MoreOutlined
+              style={{
+                color: "",
+                fontSize: "24px",
+                fontWeight: "700",
+                background: "#EEEEEE",
+                borderRadius: "8px",
+                padding: "8px 9px 9px",
+                cursor: "pointer",
+              }}
+              onClick={(e) => e.preventDefault()}
+            />
+          </Dropdown>
         </div>
       </div>
       {openDeleteModal && (

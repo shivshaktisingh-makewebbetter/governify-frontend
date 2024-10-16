@@ -90,7 +90,7 @@ const AddAndEditPortalDrawer = ({
   } else if (isMediumScreen) {
     DrawerWidth = "520px";
   } else if (isSmallScreen) {
-    DrawerWidth = "320px";
+    DrawerWidth = "90%";
   }
 
   const validateForm = () => {
