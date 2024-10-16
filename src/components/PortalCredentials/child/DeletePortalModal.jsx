@@ -1,5 +1,5 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { Modal } from "antd";
+import { Modal, Popover } from "antd";
 import React, { useState } from "react";
 import { Trash2 } from "react-feather";
 import { useMediaQuery } from "react-responsive";
@@ -156,7 +156,13 @@ const DeletePortalModal = ({
                         className="fs-18 fw-semibold"
                         style={{ color: "#202223" }}
                       >
-                        {item.username}
+                        {modalWidth == "95%" ? (
+                          <Popover content={item.username}>
+                            {item.username.slice(0, 9) + "..."}
+                          </Popover>
+                        ) : (
+                          item.username
+                        )}
                       </span>
                       <span>******************</span>
                     </div>
