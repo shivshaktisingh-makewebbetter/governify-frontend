@@ -136,7 +136,7 @@ export const ServiceReportViewChart = ({
                                 fontWeight: "600",
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-Thin",
+                                // fontFamily: "Graphie-Thin",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
@@ -300,7 +300,7 @@ export const ServiceReportViewChart = ({
                                 fontSize: "14px",
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-SemiBold",
+                                // fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column)}
@@ -365,7 +365,7 @@ export const ServiceReportViewChart = ({
                                       <FallOutlined color={"#ef4444"} />
                                     )}
                                   </span>{" "}
-                                  <span> {changePreviousMonth + " %"} </span>
+                                  <span> {Math.abs(changePreviousMonth) + " %"} </span>
                                 </span>
                                 <span
                                   style={{
@@ -376,7 +376,7 @@ export const ServiceReportViewChart = ({
                                     fontFamily: "Graphie-Thin",
                                   }}
                                 >
-                                  vs last Month
+                                  vs last time
                                 </span>
                               </p>
                             )}

@@ -34,7 +34,7 @@ export const ComplianceReportViewChart = ({
   selectedComplianceMonth,
   previousData,
   getTooltipData,
-  handleMenuClick
+  handleMenuClick,
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
 
@@ -57,10 +57,12 @@ export const ComplianceReportViewChart = ({
             borderBottomLeftRadius: "8px",
           }}
         >
-          <Dropdown menu={{ items , onClick: handleMenuClick }}>
+          <Dropdown menu={{ items, onClick: handleMenuClick }}>
             <Button>
               <Space>
-              {selectedComplianceMonth ? selectedComplianceMonth.label : 'Select Month'}
+                {selectedComplianceMonth
+                  ? selectedComplianceMonth.label
+                  : "Select Month"}
                 <DownOutlined />
               </Space>
             </Button>
@@ -152,7 +154,7 @@ export const ComplianceReportViewChart = ({
                                 fontSize: "14px",
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-SemiBold",
+                                // fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column)}
@@ -217,7 +219,7 @@ export const ComplianceReportViewChart = ({
                                       <FallOutlined color={"#ef4444"} />
                                     )}
                                   </span>{" "}
-                                  <span> {changePreviousMonth + " %"} </span>
+                                  <span> {Math.abs(changePreviousMonth) + " %"} </span>
                                 </span>
                                 <span
                                   style={{
@@ -228,7 +230,7 @@ export const ComplianceReportViewChart = ({
                                     fontFamily: "Graphie-Thin",
                                   }}
                                 >
-                                  vs last Month
+                                  vs last time
                                 </span>
                               </p>
                             )}
@@ -274,7 +276,7 @@ export const ComplianceReportViewChart = ({
 
                                 color: "#6d7175",
                                 marginBottom: "6px",
-                                fontFamily: "Graphie-SemiBold",
+                                // fontFamily: "Graphie-SemiBold",
                               }}
                             >
                               {getColumnTitleForTextChart(subItem.column1)}
@@ -463,6 +465,7 @@ export const ComplianceReportViewChart = ({
                             title={subItem.heading}
                             description={subItem.description}
                             toolTipData={getTooltipData(subItem)}
+                            previousData={previousData}
                           />
                         ) : (
                           <BarChartVertical
@@ -472,6 +475,7 @@ export const ComplianceReportViewChart = ({
                             title={subItem.heading}
                             description={subItem.description}
                             toolTipData={getTooltipData(subItem)}
+                            previousData={previousData}
                           />
                         )}
                       </div>

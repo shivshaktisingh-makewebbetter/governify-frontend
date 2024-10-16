@@ -12,6 +12,7 @@ export const BarChartHorizontal = ({
   title,
   description,
   toolTipData,
+  previousData
 }) => {
   const data = {
     labels: [""],
@@ -50,6 +51,9 @@ export const BarChartHorizontal = ({
       tooltip: {
         enabled: false,
         external: function externalTooltipHandler(context) {
+          if (previousData.length === 0) {
+            return;
+          }
           let tooltipEl = document.getElementById("chartjs-tooltip");
       
           if (!tooltipEl) {
@@ -76,7 +80,7 @@ export const BarChartHorizontal = ({
       
           if (tooltip.body) {
             const title = tooltip.title || [];
-            const bodyLines = tooltip.body.map((item) => item.lines);
+            // const bodyLines = tooltip.body.map((item) => item.lines);
       
             let innerHtml = "<div>";
       
@@ -98,16 +102,16 @@ export const BarChartHorizontal = ({
               let finalValue = currentValue - previousValue;
               if (!isNaN(finalValue)) {
                 if (finalValue > 0) {
-                  innerHtml += `<div style="width:80%;margin:auto;display:flex;justify-content:space-between;align-items:center;"><strong>${finalValue}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="rise" width="1em" height="1em" fill="#22c55e" aria-hidden="true"><path d="M917 211.1l-199.2 24c-6.6.8-9.4 8.9-4.7 13.6l59.3 59.3-226 226-101.8-101.7c-6.3-6.3-16.4-6.2-22.6 0L100.3 754.1a8.03 8.03 0 000 11.3l45 45.2c3.1 3.1 8.2 3.1 11.3 0L433.3 534 535 635.7c6.3 6.2 16.4 6.2 22.6 0L829 364.5l59.3 59.3a8.01 8.01 0 0013.6-4.7l24-199.2c.7-5.1-3.7-9.5-8.9-8.8z"></path></svg></span></div>`;
+                  innerHtml += `<div style="padding:10px;width:80%;margin:auto;display:flex;gap:10px;justify-content:space-between;align-items:center;"><strong>${finalValue}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="rise" width="1em" height="1em" fill="#22c55e" aria-hidden="true"><path d="M917 211.1l-199.2 24c-6.6.8-9.4 8.9-4.7 13.6l59.3 59.3-226 226-101.8-101.7c-6.3-6.3-16.4-6.2-22.6 0L100.3 754.1a8.03 8.03 0 000 11.3l45 45.2c3.1 3.1 8.2 3.1 11.3 0L433.3 534 535 635.7c6.3 6.2 16.4 6.2 22.6 0L829 364.5l59.3 59.3a8.01 8.01 0 0013.6-4.7l24-199.2c.7-5.1-3.7-9.5-8.9-8.8z"></path></svg></span></div><div style="font-family:Graphie-Thin ; font-size: 12px ; font-weight: 400;text-align:center;">${"vs last time"}</div>`;
                 } else {
-                  innerHtml += `<div style="width:80%;margin:auto;display:flex;justify-content:space-between;align-items:center;"><strong>${finalValue}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="fall" width="1em" height="1em" fill="red" aria-hidden="true"><path d="M925.9 804l-24-199.2c-.8-6.6-8.9-9.4-13.6-4.7L829 659.5 557.7 388.3c-6.3-6.2-16.4-6.2-22.6 0L433.3 490 156.6 213.3a8.03 8.03 0 00-11.3 0l-45 45.2a8.03 8.03 0 000 11.3L422 591.7c6.2 6.3 16.4 6.3 22.6 0L546.4 490l226.1 226-59.3 59.3a8.01 8.01 0 004.7 13.6l199.2 24c5.1.7 9.5-3.7 8.8-8.9z"></path></svg></span></div>`;
+                  innerHtml += `<div style="padding:10px;width:80%;margin:auto;display:flex;gap:10px;justify-content:space-between;align-items:center;"><strong>${Math.abs(finalValue)}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="fall" width="1em" height="1em" fill="red" aria-hidden="true"><path d="M925.9 804l-24-199.2c-.8-6.6-8.9-9.4-13.6-4.7L829 659.5 557.7 388.3c-6.3-6.2-16.4-6.2-22.6 0L433.3 490 156.6 213.3a8.03 8.03 0 00-11.3 0l-45 45.2a8.03 8.03 0 000 11.3L422 591.7c6.2 6.3 16.4 6.3 22.6 0L546.4 490l226.1 226-59.3 59.3a8.01 8.01 0 004.7 13.6l199.2 24c5.1.7 9.5-3.7 8.8-8.9z"></path></svg></span></div><div style="font-family:Graphie-Thin ; font-size: 12px ; font-weight: 400;text-align:center;">${"vs last time"}</div>`;
                 }
               }
             });
       
-            bodyLines.forEach(function (body) {
-              innerHtml += `<div style="font-family:Graphie-Thin ; font-size: 12px ; font-weight: 400;">${"vs last month"}</div>`;
-            });
+            // bodyLines.forEach(function (body) {
+            //   innerHtml += `<div style="font-family:Graphie-Thin ; font-size: 12px ; font-weight: 400;">${"vs last month"}</div>`;
+            // });
       
             innerHtml += "</div>";
       
