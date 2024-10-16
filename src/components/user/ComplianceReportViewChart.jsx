@@ -227,7 +227,7 @@ export const ComplianceReportViewChart = ({
                                     fontSize: "12px",
                                     color: "#6d7175",
                                     lineHeight: "16.8px",
-                                    fontFamily: "Graphie-Thin",
+                                    fontFamily: "Graphie-Regular",
                                   }}
                                 >
                                   vs last time

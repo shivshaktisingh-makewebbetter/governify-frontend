@@ -121,7 +121,7 @@ export const BarChartHorizontal = ({
                   </defs>
                   </svg>
                   `;
-                  innerHtml += `<div style="position:absolute;transform:translate(55%, -190%)"><div style="width:80%;margin:auto;display:flex;justify-content:space-between;gap:10px;align-items:center;"><strong>${finalValue}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="rise" width="1em" height="1em" fill="#22c55e" aria-hidden="true"><path d="M917 211.1l-199.2 24c-6.6.8-9.4 8.9-4.7 13.6l59.3 59.3-226 226-101.8-101.7c-6.3-6.3-16.4-6.2-22.6 0L100.3 754.1a8.03 8.03 0 000 11.3l45 45.2c3.1 3.1 8.2 3.1 11.3 0L433.3 534 535 635.7c6.3 6.2 16.4 6.2 22.6 0L829 364.5l59.3 59.3a8.01 8.01 0 0013.6-4.7l24-199.2c.7-5.1-3.7-9.5-8.9-8.8z"></path></svg></span></div><div style="font-family:Graphie-Thin ; text-align:center;font-size: 12px ; font-weight: 400;">${"vs last time"}</div></div>`;
+                  innerHtml += `<div style="position:absolute;transform:translate(55%, -190%)"><div style="width:80%;margin:auto;display:flex;justify-content:space-between;gap:10px;align-items:center;"><strong>${finalValue}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="rise" width="1em" height="1em" fill="#22c55e" aria-hidden="true"><path d="M917 211.1l-199.2 24c-6.6.8-9.4 8.9-4.7 13.6l59.3 59.3-226 226-101.8-101.7c-6.3-6.3-16.4-6.2-22.6 0L100.3 754.1a8.03 8.03 0 000 11.3l45 45.2c3.1 3.1 8.2 3.1 11.3 0L433.3 534 535 635.7c6.3 6.2 16.4 6.2 22.6 0L829 364.5l59.3 59.3a8.01 8.01 0 0013.6-4.7l24-199.2c.7-5.1-3.7-9.5-8.9-8.8z"></path></svg></span></div><div style="font-family:Graphie-Regular; text-align:center;font-size:12px;font-weight:400;color:#6d7175;">${"vs last time"}</div></div>`;
                 } else {
                   innerHtml += `<svg width="136" height="90" viewBox="0 0 136 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g filter="url(#filter0_dd_1042_2090)">
@@ -147,7 +147,7 @@ export const BarChartHorizontal = ({
                   `;
                   innerHtml += `<div style="position:absolute;transform:translate(55%, -190%)"><div style="width:80%;margin:auto;display:flex;justify-content:space-between;gap:10px;align-items:center;"><strong>${Math.abs(
                     finalValue
-                  )}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="fall" width="1em" height="1em" fill="red" aria-hidden="true"><path d="M925.9 804l-24-199.2c-.8-6.6-8.9-9.4-13.6-4.7L829 659.5 557.7 388.3c-6.3-6.2-16.4-6.2-22.6 0L433.3 490 156.6 213.3a8.03 8.03 0 00-11.3 0l-45 45.2a8.03 8.03 0 000 11.3L422 591.7c6.2 6.3 16.4 6.3 22.6 0L546.4 490l226.1 226-59.3 59.3a8.01 8.01 0 004.7 13.6l199.2 24c5.1.7 9.5-3.7 8.8-8.9z"></path></svg></span></div><div style="font-family:Graphie-Thin ; font-size: 12px ; text-align:center;font-weight: 400;">${"vs last time"}</div></div>`;
+                  )}</strong><span><svg viewBox="64 64 896 896" focusable="false" data-icon="fall" width="1em" height="1em" fill="red" aria-hidden="true"><path d="M925.9 804l-24-199.2c-.8-6.6-8.9-9.4-13.6-4.7L829 659.5 557.7 388.3c-6.3-6.2-16.4-6.2-22.6 0L433.3 490 156.6 213.3a8.03 8.03 0 00-11.3 0l-45 45.2a8.03 8.03 0 000 11.3L422 591.7c6.2 6.3 16.4 6.3 22.6 0L546.4 490l226.1 226-59.3 59.3a8.01 8.01 0 004.7 13.6l199.2 24c5.1.7 9.5-3.7 8.8-8.9z"></path></svg></span></div><div style="font-family:Graphie-Regular; font-size: 12px; text-align:center;font-weight: 400;color:#6d7175;">${"vs last time"}</div></div>`;
                 }
               }
             });
@@ -209,10 +209,10 @@ export const BarChartHorizontal = ({
         ticks: {
           stepSize: stepsize,
           font: {
-            family: "Graphie-Thin",
-            size: 12,
-            weight: "400",
-            color: "#6d7175",
+            family: 'Graphie-Regular', 
+            size: 12,         
+            weight: '400',  
+            color:"#6d7175"
           },
         },
         grid: {
