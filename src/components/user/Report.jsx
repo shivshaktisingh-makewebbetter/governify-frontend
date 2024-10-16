@@ -47,7 +47,7 @@ export const Report = () => {
     previousName: "",
   });
   const [finalData, setFinalData] = useState({});
-  const [selectedComplianceMonth, setSelectedComplianceMonth] = useState("");
+  const [selectedComplianceMonth, setSelectedComplianceMonth] = useState(null);
   const [noDataComplianceList, setNoDataComplianceList] = useState(false);
   const [noDataComplianceChart, setNoDataComplianceChart] = useState(false);
   const [noDataService, setNoDataService] = useState(false);
@@ -165,12 +165,75 @@ export const Report = () => {
     return formattedDate;
   };
 
+  const getMonthDateYearFormat = (input) => {
+    const dateObj = new Date(input);
+
+    // Format the date
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = dateObj.toLocaleDateString("en-US", options);
+    return formattedDate;
+  };
+
+  function reorderByDate(arr, key) {
+    return arr.sort((a, b) => {
+      // Extract date strings and parse them into Date objects
+      const dateA = new Date(a[key]);
+      const dateB = new Date(b[key]);
+
+      // Compare dates in descending order (new to old)
+      return dateB - dateA; // Newest first, oldest last
+    });
+  }
+
+  function createGroupedItems(dataArray) {
+    // Helper function to get the month and year from a date string
+    function getMonthYear(dateStr) {
+      const date = new Date(dateStr);
+      const month = date.toLocaleString("en-US", { month: "long" });
+      const year = date.getFullYear();
+      return `${month} ${year}`;
+    }
+
+    // Group the data by month and year
+    const groupedItems = dataArray.reduce((acc, item) => {
+      const groupLabel = getMonthYear(item.value);
+
+      // Check if the group for this month and year exists
+      const existingGroup = acc.find((group) => group.label === groupLabel);
+
+      const child = {
+        key: item.value, // Use the value as the key
+        label: item.label,
+        data: item.data,
+        name: item.name,
+      };
+
+      if (existingGroup) {
+        // If the group exists, add the child to the group's children
+        existingGroup.children.push(child);
+      } else {
+        // If the group doesn't exist, create a new group
+        acc.push({
+          key: `${acc.length + 1}`, // Generate a unique key for the group
+          type: "group",
+          label: groupLabel,
+          children: [child],
+        });
+      }
+
+      return acc;
+    }, []);
+
+    return groupedItems;
+  }
+
   const fetchData = async () => {
     setLoading(true);
     let noDataTempServiceChart = false;
     let noDataTempComplianceChart = false;
     let noDataTempComplianceList = false;
     const tempData = [];
+    const tempDataIfFilterIsNotName = [];
     const tempDataService = [];
     const tempComplianceTableComlumns = [];
     const complianceTableDataSource = [];
@@ -384,69 +447,96 @@ export const Report = () => {
         const filterValue = complianceFilterKeyData.value.toLowerCase();
         const dateFilter = complianceFilterKeyData.date_key;
 
-        if (filterKey !== null && filterValue !== null) {
-          complianceResponse.response.data.boards[0].items_page.items.forEach(
-            (item) => {
-              if (filterKey === "name") {
+        if (filterKey !== null && filterValue !== null && dateFilter !== null) {
+          if (filterKey === "name") {
+            complianceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
                 if (item.name.toLowerCase() === filterValue) {
-                  tempData.push(item);
+                  item.column_values.forEach((subItem) => {
+                    if (subItem.id === dateFilter) {
+                      let tempMonthName = getMonthDateYearFormat(subItem.text);
+                      tempData.push({
+                        label: tempMonthName,
+                        value: tempMonthName,
+                        data: item.column_values,
+                        name: item.name,
+                      });
+                    }
+                  });
                 }
-              } else {
+              }
+            );
+
+            if (tempData.length === 0) {
+              noDataTempComplianceChart = true;
+            } else {
+              let newMonthDataFinalOrdered = reorderByDate(tempData, "value");
+              let tempName = {
+                currentName: newMonthDataFinalOrdered[0].name,
+                previousName: "",
+              };
+              setFinalData(newMonthDataFinalOrdered);
+              setCurrentData(newMonthDataFinalOrdered[0].data);
+              if (newMonthDataFinalOrdered.length > 1) {
+                tempName.previousName = newMonthDataFinalOrdered[1].name;
+                setPreviousData(newMonthDataFinalOrdered[1].data);
+              }
+              setNameValue(tempName);
+              setSelectedComplianceMonth(newMonthDataFinalOrdered[0]);
+            }
+          } else {
+            complianceResponse.response.data.boards[0].items_page.items.forEach(
+              (item) => {
                 item.column_values.forEach((subItem) => {
-                  if (
-                    subItem.id === filterKey &&
-                    subItem.text.toLowerCase() === filterValue
-                  ) {
-                    tempData.push(item);
+                  if (subItem.text !== null) {
+                    if (
+                      subItem.id === filterKey &&
+                      subItem.text === filterValue
+                    ) {
+                      tempDataIfFilterIsNotName.push(item);
+                    }
                   }
                 });
               }
-            }
-          );
+            );
 
-          if (tempData.length === 0) {
-            setFinalData([]);
-            setSelectedComplianceMonth("");
-            setCurrentData([]);
-            setPreviousData([]);
-            noDataTempComplianceChart = true;
-          } else {
-            if (dateFilter === null) {
-              setFinalData([]);
-              setSelectedComplianceMonth("");
-              setCurrentData([]);
-              setPreviousData([]);
+            if (tempDataIfFilterIsNotName.length === 0) {
               noDataTempComplianceChart = true;
             } else {
-              const latestItem = getLatestItem(tempData, dateFilter);
-              const dateFromLatestItem = getDateFromLatestItem(
-                latestItem,
-                dateFilter
-              );
-              let latestMonthData = getMonthNameWithYear(dateFromLatestItem);
-              let previousMonthData = getPreviousItem(tempData, dateFilter, {
-                created_at: dateFromLatestItem,
+              let tempNewData = [];
+              tempDataIfFilterIsNotName.forEach((item) => {
+                item.column_values.forEach((subItem) => {
+                  if (subItem.id === dateFilter) {
+                    let tempMonthName = getMonthDateYearFormat(subItem.text);
+                    tempNewData.push({
+                      label: tempMonthName,
+                      value: tempMonthName,
+                      data: item.column_values,
+                      name: item.name,
+                    });
+                  }
+                });
               });
-              complianceTempNameValue.currentName = latestItem.name;
-              setFinalData(tempData);
-              setSelectedComplianceMonth(latestMonthData.value);
-              setCurrentData(latestItem.column_values);
 
-              if (previousMonthData === null) {
-                setPreviousData([]);
-              } else {
-                setPreviousData(previousMonthData.column_values);
-                complianceTempNameValue.previousName = previousMonthData.name;
+              let newMonthDataFinalOrdered = reorderByDate(
+                tempNewData,
+                "value"
+              );
+              let tempName = {
+                currentName: newMonthDataFinalOrdered[0].name,
+                previousName: "",
+              };
+
+              setFinalData(newMonthDataFinalOrdered);
+              setCurrentData(newMonthDataFinalOrdered[0].data);
+              if (newMonthDataFinalOrdered.length > 1) {
+                setPreviousData(newMonthDataFinalOrdered[1].data);
+                tempName.previousName = newMonthDataFinalOrdered[1].name;
               }
-              setNameValue(complianceTempNameValue);
+              setNameValue(tempName);
+              setSelectedComplianceMonth(newMonthDataFinalOrdered[0]);
             }
           }
-        } else {
-          setFinalData([]);
-          setSelectedComplianceMonth("");
-          setCurrentData({});
-          setPreviousData({});
-          noDataTempComplianceChart = true;
         }
       }
 
@@ -469,11 +559,13 @@ export const Report = () => {
             complianceResponse.response.data.boards[0].items_page.items.forEach(
               (item) => {
                 item.column_values.forEach((subItem) => {
-                  if (
-                    subItem.id === filterKey &&
-                    subItem.text === filterValue
-                  ) {
-                    tempCollectionOfMontFilter.push(item);
+                  if (subItem.text !== null) {
+                    if (
+                      subItem.id === filterKey &&
+                      subItem.text === filterValue
+                    ) {
+                      tempCollectionOfMontFilter.push(item);
+                    }
                   }
                 });
               }
@@ -484,24 +576,13 @@ export const Report = () => {
             tempCollectionOfMontFilter.forEach((item) => {
               item.column_values.forEach((subItem) => {
                 if (subItem.id === dateFilter) {
-                  let monthData = getMonthNameWithYear(subItem.text);
-                  if (!tempMonthFilter.includes(monthData.value)) {
-                    tempMonthFilter.push(monthData.value);
-                    tempMonthFilterData.push({
-                      label: (
-                        <span
-                          style={{
-                            fontSize: "16px",
-                            fontWeight: "600",
-                            fontFamily: "Graphie-Book",
-                          }}
-                        >
-                          {monthData.label}
-                        </span>
-                      ),
-                      value: monthData.value,
-                    });
-                  }
+                  let tempMonthName = getMonthDateYearFormat(subItem.text);
+                  tempMonthFilterData.push({
+                    label: tempMonthName,
+                    value: tempMonthName,
+                    data: item.column_values,
+                    name: item.name,
+                  });
                 }
               });
             });
@@ -510,7 +591,12 @@ export const Report = () => {
           noDataTempComplianceChart = true;
         }
 
-        setMonthFilterData(tempMonthFilterData);
+        let newMonthDataFinalOrdered = reorderByDate(
+          tempMonthFilterData,
+          "value"
+        );
+        let monthDropDownData = createGroupedItems(newMonthDataFinalOrdered);
+        setMonthFilterData(monthDropDownData);
       }
 
       /////Service Chart Data Preparation
@@ -583,6 +669,33 @@ export const Report = () => {
     }
   };
 
+  const handleMenuClick = (e) => {
+
+    finalData.forEach((item , index) =>{
+      if(e.key === item.value){
+        setSelectedComplianceMonth(item);
+        setCurrentData(item.data)
+        let tempName = {currentName: item.name , previousName:''};
+        if (index === finalData.length - 1) {
+          setPreviousData([]);
+          setNameValue(tempName);
+        } else {
+          tempName.previousName = finalData[index + 1].name;
+          setPreviousData(finalData[index + 1].data);
+          setNameValue(tempName);
+        }
+      }
+    })
+   
+    // for (const group of monthFilterData) {
+    //   const selectedChild = group.children.find((child) => child.key === e.key);
+    //   if (selectedChild) {
+    //     setSelectedComplianceMonth(selectedChild);
+    //     setCurrentData(selectedChild.data)
+    //     break;
+    //   }
+    // }
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -719,7 +832,6 @@ export const Report = () => {
     hexColor = hexToRgba(hexColor, "1");
     return hexColor;
   };
-
 
   const getDataSetForVerticalBarChart = (subItem) => {
     let tempData = [];
@@ -1000,7 +1112,10 @@ export const Report = () => {
 
     previousData.forEach((item) => {
       if (tempData.selectedColumns.includes(item.id)) {
-        tempPreviousArr.push({ key: getKeyFromAllColumn(item.id), value: item.text });
+        tempPreviousArr.push({
+          key: getKeyFromAllColumn(item.id),
+          value: item.text,
+        });
       }
     });
     return { tempCurrentArr, tempPreviousArr };
@@ -1271,6 +1386,7 @@ export const Report = () => {
                 selectedComplianceMonth={selectedComplianceMonth}
                 previousData={previousData}
                 getTooltipData={getTooltipData}
+                handleMenuClick={handleMenuClick}
               />
             )}
           </div>

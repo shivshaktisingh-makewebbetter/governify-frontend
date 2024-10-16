@@ -1,9 +1,10 @@
 import {
+  DownOutlined,
   FallOutlined,
   InfoCircleOutlined,
   RiseOutlined,
 } from "@ant-design/icons";
-import { Button, Select, Tooltip } from "antd";
+import { Button, Dropdown, Select, Space, Tooltip } from "antd";
 import { BarChartHorizontal } from "../common/BarChartHorizontal";
 import { BarChartVertical } from "../common/BarChartVertical";
 import { usePDF } from "react-to-pdf";
@@ -33,8 +34,13 @@ export const ComplianceReportViewChart = ({
   selectedComplianceMonth,
   previousData,
   getTooltipData,
+  handleMenuClick
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
+
+  const items = [...monthFilterData];
+
+console.log(selectedComplianceMonth , 'sdf')
 
   return (
     <div>
@@ -53,15 +59,15 @@ export const ComplianceReportViewChart = ({
             borderBottomLeftRadius: "8px",
           }}
         >
-          <Select
-            placeholder="Select Month"
-            popupMatchSelectWidth={false}
-            placement="bottomLeft"
-            onChange={handleMonthChange}
-            options={monthFilterData}
-            style={{ border: "none", marginLeft: "5px", marginRight: "5px" }}
-            value={selectedComplianceMonth}
-          />
+          <Dropdown menu={{ items , onClick: handleMenuClick }}>
+            <Button>
+              <Space>
+              {selectedComplianceMonth ? selectedComplianceMonth.label : 'Select Month'}
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+
           <Button
             style={{
               background: "#5ac063",
