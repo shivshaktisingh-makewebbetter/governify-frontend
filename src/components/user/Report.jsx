@@ -1052,7 +1052,6 @@ export const Report = () => {
 
     // Convert monthName to its corresponding month index
     const monthIndex = monthNames.indexOf(monthName);
-    console.log(monthIndex);
 
     const getItemDate = (columns) => {
       const tempDateFilter = complianceReportFilterData.date_key;

@@ -40,8 +40,6 @@ export const ComplianceReportViewChart = ({
 
   const items = [...monthFilterData];
 
-console.log(selectedComplianceMonth , 'sdf')
-
   return (
     <div>
       {activeReport === "compliance" && !noData && activeView === "chart" && (
