@@ -39,6 +39,7 @@ const MobileNumberField = ({ setPhoneNumber, formErrorFields, phoneNumber, phone
           value: item.countryCodes[0],
         });
       });
+      // console.log('option', option);
       setCountryOption(option);
     }
   }, []);

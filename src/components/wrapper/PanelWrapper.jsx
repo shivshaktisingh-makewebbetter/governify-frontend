@@ -3,6 +3,7 @@ import Header from "../common/Header";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../common/Footer";
 import { fetcher } from "../../utils/helper";
+import { userSettingData } from "../../utils/tools";
 
 const PanelWrapper = () => {
   const [user, setUser] = useState("");
@@ -46,6 +47,14 @@ const PanelWrapper = () => {
   useEffect(() => {
     getLoginUserDetails();
   }, [token]);
+
+  const getSiteSetting = async () => {
+    await userSettingData();
+  }
+
+  useEffect(() => {
+    getSiteSetting();
+  },[])
 
   useEffect(() => {
     const loadIntercom = () => {

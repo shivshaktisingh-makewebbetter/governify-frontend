@@ -28,23 +28,6 @@ import Portals from "./components/admin/portal/Portals";
 import { Report } from "./components/user/Report";
 
 function App() {
-  const token = sessionStorage.getItem("token");
-  const settingsData = JSON.parse(sessionStorage.getItem("settings")) || {
-    image:
-      "https://onboardify.tasc360.com/uploads/governify/1717570622_Products Logo (1).png",
-    site_bg: "#ffffff",
-    button_bg: "#5ac063",
-    banner_bg: "#5ac063",
-    banner_content:
-      "Hire an attitude, not just experience and qualification. Greg Savage.",
-    header_bg: "#f7f7f7",
-    head_title_color: "#5ac063",
-  };   
-
-  useEffect(() => {
-    userSettingData();
-    return () => {};
-  }, [token]);
 
   const router = createBrowserRouter([
     {

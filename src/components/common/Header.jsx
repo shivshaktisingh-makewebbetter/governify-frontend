@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 const Header = ({ user }) => {
   const data = JSON.parse(sessionStorage.getItem("settings")) || {
     image:
-      "https://onboardify.tasc360.com/uploads/governify/1718271730_1718195689_Products%20Logo%20(1).png",
+      "https://onboardifyapi.tasc360.com/uploads/governify/1721919601_7.png",
     site_bg: "#ffffff",
     button_bg: "#5ac063",
     banner_bg: "#5ac063",
@@ -146,95 +146,6 @@ const Header = ({ user }) => {
       </header>
       <ConfirmAccount showCredentials={showCredentials} setShowCredentials={setShowCredentials} />
       <ToastContainer position="bottom-right" />
-      {/* <Drawer
-        title={
-          <Flex justify="space-between">
-            <span>Welcome, {sessionStorage.getItem("userName")}</span>{" "}
-            <CloseOutlined
-              onClick={() => setOpenDrawer(false)}
-              style={{ cursor: "pointer" }}
-            />{" "}
-          </Flex>
-        }
-        placement="right"
-        closable={false}
-        onClose={() => setOpenDrawer(false)}
-        open={openDrawer}
-        width="90%"
-        key="right"
-      >
-        <Flex align="start" vertical gap={10}>
-          {role === "customer" ? (
-            location.pathname === "/track-request" ? (
-              <Button
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                type="text"
-                onClick={() => {
-                  navigateToHome();
-                  setOpenDrawer(false);
-                }}
-              >
-                <HomeOutlined className="fs_20 fw-700" />
-                <span className="font-family-montse fs-12 fw-700">Home</span>
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                type="text"
-                onClick={() => {
-                  navigateToTrackRequest();
-                  setOpenDrawer(false);
-                }}
-              >
-                <SearchOutlined className="fs_20 fw-700" />
-                <span className="font-family-montse fs-12 fw-700">
-                  Track a Request
-                </span>
-              </Button>
-            )
-          ) : (
-            <Button
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              type="text"
-              onClick={() => {
-                navigateToSettings();
-                setOpenDrawer(false);
-              }}
-            >
-              <SettingOutlined className="fs_20 fw-700" />
-              <span className="font-family-montse fs-12 fw-700">Settings</span>
-            </Button>
-          )}
-
-          <Button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            type="text"
-            onClick={() => {
-              logoutFunction();
-              setOpenDrawer(false);
-            }}
-          >
-            <LogoutOutlined style={{ fontSize: "16px" }} />
-            <span className="font-family-montse fs-12 fw-700">Log out</span>
-          </Button>
-        </Flex>
-      </Drawer> */}
     </>
   );
 };

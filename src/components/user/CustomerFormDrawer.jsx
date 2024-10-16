@@ -826,7 +826,13 @@ const CustomerFormDrawer = ({
                   }}
                   type="default"
                   className="form-btn"
-                  onClick={() => setPortalCred("I don’t have credentials yet")}
+                  onClick={() => {
+                    if (portalCred === "") {
+                      setPortalCred("I don’t have credentials yet");
+                    } else {
+                      setPortalCred("");
+                    }
+                  }}
                 >
                   I don't have credentials yet
                 </Button>
