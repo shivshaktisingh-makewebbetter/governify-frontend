@@ -163,6 +163,12 @@ export const BarChartHorizontal = ({
         max: max,
         ticks: {
           stepSize: stepsize,
+          font: {
+            family: 'Graphie-Thin', 
+            size: 12,         
+            weight: '400',  
+            color:"#6d7175"
+          },
         },
         grid: {
           color: "rgba(200, 200, 200, 0.2)",
