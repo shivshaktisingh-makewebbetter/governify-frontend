@@ -99,7 +99,9 @@ const CredentialManagement = () => {
             </span>
           </div>
           {portalCredentials.length ? (
+            <div style={{marginLeft: 'auto'}}>
             <AddPortalButton setOpenAddPortalDrawer={setOpenAddPortalDrawer} />
+            </div>
           ) : (
             ""
           )}
