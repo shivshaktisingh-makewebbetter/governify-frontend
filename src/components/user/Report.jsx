@@ -686,15 +686,7 @@ export const Report = () => {
         }
       }
     })
-   
-    // for (const group of monthFilterData) {
-    //   const selectedChild = group.children.find((child) => child.key === e.key);
-    //   if (selectedChild) {
-    //     setSelectedComplianceMonth(selectedChild);
-    //     setCurrentData(selectedChild.data)
-    //     break;
-    //   }
-    // }
+  
   };
   useEffect(() => {
     fetchData();
@@ -896,8 +888,8 @@ export const Report = () => {
     // Calculate the raw stepSize by dividing the range by number of steps
     let stepSize = range / numberOfSteps;
 
-    // Round stepSize up to the nearest multiple of 50
-    stepSize = Math.ceil(stepSize / 50) * 50;
+    // Round stepSize up to the nearest multiple of 10
+    stepSize = Math.ceil(stepSize / 10) * 10;
 
     return stepSize;
   }
