@@ -774,12 +774,7 @@ const CustomerFormDrawer = ({
                     type="default"
                     className="form-btn"
                     onClick={() => {
-                      // console.log(localStorage.getItem("verified") == "true");
-                      // if (localStorage.getItem("verified") == "true") {
                         setType("add");
-                      // } else {
-                      //   setShowCredentials(true);
-                      // }
                     }}
                   >
                     Add portal credentials
