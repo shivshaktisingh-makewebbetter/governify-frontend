@@ -243,7 +243,7 @@ export const BarChartHorizontal = ({
             justifyContent: "start",
             alignItems: "center",
             position: "absolute",
-            top: "16px",
+            top: "10px",
             left: "20px",
           }}
         >
@@ -269,7 +269,7 @@ export const BarChartHorizontal = ({
             width: "100%",
             height: "80%",
             position: "absolute",
-            top: "40px",
+            top: "24px",
           }}
         >
           <Bar data={data} options={options} />
