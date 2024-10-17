@@ -688,6 +688,7 @@ export const Report = () => {
     })
   
   };
+  
   useEffect(() => {
     fetchData();
   }, []);
