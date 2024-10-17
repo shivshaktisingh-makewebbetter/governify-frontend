@@ -15,6 +15,8 @@ import AddCredentials from "./InputFields/AddCredentials";
 import NormalInputField from "./InputFields/NormalInputField";
 import axios from "axios";
 import ConfirmAccount from "../common/ConfirmAccount";
+import MultipleCheckBoxField from "./InputFields/MultipleCheckBoxField";
+import SingleCheckboxField from "./InputFields/SingleCheckboxField";
 
 const CustomerFormDrawer = ({
   open,
@@ -121,6 +123,7 @@ const CustomerFormDrawer = ({
             label: item.label,
             required: item.required,
             subLabel: item.subLabel,
+            // singleSelect: false,
             singleSelect: item.singleSelect,
             type: item.type,
             value: undefined,
@@ -159,14 +162,25 @@ const CustomerFormDrawer = ({
   };
 
   const onChangeCheckBox = (e, index) => {
+    // console.log('formDetails', formDetails);
+    // const updatedFields = [...formDetails];
+    // console.log('cdcdca',e);
+
     let singleSelect = false;
-    formDetails.forEach((item) => {
-      if (item.type === "CheckBox") {
+    // if (updatedFields[index].singleSelect) {
+    //    updatedFields[index].value = e;
+    //   // setFormDetails({...formDetails, formDetails[index].value = });
+    // }
+    // setFormDetails(updatedFields);
+    formDetails.forEach((item, i) => {
+      // console.log(i==index, i, index);
+      if (item.type === "CheckBox" && i == index) {
         singleSelect = item.singleSelect;
       }
     });
 
     if (singleSelect) {
+      // console.log('if');
       if (e.length > 0) {
         const newValues = e.filter(
           (item) => !isSingleSelectEnable.value.includes(item)
@@ -182,7 +196,11 @@ const CustomerFormDrawer = ({
         setSingleSelect({ ...isSingleSelectEnable, value: [] });
       }
     } else {
-      formDetails[index].value = e.join(",");
+      // console.log('else');
+      const updatedFields = [...formDetails];
+      // console.log('updatedFields', updatedFields[index].value);
+      updatedFields[index].value = e;
+      setFormDetails(updatedFields);
       setSingleSelect({ ...isSingleSelectEnable, value: e });
     }
   };
@@ -274,56 +292,6 @@ const CustomerFormDrawer = ({
     } finally {
     }
   };
-
-  useEffect(() => {
-    function getBrowserInfo() {
-      let userAgent = navigator.userAgent;
-      let browserName, fullVersion;
-
-      if (userAgent.indexOf("Firefox") > -1) {
-        browserName = "Mozilla Firefox";
-        fullVersion = userAgent.substring(userAgent.indexOf("Firefox") + 8);
-      } else if (
-        userAgent.indexOf("Chrome") > -1 &&
-        userAgent.indexOf("Edg") === -1
-      ) {
-        browserName = "Google Chrome";
-        fullVersion = userAgent
-          .substring(userAgent.indexOf("Chrome") + 7)
-          .split(" ")[0];
-      } else if (
-        userAgent.indexOf("Safari") > -1 &&
-        userAgent.indexOf("Chrome") === -1
-      ) {
-        browserName = "Apple Safari";
-        fullVersion = userAgent
-          .substring(userAgent.indexOf("Version") + 8)
-          .split(" ")[0];
-      } else if (userAgent.indexOf("Edg") > -1) {
-        browserName = "Microsoft Edge";
-        fullVersion = userAgent
-          .substring(userAgent.indexOf("Edg") + 4)
-          .split(" ")[0];
-      } else if (userAgent.indexOf("Trident") > -1) {
-        browserName = "Internet Explorer";
-        fullVersion = userAgent
-          .substring(userAgent.indexOf("rv:") + 3)
-          .split(" ")[0];
-      } else {
-        browserName = "Unknown Browser";
-        fullVersion = "Unknown Version";
-      }
-
-      return {
-        browser: browserName,
-        version: fullVersion,
-      };
-    }
-
-    let browserInfo = getBrowserInfo();
-    console.log("Browser:", browserInfo.browser);
-    console.log("Version:", browserInfo.version);
-  }, []);
 
   const uploadImage = async (image, idForImage) => {
     let formData = new FormData();
@@ -418,7 +386,9 @@ const CustomerFormDrawer = ({
       { phoneNumber: phoneNumber },
     ];
     formDetails.forEach((item) => {
-      if (item.type !== "image") {
+      if(item.type.toLowerCase() === "checkbox" && !item.singleSelect) {
+        tempFormData.push({ [item.label]: item.value.join(',') });
+      } else if (item.type !== "image") {
         if (item.required && (item.value === "" || item.value === undefined)) {
           complete = true;
         } else {
@@ -804,12 +774,12 @@ const CustomerFormDrawer = ({
                     type="default"
                     className="form-btn"
                     onClick={() => {
-                      console.log(localStorage.getItem("verified") == "true");
-                      if (localStorage.getItem("verified") == "true") {
+                      // console.log(localStorage.getItem("verified") == "true");
+                      // if (localStorage.getItem("verified") == "true") {
                         setType("add");
-                      } else {
-                        setShowCredentials(true);
-                      }
+                      // } else {
+                      //   setShowCredentials(true);
+                      // }
                     }}
                   >
                     Add portal credentials
@@ -931,78 +901,81 @@ const CustomerFormDrawer = ({
                   const data = item;
                   const options = getCheckBoxOptions(data.subLabel.split(","));
                   if (isSingleSelectEnable.enable) {
+                    // console.log('isSingleSelectEnable', isSingleSelectEnable);
                     return (
-                      <div
-                        key={data.key}
-                        style={
-                          {
-                            // background: "#0000000A",
-                            // padding: "10px",
-                            // borderRadius: "10px",
-                          }
-                        }
-                      >
-                        <div style={{ color: "#2C2E38", fontSize: "16px" }}>
-                          {data.label} {item.required && ""}
-                        </div>
-                        <Checkbox.Group
-                          style={{
-                            fontSize: "16px",
-                            borderRadius: "4px",
-                            padding: "5px 0",
-                            width: "100%",
-                          }}
-                          options={options}
-                          onChange={(e) => onChangeCheckBox(e, index)}
-                          value={isSingleSelectEnable.value}
-                          key={data.key}
-                        />
-                        {formErrorFields.includes(item.label) && (
-                          <span
-                            style={{ color: "#FD5749", marginTop: "5px" }}
-                            className="fs-s"
-                          >
-                            This field is required.
-                          </span>
-                        )}
-                      </div>
+                      <SingleCheckboxField data={data} formErrorFields={formErrorFields} index={index} isSingleSelectEnable={isSingleSelectEnable} item={item} onChangeCheckBox={onChangeCheckBox} options={options} />
+                      // <div
+                      //   key={data.key}
+                      //   style={
+                      //     {
+                      //       // background: "#0000000A",
+                      //       // padding: "10px",
+                      //       // borderRadius: "10px",
+                      //     }
+                      //   }
+                      // >
+                      //   <div style={{ color: "#2C2E38", fontSize: "16px" }}>
+                      //     {data.label} {item.required && ""}
+                      //   </div>
+                      //   <Checkbox.Group
+                      //     style={{
+                      //       fontSize: "16px",
+                      //       borderRadius: "4px",
+                      //       padding: "5px 0",
+                      //       width: "100%",
+                      //     }}
+                      //     options={options}
+                      //     onChange={(e) => onChangeCheckBox(e, index)}
+                      //     value={isSingleSelectEnable.value}
+                      //     key={data.key}
+                      //   />
+                      //   {formErrorFields.includes(item.label) && (
+                      //     <span
+                      //       style={{ color: "#FD5749", marginTop: "5px" }}
+                      //       className="fs-s"
+                      //     >
+                      //       This field is required.
+                      //     </span>
+                      //   )}
+                      // </div>
                     );
                   } else {
                     return (
-                      <div
-                        key={data.key}
-                        style={
-                          {
-                            // background: "#0000000A",
-                            // padding: "10px 10px 0 0",
-                            // borderRadius: "10px",
-                          }
-                        }
-                      >
-                        <div style={{ color: "#2C2E38", fontSize: "16px" }}>
-                          {data.label} {item.required && ""}
-                        </div>
-                        <Checkbox.Group
-                          style={{
-                            fontSize: "16px",
-                            borderRadius: "4px",
-                            padding: "5px 0",
-                            width: "100%",
-                            // border: '1px solid red'
-                          }}
-                          options={options}
-                          className="mt-1"
-                          onChange={(e) => onChangeCheckBox(e, index)}
-                        />
-                        {formErrorFields.includes(item.label) && (
-                          <span
-                            style={{ color: "#FD5749", marginTop: "5px" }}
-                            className="fs-s"
-                          >
-                            This field is required.
-                          </span>
-                        )}
-                      </div>
+                      <MultipleCheckBoxField data={data} options={options} item={item} formErrorFields={formErrorFields} index={index} onChangeCheckBox={onChangeCheckBox} />
+                      // <div
+                      //   key={data.key}
+                      //   style={
+                      //     {
+                      //       // background: "#0000000A",
+                      //       // padding: "10px 10px 0 0",
+                      //       // borderRadius: "10px",
+                      //     }
+                      //   }
+                      // >
+                      //   <div style={{ color: "#2C2E38", fontSize: "16px" }}>
+                      //     {data.label} {item.required && ""}
+                      //   </div>
+                      //   <Checkbox.Group
+                      //     style={{
+                      //       fontSize: "16px",
+                      //       borderRadius: "4px",
+                      //       padding: "5px 0",
+                      //       width: "100%",
+                      //       // border: '1px solid red'
+                      //     }}
+                      //     options={options}
+                      //     className="mt-1"
+                      //     onChange={(e) => onChangeCheckBox(e, index)}
+                      //   />
+                      //   {formErrorFields.includes(item.label) && (
+                      //     <span
+                      //       style={{ color: "#FD5749", marginTop: "5px" }}
+                      //       className="fs-s"
+                      //     >
+                      //       This field is required.
+                      //     </span>
+                      //   )}
+                      // </div>
                     );
                   }
                 }
