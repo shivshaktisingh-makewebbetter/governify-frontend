@@ -157,7 +157,7 @@ const DeletePortalModal = ({
                         style={{ color: "#202223" }}
                       >
                         {modalWidth == "95%" ? (
-                          <Popover content={item.username} zIndex={9992}>
+                          <Popover content={item.username} zIndex={9994}>
                             <span>{item.username.slice(0, 9) + "..."}</span>
                           </Popover>
                         ) : (
