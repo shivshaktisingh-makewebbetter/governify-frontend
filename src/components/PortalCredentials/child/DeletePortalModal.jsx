@@ -50,7 +50,6 @@ const DeletePortalModal = ({
 
   return (
     <>
-      {loading && <Loader />}
       <Modal
         // style={{ maxWidth: "650px" }}
         maxWidth={modalWidth}
@@ -101,6 +100,7 @@ const DeletePortalModal = ({
         }
         onCancel={() => setOpenDeleteModal(false)}
       >
+        {loading && <Loader />}
         <div
           className="p-4 d-flex flex-column align-items-center"
           style={{ gap: "10px" }}
