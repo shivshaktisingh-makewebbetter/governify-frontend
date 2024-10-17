@@ -646,7 +646,7 @@ const CustomerFormDrawer = ({
           setType("");
         }}
         title={null}
-        zIndex={90}
+        zIndex={9991}
         className={`custom-form-drawer ${
           type === "edit" || type === "add" ? "overflow-disable" : ""
         }`}

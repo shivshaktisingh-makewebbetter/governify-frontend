@@ -155,7 +155,7 @@ const CredentialManagement = () => {
         portals={portalImageAndLogo}
         fetchPortalCredentials={fetchPortalCredentials}
       />
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
     </>
   );
 };

@@ -143,7 +143,7 @@ const Portals = () => {
           </div>
         )}
       </div>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
       <AddAndEditPortalDrawer
         open={openAddPortalDrawer}
         setOpenAddPortalDrawer={setOpenAddPortalDrawer}

@@ -65,7 +65,7 @@ const DeletePortalModal = ({
           </span>
         }
         centered
-        zIndex={99}
+        zIndex={9993}
         footer={
           <div
             className="d-flex justify-content-between"

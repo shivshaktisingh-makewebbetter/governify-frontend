@@ -59,7 +59,7 @@ const ConfirmAccount = ({ showCredentials,credtype = null, setShowCredentials, s
         open={showCredentials}
         centered
         footer={null}
-        zIndex={99}
+        zIndex={9993}
         onCancel={() => setShowCredentials(false)}
       >
         <div

@@ -145,7 +145,7 @@ const Header = ({ user }) => {
         </div>
       </header>
       <ConfirmAccount showCredentials={showCredentials} setShowCredentials={setShowCredentials} />
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
     </>
   );
 };

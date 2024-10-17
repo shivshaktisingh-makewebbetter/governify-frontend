@@ -181,7 +181,7 @@ export const TabContent = ({ details, categoryName, categoryId }) => {
           );
         })}
       </div>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
 
       {/* {open && (
         <Modal

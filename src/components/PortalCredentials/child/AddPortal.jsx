@@ -189,7 +189,7 @@ const AddPortal = ({
             </Button>
           </Space>
         }
-        zIndex={99}
+        zIndex={9991}
         footer={
           <div className="d-flex justify-content-between pt-2">
             <button

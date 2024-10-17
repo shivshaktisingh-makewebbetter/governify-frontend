@@ -166,7 +166,7 @@ const TwoFactorAuthentication = ({
           sessionStorage.removeItem("otp");
         }}
         footer={null}
-        zIndex={99}
+        zIndex={9993}
       >
          {loadingConfirm && <Loader />}
         <div
