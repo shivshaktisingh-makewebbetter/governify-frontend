@@ -746,7 +746,7 @@ const CustomerFormDrawer = ({
             portalId === null ? (
               <div className="d-flex flex-column" style={{ gap: "10px" }}>
                 {portalId === null ? (
-                  <Popover title="This Service is not associated with any Portal">
+                  <Popover title="This Service is not associated with any Portal" zIndex={9992}>
                     <Button
                       icon={<PlusOutlined />}
                       iconPosition="start"
