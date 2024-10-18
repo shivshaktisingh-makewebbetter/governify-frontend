@@ -1,6 +1,7 @@
 import { MailOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import React from "react";
+import { MailIcon } from "../../../utils/Icons";
 
 const EmailField = ({email, setEmail, formErrorFields, emailErrorMessage}) => {
   return (
@@ -14,7 +15,7 @@ const EmailField = ({email, setEmail, formErrorFields, emailErrorMessage}) => {
         className="py-2 px-3 email-inp" 
         autoComplete="off"
         onChange={(e) => setEmail(e.target.value)}
-        prefix={<MailOutlined className="fs-18" style={{ color: "#5C5F62" }} />}
+        prefix={<MailIcon width={20} height={16} />}
         status={formErrorFields.includes('email') ? "error" : ""}
         style={{fontFamily: "Graphie-regular"}}
       />
