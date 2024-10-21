@@ -323,7 +323,7 @@ const Register = () => {
             </div>
           </div>
         </div>
-        <ToastContainer position="bottom-right" />
+        <ToastContainer position="bottom-right" className="custom-toast" />
       </div>
     </div>
   );

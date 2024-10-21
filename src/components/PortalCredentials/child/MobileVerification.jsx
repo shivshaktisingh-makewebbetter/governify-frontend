@@ -55,6 +55,7 @@ const MobileVerification = ({ open, setOpenOtpModal }) => {
       centered
       onCancel={() => setOpenOtpModal(false)}
       footer={null}
+      zIndex={9993}
     >
       <div
         className="d-flex flex-column align-items-center text-center pt-4 pb-2 px-2"

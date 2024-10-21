@@ -82,7 +82,7 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
           className="align-items-center cred-grp-btn"
           style={{ gap: "10px" }}
         >
-          <Popover content={"View"}>
+          <Popover content={"View"} zIndex={9992}>
             <div>
               {showPassword ? (
                 <EyeInvisibleFilled
@@ -111,7 +111,7 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
               )}
             </div>
           </Popover>
-          <Popover content="Edit">
+          <Popover content="Edit" zIndex={9992}>
             <div
               onClick={() => {
                 console.log(localStorage.getItem("verified") === "true");
@@ -140,7 +140,7 @@ const Credential = ({ item, logoAndName, setType, fetchPortalCredentials }) => {
               </span>
             </div>
           </Popover>
-          <Popover content="Delete">
+          <Popover content="Delete" zIndex={9992}>
             <div
               onClick={() => {
                 setOpenDeleteModal(true);

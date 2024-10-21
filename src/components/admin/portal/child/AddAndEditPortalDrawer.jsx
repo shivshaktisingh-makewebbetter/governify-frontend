@@ -186,7 +186,7 @@ const AddAndEditPortalDrawer = ({
     <div>
       {loading && <Loader />}
       <Drawer
-        zIndex={99}
+        zIndex={9991}
         width={DrawerWidth}
         title={
           <div className="fs-24 pt-1">

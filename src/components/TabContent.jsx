@@ -127,10 +127,10 @@ export const TabContent = ({ details, categoryName, categoryId }) => {
                   alt="No Preview"
                 />
               </div>
-              <Typography className="service-child-title font-family-hind">
+              <Typography className="service-child-title ">
                 {title}
               </Typography>
-              <Typography className="service-child-subtitle font-family-hind">
+              <Typography className="service-child-subtitle ">
                 {isExpanded ? description : truncatedDescription}
                 {description.length > 117 && !isExpanded && (
                   <span
@@ -181,7 +181,7 @@ export const TabContent = ({ details, categoryName, categoryId }) => {
           );
         })}
       </div>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
 
       {/* {open && (
         <Modal

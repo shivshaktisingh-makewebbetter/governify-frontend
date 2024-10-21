@@ -50,7 +50,6 @@ const DeletePortalModal = ({
 
   return (
     <>
-      {loading && <Loader />}
       <Modal
         // style={{ maxWidth: "650px" }}
         maxWidth={modalWidth}
@@ -65,7 +64,7 @@ const DeletePortalModal = ({
           </span>
         }
         centered
-        zIndex={99}
+        zIndex={9993}
         footer={
           <div
             className="d-flex justify-content-between"
@@ -101,6 +100,7 @@ const DeletePortalModal = ({
         }
         onCancel={() => setOpenDeleteModal(false)}
       >
+        {loading && <Loader />}
         <div
           className="p-4 d-flex flex-column align-items-center"
           style={{ gap: "10px" }}
@@ -157,8 +157,8 @@ const DeletePortalModal = ({
                         style={{ color: "#202223" }}
                       >
                         {modalWidth == "95%" ? (
-                          <Popover content={item.username}>
-                            {item.username.slice(0, 9) + "..."}
+                          <Popover content={item.username} zIndex={9994}>
+                            <span>{item.username.slice(0, 9) + "..."}</span>
                           </Popover>
                         ) : (
                           item.username

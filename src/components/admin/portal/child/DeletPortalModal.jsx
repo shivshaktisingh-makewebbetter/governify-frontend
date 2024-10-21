@@ -31,7 +31,7 @@ const DeletPortalModal = ({open, setOpenDeleteModal, editPortalData, setEditPort
           Delete these portal credentials
         </span>
       }
-      zIndex={99}
+      zIndex={9993}
       centered
       footer={
         <div

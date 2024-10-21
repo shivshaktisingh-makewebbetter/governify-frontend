@@ -646,7 +646,7 @@ const CustomerFormDrawer = ({
           setType("");
         }}
         title={null}
-        zIndex={90}
+        zIndex={9991}
         className={`custom-form-drawer ${
           type === "edit" || type === "add" ? "overflow-disable" : ""
         }`}
@@ -746,7 +746,7 @@ const CustomerFormDrawer = ({
             portalId === null ? (
               <div className="d-flex flex-column" style={{ gap: "10px" }}>
                 {portalId === null ? (
-                  <Popover title="This Service is not associated with any Portal">
+                  <Popover title="This Service is not associated with any Portal" zIndex={9992}>
                     <Button
                       icon={<PlusOutlined />}
                       iconPosition="start"
@@ -774,12 +774,7 @@ const CustomerFormDrawer = ({
                     type="default"
                     className="form-btn"
                     onClick={() => {
-                      // console.log(localStorage.getItem("verified") == "true");
-                      // if (localStorage.getItem("verified") == "true") {
                         setType("add");
-                      // } else {
-                      //   setShowCredentials(true);
-                      // }
                     }}
                   >
                     Add portal credentials

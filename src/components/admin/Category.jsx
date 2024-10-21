@@ -334,7 +334,7 @@ export const Category = () => {
       >
         <Typography>Are you sure you want to delete this Category?</Typography>
       </Modal>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
     </div>
   );
 };

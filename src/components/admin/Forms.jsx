@@ -215,7 +215,7 @@ export const Forms = () => {
       >
         <Typography>Are you sure you want to delete this Form?</Typography>
       </Modal>
-      <ToastContainer position="bottom-right" />
+      <ToastContainer position="bottom-right" className="custom-toast" />
     </div>
   );
 };
