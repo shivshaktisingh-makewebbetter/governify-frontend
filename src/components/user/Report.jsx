@@ -51,7 +51,7 @@ export const Report = () => {
   const [noDataComplianceList, setNoDataComplianceList] = useState(false);
   const [noDataComplianceChart, setNoDataComplianceChart] = useState(false);
   const [noDataService, setNoDataService] = useState(false);
-
+  const [mobileView, setMobileView] = useState(false);
   const [nameValueService, setNameValueService] = useState("");
 
   const handleViewClick = (viewType) => {
@@ -670,12 +670,11 @@ export const Report = () => {
   };
 
   const handleMenuClick = (e) => {
-
-    finalData.forEach((item , index) =>{
-      if(e.key === item.value){
+    finalData.forEach((item, index) => {
+      if (e.key === item.value) {
         setSelectedComplianceMonth(item);
-        setCurrentData(item.data)
-        let tempName = {currentName: item.name , previousName:''};
+        setCurrentData(item.data);
+        let tempName = { currentName: item.name, previousName: "" };
         if (index === finalData.length - 1) {
           setPreviousData([]);
           setNameValue(tempName);
@@ -685,10 +684,9 @@ export const Report = () => {
           setNameValue(tempName);
         }
       }
-    })
-  
+    });
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -1148,6 +1146,26 @@ export const Report = () => {
     };
   }, []);
 
+  function checkScreenWidth() {
+    if (window.innerWidth < 1400) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", checkScreenWidth);
+    window.addEventListener("load", checkScreenWidth);
+    checkScreenWidth();
+
+    // Cleanup function to remove the listeners on component unmount
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+      window.removeEventListener("load", checkScreenWidth);
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -1164,260 +1182,534 @@ export const Report = () => {
 
       {loading && <Loader />}
 
-      <div
-        style={{
-          paddingTop: "8px",
-          marginBottom: "32px",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "20px",
-            color: "#818181",
-            fontWeight: "600",
-            textAlign: "left",
-            marginLeft: "20px",
-            marginRight: "20px",
-            fontFamily: "Graphie-SemiBold",
-          }}
-        >
-          Reports
-        </div>
-        <div
-          style={{
-            textAlign: "left",
-            marginTop: "12px",
-            marginLeft: "20px",
-            marginRight: "20px",
-          }}
-        >
-          <Button
-            style={{
-              fontWeight: "600",
-              color: activeReport === "service" ? "white" : "#202223",
-              backgroundColor: activeReport === "service" ? "#00bf63" : "white",
-              fontSize: "16px",
-              border: "none",
-              lineHeight: "22.4px",
-              height: "40px",
-              fontFamily: "Graphie-Regular",
-            }}
-            onClick={() => handleButtonClick("service")}
-            icon={<ServiceReportIcon activeReport={activeReport} />}
-            iconPosition="start"
-          >
-            <span style={{ fontFamily: "Graphie-SemiBold" }}>
-              {" "}
-              Service Reports
-            </span>
-          </Button>
-          <Button
-            style={{
-              marginLeft: "20px",
-              fontWeight: "600",
-              color: activeReport === "compliance" ? "white" : "#202223",
-              backgroundColor:
-                activeReport === "compliance" ? "#00bf63" : "white",
-              fontSize: "16px",
-              border: "none",
-              lineHeight: "22.4px",
-              height: "40px",
-              // fontFamily: "Graphie-Regular",
-              fontFamily: "Graphie-Bold",
-            }}
-            onClick={() => handleButtonClick("compliance")}
-            icon={<ComplianceReportIcon activeReport={activeReport} />}
-            iconPosition="start"
-          >
-            <span style={{ fontFamily: "Graphie-SemiBold" }}>
-              {" "}
-              Compliance Reports
-            </span>
-          </Button>
-        </div>
-
-        {activeReport === "compliance" && (
+      {mobileView ? (
+        <div>
           <div
             style={{
+              fontSize: "20px",
+              color: "#818181",
+              fontWeight: "600",
+              textAlign: "left",
+              marginLeft: "20px",
+              marginRight: "20px",
+              fontFamily: "Graphie-SemiBold",
+            }}
+          >
+            Reports
+          </div>
+          <div
+            style={{
+              textAlign: "left",
               marginTop: "12px",
-              padding: "24px",
-              background: "white",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid #858b932E",
-              borderTopLeftRadius: "8px",
-              borderTopRightRadius: "8px",
               marginLeft: "20px",
               marginRight: "20px",
             }}
           >
-            <span
+            <Button
               style={{
                 fontWeight: "600",
-                fontSize: "24px",
-                lineHeight: "33.6px",
-                color: "#202223",
-                fontFamily: "Graphie-SemiBold",
+                color: activeReport === "service" ? "white" : "#202223",
+                backgroundColor:
+                  activeReport === "service" ? "#00bf63" : "white",
+                fontSize: "16px",
+                border: "none",
+                lineHeight: "22.4px",
+                height: "40px",
+                fontFamily: "Graphie-Regular",
               }}
+              onClick={() => handleButtonClick("service")}
+              icon={<ServiceReportIcon activeReport={activeReport} />}
+              iconPosition="start"
             >
-              Compliance Report
-            </span>
-            <span
+              <span style={{ fontFamily: "Graphie-SemiBold" }}>
+                {" "}
+                Service Reports
+              </span>
+            </Button>
+            <Button
               style={{
-                background: "#f6f6f7",
-                padding: "8px",
-                borderRadius: "8px",
+                marginTop: "10px",
+                fontWeight: "600",
+                color: activeReport === "compliance" ? "white" : "#202223",
+                backgroundColor:
+                  activeReport === "compliance" ? "#00bf63" : "white",
+                fontSize: "16px",
+                border: "none",
+                lineHeight: "22.4px",
+                height: "40px",
+                // fontFamily: "Graphie-Regular",
+                fontFamily: "Graphie-Bold",
+              }}
+              onClick={() => handleButtonClick("compliance")}
+              icon={<ComplianceReportIcon activeReport={activeReport} />}
+              iconPosition="start"
+            >
+              <span style={{ fontFamily: "Graphie-SemiBold" }}>
+                {" "}
+                Compliance Reports
+              </span>
+            </Button>
+          </div>
+          {activeReport === "compliance" && (
+            <div
+              style={{
+                marginTop: "12px",
+                padding: "24px",
+                background: "white",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderBottom: "1px solid #858b932E",
+                borderTopLeftRadius: "8px",
+                borderTopRightRadius: "8px",
+                marginLeft: "20px",
+                marginRight: "20px",
               }}
             >
-              {!(noDataComplianceList || noDataComplianceChart) && (
-                <Button
-                  style={{
-                    marginRight: "16px",
-                    border: "none",
-                    background: activeView === "list" ? "white" : "transparent",
-                    color: activeView === "list" ? "#00bf63" : "#202223",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "19.6px",
-                    boxShadow:
-                      activeView === "list"
-                        ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
-                        : "none", // No shadow when inactive
-                  }}
-                  onClick={() => handleViewClick("list")}
-                  icon={
-                    <ListReportIcon
-                      activeReport={activeReport}
-                      activeView={activeView}
-                    />
-                  }
-                >
-                  <span
+              <span
+                style={{
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  lineHeight: "33.6px",
+                  color: "#202223",
+                  fontFamily: "Graphie-SemiBold",
+                }}
+              >
+                Compliance Report
+              </span>
+              <span
+                style={{
+                  background: "#f6f6f7",
+                  padding: "8px",
+                  borderRadius: "8px",
+                }}
+              >
+                {!(noDataComplianceList || noDataComplianceChart) && (
+                  <Button
                     style={{
-                      fontFamily: "Graphie-SemiBold",
-                      fontWeight: "600",
+                      marginRight: "16px",
+                      border: "none",
+                      background:
+                        activeView === "list" ? "white" : "transparent",
+                      color: activeView === "list" ? "#00bf63" : "#202223",
                       fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "19.6px",
+                      boxShadow:
+                        activeView === "list"
+                          ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
+                          : "none", // No shadow when inactive
                     }}
+                    onClick={() => handleViewClick("list")}
+                    icon={
+                      <ListReportIcon
+                        activeReport={activeReport}
+                        activeView={activeView}
+                      />
+                    }
                   >
-                    List View
-                  </span>
-                </Button>
+                    <span
+                      style={{
+                        fontFamily: "Graphie-SemiBold",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      List View
+                    </span>
+                  </Button>
+                )}
+                {!(noDataComplianceList || noDataComplianceChart) && (
+                  <Button
+                    style={{
+                      border: "none",
+                      background:
+                        activeView === "chart" ? "white" : "transparent",
+                      color: activeView === "chart" ? "#00bf63" : "#202223",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "19.6px",
+                      boxShadow:
+                        activeView === "chart"
+                          ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
+                          : "none", // No shadow when inactive
+                    }}
+                    onClick={() => handleViewClick("chart")}
+                    icon={
+                      <ChartViewIcon
+                        activeReport={activeReport}
+                        activeView={activeView}
+                      />
+                    }
+                  >
+                    Chart View
+                  </Button>
+                )}
+              </span>
+            </div>
+          )}
+
+          {activeReport === "compliance" && !noDataComplianceList && (
+            <div>
+              {activeView === "list" && (
+                <ComplianceReportViewList
+                  activeReport={activeReport}
+                  activeView={activeView}
+                  noData={noData}
+                  selectedRowKeys={selectedRowKeys}
+                  handleExport={handleExport}
+                  dataSource={dataSource}
+                  tableColumns={tableColumns}
+                  rowSelection={rowSelection}
+                />
               )}
-              {!(noDataComplianceList || noDataComplianceChart) && (
-                <Button
-                  style={{
-                    border: "none",
-                    background:
-                      activeView === "chart" ? "white" : "transparent",
-                    color: activeView === "chart" ? "#00bf63" : "#202223",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "19.6px",
-                    boxShadow:
-                      activeView === "chart"
-                        ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
-                        : "none", // No shadow when inactive
-                  }}
-                  onClick={() => handleViewClick("chart")}
-                  icon={
-                    <ChartViewIcon
-                      activeReport={activeReport}
-                      activeView={activeView}
-                    />
+            </div>
+          )}
+
+          {activeReport === "compliance" && !noDataComplianceChart && (
+            <div>
+              {activeView === "chart" && (
+                <ComplianceReportViewChart
+                  activeView={activeView}
+                  activeReport={activeReport}
+                  noData={noData}
+                  monthFilterData={monthFilterData}
+                  hexToRgba={hexToRgba}
+                  getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+                  getStepSizeForVerticalBarChart={
+                    getStepSizeForVerticalBarChart
                   }
-                >
-                  Chart View
-                </Button>
+                  getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+                  complianceReportSettingData={complianceReportSettingData}
+                  complianceReportViewData={complianceReportViewData}
+                  getDescriptionForColumn={getDescriptionForColumn}
+                  getPreviousMonthChange={getPreviousMonthChange}
+                  getColumnValueForTextChart={getColumnValueForTextChart}
+                  getColumnTitleForTextChart={getColumnTitleForTextChart}
+                  getBgSquareColor={getBgSquareColor}
+                  getColumnPercentage={getColumnPercentage}
+                  getDataSetForHorizontalBarChart={
+                    getDataSetForHorizontalBarChart
+                  }
+                  handleMonthChange={handleMonthChange}
+                  selectedComplianceMonth={selectedComplianceMonth}
+                  previousData={previousData}
+                  getTooltipData={getTooltipData}
+                  handleMenuClick={handleMenuClick}
+                  mobileView={mobileView}
+                  getPieChartLabel={getPieChartLabel}
+                  getPieChartBorder={getPieChartBorder}
+                />
               )}
-            </span>
-          </div>
-        )}
+            </div>
+          )}
 
-        {activeReport === "compliance" && !noDataComplianceList && (
-          <div>
-            {activeView === "list" && (
-              <ComplianceReportViewList
-                activeReport={activeReport}
-                activeView={activeView}
-                noData={noData}
-                selectedRowKeys={selectedRowKeys}
-                handleExport={handleExport}
-                dataSource={dataSource}
-                tableColumns={tableColumns}
-                rowSelection={rowSelection}
-              />
+          {noDataComplianceChart &&
+            noDataComplianceList &&
+            activeReport === "compliance" && (
+              <EmptyReports activeReport={activeReport} />
             )}
-          </div>
-        )}
 
-        {activeReport === "compliance" && !noDataComplianceChart && (
-          <div>
-            {activeView === "chart" && (
-              <ComplianceReportViewChart
-                activeView={activeView}
-                activeReport={activeReport}
-                noData={noData}
-                monthFilterData={monthFilterData}
-                hexToRgba={hexToRgba}
-                getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
-                getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
-                getMaxForVerticalBarChart={getMaxForVerticalBarChart}
-                complianceReportSettingData={complianceReportSettingData}
-                complianceReportViewData={complianceReportViewData}
-                getDescriptionForColumn={getDescriptionForColumn}
-                getPreviousMonthChange={getPreviousMonthChange}
-                getColumnValueForTextChart={getColumnValueForTextChart}
-                getColumnTitleForTextChart={getColumnTitleForTextChart}
-                getBgSquareColor={getBgSquareColor}
-                getColumnPercentage={getColumnPercentage}
-                getDataSetForHorizontalBarChart={
-                  getDataSetForHorizontalBarChart
-                }
-                handleMonthChange={handleMonthChange}
-                selectedComplianceMonth={selectedComplianceMonth}
-                previousData={previousData}
-                getTooltipData={getTooltipData}
-                handleMenuClick={handleMenuClick}
-              />
-            )}
-          </div>
-        )}
-        {noDataComplianceChart &&
-          noDataComplianceList &&
-          activeReport === "compliance" && (
+          {noDataService && activeReport === "service" && (
             <EmptyReports activeReport={activeReport} />
           )}
-        {noDataService && activeReport === "service" && (
-          <EmptyReports activeReport={activeReport} />
-        )}
 
-        {activeReport === "service" && !noDataService && (
-          <ServiceReportViewChart
-            activeReport={activeReport}
-            noDataService={noDataService}
-            loading={loading}
-            setLoading={setLoading}
-            getPieChartDataSet={getPieChartDataSet}
-            getPieChartBg={getPieChartBg}
-            getPieChartLabel={getPieChartLabel}
-            getPieChartBorder={getPieChartBorder}
-            getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
-            getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
-            getMaxForVerticalBarChart={getMaxForVerticalBarChart}
-            hexToRgba={hexToRgba}
-            serviceReportViewData={serviceReportViewData}
-            getColumnTitleForTextChart={getColumnTitleForTextChart}
-            getColumnValueForTextChart={getColumnValueForTextChart}
-            getTooltipData={getTooltipData}
-            previousData={previousData}
-            getPreviousMonthChange={getPreviousMonthChange}
-            getBgSquareColor={getBgSquareColor}
-            getColumnPercentage={getColumnPercentage}
-            getDescriptionForColumn={getDescriptionForColumn}
-          />
-        )}
-      </div>
+{activeReport === "service" && !noDataService && (
+            <ServiceReportViewChart
+              activeReport={activeReport}
+              noDataService={noDataService}
+              loading={loading}
+              setLoading={setLoading}
+              getPieChartDataSet={getPieChartDataSet}
+              getPieChartBg={getPieChartBg}
+              getPieChartLabel={getPieChartLabel}
+              getPieChartBorder={getPieChartBorder}
+              getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+              getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
+              getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+              hexToRgba={hexToRgba}
+              serviceReportViewData={serviceReportViewData}
+              getColumnTitleForTextChart={getColumnTitleForTextChart}
+              getColumnValueForTextChart={getColumnValueForTextChart}
+              getTooltipData={getTooltipData}
+              previousData={previousData}
+              getPreviousMonthChange={getPreviousMonthChange}
+              getBgSquareColor={getBgSquareColor}
+              getColumnPercentage={getColumnPercentage}
+              getDescriptionForColumn={getDescriptionForColumn}
+              mobileView={mobileView}
+            />
+          )}
+
+        </div>
+      ) : (
+        <div
+          style={{
+            paddingTop: "8px",
+            marginBottom: "32px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "20px",
+              color: "#818181",
+              fontWeight: "600",
+              textAlign: "left",
+              marginLeft: "20px",
+              marginRight: "20px",
+              fontFamily: "Graphie-SemiBold",
+            }}
+          >
+            Reports
+          </div>
+          <div
+            style={{
+              textAlign: "left",
+              marginTop: "12px",
+              marginLeft: "20px",
+              marginRight: "20px",
+            }}
+          >
+            <Button
+              style={{
+                fontWeight: "600",
+                color: activeReport === "service" ? "white" : "#202223",
+                backgroundColor:
+                  activeReport === "service" ? "#00bf63" : "white",
+                fontSize: "16px",
+                border: "none",
+                lineHeight: "22.4px",
+                height: "40px",
+                fontFamily: "Graphie-Regular",
+              }}
+              onClick={() => handleButtonClick("service")}
+              icon={<ServiceReportIcon activeReport={activeReport} />}
+              iconPosition="start"
+            >
+              <span style={{ fontFamily: "Graphie-SemiBold" }}>
+                {" "}
+                Service Reports
+              </span>
+            </Button>
+            <Button
+              style={{
+                marginLeft: "20px",
+                fontWeight: "600",
+                color: activeReport === "compliance" ? "white" : "#202223",
+                backgroundColor:
+                  activeReport === "compliance" ? "#00bf63" : "white",
+                fontSize: "16px",
+                border: "none",
+                lineHeight: "22.4px",
+                height: "40px",
+                // fontFamily: "Graphie-Regular",
+                fontFamily: "Graphie-Bold",
+              }}
+              onClick={() => handleButtonClick("compliance")}
+              icon={<ComplianceReportIcon activeReport={activeReport} />}
+              iconPosition="start"
+            >
+              <span style={{ fontFamily: "Graphie-SemiBold" }}>
+                {" "}
+                Compliance Reports
+              </span>
+            </Button>
+          </div>
+
+          {activeReport === "compliance" && (
+            <div
+              style={{
+                marginTop: "12px",
+                padding: "24px",
+                background: "white",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderBottom: "1px solid #858b932E",
+                borderTopLeftRadius: "8px",
+                borderTopRightRadius: "8px",
+                marginLeft: "20px",
+                marginRight: "20px",
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: "600",
+                  fontSize: "24px",
+                  lineHeight: "33.6px",
+                  color: "#202223",
+                  fontFamily: "Graphie-SemiBold",
+                }}
+              >
+                Compliance Report
+              </span>
+              <span
+                style={{
+                  background: "#f6f6f7",
+                  padding: "8px",
+                  borderRadius: "8px",
+                }}
+              >
+                {!(noDataComplianceList || noDataComplianceChart) && (
+                  <Button
+                    style={{
+                      marginRight: "16px",
+                      border: "none",
+                      background:
+                        activeView === "list" ? "white" : "transparent",
+                      color: activeView === "list" ? "#00bf63" : "#202223",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "19.6px",
+                      boxShadow:
+                        activeView === "list"
+                          ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
+                          : "none", // No shadow when inactive
+                    }}
+                    onClick={() => handleViewClick("list")}
+                    icon={
+                      <ListReportIcon
+                        activeReport={activeReport}
+                        activeView={activeView}
+                      />
+                    }
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Graphie-SemiBold",
+                        fontWeight: "600",
+                        fontSize: "14px",
+                      }}
+                    >
+                      List View
+                    </span>
+                  </Button>
+                )}
+                {!(noDataComplianceList || noDataComplianceChart) && (
+                  <Button
+                    style={{
+                      border: "none",
+                      background:
+                        activeView === "chart" ? "white" : "transparent",
+                      color: activeView === "chart" ? "#00bf63" : "#202223",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      lineHeight: "19.6px",
+                      boxShadow:
+                        activeView === "chart"
+                          ? "0px 4px 12px rgba(0, 0, 0, 0.2)" // Darker shadow when active
+                          : "none", // No shadow when inactive
+                    }}
+                    onClick={() => handleViewClick("chart")}
+                    icon={
+                      <ChartViewIcon
+                        activeReport={activeReport}
+                        activeView={activeView}
+                      />
+                    }
+                  >
+                    Chart View
+                  </Button>
+                )}
+              </span>
+            </div>
+          )}
+
+          {activeReport === "compliance" && !noDataComplianceList && (
+            <div>
+              {activeView === "list" && (
+                <ComplianceReportViewList
+                  activeReport={activeReport}
+                  activeView={activeView}
+                  noData={noData}
+                  selectedRowKeys={selectedRowKeys}
+                  handleExport={handleExport}
+                  dataSource={dataSource}
+                  tableColumns={tableColumns}
+                  rowSelection={rowSelection}
+                />
+              )}
+            </div>
+          )}
+
+          {activeReport === "compliance" && !noDataComplianceChart && (
+            <div>
+              {activeView === "chart" && (
+                <ComplianceReportViewChart
+                  activeView={activeView}
+                  activeReport={activeReport}
+                  noData={noData}
+                  monthFilterData={monthFilterData}
+                  hexToRgba={hexToRgba}
+                  getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+                  getStepSizeForVerticalBarChart={
+                    getStepSizeForVerticalBarChart
+                  }
+                  getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+                  complianceReportSettingData={complianceReportSettingData}
+                  complianceReportViewData={complianceReportViewData}
+                  getDescriptionForColumn={getDescriptionForColumn}
+                  getPreviousMonthChange={getPreviousMonthChange}
+                  getColumnValueForTextChart={getColumnValueForTextChart}
+                  getColumnTitleForTextChart={getColumnTitleForTextChart}
+                  getBgSquareColor={getBgSquareColor}
+                  getColumnPercentage={getColumnPercentage}
+                  getDataSetForHorizontalBarChart={
+                    getDataSetForHorizontalBarChart
+                  }
+                  handleMonthChange={handleMonthChange}
+                  selectedComplianceMonth={selectedComplianceMonth}
+                  previousData={previousData}
+                  getTooltipData={getTooltipData}
+                  handleMenuClick={handleMenuClick}
+                  getPieChartLabel={getPieChartLabel}
+                  getPieChartBorder={getPieChartBorder}
+                  mobileView={mobileView}
+                  getPieChartDataSet={getPieChartDataSet}
+                  getPieChartBg={getPieChartBg}
+                />
+              )}
+            </div>
+          )}
+          {noDataComplianceChart &&
+            noDataComplianceList &&
+            activeReport === "compliance" && (
+              <EmptyReports activeReport={activeReport} />
+            )}
+          {noDataService && activeReport === "service" && (
+            <EmptyReports activeReport={activeReport} />
+          )}
+
+          {activeReport === "service" && !noDataService && (
+            <ServiceReportViewChart
+              activeReport={activeReport}
+              noDataService={noDataService}
+              loading={loading}
+              setLoading={setLoading}
+              getPieChartDataSet={getPieChartDataSet}
+              getPieChartBg={getPieChartBg}
+              getPieChartLabel={getPieChartLabel}
+              getPieChartBorder={getPieChartBorder}
+              getDataSetForVerticalBarChart={getDataSetForVerticalBarChart}
+              getStepSizeForVerticalBarChart={getStepSizeForVerticalBarChart}
+              getMaxForVerticalBarChart={getMaxForVerticalBarChart}
+              hexToRgba={hexToRgba}
+              serviceReportViewData={serviceReportViewData}
+              getColumnTitleForTextChart={getColumnTitleForTextChart}
+              getColumnValueForTextChart={getColumnValueForTextChart}
+              getTooltipData={getTooltipData}
+              previousData={previousData}
+              getPreviousMonthChange={getPreviousMonthChange}
+              getBgSquareColor={getBgSquareColor}
+              getColumnPercentage={getColumnPercentage}
+              getDescriptionForColumn={getDescriptionForColumn}
+              mobileView={mobileView}
+
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

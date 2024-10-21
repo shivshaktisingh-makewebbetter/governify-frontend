@@ -2,6 +2,7 @@ import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js"; // Import Chart and registerables
 import { CustomTooltip } from "./CustomTooltip";
 
+
 // Register all components (including scales)
 Chart.register(...registerables);
 
@@ -13,6 +14,7 @@ export const BarChartHorizontal = ({
   description,
   toolTipData,
   previousData,
+  mobileView,
 }) => {
   const data = {
     labels: [""],
@@ -152,7 +154,6 @@ export const BarChartHorizontal = ({
               }
             });
 
-         
             innerHtml += "</div>";
 
             tooltipEl.innerHTML = innerHtml;
@@ -209,10 +210,10 @@ export const BarChartHorizontal = ({
         ticks: {
           stepSize: stepsize,
           font: {
-            family: 'Graphie-Regular', 
-            size: 12,         
-            weight: '400',  
-            color:"#6d7175"
+            family: "Graphie-Regular",
+            size: 12,
+            weight: "400",
+            color: "#6d7175",
           },
         },
         grid: {
@@ -229,102 +230,186 @@ export const BarChartHorizontal = ({
 
   return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "relative",
-        }}
-      >
+      {mobileView ? (
+           <div>
+           <div
+             style={{
+               width: "100%", // Full width for mobile
+               display: "flex",
+               justifyContent: "flex-start",
+               alignItems: "center",
+               margin: "20px 16px 0 16px", // Removed absolute positioning and added margin for mobile
+             }}
+           >
+             <span
+               style={{
+                 fontSize: "20px", // Smaller font size for mobile
+                 fontWeight: "700",
+                 lineHeight: "28px", // Adjusted line height for smaller font
+                 color: "#202223",
+                 textAlign: "left",
+                 fontFamily: "Graphie-Regular",
+               }}
+             >
+               {title}
+             </span>
+             <span style={{ marginLeft: "10px" }}>
+               {description.length > 0 && (
+                 <CustomTooltip description={description} />
+               )}
+             </span>
+           </div>
+           <div style={{ padding: "0 16px" , }}>
+             <Bar data={data} options={options} />
+           </div>
+           <div
+             style={{
+               display: "flex",
+               flexWrap: "wrap", // Allows items to wrap in smaller view
+               margin: "20px auto",
+               justifyContent: "center",
+               width: "90%", // Adjust width for better mobile experience
+             }}
+           >
+             {dataset.map((item, index) => {
+               const truncatedLabel =
+                 item.label.length > 12
+                   ? `${item.label.substring(0, 13)}...`
+                   : item.label;
+               return (
+                 <div
+                   key={index}
+                   style={{
+                     display: "flex",
+                     alignItems: "center",
+                     gap: "6px",
+                     justifyContent: "flex-start", // Align items to the left
+                     width: "45%", // Responsive width for mobile (2 items per row)
+                     marginBottom: "8px", // Add some space between rows
+                   }}
+                 >
+                   <div
+                     style={{
+                       background: item.backgroundColor,
+                       width: "12px", // Slightly smaller size for mobile
+                       height: "12px",
+                       borderRadius: "3px",
+                     }}
+                   ></div>
+                   <div
+                     style={{
+                       fontSize: "14px",
+                       fontWeight: "600",
+                       color: "#6d7175",
+                       fontFamily: "Graphie-Thin",
+                     }}
+                     title={item.label}
+                   >
+                     {truncatedLabel}
+                   </div>
+                 </div>
+               );
+             })}
+           </div>
+         </div>
+      ) : (
         <div
           style={{
-            width: "80%",
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "center",
-            position: "absolute",
-            top: "10px",
-            left: "20px",
+            width: "100%",
+            height: "100%",
+            position: "relative",
           }}
         >
-          <span
+          <div
             style={{
-              fontSize: "24px",
-              fontWeight: "700",
-              lineHeight: "33.6px",
-              color: "#202223",
-              textAlign: "left",
+              width: "80%",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
+              position: "absolute",
+              top: "10px",
+              left: "20px",
             }}
           >
-            {title}
-          </span>
-          <span>
-            {description.length > 0 && (
-              <CustomTooltip description={description} />
-            )}
-          </span>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            height: "80%",
-            position: "absolute",
-            top: "24px",
-          }}
-        >
-          <Bar data={data} options={options} />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            marginTop: "20px",
-            justifyContent: "center",
-            width: "100%",
-            position: "absolute",
-            bottom: "0px",
-          }}
-        >
-          {dataset.map((item, index) => {
-            const truncatedLabel =
-              item.label.length > 12
-                ? `${item.label.substring(0, 13)}...`
-                : item.label;
-            return (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "4px",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
+            <span
+              style={{
+                fontSize: "24px",
+                fontWeight: "700",
+                lineHeight: "33.6px",
+                color: "#202223",
+                textAlign: "left",
+              }}
+            >
+              {title}
+            </span>
+            <span>
+              {description.length > 0 && (
+                <CustomTooltip description={description} />
+              )}
+            </span>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "80%",
+              position: "absolute",
+              top: "24px",
+            }}
+          >
+            <Bar data={data} options={options} />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              marginTop: "20px",
+              justifyContent: "center",
+              width: "100%",
+              position: "absolute",
+              bottom: "0px",
+            }}
+          >
+            {dataset.map((item, index) => {
+              const truncatedLabel =
+                item.label.length > 12
+                  ? `${item.label.substring(0, 13)}...`
+                  : item.label;
+              return (
                 <div
+                  key={index}
                   style={{
-                    background: item.backgroundColor,
-                    width: "15px",
-                    height: "15px",
-                    borderRadius: "3px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    justifyContent: "center",
+                    width: "100%",
                   }}
-                ></div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    color: "#6d7175",
-                    fontFamily: "Graphie-Thin",
-                  }}
-                  title={item.label}
                 >
-                  {item.label}
+                  <div
+                    style={{
+                      background: item.backgroundColor,
+                      width: "15px",
+                      height: "15px",
+                      borderRadius: "3px",
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "#6d7175",
+                      fontFamily: "Graphie-Thin",
+                    }}
+                    title={item.label}
+                  >
+                    {item.label}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
