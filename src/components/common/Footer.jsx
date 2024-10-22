@@ -25,15 +25,7 @@ const Footer = () => {
           Powered by TASC Outsourcing®
         </small>
       </div>
-      <div
-        className="align-center text-secondary fs-6"
-        style={{
-          display: "flex",
-          gap: "20px",
-          justifyContent: "end",
-          alignItems: "center",
-        }}
-      >
+      <div className="align-center text-secondary fs-6 governify-footer-wrapper">
         <a
           target="blank"
           href="https://tascoutsourcing.sa/en/terms-of-use"

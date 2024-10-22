@@ -880,7 +880,6 @@ body,
   background-image: url("/public/authbg.svg");
   background-size: 100%;
 }
-  
 
 .service-repetitive-div {
   flex: 1 1 calc(33.333% - 10px);
@@ -1261,8 +1260,6 @@ body,
 }
 
 @media (max-width: 1000px) {
-
-  
   /* 	
 	.governify-header-major-div-logo{
 		width:35%;
@@ -1322,7 +1319,6 @@ body,
 }
 
 @media (max-width: 777px) {
-
   .governify-option-list {
     display: flex;
     justify-content: space-around;
@@ -1358,6 +1354,15 @@ body,
   }
 }
 
+.governify-footer-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: wrap;
+  
+}
+
 @media (max-width: 540px) {
   .emoji-wrapper {
     display: none;
@@ -1365,6 +1370,15 @@ body,
 
   .form-container {
     padding: 20px;
+  }
+
+  .governify-footer-wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top:10px;
   }
 }
 
@@ -1446,4 +1460,3 @@ body,
 .custom-pagination {
   background-color: white !important; /* Set pagination background to white */
 }
-
