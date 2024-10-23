@@ -559,21 +559,47 @@ export const ServiceReportViewChart = ({
           ref={targetRef}
           style={{ paddingLeft: "20px", paddingRight: "20px" }}
         >
-          {serviceReportViewData.map((item) => {
+          {serviceReportViewData.map((item , index) => {
+                 const currentDate = new Date();
+                 const options = { day: '2-digit', month: 'short', year: 'numeric' };
+                 let formattedDate = currentDate.toLocaleDateString('en-GB', options);
+               
+                 // Add a comma after the month
+                 formattedDate = formattedDate.replace(/(\d{2}) (\w{3}) (\d{4})/, '$1 $2, $3');
             return (
               <div style={{ height: item.height, marginTop: "20px" }}>
-                <p
+                <div
                   style={{
-                    fontSize: "20px",
-                    fontWeight: "600",
-                    color: "#818181",
-                    textAlign: "left",
-                    marginBottom: "0px",
-                    fontFamily: "Graphie-SemiBold",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {item.title}
-                </p>
+                  <p
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "600",
+                      color: "#818181",
+                      textAlign: "left",
+                      marginBottom: "0px",
+                      fontFamily: "Graphie-SemiBold",
+                    }}
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      color: "#818181",
+                      fontFamily: "Graphie-SemiBold",
+                      textAlign: "right",
+                      paddingRight:"10px"
+                    }}
+                  >
+                    {index === 0 ? formattedDate : ""}
+                  </p>
+                </div>
                 <div style={{ position: "relative" }}>
                   {item.boxes.map((subItem) => {
                     if (subItem.type === "Text Chart") {

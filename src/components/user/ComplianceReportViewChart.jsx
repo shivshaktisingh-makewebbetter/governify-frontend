@@ -38,8 +38,8 @@ export const ComplianceReportViewChart = ({
   mobileView,
   getPieChartLabel,
   getPieChartBorder,
-  getPieChartDataSet ,
-  getPieChartBg
+  getPieChartDataSet,
+  getPieChartBg,
 }) => {
   const { toPDF, targetRef } = usePDF({ filename: "compliance.pdf" });
 
@@ -293,25 +293,23 @@ export const ComplianceReportViewChart = ({
 
                     if (subItem.type === "Pie Chart") {
                       const title = subItem.heading;
-                    const dataset = getPieChartDataSet(subItem);
-                    const bgSet = getPieChartBg(subItem);
-                    const pieChartLabel = getPieChartLabel(subItem);
-                    const borderColorSetPie = getPieChartBorder(subItem);
-                    const description = subItem.description;
-
+                      const dataset = getPieChartDataSet(subItem);
+                      const bgSet = getPieChartBg(subItem);
+                      const pieChartLabel = getPieChartLabel(subItem);
+                      const borderColorSetPie = getPieChartBorder(subItem);
+                      const description = subItem.description;
 
                       return (
                         <div style={commonStyles}>
-                         <PieChart
-                          title={title}
-                          dataset={dataset}
-                          bgSet={bgSet}
-                          pieChartLabel={pieChartLabel}
-                          borderColorSetPie={borderColorSetPie}
-                          description={description}
-                          mobileView={mobileView}
-
-                        />
+                          <PieChart
+                            title={title}
+                            dataset={dataset}
+                            bgSet={bgSet}
+                            pieChartLabel={pieChartLabel}
+                            borderColorSetPie={borderColorSetPie}
+                            description={description}
+                            mobileView={mobileView}
+                          />
                         </div>
                       );
                     }
@@ -574,21 +572,47 @@ export const ComplianceReportViewChart = ({
           ref={targetRef}
           style={{ paddingLeft: "20px", paddingRight: "20px" }}
         >
-          {complianceReportViewData.map((item) => {
+          {complianceReportViewData.map((item, index) => {
+        const currentDate = new Date();
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        let formattedDate = currentDate.toLocaleDateString('en-GB', options);
+      
+        // Add a comma after the month
+        formattedDate = formattedDate.replace(/(\d{2}) (\w{3}) (\d{4})/, '$1 $2, $3');
             return (
               <div style={{ height: item.height }}>
-                <p
+                <div
                   style={{
-                    fontSize: "20px",
-                    fontWeight: "600",
-                    color: "#818181",
-                    textAlign: "left",
-                    marginBottom: "0px",
-                    fontFamily: "Graphie-SemiBold",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {item.title}
-                </p>
+                  <p
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "600",
+                      color: "#818181",
+                      textAlign: "left",
+                      marginBottom: "0px",
+                      fontFamily: "Graphie-SemiBold",
+                    }}
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "600",
+                      color: "#818181",
+                      fontFamily: "Graphie-SemiBold",
+                      textAlign: "right",
+                      paddingRight:"10px"
+                    }}
+                  >
+                    {index === 0 ? formattedDate : ""}
+                  </p>
+                </div>
                 <div style={{ position: "relative" }}>
                   {item.boxes.map((subItem) => {
                     if (subItem.type === "Value Chart") {
