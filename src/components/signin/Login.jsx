@@ -38,18 +38,17 @@ const Login = () => {
         sessionStorage.setItem("role", response.role);
         sessionStorage.removeItem("random_user");
         if (response.role === "customer") {
-          if(sessionStorage.getItem('redirectUrl') !== null){
-            window.location.href = sessionStorage.getItem('redirectUrl');
-            sessionStorage.removeItem('redirectUrl');
+          if (sessionStorage.getItem("redirectUrl") !== null) {
+            window.location.href = sessionStorage.getItem("redirectUrl");
+            sessionStorage.removeItem("redirectUrl");
           }
           setTimeout(() => {
             navigate("/");
           }, 1000);
         } else {
-
-          if(sessionStorage.getItem('redirectUrl') !== null){
-            window.location.href = sessionStorage.getItem('redirectUrl');
-            sessionStorage.removeItem('redirectUrl');
+          if (sessionStorage.getItem("redirectUrl") !== null) {
+            window.location.href = sessionStorage.getItem("redirectUrl");
+            sessionStorage.removeItem("redirectUrl");
           }
           navigate("/admin");
         }
@@ -120,15 +119,6 @@ const Login = () => {
     }
   }, [token]);
 
-  // useEffect(() => {
-  //   let role = sessionStorage.getItem("role");
-  //   if (role === "customer") {
-  //     navigate("/");
-  //   }
-  //   if (role === "superAdmin") {
-  //     navigate("/admin");
-  //   }
-  // }, []);
 
   useEffect(() => {
     setTimeout(() => {
