@@ -10,7 +10,6 @@ import {
 import Replies from "./Replies";
 import {
   Clock,
-  Govern,
   GovernifyTeam,
   Reply,
   ThumpsUp,

@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 
 export const CreateServices = ({
   setShowSkeleton,
-  setLoading,
-  loading,
   setModalOpen,
   portals,
 }) => {

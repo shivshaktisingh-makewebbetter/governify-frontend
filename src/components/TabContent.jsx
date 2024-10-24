@@ -1,6 +1,5 @@
-import { Button, Modal, Typography } from "antd";
+import { Button, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { CustomerForm } from "./user/CustomerForm";
 import { PlusOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
@@ -183,28 +182,6 @@ export const TabContent = ({ details, categoryName, categoryId }) => {
       </div>
       <ToastContainer position="bottom-right" className="custom-toast" />
 
-      {/* {open && (
-        <Modal
-          open={open}
-          centered
-          footer={null}
-          onCancel={() => setOpen(false)}
-          width={formSubmitted ? 50 : 450}
-        >
-          <CustomerForm
-            formData={formData}
-            serviceTitle={serviceTitle}
-            categoryName={categoryName}
-            key={uuidv4()}
-            handleOpen={handleOpen}
-            formSubmitted={formSubmitted}
-            setFormSubmitted={setFormSubmitted}
-            categoryId={categoryId}
-            selectedFormId={selectedFormId}
-            selectedServiceId={selectedServiceId}
-          />
-        </Modal>
-      )} */}
 
       {open && (
         <CustomerFormDrawer

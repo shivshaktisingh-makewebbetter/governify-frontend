@@ -1,4 +1,4 @@
-import { HomeOutlined, MenuOutlined, ProductOutlined, SettingOutlined } from "@ant-design/icons";
+import { HomeOutlined, MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { Dropdown } from "antd";
 import React from "react";
 import { useLocation } from "react-router-dom";

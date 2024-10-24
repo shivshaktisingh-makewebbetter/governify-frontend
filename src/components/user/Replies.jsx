@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Govern, GovernifyTeam } from "../../assets/image";
+import {  GovernifyTeam } from "../../assets/image";
 import { extractUsernameFromMessage, getFirstLettersOfName, showUserName } from "../../utils/helper";
 
 const Replies = ({ item }) => {

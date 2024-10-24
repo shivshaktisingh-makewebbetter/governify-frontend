@@ -3,8 +3,7 @@ import { Loader } from "../common/Loader";
 import { userSettingData } from "../../utils/tools";
 import Hero from "../common/Hero";
 import { fetcher } from "../../utils/helper";
-import { Button, Select } from "antd";
-import { usePDF } from "react-to-pdf";
+import { Button } from "antd";
 import { EmptyReports } from "../common/EmptyReports";
 import {
   ChartViewIcon,
@@ -20,7 +19,6 @@ import { useLocation } from "react-router-dom";
 export const Report = () => {
   const location = useLocation();
   const token = sessionStorage.getItem("token");
-  const settingData = sessionStorage.getItem("settings");
   const [loading, setLoading] = useState(false);
   const [activeReport, setActiveReport] = useState("compliance"); // Track the active button
   const [activeView, setActiveView] = useState("list"); // Track the active view, default to 'list'

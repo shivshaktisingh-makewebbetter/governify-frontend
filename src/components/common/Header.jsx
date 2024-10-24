@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Typography } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { getRole } from "../../utils/helper";
 import CustomerMenu from "./CustomerMenu";
 import AdminMenu from "./AdminMenu";

@@ -5,7 +5,6 @@ import { Loader } from "./common/Loader";
 import { UpdateComponent } from "./user/UpdateComponent";
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer } from "react-toastify";
-import { DeleteOutlined } from "@ant-design/icons";
 
 export const RequestComponent = ({
   data,

@@ -6,7 +6,7 @@ import {
   MailOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Drawer, Input, Popover, Select, Space } from "antd";
+import { Button, Drawer, Input, Select, Space } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Loader } from "../../common/Loader";

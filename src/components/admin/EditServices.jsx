@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 export const EditServices = ({
   data,
   setShowSkeleton,
-  setLoading,
-  loading,
   setEditModalOpen,
   portals
 }) => {

@@ -35,8 +35,6 @@ import { toast } from "react-toastify";
 
 export const UpdateComponent = ({
   id,
-  fetchData,
-  setOpen,
   likeIds,
   getAllLikes,
   description,
