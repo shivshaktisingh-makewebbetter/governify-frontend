@@ -38,10 +38,19 @@ const Login = () => {
         sessionStorage.setItem("role", response.role);
         sessionStorage.removeItem("random_user");
         if (response.role === "customer") {
+          if(sessionStorage.getItem('redirectUrl') !== null){
+            window.location.href = sessionStorage.getItem('redirectUrl');
+            sessionStorage.removeItem('redirectUrl');
+          }
           setTimeout(() => {
             navigate("/");
           }, 1000);
         } else {
+
+          if(sessionStorage.getItem('redirectUrl') !== null){
+            window.location.href = sessionStorage.getItem('redirectUrl');
+            sessionStorage.removeItem('redirectUrl');
+          }
           navigate("/admin");
         }
       } else {

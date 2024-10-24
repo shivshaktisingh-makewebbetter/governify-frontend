@@ -39,10 +39,14 @@ export const fetcher = async (endpoint, method, payload = null) => {
     //   sessionStorage.clear();
     //  window.location.href = 'https://governify.tasc360.com/signin';
     // }
+    if (data.hasOwnProperty("message") && data.message === "Unauthenticated.") {
+      sessionStorage.setItem("redirectUrl", window.location.href);
+      window.location.href = window.location.origin + "/signin";
+    }
 
     return data;
   } catch (err) {
-    console.log(err ,'err');
+    console.log(err, "err");
   }
 };
 
